@@ -1,10 +1,10 @@
 {
-  "name": "com.omiyagames.template",
-  "displayName": "Omiya Games - Template Unity Package",
+  "name": "com.omiyagames.audio",
+  "displayName": "Omiya Games - Audio",
   "version": "1.0.0-pre.1",
   "unity": "2021.2",
   "unityRelease": "11f1",
-  "description": "This is a template package, used as a basis to build a bigger one.",
+  "description": "Audio tools.",
   "category": "Tool",
   "type": "tool",
   "license": "MIT",
@@ -19,14 +19,19 @@
   "keywords": [
     "Omiya Games",
     "Scripts",
-    "Template",
+    "Audio",
     "Tool"
   ],
   "samples": [
     {
-      "displayName": "Example 1",
-      "description": "This sample is just an example",
-      "path": "Samples~/Example1"
+      "displayName": "Default Audio Prefabs",
+      "description": "Prefabs variants using default settings.",
+      "path": "Samples~/DefaultAssets"
+    },
+    {
+      "displayName": "Custom Audio Settings",
+      "description": "Collection of files to setup custom settings.",
+      "path": "Samples~/CustomAssets"
     }
   ]
 }
