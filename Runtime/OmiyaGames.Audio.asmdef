@@ -1,0 +1,20 @@
+{
+    "name": "OmiyaGames.Audio",
+    "rootNamespace": "OmiyaGames.Audio",
+    "references": [
+        "GUID:cdda17712c724478898665290e9a02cc",
+        "GUID:1423d14cb49c2df4bbd0d62190b654ab",
+        "GUID:73e76bd60959c3f41a9067c3fbf22b24",
+        "GUID:5a47daee1058bbd4ebc7a2d2e7de3c24",
+        "GUID:de7529f634f783eb59796ad332cd358f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

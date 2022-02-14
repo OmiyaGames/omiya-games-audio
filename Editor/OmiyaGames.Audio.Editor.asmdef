@@ -1,8 +1,10 @@
 {
-    "name": "OmiyaGames.Template.Editor.Tests",
+    "name": "OmiyaGames.Audio.Editor",
+    "rootNamespace": "OmiyaGames.Audio.Editor",
     "references": [
-        "OmiyaGames.Template",
-        "OmiyaGames.Template.Editor"
+        "GUID:73334d1191806264fb59fd6048e3af4c",
+        "GUID:de7529f634f783eb59796ad332cd358f",
+        "GUID:6c1b9d9614ed6f3c99b349173c320605"
     ],
     "includePlatforms": [
         "Editor"
@@ -14,7 +16,5 @@
     "autoReferenced": true,
     "defineConstraints": [],
     "versionDefines": [],
-    "optionalUnityReferences": [
-        "TestAssemblies"
-    ]
+    "noEngineReferences": false
 }
