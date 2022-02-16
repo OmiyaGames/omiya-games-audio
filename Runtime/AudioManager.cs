@@ -69,6 +69,10 @@ namespace OmiyaGames.Audio
 		/// Name of the addressable.
 		/// </summary>
 		public const string ADDRESSABLE_NAME = "AudioSettings";
+		/// <summary>
+		/// Path to UXML file.
+		/// </summary>
+		public const string UXML_PATH = "Packages/com.omiyagames.audio/Editor/Audio.uxml";
 
 		/// <inheritdoc/>
 		protected override string AddressableName => ADDRESSABLE_NAME;

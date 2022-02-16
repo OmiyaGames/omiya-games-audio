@@ -55,6 +55,6 @@ namespace OmiyaGames.Audio.Editor
 		public override string SidebarDisplayPath => AudioManager.SIDEBAR_PATH;
 
 		/// <inheritdoc/>
-		public override string UxmlPath => AudioManager.SIDEBAR_PATH;
+		public override string UxmlPath => AudioManager.UXML_PATH;
 	}
 }
