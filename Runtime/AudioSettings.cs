@@ -51,18 +51,22 @@ namespace OmiyaGames.Audio
 	/// </summary>
 	public class AudioSettings : BaseSettingsData
 	{
+		const string DEFAULT_MIXER_PATH = "Packages/com.omiyagames.audio/Runtime/Data/DefaultMixer.mixer";
+
 		// Don't forget to update this property each time there's an upgrade to make!
 		/// <inheritdoc/>
 		public override int CurrentVersion => 0;
 
 		[SerializeField]
 		AudioMixer mixer = null;
+
+		[Header("Volume Controls")]
 		[SerializeField]
 		float muteVolumeDb = -80;
 		[SerializeField]
-		AnimationCurve timeToVolumeDbCurve = new(new(0, -40), new(1, 0));
+		AnimationCurve timeToVolumeDbCurve = new(new(0, -40, 106.4f, 106.4f), new(1, 0, 0, 0));
 
-		[Header("Volume Settings")]
+		[Header("Volume Fields")]
 		[SerializeField]
 		string mainVolume = "Main Volume";
 		[SerializeField]
@@ -74,7 +78,7 @@ namespace OmiyaGames.Audio
 		[SerializeField]
 		string ambienceVolume = "Ambience Volume";
 
-		[Header("Pitch Settings")]
+		[Header("Pitch Fields")]
 		[SerializeField]
 		string mainPitch = "Main Pitch";
 		[SerializeField]
@@ -86,9 +90,9 @@ namespace OmiyaGames.Audio
 		[SerializeField]
 		string ambiencePitch = "Ambience Pitch";
 
-		[Header("Effect Settings")]
+		[Header("Effect Fields")]
 		[SerializeField]
-		string duckingLevel = "Duck Level";
+		string duckLevel = "Duck Level";
 
 		/// <summary>
 		/// The main mixer of this game.
@@ -146,7 +150,7 @@ namespace OmiyaGames.Audio
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public string DuckingLevel => duckingLevel;
+		public string DuckingLevel => duckLevel;
 
 		/// <inheritdoc/>
 		protected override bool OnUpgrade(int oldVersion, out string errorMessage)
@@ -154,5 +158,13 @@ namespace OmiyaGames.Audio
 			// Implementing as a reminder this method exists
 			return base.OnUpgrade(oldVersion, out errorMessage);
 		}
+
+#if UNITY_EDITOR
+		void Reset()
+		{
+			// FIXME: consider setting the mixer variable to one in the project.
+			mixer = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioMixer>(DEFAULT_MIXER_PATH);
+		}
+#endif
 	}
 }
