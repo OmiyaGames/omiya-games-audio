@@ -85,6 +85,7 @@ namespace OmiyaGames.Audio.Editor
 
 		class Styles
 		{
+			// FIXME: fill this group
 			//public static readonly GUIContent defaultHitPauseDuration = new GUIContent("Default Hit Pause Duration Seconds");
 		}
 	}
