@@ -135,6 +135,28 @@ namespace OmiyaGames.Audio
 				return GetVolumeDb(setting, setting.AmbienceVolume);
 			}
 		}
+
+		// FIXME: convert this to an ITrackable
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public static float MainVolumePercent
+		{
+			get
+			{
+				// FIXME: this is incorrect
+				AudioSettings setting = GetData();
+				return GetVolumeDb(setting, setting.MainVolume);
+			}
+			set
+			{
+				AudioSettings setting = GetData();
+				float volumeDecibels = Mathf.Clamp01(value);
+				volumeDecibels = ConvertPercentToVolumeDb(setting, volumeDecibels);
+				SetMixerFloat(setting, setting.MainVolume, volumeDecibels);
+			}
+		}
+
 		/// <summary>
 		/// TODO
 		/// </summary>
