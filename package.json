@@ -27,6 +27,20 @@
     "Audio",
     "Tool"
   ],
+  "scopedRegistries": [
+    {
+      "name": "package.openupm.com",
+      "url": "https://package.openupm.com",
+      "scopes": [
+        "com.openupm",
+        "com.omiyagames.common",
+        "com.omiyagames.global",
+        "com.omiyagames.global.settings",
+        "com.omiyagames.saves",
+        "com.omiyagames.managers"
+      ]
+    }
+  ],
   "samples": [
     {
       "displayName": "Default Audio Prefabs",
