@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Audio;
 using OmiyaGames.Global.Settings;
+using OmiyaGames.Saves;
 
 namespace OmiyaGames.Audio
 {
@@ -51,7 +52,18 @@ namespace OmiyaGames.Audio
 	/// </summary>
 	public class AudioSettings : BaseSettingsData
 	{
-		const string DEFAULT_MIXER_PATH = "Packages/com.omiyagames.audio/Runtime/Data/DefaultMixer.mixer";
+		const string DATA_DIRECTORY = "Packages/com.omiyagames.audio/Runtime/Data/";
+		const string DEFAULT_MIXER_PATH = DATA_DIRECTORY + "DefaultMixer.mixer";
+		const string MAIN_VOLUME_PATH = DATA_DIRECTORY + "MainVolumeSetting.asset";
+		const string MAIN_MUTE_PATH = DATA_DIRECTORY + "MainMuteSetting.asset";
+		const string MUSIC_VOLUME_PATH = DATA_DIRECTORY + "MusicVolumeSetting.asset";
+		const string MUSIC_MUTE_PATH = DATA_DIRECTORY + "MusicMuteSetting.asset";
+		const string SFX_VOLUME_PATH = DATA_DIRECTORY + "SoundEffectsVolumeSetting.asset";
+		const string SFX_MUTE_PATH = DATA_DIRECTORY + "SoundEffectsMuteSetting.asset";
+		const string VOICE_VOLUME_PATH = DATA_DIRECTORY + "VoiceVolumeSetting.asset";
+		const string VOICE_MUTE_PATH = DATA_DIRECTORY + "VoiceMuteSetting.asset";
+		const string AMBIENCE_VOLUME_PATH = DATA_DIRECTORY + "AmbienceVolumeSetting.asset";
+		const string AMBIENCE_MUTE_PATH = DATA_DIRECTORY + "AmbienceMuteSetting.asset";
 
 		// Don't forget to update this property each time there's an upgrade to make!
 		/// <inheritdoc/>
@@ -93,6 +105,28 @@ namespace OmiyaGames.Audio
 		[Header("Effect Fields")]
 		[SerializeField]
 		string duckLevel = "Duck Level";
+
+		[Header("Saved Settings")]
+		[SerializeField]
+		SaveFloat mainVolumeSettings;
+		[SerializeField]
+		SaveBool mainMuteSettings;
+		[SerializeField]
+		SaveFloat musicVolumeSettings;
+		[SerializeField]
+		SaveBool musicMuteSettings;
+		[SerializeField]
+		SaveFloat soundEffectsVolumeSettings;
+		[SerializeField]
+		SaveBool soundEffectsMuteSettings;
+		[SerializeField]
+		SaveFloat voiceVolumeSettings;
+		[SerializeField]
+		SaveBool voiceMuteSettings;
+		[SerializeField]
+		SaveFloat ambienceVolumeSettings;
+		[SerializeField]
+		SaveBool ambienceMuteSettings;
 
 		/// <summary>
 		/// The main mixer of this game.
@@ -151,6 +185,46 @@ namespace OmiyaGames.Audio
 		/// TODO
 		/// </summary>
 		public string DuckingLevel => duckLevel;
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public SaveFloat MainVolumeSettings => mainVolumeSettings;
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public SaveBool MainMuteSettings => mainMuteSettings;
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public SaveFloat MusicVolumeSettings => musicVolumeSettings;
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public SaveBool MusicMuteSettings => musicMuteSettings;
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public SaveFloat SoundEffectsVolumeSettings => soundEffectsVolumeSettings;
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public SaveBool SoundEffectsMuteSettings => soundEffectsMuteSettings;
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public SaveFloat VoiceVolumeSettings => voiceVolumeSettings;
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public SaveBool VoiceMuteSettings => voiceMuteSettings;
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public SaveFloat AmbienceVolumeSettings => ambienceVolumeSettings;
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public SaveBool AmbienceMuteSettings => ambienceMuteSettings;
 
 		/// <inheritdoc/>
 		protected override bool OnUpgrade(int oldVersion, out string errorMessage)
@@ -162,8 +236,24 @@ namespace OmiyaGames.Audio
 #if UNITY_EDITOR
 		void Reset()
 		{
-			// FIXME: consider setting the mixer variable to one in the project.
 			mixer = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioMixer>(DEFAULT_MIXER_PATH);
+			
+			mainVolumeSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveFloat>(MAIN_VOLUME_PATH);
+			mainMuteSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveBool>(MAIN_MUTE_PATH);
+
+			musicVolumeSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveFloat>(MUSIC_VOLUME_PATH);
+			musicMuteSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveBool>(MUSIC_MUTE_PATH);
+			
+			soundEffectsVolumeSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveFloat>(SFX_VOLUME_PATH);
+			soundEffectsMuteSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveBool>(SFX_MUTE_PATH);
+
+			voiceVolumeSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveFloat>(VOICE_VOLUME_PATH);
+			voiceMuteSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveBool>(VOICE_MUTE_PATH);
+
+			ambienceVolumeSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveFloat>(AMBIENCE_VOLUME_PATH);
+			ambienceMuteSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveBool>(AMBIENCE_MUTE_PATH);
+
+			// TODO: consider adding these settings into the save settings as well.
 		}
 #endif
 	}

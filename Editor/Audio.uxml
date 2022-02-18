@@ -29,4 +29,18 @@
         <ui:Label text="Effect Fields" display-tooltip-when-elided="false" name="header" enable-rich-text="false" class="header" />
         <ui:TextField label="Duck Level" value="Duck Level" text="Duck Level" name="duckLevel" binding-path="duckLevel" tooltip="The name of the exposed parameter for ducking level" tabindex="13" />
     </ui:VisualElement>
+    <OmiyaGames.Common.Editor.Spacer />
+    <ui:VisualElement name="effectFields">
+        <ui:Label text="Saved Settings" display-tooltip-when-elided="false" name="header" enable-rich-text="false" class="header" />
+        <uie:ObjectField label="Main Volume Settings" allow-scene-objects="false" type="OmiyaGames.Saves.SaveFloat, OmiyaGames.Saves" name="MainVolumeSettings" binding-path="mainVolumeSettings" tabindex="14" />
+        <uie:ObjectField label="Main Mute Settings" allow-scene-objects="false" type="OmiyaGames.Saves.SaveBool, OmiyaGames.Saves" name="MainMuteSettings" binding-path="mainMuteSettings" tabindex="15" />
+        <uie:ObjectField label="Music Volume Settings" allow-scene-objects="false" type="OmiyaGames.Saves.SaveFloat, OmiyaGames.Saves" name="MusicVolumeSettings" binding-path="musicVolumeSettings" tabindex="16" />
+        <uie:ObjectField label="Music Mute Settings" allow-scene-objects="false" type="OmiyaGames.Saves.SaveBool, OmiyaGames.Saves" name="MusicMuteSettings" binding-path="musicMuteSettings" tabindex="17" />
+        <uie:ObjectField label="Sound Effects Volume Settings" allow-scene-objects="false" type="OmiyaGames.Saves.SaveFloat, OmiyaGames.Saves" name="SoundEffectsVolumeSettings" binding-path="soundEffectsVolumeSettings" tabindex="18" />
+        <uie:ObjectField label="Sound Effects Mute Settings" allow-scene-objects="false" type="OmiyaGames.Saves.SaveBool, OmiyaGames.Saves" name="SoundEffectsMuteSettings" binding-path="soundEffectsMuteSettings" tabindex="19" />
+        <uie:ObjectField label="Voice Volume Settings" allow-scene-objects="false" type="OmiyaGames.Saves.SaveFloat, OmiyaGames.Saves" name="VoiceVolumeSettings" binding-path="voiceVolumeSettings" tabindex="20" />
+        <uie:ObjectField label="Voice Mute Settings" allow-scene-objects="false" type="OmiyaGames.Saves.SaveBool, OmiyaGames.Saves" name="VoiceMuteSettings" binding-path="voiceMuteSettings" tabindex="21" />
+        <uie:ObjectField label="Ambience Volume Settings" allow-scene-objects="false" type="OmiyaGames.Saves.SaveFloat, OmiyaGames.Saves" name="AmbienceVolumeSettings" binding-path="ambienceVolumeSettings" tabindex="22" />
+        <uie:ObjectField label="Ambience Mute Settings" allow-scene-objects="false" type="OmiyaGames.Saves.SaveBool, OmiyaGames.Saves" name="AmbienceMuteSettings" binding-path="ambienceMuteSettings" tabindex="23" />
+    </ui:VisualElement>
 </ui:UXML>
