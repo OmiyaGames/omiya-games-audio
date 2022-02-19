@@ -1,7 +1,8 @@
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
 using OmiyaGames.Global.Settings.Editor;
+using UnityEngine.UIElements;
+using OmiyaGames.Saves.Editor;
 
 namespace OmiyaGames.Audio.Editor
 {
@@ -81,6 +82,30 @@ namespace OmiyaGames.Audio.Editor
 		{
 			// Create the settings provider
 			return new AudioSettingsProvider(AudioManager.SIDEBAR_PATH, GetSearchKeywordsFromGUIContentProperties<Styles>());
+		}
+
+		/// <inheritdoc/>
+		protected override VisualElement GetEditSettingsTree()
+		{
+			VisualElement returnTree = base.GetEditSettingsTree();
+			Button saveSettings = returnTree.Query<Button>("addSaveObjects");
+			saveSettings.RegisterCallback<ClickEvent>(e =>
+			{
+				AudioSettings audio = ActiveSettings;
+				int dataAdded = SavesSettingsProvider.AddSaveData(
+					audio.MainVolumeSettings
+					, audio.MainMuteSettings
+					, audio.MusicVolumeSettings
+					, audio.MusicMuteSettings
+					, audio.SoundEffectsVolumeSettings
+					, audio.SoundEffectsMuteSettings
+					, audio.VoicesVolumeSettings
+					, audio.VoicesMuteSettings
+					, audio.AmbienceVolumeSettings
+					, audio.AmbienceMuteSettings);
+				EditorUtility.DisplayDialog("Added Save Data", $"Added {dataAdded} save data objects into save settings.", "OK");
+			});
+			return returnTree;
 		}
 
 		class Styles
