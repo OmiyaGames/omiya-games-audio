@@ -116,12 +116,12 @@ namespace OmiyaGames.Audio
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public static float VoiceVolumeDb
+		public static float VoicesVolumeDb
 		{
 			get
 			{
 				AudioSettings setting = GetData();
-				return GetVolumeDb(setting, setting.VoiceVolume);
+				return GetVolumeDb(setting, setting.VoicesVolume);
 			}
 		}
 		/// <summary>
@@ -187,17 +187,17 @@ namespace OmiyaGames.Audio
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public static float VoicePitch
+		public static float VoicesPitch
 		{
 			get
 			{
 				AudioSettings setting = GetData();
-				return GetPitch(setting, setting.VoicePitch);
+				return GetPitch(setting, setting.VoicesPitch);
 			}
 			set
 			{
 				AudioSettings setting = GetData();
-				SetMixerFloat(setting, setting.VoicePitch, value);
+				SetMixerFloat(setting, setting.VoicesPitch, value);
 			}
 		}
 		/// <summary>
@@ -217,26 +217,38 @@ namespace OmiyaGames.Audio
 			}
 		}
 
-		// FIXME: convert this to an ITrackable
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public static float MainVolumePercent
-		{
-			get
-			{
-				// FIXME: this is incorrect
-				AudioSettings setting = GetData();
-				return GetVolumeDb(setting, setting.MainVolume);
-			}
-			set
-			{
-				AudioSettings setting = GetData();
-				float volumeDecibels = Mathf.Clamp01(value);
-				volumeDecibels = ConvertPercentToVolumeDb(setting, volumeDecibels);
-				SetMixerFloat(setting, setting.MainVolume, volumeDecibels);
-			}
-		}
+		public static ITrackable<float> MainVolumePercent => GetData().MainVolumeSettings;
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public static ITrackable<bool> IsMainMuted => GetData().MainMuteSettings;
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public static ITrackable<float> MusicVolumePercent => GetData().MusicVolumeSettings;
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public static ITrackable<bool> IsMusicMuted => GetData().MusicMuteSettings;
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public static ITrackable<float> SoundEffectsVolumePercent => GetData().SoundEffectsVolumeSettings;
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public static ITrackable<bool> IsSoundEffectsMuted => GetData().SoundEffectsMuteSettings;
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public static ITrackable<float> VoicesVolumePercent => GetData().VoicesVolumeSettings;
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public static ITrackable<bool> IsVoicesMuted => GetData().VoicesMuteSettings;
 
 		/// <summary>
 		/// TODO
@@ -255,7 +267,7 @@ namespace OmiyaGames.Audio
 			UpdateVolumeDb(audioData, audioData.MainVolume, audioData.MainVolumeSettings, audioData.MainMuteSettings);
 			UpdateVolumeDb(audioData, audioData.MusicVolume, audioData.MusicVolumeSettings, audioData.MusicMuteSettings);
 			UpdateVolumeDb(audioData, audioData.SoundEffectsVolume, audioData.SoundEffectsVolumeSettings, audioData.SoundEffectsMuteSettings);
-			UpdateVolumeDb(audioData, audioData.VoiceVolume, audioData.VoiceVolumeSettings, audioData.VoiceMuteSettings);
+			UpdateVolumeDb(audioData, audioData.VoicesVolume, audioData.VoicesVolumeSettings, audioData.VoicesMuteSettings);
 			UpdateVolumeDb(audioData, audioData.AmbienceVolume, audioData.AmbienceVolumeSettings, audioData.AmbienceMuteSettings);
 
 			// Subscribe to volume and mute save changes
@@ -268,8 +280,8 @@ namespace OmiyaGames.Audio
 			audioData.SoundEffectsVolumeSettings.OnAfterValueChanged += UpdateSoundEffectsVolume;
 			audioData.SoundEffectsMuteSettings.OnAfterValueChanged += UpdateSoundEffectsVolume;
 
-			audioData.VoiceVolumeSettings.OnAfterValueChanged += UpdateVoiceVolume;
-			audioData.VoiceMuteSettings.OnAfterValueChanged += UpdateVoiceVolume;
+			audioData.VoicesVolumeSettings.OnAfterValueChanged += UpdateVoiceVolume;
+			audioData.VoicesMuteSettings.OnAfterValueChanged += UpdateVoiceVolume;
 
 			audioData.AmbienceVolumeSettings.OnAfterValueChanged += UpdateAmbienceVolume;
 			audioData.AmbienceMuteSettings.OnAfterValueChanged += UpdateAmbienceVolume;
@@ -293,8 +305,8 @@ namespace OmiyaGames.Audio
 			audioData.SoundEffectsVolumeSettings.OnAfterValueChanged -= UpdateSoundEffectsVolume;
 			audioData.SoundEffectsMuteSettings.OnAfterValueChanged -= UpdateSoundEffectsVolume;
 
-			audioData.VoiceVolumeSettings.OnAfterValueChanged -= UpdateVoiceVolume;
-			audioData.VoiceMuteSettings.OnAfterValueChanged -= UpdateVoiceVolume;
+			audioData.VoicesVolumeSettings.OnAfterValueChanged -= UpdateVoiceVolume;
+			audioData.VoicesMuteSettings.OnAfterValueChanged -= UpdateVoiceVolume;
 
 			audioData.AmbienceVolumeSettings.OnAfterValueChanged -= UpdateAmbienceVolume;
 			audioData.AmbienceMuteSettings.OnAfterValueChanged -= UpdateAmbienceVolume;
@@ -345,13 +357,13 @@ namespace OmiyaGames.Audio
 		void UpdateVoiceVolume(float _, float newVolume)
 		{
 			AudioSettings audioData = GetData();
-			UpdateVolumeDb(audioData, audioData.VoiceVolume, newVolume, audioData.VoiceMuteSettings);
+			UpdateVolumeDb(audioData, audioData.VoicesVolume, newVolume, audioData.VoicesMuteSettings);
 		}
 
 		void UpdateVoiceVolume(bool _, bool isMute)
 		{
 			AudioSettings audioData = GetData();
-			UpdateVolumeDb(audioData, audioData.VoiceVolume, audioData.VoiceVolumeSettings, isMute);
+			UpdateVolumeDb(audioData, audioData.VoicesVolume, audioData.VoicesVolumeSettings, isMute);
 		}
 
 		void UpdateAmbienceVolume(float _, float newVolume)

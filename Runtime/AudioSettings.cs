@@ -52,19 +52,6 @@ namespace OmiyaGames.Audio
 	/// </summary>
 	public class AudioSettings : BaseSettingsData
 	{
-		const string DATA_DIRECTORY = "Packages/com.omiyagames.audio/Runtime/Data/";
-		const string DEFAULT_MIXER_PATH = DATA_DIRECTORY + "DefaultMixer.mixer";
-		const string MAIN_VOLUME_PATH = DATA_DIRECTORY + "MainVolumeSetting.asset";
-		const string MAIN_MUTE_PATH = DATA_DIRECTORY + "MainMuteSetting.asset";
-		const string MUSIC_VOLUME_PATH = DATA_DIRECTORY + "MusicVolumeSetting.asset";
-		const string MUSIC_MUTE_PATH = DATA_DIRECTORY + "MusicMuteSetting.asset";
-		const string SFX_VOLUME_PATH = DATA_DIRECTORY + "SoundEffectsVolumeSetting.asset";
-		const string SFX_MUTE_PATH = DATA_DIRECTORY + "SoundEffectsMuteSetting.asset";
-		const string VOICE_VOLUME_PATH = DATA_DIRECTORY + "VoiceVolumeSetting.asset";
-		const string VOICE_MUTE_PATH = DATA_DIRECTORY + "VoiceMuteSetting.asset";
-		const string AMBIENCE_VOLUME_PATH = DATA_DIRECTORY + "AmbienceVolumeSetting.asset";
-		const string AMBIENCE_MUTE_PATH = DATA_DIRECTORY + "AmbienceMuteSetting.asset";
-
 		// Don't forget to update this property each time there's an upgrade to make!
 		/// <inheritdoc/>
 		public override int CurrentVersion => 0;
@@ -86,7 +73,7 @@ namespace OmiyaGames.Audio
 		[SerializeField]
 		string soundEffectsVolume ="Sound Effects Volume";
 		[SerializeField]
-		string voiceVolume = "Voice Volume";
+		string voicesVolume = "Voices Volume";
 		[SerializeField]
 		string ambienceVolume = "Ambience Volume";
 
@@ -98,7 +85,7 @@ namespace OmiyaGames.Audio
 		[SerializeField]
 		string soundEffectsPitch = "Sound Effects Pitch";
 		[SerializeField]
-		string voicePitch = "Voice Pitch";
+		string voicesPitch = "Voices Pitch";
 		[SerializeField]
 		string ambiencePitch = "Ambience Pitch";
 
@@ -120,9 +107,9 @@ namespace OmiyaGames.Audio
 		[SerializeField]
 		SaveBool soundEffectsMuteSettings;
 		[SerializeField]
-		SaveFloat voiceVolumeSettings;
+		SaveFloat voicesVolumeSettings;
 		[SerializeField]
-		SaveBool voiceMuteSettings;
+		SaveBool voicesMuteSettings;
 		[SerializeField]
 		SaveFloat ambienceVolumeSettings;
 		[SerializeField]
@@ -156,7 +143,7 @@ namespace OmiyaGames.Audio
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public string VoiceVolume => voiceVolume;
+		public string VoicesVolume => voicesVolume;
 		/// <summary>
 		/// TODO
 		/// </summary>
@@ -176,7 +163,7 @@ namespace OmiyaGames.Audio
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public string VoicePitch => voicePitch;
+		public string VoicesPitch => voicesPitch;
 		/// <summary>
 		/// TODO
 		/// </summary>
@@ -212,11 +199,11 @@ namespace OmiyaGames.Audio
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public SaveFloat VoiceVolumeSettings => voiceVolumeSettings;
+		public SaveFloat VoicesVolumeSettings => voicesVolumeSettings;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public SaveBool VoiceMuteSettings => voiceMuteSettings;
+		public SaveBool VoicesMuteSettings => voicesMuteSettings;
 		/// <summary>
 		/// TODO
 		/// </summary>
@@ -234,6 +221,19 @@ namespace OmiyaGames.Audio
 		}
 
 #if UNITY_EDITOR
+		const string DATA_DIRECTORY = "Packages/com.omiyagames.audio/Runtime/Data/";
+		const string DEFAULT_MIXER_PATH = DATA_DIRECTORY + "DefaultMixer.mixer";
+		const string MAIN_VOLUME_PATH = DATA_DIRECTORY + "MainVolumeSetting.asset";
+		const string MAIN_MUTE_PATH = DATA_DIRECTORY + "MainMuteSetting.asset";
+		const string MUSIC_VOLUME_PATH = DATA_DIRECTORY + "MusicVolumeSetting.asset";
+		const string MUSIC_MUTE_PATH = DATA_DIRECTORY + "MusicMuteSetting.asset";
+		const string SFX_VOLUME_PATH = DATA_DIRECTORY + "SoundEffectsVolumeSetting.asset";
+		const string SFX_MUTE_PATH = DATA_DIRECTORY + "SoundEffectsMuteSetting.asset";
+		const string VOICES_VOLUME_PATH = DATA_DIRECTORY + "VoicesVolumeSetting.asset";
+		const string VOICES_MUTE_PATH = DATA_DIRECTORY + "VoicesMuteSetting.asset";
+		const string AMBIENCE_VOLUME_PATH = DATA_DIRECTORY + "AmbienceVolumeSetting.asset";
+		const string AMBIENCE_MUTE_PATH = DATA_DIRECTORY + "AmbienceMuteSetting.asset";
+
 		void Reset()
 		{
 			mixer = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioMixer>(DEFAULT_MIXER_PATH);
@@ -247,8 +247,8 @@ namespace OmiyaGames.Audio
 			soundEffectsVolumeSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveFloat>(SFX_VOLUME_PATH);
 			soundEffectsMuteSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveBool>(SFX_MUTE_PATH);
 
-			voiceVolumeSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveFloat>(VOICE_VOLUME_PATH);
-			voiceMuteSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveBool>(VOICE_MUTE_PATH);
+			voicesVolumeSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveFloat>(VOICES_VOLUME_PATH);
+			voicesMuteSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveBool>(VOICES_MUTE_PATH);
 
 			ambienceVolumeSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveFloat>(AMBIENCE_VOLUME_PATH);
 			ambienceMuteSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveBool>(AMBIENCE_MUTE_PATH);

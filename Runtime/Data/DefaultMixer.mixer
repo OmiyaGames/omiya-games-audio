@@ -48,7 +48,7 @@ AudioMixerGroupController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Voice
+  m_Name: Voices
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: c7c4f9fe9b8ccb94298b8b6e873072d7
   m_Children: []
@@ -280,9 +280,9 @@ AudioMixerController:
   - guid: ca920306a1a09514bbd3b42b9105f2ba
     name: Duck Level
   - guid: e8ac4e459bf19064fa0149c96e317c1c
-    name: Voice Pitch
+    name: Voices Pitch
   - guid: a85d85e1df21036488405c248ab1f254
-    name: Voice Volume
+    name: Voices Volume
   m_AudioMixerGroupViews:
   - guids:
     - 85a3cd409246d4f4293755caae9e4fb8
