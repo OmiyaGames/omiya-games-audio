@@ -1,49 +1,59 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" oge="OmiyaGames.Common.Editor" editor-extension-mode="True">
-    <uie:ObjectField label="Mixer" name="mixer" binding-path="mixer" type="UnityEngine.Audio.AudioMixer, UnityEngine.AudioModule" tooltip="The global mixer this project will be based on." />
-    <OmiyaGames.Common.Editor.Spacer />
-    <ui:VisualElement name="volumeControls">
-        <ui:Label text="Volume Controls" display-tooltip-when-elided="false" enable-rich-text="false" name="header" class="header" />
-        <uie:FloatField label="Mute Volume (dB)" value="-80" name="muteVolumeDb" binding-path="muteVolumeDb" tooltip="Set this value to the mixer&apos;s &quot;Threshold Volume&quot;" tabindex="1" />
-        <uie:CurveField label="Volume % to dB Curve" binding-path="timeToVolumeDbCurve" name="timeToVolumeDbCurve" tooltip="Curve that converts a volume percent (0 to 1) into decibels (e.g. -80 to 0)" tabindex="2" />
-    </ui:VisualElement>
-    <OmiyaGames.Common.Editor.Spacer />
-    <ui:VisualElement name="volumeFields">
-        <ui:Label text="Mixer Volume Parameters" display-tooltip-when-elided="false" name="header" enable-rich-text="false" class="header" />
-        <ui:TextField label="Main Volume" value="Main Volume" text="Main Volume" name="mainVolume" binding-path="mainVolume" tooltip="The name of the exposed parameter for main (aka master) volume" tabindex="3" />
-        <ui:TextField label="Music Volume" value="Music Volume" text="Music Volume" name="musicVolume" binding-path="musicVolume" tooltip="The name of the exposed parameter for music volume" tabindex="4" />
-        <ui:TextField label="Sound Effects Volume" value="Sound Effects Volume" text="Sound Effects Volume" name="soundEffectsVolume" binding-path="soundEffectsVolume" tooltip="The name of the exposed parameter for sfx volume" tabindex="5" />
-        <ui:TextField label="Voices Volume" value="Voices Volume" text="Voices Volume" name="voicesVolume" binding-path="voicesVolume" tooltip="The name of the exposed parameter for volume of voices" tabindex="6" />
-        <ui:TextField label="Ambience Volume" value="Ambience Volume" text="Ambience Volume" name="ambienceVolume" binding-path="ambienceVolume" tooltip="The name of the exposed parameter for volume of ambience" tabindex="7" />
-    </ui:VisualElement>
-    <OmiyaGames.Common.Editor.Spacer />
-    <ui:VisualElement name="pitchFields">
-        <ui:Label text="Mixer Pitch Parameters" display-tooltip-when-elided="false" name="header" enable-rich-text="false" class="header" />
-        <ui:TextField label="Main Pitch" value="Main Pitch" text="Main Pitch" name="mainPitch" binding-path="mainPitch" tooltip="The name of the exposed parameter for main (aka master) pitch" tabindex="8" />
-        <ui:TextField label="Music Pitch" value="Music Pitch" text="Music Pitch" name="musicPitch" binding-path="musicPitch" tooltip="The name of the exposed parameter for music pitch" tabindex="9" />
-        <ui:TextField label="Sound Effects Pitch" value="Sound Effects Pitch" text="Sound Effects Pitch" name="soundEffectsPitch" binding-path="soundEffectsPitch" tooltip="The name of the exposed parameter for sfx pitch" tabindex="10" />
-        <ui:TextField label="Voices Pitch" value="Voices Pitch" text="Voices Pitch" name="voicesPitch" binding-path="voicesPitch" tooltip="The name of the exposed parameter for pitch of voices" tabindex="11" />
-        <ui:TextField label="Ambience Pitch" value="Ambience Pitch" text="Ambience Pitch" name="ambiencePitch" binding-path="ambiencePitch" tooltip="The name of the exposed parameter for pitch of ambience" tabindex="12" />
-    </ui:VisualElement>
-    <OmiyaGames.Common.Editor.Spacer />
-    <ui:VisualElement name="effectFields">
-        <ui:Label text="Mixer Effect Parameters" display-tooltip-when-elided="false" name="header" enable-rich-text="false" class="header" />
-        <ui:TextField label="Duck Level" value="Duck Level" text="Duck Level" name="duckLevel" binding-path="duckLevel" tooltip="The name of the exposed parameter for ducking level" tabindex="13" />
-    </ui:VisualElement>
-    <OmiyaGames.Common.Editor.Spacer />
-    <ui:VisualElement name="effectFields">
-        <ui:Label text="Saved Settings" display-tooltip-when-elided="false" name="header" enable-rich-text="false" class="header" style="flex-direction: row-reverse;" />
-        <uie:ObjectField label="Main Volume Settings" allow-scene-objects="false" type="OmiyaGames.Saves.SaveFloat, OmiyaGames.Saves" name="MainVolumeSettings" binding-path="mainVolumeSettings" tabindex="14" />
-        <uie:ObjectField label="Main Mute Settings" allow-scene-objects="false" type="OmiyaGames.Saves.SaveBool, OmiyaGames.Saves" name="MainMuteSettings" binding-path="mainMuteSettings" tabindex="15" />
-        <uie:ObjectField label="Music Volume Settings" allow-scene-objects="false" type="OmiyaGames.Saves.SaveFloat, OmiyaGames.Saves" name="MusicVolumeSettings" binding-path="musicVolumeSettings" tabindex="16" />
-        <uie:ObjectField label="Music Mute Settings" allow-scene-objects="false" type="OmiyaGames.Saves.SaveBool, OmiyaGames.Saves" name="MusicMuteSettings" binding-path="musicMuteSettings" tabindex="17" />
-        <uie:ObjectField label="Sound Effects Volume Settings" allow-scene-objects="false" type="OmiyaGames.Saves.SaveFloat, OmiyaGames.Saves" name="SoundEffectsVolumeSettings" binding-path="soundEffectsVolumeSettings" tabindex="18" />
-        <uie:ObjectField label="Sound Effects Mute Settings" allow-scene-objects="false" type="OmiyaGames.Saves.SaveBool, OmiyaGames.Saves" name="SoundEffectsMuteSettings" binding-path="soundEffectsMuteSettings" tabindex="19" />
-        <uie:ObjectField label="Voices Volume Settings" allow-scene-objects="false" type="OmiyaGames.Saves.SaveFloat, OmiyaGames.Saves" name="VoicesVolumeSettings" binding-path="voicesVolumeSettings" tabindex="20" />
-        <uie:ObjectField label="Voices Mute Settings" allow-scene-objects="false" type="OmiyaGames.Saves.SaveBool, OmiyaGames.Saves" name="VoicesMuteSettings" binding-path="voicesMuteSettings" tabindex="21" style="justify-content: center;" />
-        <uie:ObjectField label="Ambience Volume Settings" allow-scene-objects="false" type="OmiyaGames.Saves.SaveFloat, OmiyaGames.Saves" name="AmbienceVolumeSettings" binding-path="ambienceVolumeSettings" tabindex="22" />
-        <uie:ObjectField label="Ambience Mute Settings" allow-scene-objects="false" type="OmiyaGames.Saves.SaveBool, OmiyaGames.Saves" name="AmbienceMuteSettings" binding-path="ambienceMuteSettings" tabindex="23" />
-        <ui:VisualElement style="flex-direction: row-reverse;">
-            <ui:Button text="Add Settings" display-tooltip-when-elided="true" name="addSaveObjects" tooltip="Adds above settings files into Project Settings." style="width: 100px; -unity-text-align: middle-center;" />
-        </ui:VisualElement>
-    </ui:VisualElement>
+  <ui:ScrollView>
+		<uie:ObjectField label="Mixer" name="mixer" binding-path="mixer" type="UnityEngine.Audio.AudioMixer, UnityEngine.AudioModule" tooltip="The global mixer this project will be based on." />
+		<OmiyaGames.Common.Editor.Spacer />
+		<ui:VisualElement name="volumeControls">
+			<ui:Label text="Volume Controls" display-tooltip-when-elided="false" enable-rich-text="false" name="header" class="header" />
+			<uie:FloatField label="Mute Volume (dB)" value="-80" name="muteVolumeDb" binding-path="muteVolumeDb" tooltip="Set this value to the mixer&apos;s &quot;Threshold Volume&quot;" tabindex="1" />
+			<uie:CurveField label="Volume % to dB Curve" binding-path="timeToVolumeDbCurve" name="timeToVolumeDbCurve" tooltip="Curve that converts a volume percent (0 to 1) into decibels (e.g. -80 to 0)" tabindex="2" />
+		</ui:VisualElement>
+		<OmiyaGames.Common.Editor.Spacer />
+		<ui:VisualElement name="effectFields">
+			<ui:Label text="Mixer Effect Parameters" display-tooltip-when-elided="false" name="header" enable-rich-text="false" class="header" />
+			<ui:TextField label="Duck Level" value="Duck Level" text="Duck Level" name="duckLevel" binding-path="duckLevel" tooltip="The name of the exposed parameter for ducking level" tabindex="3" />
+		</ui:VisualElement>
+		<OmiyaGames.Common.Editor.Spacer />
+		<ui:VisualElement name="audioLayers">
+			<ui:Label text="Audio Layers" display-tooltip-when-elided="false" name="header" enable-rich-text="false" class="header" style="flex-direction: row-reverse;" />
+			<uie:PropertyField binding-path="main" tabindex="4" name="main" focusable="true" label="Main Layer" />
+			<uie:PropertyField binding-path="music" tabindex="5" name="music" focusable="true" label="Music Layer" />
+			<uie:PropertyField binding-path="soundEffects" tabindex="6" name="soundEffects" focusable="true" label="Sound Effects Layer" />
+			<uie:PropertyField binding-path="voices" tabindex="7" name="voices" focusable="true" label="Voices Layer" />
+			<uie:PropertyField binding-path="ambience" tabindex="8" name="ambience" focusable="true" label="Ambience Layer" />
+		</ui:VisualElement>
+		<OmiyaGames.Common.Editor.Spacer />
+		<ui:Button text="Add Savers To Saves Settings" display-tooltip-when-elided="true" name="addSaveObjects" tooltip="Adds above saver files into Project Settings." style="width: 200px; -unity-text-align: middle-center;" />
+		<OmiyaGames.Common.Editor.Spacer />
+		<ui:VisualElement name="volumeFields">
+			<ui:Label text="Mixer Volume Parameters" display-tooltip-when-elided="false" name="header" enable-rich-text="false" class="header" />
+			<ui:TextField label="Main Volume" value="Main Volume" text="Main Volume" name="mainVolume" binding-path="mainVolume" tooltip="The name of the exposed parameter for main (aka master) volume" tabindex="3" />
+			<ui:TextField label="Music Volume" value="Music Volume" text="Music Volume" name="musicVolume" binding-path="musicVolume" tooltip="The name of the exposed parameter for music volume" tabindex="4" />
+			<ui:TextField label="Sound Effects Volume" value="Sound Effects Volume" text="Sound Effects Volume" name="soundEffectsVolume" binding-path="soundEffectsVolume" tooltip="The name of the exposed parameter for sfx volume" tabindex="5" />
+			<ui:TextField label="Voices Volume" value="Voices Volume" text="Voices Volume" name="voicesVolume" binding-path="voicesVolume" tooltip="The name of the exposed parameter for volume of voices" tabindex="6" />
+			<ui:TextField label="Ambience Volume" value="Ambience Volume" text="Ambience Volume" name="ambienceVolume" binding-path="ambienceVolume" tooltip="The name of the exposed parameter for volume of ambience" tabindex="7" />
+		</ui:VisualElement>
+		<OmiyaGames.Common.Editor.Spacer />
+		<ui:VisualElement name="pitchFields">
+			<ui:Label text="Mixer Pitch Parameters" display-tooltip-when-elided="false" name="header" enable-rich-text="false" class="header" />
+			<ui:TextField label="Main Pitch" value="Main Pitch" text="Main Pitch" name="mainPitch" binding-path="mainPitch" tooltip="The name of the exposed parameter for main (aka master) pitch" tabindex="8" />
+			<ui:TextField label="Music Pitch" value="Music Pitch" text="Music Pitch" name="musicPitch" binding-path="musicPitch" tooltip="The name of the exposed parameter for music pitch" tabindex="9" />
+			<ui:TextField label="Sound Effects Pitch" value="Sound Effects Pitch" text="Sound Effects Pitch" name="soundEffectsPitch" binding-path="soundEffectsPitch" tooltip="The name of the exposed parameter for sfx pitch" tabindex="10" />
+			<ui:TextField label="Voices Pitch" value="Voices Pitch" text="Voices Pitch" name="voicesPitch" binding-path="voicesPitch" tooltip="The name of the exposed parameter for pitch of voices" tabindex="11" />
+			<ui:TextField label="Ambience Pitch" value="Ambience Pitch" text="Ambience Pitch" name="ambiencePitch" binding-path="ambiencePitch" tooltip="The name of the exposed parameter for pitch of ambience" tabindex="12" />
+		</ui:VisualElement>
+		<OmiyaGames.Common.Editor.Spacer />
+		<ui:VisualElement name="effectFields">
+			<ui:Label text="Saved Settings" display-tooltip-when-elided="false" name="header" enable-rich-text="false" class="header" style="flex-direction: row-reverse;" />
+			<uie:ObjectField label="Main Volume Settings" allow-scene-objects="false" type="OmiyaGames.Saves.SaveFloat, OmiyaGames.Saves" name="MainVolumeSettings" binding-path="mainVolumeSettings" tabindex="14" />
+			<uie:ObjectField label="Main Mute Settings" allow-scene-objects="false" type="OmiyaGames.Saves.SaveBool, OmiyaGames.Saves" name="MainMuteSettings" binding-path="mainMuteSettings" tabindex="15" />
+			<uie:ObjectField label="Music Volume Settings" allow-scene-objects="false" type="OmiyaGames.Saves.SaveFloat, OmiyaGames.Saves" name="MusicVolumeSettings" binding-path="musicVolumeSettings" tabindex="16" />
+			<uie:ObjectField label="Music Mute Settings" allow-scene-objects="false" type="OmiyaGames.Saves.SaveBool, OmiyaGames.Saves" name="MusicMuteSettings" binding-path="musicMuteSettings" tabindex="17" />
+			<uie:ObjectField label="Sound Effects Volume Settings" allow-scene-objects="false" type="OmiyaGames.Saves.SaveFloat, OmiyaGames.Saves" name="SoundEffectsVolumeSettings" binding-path="soundEffectsVolumeSettings" tabindex="18" />
+			<uie:ObjectField label="Sound Effects Mute Settings" allow-scene-objects="false" type="OmiyaGames.Saves.SaveBool, OmiyaGames.Saves" name="SoundEffectsMuteSettings" binding-path="soundEffectsMuteSettings" tabindex="19" />
+			<uie:ObjectField label="Voices Volume Settings" allow-scene-objects="false" type="OmiyaGames.Saves.SaveFloat, OmiyaGames.Saves" name="VoicesVolumeSettings" binding-path="voicesVolumeSettings" tabindex="20" />
+			<uie:ObjectField label="Voices Mute Settings" allow-scene-objects="false" type="OmiyaGames.Saves.SaveBool, OmiyaGames.Saves" name="VoicesMuteSettings" binding-path="voicesMuteSettings" tabindex="21" style="justify-content: center;" />
+			<uie:ObjectField label="Ambience Volume Settings" allow-scene-objects="false" type="OmiyaGames.Saves.SaveFloat, OmiyaGames.Saves" name="AmbienceVolumeSettings" binding-path="ambienceVolumeSettings" tabindex="22" />
+			<uie:ObjectField label="Ambience Mute Settings" allow-scene-objects="false" type="OmiyaGames.Saves.SaveBool, OmiyaGames.Saves" name="AmbienceMuteSettings" binding-path="ambienceMuteSettings" tabindex="23" />
+		</ui:VisualElement>
+  </ui:ScrollView>
 </ui:UXML>

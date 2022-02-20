@@ -124,7 +124,7 @@ AudioMixerGroupController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Omnipresent Ambience 1
+  m_Name: Fade Ambience 1
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 33f3b3a9e6499534ba62e7de20d535a7
   m_Children: []
@@ -199,7 +199,7 @@ AudioMixerGroupController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Omnipresent Ambience
+  m_Name: Background Ambience
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 03cd52d3ae93e744ba4475570fefa181
   m_Children:
@@ -253,9 +253,8 @@ AudioMixerController:
   m_MasterGroup: {fileID: 24300001}
   m_Snapshots:
   - {fileID: 24508402}
-  - {fileID: -5561378140290427868}
-  - {fileID: -6511766988523977430}
-  - {fileID: 24577990}
+  - {fileID: 3434885663696939239}
+  - {fileID: 1930468487434045763}
   m_StartSnapshot: {fileID: 24508402}
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
@@ -315,8 +314,8 @@ AudioMixerController:
     - 03cd52d3ae93e744ba4475570fefa181
     - 33f3b3a9e6499534ba62e7de20d535a7
     - e264394b91064ab4db0bfbf082d371db
-    name: Omnipresent View
-  m_CurrentViewIndex: 0
+    name: Background View
+  m_CurrentViewIndex: 2
   m_TargetSnapshot: {fileID: 24508402}
 --- !u!243 &24300001
 AudioMixerGroupController:
@@ -386,7 +385,7 @@ AudioMixerGroupController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Omnipresent Music 1
+  m_Name: Fade Music 1
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 7166b5b4339a24836b2c96e6e8aac81c
   m_Children: []
@@ -405,7 +404,7 @@ AudioMixerGroupController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Omnipresent Music 2
+  m_Name: Fade Music 2
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 9891873e676c74ed9ab138fcb85fe554
   m_Children: []
@@ -494,7 +493,7 @@ AudioMixerSnapshotController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Omnipresent Music 1, Ambience 1
+  m_Name: Default
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: 440bb7a3a0bab407d8b33a9b89cbba06
   m_FloatValues:
@@ -536,7 +535,7 @@ AudioMixerGroupController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Omnipresent Ambience 2
+  m_Name: Fade Ambience 2
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: e264394b91064ab4db0bfbf082d371db
   m_Children: []
@@ -555,7 +554,7 @@ AudioMixerGroupController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Omnipresent Music
+  m_Name: Background Music
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: d810afb0f99265149848a93c8096c118
   m_Children:
@@ -584,6 +583,29 @@ AudioMixerEffectController:
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0
+--- !u!245 &1930468487434045763
+AudioMixerSnapshotController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Fade Ambience
+  m_AudioMixer: {fileID: 24100000}
+  m_SnapshotID: e8944ab19540f40489b782021f118044
+  m_FloatValues:
+    af5ea012dbc15ad48b10d685761cbb60: 0
+    81ce37e28f114164e9b5f3aaad13279f: -80
+    ca920306a1a09514bbd3b42b9105f2ba: -80
+    b67221e63e5be5a489e2f0a06590f604: -20
+    cc5d97e61b3b90646aa1dad7bd4d4e70: -80
+    e2b695c8c9cfe2d47aa85cf2e364aca2: -80
+    fd19e09b2e0937942a53b3e52cfc8e64: -20
+    20b7214c5b4f201479d8e9531621abeb: -80
+    2fc9ac8c8e7b64323b9d95d38bc73f8d: -80
+    9f797e9faca6d494f9fc3b7e44e9af00: -20
+  m_TransitionOverrides:
+    98645516a7baf4f3aacf3de40f26fdee: 1
+    2fc9ac8c8e7b64323b9d95d38bc73f8d: 1
 --- !u!244 &2171142102842424894
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
@@ -598,6 +620,29 @@ AudioMixerEffectController:
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0
+--- !u!245 &3434885663696939239
+AudioMixerSnapshotController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Fade Music
+  m_AudioMixer: {fileID: 24100000}
+  m_SnapshotID: 2f8550f9c64ee034a827f4e0d19db29e
+  m_FloatValues:
+    af5ea012dbc15ad48b10d685761cbb60: -80
+    81ce37e28f114164e9b5f3aaad13279f: -80
+    ca920306a1a09514bbd3b42b9105f2ba: -80
+    98645516a7baf4f3aacf3de40f26fdee: -80
+    b67221e63e5be5a489e2f0a06590f604: -20
+    cc5d97e61b3b90646aa1dad7bd4d4e70: -80
+    fd19e09b2e0937942a53b3e52cfc8e64: -20
+    20b7214c5b4f201479d8e9531621abeb: -80
+    2fc9ac8c8e7b64323b9d95d38bc73f8d: -0.002441872
+    9f797e9faca6d494f9fc3b7e44e9af00: -20
+  m_TransitionOverrides:
+    98645516a7baf4f3aacf3de40f26fdee: 1
+    2fc9ac8c8e7b64323b9d95d38bc73f8d: 1
 --- !u!244 &3722703954185166985
 AudioMixerEffectController:
   m_ObjectHideFlags: 3

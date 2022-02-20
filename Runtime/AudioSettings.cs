@@ -56,6 +56,112 @@ namespace OmiyaGames.Audio
 		/// <inheritdoc/>
 		public override int CurrentVersion => 0;
 
+		#region Nested Serialize Fields
+		/// <summary>
+		/// TODO
+		/// </summary>
+		[System.Serializable]
+		public class Layer
+		{
+			[Header("Exposed Parameter Names")]
+			[SerializeField]
+			string volumeParamName;
+			[SerializeField]
+			string pitchParamName;
+
+			[Header("Settings Saver")]
+			[SerializeField]
+			SaveFloat volumeSaver;
+			[SerializeField]
+			SaveBool isMuteSaver;
+
+			/// <summary>
+			/// TODO
+			/// </summary>
+			public string VolumeParamName
+			{
+				get => volumeParamName;
+				internal set => volumeParamName = value;
+			}
+			/// <summary>
+			/// TODO
+			/// </summary>
+			public string PitchParamName
+			{
+				get => pitchParamName;
+				internal set => pitchParamName = value;
+			}
+			/// <summary>
+			/// TODO
+			/// </summary>
+			public SaveFloat VolumeSaver
+			{
+				get => volumeSaver;
+				internal set => volumeSaver = value;
+			}
+			/// <summary>
+			/// TODO
+			/// </summary>
+			public SaveBool IsMuteSaver
+			{
+				get => isMuteSaver;
+				internal set => isMuteSaver = value;
+			}
+		}
+
+		/// <summary>
+		/// TODO
+		/// </summary>
+		[System.Serializable]
+		public class WorldLayer : Layer
+		{
+			[Header("Mixer Groups" +
+				"")]
+			[SerializeField]
+			AudioMixerGroup defaultWorldGroup;
+
+			/// <summary>
+			/// TODO
+			/// </summary>
+			public AudioMixerGroup DefaultWorldGroup
+			{
+				get => defaultWorldGroup;
+				internal set => defaultWorldGroup = value;
+			}
+		}
+
+		/// <summary>
+		/// TODO
+		/// </summary>
+		[System.Serializable]
+		public class BackgroundLayer : WorldLayer
+		{
+			[Header("Transition Specs")]
+			[SerializeField]
+			[Range(0f, 1.5f)]
+			float defaultFadeDuration;
+			[SerializeField]
+			AudioMixerGroup[] fadeGroups;
+
+			/// <summary>
+			/// TODO
+			/// </summary>
+			public AudioMixerGroup[] FadeGroups
+			{
+				get => fadeGroups;
+				internal set => fadeGroups = value;
+			}
+			/// <summary>
+			/// TODO
+			/// </summary>
+			public float DefaultFadeDurationSeconds
+			{
+				get => defaultFadeDuration;
+				internal set => defaultFadeDuration = value;
+			}
+		}
+		#endregion
+
 		[SerializeField]
 		AudioMixer mixer = null;
 
@@ -65,6 +171,44 @@ namespace OmiyaGames.Audio
 		[SerializeField]
 		AnimationCurve timeToVolumeDbCurve = new(new(0, -40, 106.4f, 106.4f), new(1, 0, 0, 0));
 
+		[Header("Exposed Parameter Names")]
+		[SerializeField]
+		string duckLevel = "Duck Level";
+
+		[SerializeField]
+		Layer main = new()
+		{
+			VolumeParamName = "Main Volume",
+			PitchParamName = "Main Pitch"
+		};
+		[SerializeField]
+		BackgroundLayer music = new()
+		{
+			VolumeParamName = "Music Volume",
+			PitchParamName = "Music Pitch",
+			DefaultFadeDurationSeconds = 0.25f
+		};
+		[SerializeField]
+		WorldLayer soundEffects = new()
+		{
+			VolumeParamName = "Sound Effects Volume",
+			PitchParamName = "Sound Effects Pitch"
+		};
+		[SerializeField]
+		WorldLayer voices = new()
+		{
+			VolumeParamName = "Voices Volume",
+			PitchParamName = "Voices Pitch"
+		};
+		[SerializeField]
+		BackgroundLayer ambience = new()
+		{
+			VolumeParamName = "Ambience Volume",
+			PitchParamName = "Ambience Pitch",
+			DefaultFadeDurationSeconds = 0.25f
+		};
+
+		#region FIXME: replace these fields
 		[Header("Volume Fields")]
 		[SerializeField]
 		string mainVolume = "Main Volume";
@@ -89,10 +233,6 @@ namespace OmiyaGames.Audio
 		[SerializeField]
 		string ambiencePitch = "Ambience Pitch";
 
-		[Header("Effect Fields")]
-		[SerializeField]
-		string duckLevel = "Duck Level";
-
 		[Header("Saved Settings")]
 		[SerializeField]
 		SaveFloat mainVolumeSettings;
@@ -114,6 +254,7 @@ namespace OmiyaGames.Audio
 		SaveFloat ambienceVolumeSettings;
 		[SerializeField]
 		SaveBool ambienceMuteSettings;
+		#endregion
 
 		/// <summary>
 		/// The main mixer of this game.
