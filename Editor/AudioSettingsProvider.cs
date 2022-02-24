@@ -85,9 +85,8 @@ namespace OmiyaGames.Audio.Editor
 		}
 
 		/// <inheritdoc/>
-		protected override VisualElement GetEditSettingsTree()
+		protected override VisualElement CustomizeEditSettingsTree(VisualElement returnTree, SerializedObject serializedSettings)
 		{
-			VisualElement returnTree = base.GetEditSettingsTree();
 			Button saveSettings = returnTree.Query<Button>("addSaveObjects");
 			saveSettings.RegisterCallback<ClickEvent>(e =>
 			{
@@ -105,7 +104,7 @@ namespace OmiyaGames.Audio.Editor
 					, audio.AmbienceMuteSettings);
 				EditorUtility.DisplayDialog("Added Save Data", $"Added {dataAdded} save data objects into save settings.", "OK");
 			});
-			return returnTree;
+			return base.CustomizeEditSettingsTree(returnTree, serializedSettings);
 		}
 
 		class Styles
