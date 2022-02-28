@@ -56,205 +56,30 @@ namespace OmiyaGames.Audio
 		/// <inheritdoc/>
 		public override int CurrentVersion => 0;
 
-		#region Nested Serialize Fields
-		/// <summary>
-		/// TODO
-		/// </summary>
-		[System.Serializable]
-		public class Layer
-		{
-			[Header("Exposed Parameter Names")]
-			[SerializeField]
-			string volumeParamName;
-			[SerializeField]
-			string pitchParamName;
-
-			[Header("Settings Saver")]
-			[SerializeField]
-			SaveFloat volumeSaver;
-			[SerializeField]
-			SaveBool isMuteSaver;
-
-			/// <summary>
-			/// TODO
-			/// </summary>
-			public string VolumeParamName
-			{
-				get => volumeParamName;
-				internal set => volumeParamName = value;
-			}
-			/// <summary>
-			/// TODO
-			/// </summary>
-			public string PitchParamName
-			{
-				get => pitchParamName;
-				internal set => pitchParamName = value;
-			}
-			/// <summary>
-			/// TODO
-			/// </summary>
-			public SaveFloat VolumeSaver
-			{
-				get => volumeSaver;
-				internal set => volumeSaver = value;
-			}
-			/// <summary>
-			/// TODO
-			/// </summary>
-			public SaveBool IsMuteSaver
-			{
-				get => isMuteSaver;
-				internal set => isMuteSaver = value;
-			}
-		}
-
-		/// <summary>
-		/// TODO
-		/// </summary>
-		[System.Serializable]
-		public class WorldLayer : Layer
-		{
-			[Header("Mixer Groups" +
-				"")]
-			[SerializeField]
-			AudioMixerGroup defaultWorldGroup;
-
-			/// <summary>
-			/// TODO
-			/// </summary>
-			public AudioMixerGroup DefaultWorldGroup
-			{
-				get => defaultWorldGroup;
-				internal set => defaultWorldGroup = value;
-			}
-		}
-
-		/// <summary>
-		/// TODO
-		/// </summary>
-		[System.Serializable]
-		public class BackgroundLayer : WorldLayer
-		{
-			[Header("Transition Specs")]
-			[SerializeField]
-			[Range(0f, 1.5f)]
-			float defaultFadeDuration;
-			[SerializeField]
-			AudioMixerGroup[] fadeGroups;
-
-			/// <summary>
-			/// TODO
-			/// </summary>
-			public AudioMixerGroup[] FadeGroups
-			{
-				get => fadeGroups;
-				internal set => fadeGroups = value;
-			}
-			/// <summary>
-			/// TODO
-			/// </summary>
-			public float DefaultFadeDurationSeconds
-			{
-				get => defaultFadeDuration;
-				internal set => defaultFadeDuration = value;
-			}
-		}
-		#endregion
-
+		// Note: many of these variable defaults are set in the Reset() method.
 		[SerializeField]
-		AudioMixer mixer = null;
+		AudioMixer mixer;
 
 		[Header("Volume Controls")]
 		[SerializeField]
 		float muteVolumeDb = -80;
 		[SerializeField]
-		AnimationCurve timeToVolumeDbCurve = new(new(0, -40, 106.4f, 106.4f), new(1, 0, 0, 0));
+		AnimationCurve percentToDbCurve;
 
 		[Header("Exposed Parameter Names")]
 		[SerializeField]
-		string duckLevel = "Duck Level";
+		string duckParam = "Duck Level";
 
 		[SerializeField]
-		Layer main = new()
-		{
-			VolumeParamName = "Main Volume",
-			PitchParamName = "Main Pitch"
-		};
+		Layer main = new();
 		[SerializeField]
-		BackgroundLayer music = new()
-		{
-			VolumeParamName = "Music Volume",
-			PitchParamName = "Music Pitch",
-			DefaultFadeDurationSeconds = 0.25f
-		};
+		Layer.Background music = new();
 		[SerializeField]
-		WorldLayer soundEffects = new()
-		{
-			VolumeParamName = "Sound Effects Volume",
-			PitchParamName = "Sound Effects Pitch"
-		};
+		Layer.Spatial soundEffects = new();
 		[SerializeField]
-		WorldLayer voices = new()
-		{
-			VolumeParamName = "Voices Volume",
-			PitchParamName = "Voices Pitch"
-		};
+		Layer.Spatial voices = new();
 		[SerializeField]
-		BackgroundLayer ambience = new()
-		{
-			VolumeParamName = "Ambience Volume",
-			PitchParamName = "Ambience Pitch",
-			DefaultFadeDurationSeconds = 0.25f
-		};
-
-		#region FIXME: replace these fields
-		[Header("Volume Fields")]
-		[SerializeField]
-		string mainVolume = "Main Volume";
-		[SerializeField]
-		string musicVolume = "Music Volume";
-		[SerializeField]
-		string soundEffectsVolume ="Sound Effects Volume";
-		[SerializeField]
-		string voicesVolume = "Voices Volume";
-		[SerializeField]
-		string ambienceVolume = "Ambience Volume";
-
-		[Header("Pitch Fields")]
-		[SerializeField]
-		string mainPitch = "Main Pitch";
-		[SerializeField]
-		string musicPitch = "Music Pitch";
-		[SerializeField]
-		string soundEffectsPitch = "Sound Effects Pitch";
-		[SerializeField]
-		string voicesPitch = "Voices Pitch";
-		[SerializeField]
-		string ambiencePitch = "Ambience Pitch";
-
-		[Header("Saved Settings")]
-		[SerializeField]
-		SaveFloat mainVolumeSettings;
-		[SerializeField]
-		SaveBool mainMuteSettings;
-		[SerializeField]
-		SaveFloat musicVolumeSettings;
-		[SerializeField]
-		SaveBool musicMuteSettings;
-		[SerializeField]
-		SaveFloat soundEffectsVolumeSettings;
-		[SerializeField]
-		SaveBool soundEffectsMuteSettings;
-		[SerializeField]
-		SaveFloat voicesVolumeSettings;
-		[SerializeField]
-		SaveBool voicesMuteSettings;
-		[SerializeField]
-		SaveFloat ambienceVolumeSettings;
-		[SerializeField]
-		SaveBool ambienceMuteSettings;
-		#endregion
+		Layer.Background ambience = new();
 
 		/// <summary>
 		/// The main mixer of this game.
@@ -268,91 +93,31 @@ namespace OmiyaGames.Audio
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public AnimationCurve TimeToVolumeDbCurve => timeToVolumeDbCurve;
+		public AnimationCurve PercentToDbCurve => percentToDbCurve;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public string MainVolume => mainVolume;
+		public Layer Main => main;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public string MusicVolume => musicVolume;
+		public Layer.Background Music => music;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public string SoundEffectsVolume => soundEffectsVolume;
+		public Layer.Spatial SoundEffects => soundEffects;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public string VoicesVolume => voicesVolume;
+		public Layer.Spatial Voices => voices;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public string AmbienceVolume => ambienceVolume;
+		public Layer.Background Ambience => ambience;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public string MainPitch => mainPitch;
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public string MusicPitch => musicPitch;
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public string SoundEffectsPitch => soundEffectsPitch;
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public string VoicesPitch => voicesPitch;
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public string AmbiencePitch => ambiencePitch;
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public string DuckingLevel => duckLevel;
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public SaveFloat MainVolumeSettings => mainVolumeSettings;
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public SaveBool MainMuteSettings => mainMuteSettings;
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public SaveFloat MusicVolumeSettings => musicVolumeSettings;
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public SaveBool MusicMuteSettings => musicMuteSettings;
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public SaveFloat SoundEffectsVolumeSettings => soundEffectsVolumeSettings;
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public SaveBool SoundEffectsMuteSettings => soundEffectsMuteSettings;
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public SaveFloat VoicesVolumeSettings => voicesVolumeSettings;
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public SaveBool VoicesMuteSettings => voicesMuteSettings;
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public SaveFloat AmbienceVolumeSettings => ambienceVolumeSettings;
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public SaveBool AmbienceMuteSettings => ambienceMuteSettings;
+		public string DuckParam => duckParam;
 
 		/// <inheritdoc/>
 		protected override bool OnUpgrade(int oldVersion, out string errorMessage)
@@ -362,39 +127,132 @@ namespace OmiyaGames.Audio
 		}
 
 #if UNITY_EDITOR
-		const string DATA_DIRECTORY = "Packages/com.omiyagames.audio/Runtime/Data/";
-		const string DEFAULT_MIXER_PATH = DATA_DIRECTORY + "DefaultMixer.mixer";
-		const string MAIN_VOLUME_PATH = DATA_DIRECTORY + "MainVolumeSetting.asset";
-		const string MAIN_MUTE_PATH = DATA_DIRECTORY + "MainMuteSetting.asset";
-		const string MUSIC_VOLUME_PATH = DATA_DIRECTORY + "MusicVolumeSetting.asset";
-		const string MUSIC_MUTE_PATH = DATA_DIRECTORY + "MusicMuteSetting.asset";
-		const string SFX_VOLUME_PATH = DATA_DIRECTORY + "SoundEffectsVolumeSetting.asset";
-		const string SFX_MUTE_PATH = DATA_DIRECTORY + "SoundEffectsMuteSetting.asset";
-		const string VOICES_VOLUME_PATH = DATA_DIRECTORY + "VoicesVolumeSetting.asset";
-		const string VOICES_MUTE_PATH = DATA_DIRECTORY + "VoicesMuteSetting.asset";
-		const string AMBIENCE_VOLUME_PATH = DATA_DIRECTORY + "AmbienceVolumeSetting.asset";
-		const string AMBIENCE_MUTE_PATH = DATA_DIRECTORY + "AmbienceMuteSetting.asset";
-
 		void Reset()
 		{
+			const string DATA_DIRECTORY = "Packages/com.omiyagames.audio/Runtime/Data/";
+			const string DEFAULT_MIXER_PATH = DATA_DIRECTORY + "DefaultMixer.mixer";
+			const float DEFAULT_FADE_DURATION = 0.25f;
+			const int NUM_KEYFRAMES = 15;
+
+			const string MAIN_VOLUME_PATH = DATA_DIRECTORY + "MainVolumeSetting.asset";
+			const string MAIN_MUTE_PATH = DATA_DIRECTORY + "MainMuteSetting.asset";
+
+			const string MUSIC_VOLUME_PATH = DATA_DIRECTORY + "MusicVolumeSetting.asset";
+			const string MUSIC_MUTE_PATH = DATA_DIRECTORY + "MusicMuteSetting.asset";
+
+			const string SFX_VOLUME_PATH = DATA_DIRECTORY + "SoundEffectsVolumeSetting.asset";
+			const string SFX_MUTE_PATH = DATA_DIRECTORY + "SoundEffectsMuteSetting.asset";
+
+			const string VOICES_VOLUME_PATH = DATA_DIRECTORY + "VoicesVolumeSetting.asset";
+			const string VOICES_MUTE_PATH = DATA_DIRECTORY + "VoicesMuteSetting.asset";
+
+			const string AMBIENCE_VOLUME_PATH = DATA_DIRECTORY + "AmbienceVolumeSetting.asset";
+			const string AMBIENCE_MUTE_PATH = DATA_DIRECTORY + "AmbienceMuteSetting.asset";
+
+			// Setup mixer
 			mixer = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioMixer>(DEFAULT_MIXER_PATH);
-			
-			mainVolumeSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveFloat>(MAIN_VOLUME_PATH);
-			mainMuteSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveBool>(MAIN_MUTE_PATH);
 
-			musicVolumeSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveFloat>(MUSIC_VOLUME_PATH);
-			musicMuteSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveBool>(MUSIC_MUTE_PATH);
-			
-			soundEffectsVolumeSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveFloat>(SFX_VOLUME_PATH);
-			soundEffectsMuteSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveBool>(SFX_MUTE_PATH);
+			// Setup main layer
+			main.VolumeParam = "Main Volume";
+			main.PitchParam = "Main Pitch";
+			main.VolumeSaver = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveFloat>(MAIN_VOLUME_PATH);
+			main.IsMutedSaver = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveBool>(MAIN_MUTE_PATH);
 
-			voicesVolumeSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveFloat>(VOICES_VOLUME_PATH);
-			voicesMuteSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveBool>(VOICES_MUTE_PATH);
+			// Setup music layer
+			music.VolumeParam = "Music Volume";
+			music.PitchParam = "Music Pitch";
+			music.VolumeSaver = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveFloat>(MUSIC_VOLUME_PATH);
+			music.IsMutedSaver = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveBool>(MUSIC_MUTE_PATH);
+			music.DefaultGroup = mixer.FindMatchingGroups("World Music")[0];
+			music.DefaultFadeDurationSeconds = DEFAULT_FADE_DURATION;
+			music.FadeGroups = GetFadeGroups(Mixer, "Fade Music");
 
-			ambienceVolumeSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveFloat>(AMBIENCE_VOLUME_PATH);
-			ambienceMuteSettings = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveBool>(AMBIENCE_MUTE_PATH);
+			// Setup sound effects layer
+			soundEffects.VolumeParam = "Sound Effects Volume";
+			soundEffects.PitchParam = "Sound Effects Pitch";
+			soundEffects.VolumeSaver = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveFloat>(SFX_VOLUME_PATH);
+			soundEffects.IsMutedSaver = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveBool>(SFX_MUTE_PATH);
+			soundEffects.DefaultGroup = mixer.FindMatchingGroups("World Sound Effects")[0];
+			soundEffects.DefaultUiGroup = mixer.FindMatchingGroups("UI Sound Effects")[0];
 
-			// TODO: consider adding these settings into the save settings as well.
+			// Setup voices layer
+			voices.VolumeParam = "Voices Volume";
+			voices.PitchParam = "Voices Pitch";
+			voices.VolumeSaver = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveFloat>(VOICES_VOLUME_PATH);
+			voices.IsMutedSaver = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveBool>(VOICES_MUTE_PATH);
+			voices.DefaultGroup = mixer.FindMatchingGroups("World Voices")[0];
+			voices.DefaultUiGroup = mixer.FindMatchingGroups("UI Voices")[0];
+
+			// Setup ambience layer
+			ambience.VolumeParam = "Ambience Volume";
+			ambience.PitchParam = "Ambience Pitch";
+			ambience.VolumeSaver = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveFloat>(AMBIENCE_VOLUME_PATH);
+			ambience.IsMutedSaver = UnityEditor.AssetDatabase.LoadAssetAtPath<SaveBool>(AMBIENCE_MUTE_PATH);
+			ambience.DefaultGroup = mixer.FindMatchingGroups("World Ambience")[0];
+			ambience.DefaultFadeDurationSeconds = DEFAULT_FADE_DURATION;
+			ambience.FadeGroups = GetFadeGroups(Mixer, "Fade Ambience");
+
+			// Setup the keyframes
+			percentToDbCurve = CreateDefaultCurve(NUM_KEYFRAMES);
+
+			static AudioMixerGroup[] GetFadeGroups(AudioMixer mixer, string prepend)
+			{
+				const int NUM_GROUPS = 3;
+				AudioMixerGroup[] toReturn = new AudioMixerGroup[NUM_GROUPS];
+				System.Text.StringBuilder builder = new(prepend.Length + 2);
+
+				// Find all groups
+				for (int i = 0; i < NUM_GROUPS; ++i)
+				{
+					// Generate name of group
+					builder.Clear();
+					builder.Append(prepend);
+					builder.Append(' ');
+					builder.Append(i + 1);
+
+					// Find this group
+					toReturn[i] = mixer.FindMatchingGroups(builder.ToString())[0];
+				}
+				return toReturn;
+			}
+
+			static AnimationCurve CreateDefaultCurve(int numberOfKeyFrames)
+			{
+				const float REDUCTION_MULTIPLIER = 0.65f;
+
+				// Generate the first keyframe (at time 0)
+				Keyframe[] defaultKeyframes = new Keyframe[numberOfKeyFrames];
+				defaultKeyframes[0] = new(0, DefaultPercentToVolumeDbConversion(0));
+
+				// Generate the rest (1 through almost 0)
+				float time = 1f;
+				for (int i = 1; i < defaultKeyframes.Length; ++i)
+				{
+					defaultKeyframes[i] = new(time, DefaultPercentToVolumeDbConversion(time));
+					defaultKeyframes[i].weightedMode = WeightedMode.None;
+
+					// Calculate the next time
+					time *= REDUCTION_MULTIPLIER;
+				}
+
+				// Apply keyframes to the curve
+				AnimationCurve returnCurve = new(defaultKeyframes);
+
+				// Change tangent mode on all the keyframes
+				for (int i = 0; i < numberOfKeyFrames; ++i)
+				{
+					UnityEditor.AnimationUtility.SetKeyLeftTangentMode(returnCurve, i, UnityEditor.AnimationUtility.TangentMode.ClampedAuto);
+					UnityEditor.AnimationUtility.SetKeyRightTangentMode(returnCurve, i, UnityEditor.AnimationUtility.TangentMode.ClampedAuto);
+				}
+				return returnCurve;
+
+				static float DefaultPercentToVolumeDbConversion(float percent)
+				{
+					const float MIN_PERCENT_CLAMP = 0.0001f;
+					percent = Mathf.Clamp(percent, MIN_PERCENT_CLAMP, 1f);
+					return Mathf.Log10(percent) * 20;
+				}
+			}
 		}
 #endif
 	}

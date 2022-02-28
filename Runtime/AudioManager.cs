@@ -54,7 +54,7 @@ namespace OmiyaGames.Audio
 	/// A manager file that allows adjusting an <see cref="AudioMixer"/>
 	/// from settings.
 	/// </summary>
-	public class AudioManager : BaseSettingsManager<AudioManager, AudioSettings>
+	public static class AudioManager
 	{
 		/// <summary>
 		/// The configuration name stored in Editor Settings.
@@ -74,365 +74,100 @@ namespace OmiyaGames.Audio
 		/// </summary>
 		public const string UXML_PATH = "Packages/com.omiyagames.audio/Editor/Audio.uxml";
 
-		/// <inheritdoc/>
-		protected override string AddressableName => ADDRESSABLE_NAME;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public static float MuteVolumeDb => GetData().MuteVolumeDb;
+		public static AudioMixer Mixer => AudioSettingsManager.GetData().Mixer;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public static float MainVolumeDb
-		{
-			get
-			{
-				AudioSettings setting = GetData();
-				return GetVolumeDb(setting, setting.MainVolume);
-			}
-		}
+		public static Layer Main => AudioSettingsManager.GetData().Main;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public static float MusicVolumeDb
-		{
-			get
-			{
-				AudioSettings setting = GetData();
-				return GetVolumeDb(setting, setting.MusicVolume);
-			}
-		}
+		public static Layer.Background Music => AudioSettingsManager.GetData().Music;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public static float SoundEffectsVolumeDb
-		{
-			get
-			{
-				AudioSettings setting = GetData();
-				return GetVolumeDb(setting, setting.SoundEffectsVolume);
-			}
-		}
+		public static Layer.Spatial SoundEffects => AudioSettingsManager.GetData().SoundEffects;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public static float VoicesVolumeDb
-		{
-			get
-			{
-				AudioSettings setting = GetData();
-				return GetVolumeDb(setting, setting.VoicesVolume);
-			}
-		}
+		public static Layer.Spatial Voices => AudioSettingsManager.GetData().Voices;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public static float AmbienceVolumeDb
-		{
-			get
-			{
-				AudioSettings setting = GetData();
-				return GetVolumeDb(setting, setting.AmbienceVolume);
-			}
-		}
-
+		public static Layer.Background Ambience => AudioSettingsManager.GetData().Ambience;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public static float MainPitch
-		{
-			get
-			{
-				AudioSettings setting = GetData();
-				return GetPitch(setting, setting.MainPitch);
-			}
-			set
-			{
-				AudioSettings setting = GetData();
-				SetMixerFloat(setting, setting.MainPitch, value);
-			}
-		}
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public static float MusicPitch
-		{
-			get
-			{
-				AudioSettings setting = GetData();
-				return GetPitch(setting, setting.MusicPitch);
-			}
-			set
-			{
-				AudioSettings setting = GetData();
-				SetMixerFloat(setting, setting.MusicPitch, value);
-			}
-		}
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public static float SoundEffectsPitch
-		{
-			get
-			{
-				AudioSettings setting = GetData();
-				return GetPitch(setting, setting.SoundEffectsPitch);
-			}
-			set
-			{
-				AudioSettings setting = GetData();
-				SetMixerFloat(setting, setting.SoundEffectsPitch, value);
-			}
-		}
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public static float VoicesPitch
-		{
-			get
-			{
-				AudioSettings setting = GetData();
-				return GetPitch(setting, setting.VoicesPitch);
-			}
-			set
-			{
-				AudioSettings setting = GetData();
-				SetMixerFloat(setting, setting.VoicesPitch, value);
-			}
-		}
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public static float AmbiencePitch
-		{
-			get
-			{
-				AudioSettings setting = GetData();
-				return GetPitch(setting, setting.AmbiencePitch);
-			}
-			set
-			{
-				AudioSettings setting = GetData();
-				SetMixerFloat(setting, setting.AmbiencePitch, value);
-			}
-		}
-
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public static ITrackable<float> MainVolumePercent => GetData().MainVolumeSettings;
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public static ITrackable<bool> IsMainMuted => GetData().MainMuteSettings;
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public static ITrackable<float> MusicVolumePercent => GetData().MusicVolumeSettings;
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public static ITrackable<bool> IsMusicMuted => GetData().MusicMuteSettings;
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public static ITrackable<float> SoundEffectsVolumePercent => GetData().SoundEffectsVolumeSettings;
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public static ITrackable<bool> IsSoundEffectsMuted => GetData().SoundEffectsMuteSettings;
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public static ITrackable<float> VoicesVolumePercent => GetData().VoicesVolumeSettings;
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public static ITrackable<bool> IsVoicesMuted => GetData().VoicesMuteSettings;
+		public static float MuteVolumeDb => AudioSettingsManager.GetData().MuteVolumeDb;
 
 		/// <summary>
 		/// TODO
 		/// </summary>
 		/// <param name="percent"></param>
 		/// <returns></returns>
-		public static float ConvertPercentToVolumeDb(float percent) => ConvertPercentToVolumeDb(GetData(), percent);
+		public static float ConvertPercentToVolumeDb(float percent) => AudioSettingsManager.GetData().PercentToDbCurve.Evaluate(percent);
 
-		// Start is called before the first frame update
-		void Start()
+		class AudioSettingsManager : BaseSettingsManager<AudioSettingsManager, AudioSettings>
 		{
-			// Retrieve settings
-			AudioSettings audioData = GetData();
+			/// <inheritdoc/>
+			protected override string AddressableName => ADDRESSABLE_NAME;
 
-			// Setup vaolume to current settings
-			UpdateVolumeDb(audioData, audioData.MainVolume, audioData.MainVolumeSettings, audioData.MainMuteSettings);
-			UpdateVolumeDb(audioData, audioData.MusicVolume, audioData.MusicVolumeSettings, audioData.MusicMuteSettings);
-			UpdateVolumeDb(audioData, audioData.SoundEffectsVolume, audioData.SoundEffectsVolumeSettings, audioData.SoundEffectsMuteSettings);
-			UpdateVolumeDb(audioData, audioData.VoicesVolume, audioData.VoicesVolumeSettings, audioData.VoicesMuteSettings);
-			UpdateVolumeDb(audioData, audioData.AmbienceVolume, audioData.AmbienceVolumeSettings, audioData.AmbienceMuteSettings);
-
-			// Subscribe to volume and mute save changes
-			audioData.MainVolumeSettings.OnAfterValueChanged += UpdateMainVolume;
-			audioData.MainMuteSettings.OnAfterValueChanged += UpdateMainVolume;
-
-			audioData.MusicVolumeSettings.OnAfterValueChanged += UpdateMusicVolume;
-			audioData.MusicMuteSettings.OnAfterValueChanged += UpdateMusicVolume;
-
-			audioData.SoundEffectsVolumeSettings.OnAfterValueChanged += UpdateSoundEffectsVolume;
-			audioData.SoundEffectsMuteSettings.OnAfterValueChanged += UpdateSoundEffectsVolume;
-
-			audioData.VoicesVolumeSettings.OnAfterValueChanged += UpdateVoiceVolume;
-			audioData.VoicesMuteSettings.OnAfterValueChanged += UpdateVoiceVolume;
-
-			audioData.AmbienceVolumeSettings.OnAfterValueChanged += UpdateAmbienceVolume;
-			audioData.AmbienceMuteSettings.OnAfterValueChanged += UpdateAmbienceVolume;
-
-			// Check the TimeManager event
-			TimeManager.OnAfterManualPauseChanged += OnPauseChanged;
-		}
-
-		protected override void OnDestroy()
-		{
-			// Retrieve settings
-			AudioSettings audioData = GetData();
-
-			// Unsubscribe to events
-			audioData.MainVolumeSettings.OnAfterValueChanged -= UpdateMainVolume;
-			audioData.MainMuteSettings.OnAfterValueChanged -= UpdateMainVolume;
-
-			audioData.MusicVolumeSettings.OnAfterValueChanged -= UpdateMusicVolume;
-			audioData.MusicMuteSettings.OnAfterValueChanged -= UpdateMusicVolume;
-
-			audioData.SoundEffectsVolumeSettings.OnAfterValueChanged -= UpdateSoundEffectsVolume;
-			audioData.SoundEffectsMuteSettings.OnAfterValueChanged -= UpdateSoundEffectsVolume;
-
-			audioData.VoicesVolumeSettings.OnAfterValueChanged -= UpdateVoiceVolume;
-			audioData.VoicesMuteSettings.OnAfterValueChanged -= UpdateVoiceVolume;
-
-			audioData.AmbienceVolumeSettings.OnAfterValueChanged -= UpdateAmbienceVolume;
-			audioData.AmbienceMuteSettings.OnAfterValueChanged -= UpdateAmbienceVolume;
-
-			TimeManager.OnAfterManualPauseChanged -= OnPauseChanged;
-
-			// Call destroy
-			base.OnDestroy();
-		}
-
-		#region Events
-		void UpdateMainVolume(float _, float newVolume)
-		{
-			AudioSettings audioData = GetData();
-			UpdateVolumeDb(audioData, audioData.MainVolume, newVolume, audioData.MainMuteSettings);
-		}
-
-		void UpdateMainVolume(bool _, bool isMute)
-		{
-			AudioSettings audioData = GetData();
-			UpdateVolumeDb(audioData, audioData.MainVolume, audioData.MainVolumeSettings, isMute);
-		}
-
-		void UpdateMusicVolume(float _, float newVolume)
-		{
-			AudioSettings audioData = GetData();
-			UpdateVolumeDb(audioData, audioData.MusicVolume, newVolume, audioData.MusicMuteSettings);
-		}
-
-		void UpdateMusicVolume(bool _, bool isMute)
-		{
-			AudioSettings audioData = GetData();
-			UpdateVolumeDb(audioData, audioData.MusicVolume, audioData.MusicVolumeSettings, isMute);
-		}
-
-		void UpdateSoundEffectsVolume(float _, float newVolume)
-		{
-			AudioSettings audioData = GetData();
-			UpdateVolumeDb(audioData, audioData.SoundEffectsVolume, newVolume, audioData.SoundEffectsMuteSettings);
-		}
-
-		void UpdateSoundEffectsVolume(bool _, bool isMute)
-		{
-			AudioSettings audioData = GetData();
-			UpdateVolumeDb(audioData, audioData.SoundEffectsVolume, audioData.SoundEffectsVolumeSettings, isMute);
-		}
-
-		void UpdateVoiceVolume(float _, float newVolume)
-		{
-			AudioSettings audioData = GetData();
-			UpdateVolumeDb(audioData, audioData.VoicesVolume, newVolume, audioData.VoicesMuteSettings);
-		}
-
-		void UpdateVoiceVolume(bool _, bool isMute)
-		{
-			AudioSettings audioData = GetData();
-			UpdateVolumeDb(audioData, audioData.VoicesVolume, audioData.VoicesVolumeSettings, isMute);
-		}
-
-		void UpdateAmbienceVolume(float _, float newVolume)
-		{
-			AudioSettings audioData = GetData();
-			UpdateVolumeDb(audioData, audioData.AmbienceVolume, newVolume, audioData.AmbienceMuteSettings);
-		}
-
-		void UpdateAmbienceVolume(bool _, bool isMute)
-		{
-			AudioSettings audioData = GetData();
-			UpdateVolumeDb(audioData, audioData.AmbienceVolume, audioData.AmbienceVolumeSettings, isMute);
-		}
-		#endregion
-
-		#region Helper Methods
-		static float GetVolumeDb(AudioSettings setting, string fieldName) => GetMixerFloat(setting, fieldName, setting.MuteVolumeDb);
-
-		static float GetPitch(AudioSettings setting, string fieldName) => GetMixerFloat(setting, fieldName, 1);
-
-		static float GetMixerFloat(AudioSettings setting, string fieldName, float defaultValue)
-		{
-			float returnValue = defaultValue;
-			if (string.IsNullOrEmpty(fieldName) == false)
+			protected override IEnumerator OnSetup()
 			{
-				setting.Mixer.GetFloat(fieldName, out returnValue);
+				// Setup everything
+				yield return StartCoroutine(base.OnSetup());
+
+				// Retrieve settings
+				AudioSettings audioData = GetData();
+
+				// Setup vaolume to current settings
+				audioData.Main.Setup();
+				audioData.Music.Setup();
+				audioData.SoundEffects.Setup();
+				audioData.Voices.Setup();
+				audioData.Ambience.Setup();
+
+				// Check the TimeManager event
+				TimeManager.OnAfterManualPauseChanged += OnPauseChanged;
 			}
-			return returnValue;
-		}
 
-		static float ConvertPercentToVolumeDb(AudioSettings settings, float percent) => settings.TimeToVolumeDbCurve.Evaluate(percent);
-
-		static void SetMixerFloat(AudioSettings setting, string fieldName, float newValue)
-		{
-			if (string.IsNullOrEmpty(fieldName) == false)
+			protected override void OnDestroy()
 			{
-				setting.Mixer.SetFloat(fieldName, newValue);
+				// Retrieve settings
+				AudioSettings audioData = GetData();
+
+				// Unsubscribe to events
+				audioData.Main.Dispose();
+				audioData.Music.Dispose();
+				audioData.SoundEffects.Dispose();
+				audioData.Voices.Dispose();
+				audioData.Ambience.Dispose();
+
+				// Check the TimeManager event
+				TimeManager.OnAfterManualPauseChanged -= OnPauseChanged;
+
+				// Call destroy
+				base.OnDestroy();
 			}
-		}
 
-		static void UpdateVolumeDb(AudioSettings setting, string fieldName, float volumePercent, bool isMuted)
-		{
-			float volumeDb = setting.MuteVolumeDb;
-			if (isMuted == false)
+			void OnPauseChanged(TimeManager pauseCheck)
 			{
-				volumeDb = ConvertPercentToVolumeDb(setting, volumePercent);
-			}
-			SetMixerFloat(setting, fieldName, volumeDb);
-		}
-
-		static void UpdateVolumeDb(AudioSettings setting, string fieldName, SaveFloat volumePercent, SaveBool isMuted) => UpdateVolumeDb(setting, fieldName, volumePercent.Value, isMuted.Value);
-		static void UpdateVolumeDb(AudioSettings setting, string fieldName, float volumePercent, SaveBool isMuted) => UpdateVolumeDb(setting, fieldName, volumePercent, isMuted.Value);
-		static void UpdateVolumeDb(AudioSettings setting, string fieldName, SaveFloat volumePercent, bool isMuted) => UpdateVolumeDb(setting, fieldName, volumePercent.Value, isMuted);
-
-		void OnPauseChanged(TimeManager pauseCheck)
-		{
-			AudioSettings settings = GetData();
-			if (string.IsNullOrEmpty(settings.DuckingLevel) == false)
-			{
-				if (TimeManager.IsManuallyPaused == true)
+				AudioSettings settings = GetData();
+				if (string.IsNullOrEmpty(settings.DuckParam) == false)
 				{
-					settings.Mixer.SetFloat(settings.DuckingLevel, 0f);
-				}
-				else
-				{
-					settings.Mixer.SetFloat(settings.DuckingLevel, MuteVolumeDb);
+					if (TimeManager.IsManuallyPaused == true)
+					{
+						settings.Mixer.SetFloat(settings.DuckParam, 0f);
+					}
+					else
+					{
+						settings.Mixer.SetFloat(settings.DuckParam, MuteVolumeDb);
+					}
 				}
 			}
 		}
-		#endregion
 	}
 }

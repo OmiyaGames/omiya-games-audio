@@ -92,16 +92,16 @@ namespace OmiyaGames.Audio.Editor
 			{
 				AudioSettings audio = ActiveSettings;
 				int dataAdded = SavesSettingsProvider.AddSaveData(
-					audio.MainVolumeSettings
-					, audio.MainMuteSettings
-					, audio.MusicVolumeSettings
-					, audio.MusicMuteSettings
-					, audio.SoundEffectsVolumeSettings
-					, audio.SoundEffectsMuteSettings
-					, audio.VoicesVolumeSettings
-					, audio.VoicesMuteSettings
-					, audio.AmbienceVolumeSettings
-					, audio.AmbienceMuteSettings);
+					audio.Main.VolumeSaver
+					, audio.Main.IsMutedSaver
+					, audio.Music.VolumeSaver
+					, audio.Music.IsMutedSaver
+					, audio.SoundEffects.VolumeSaver
+					, audio.SoundEffects.IsMutedSaver
+					, audio.Voices.VolumeSaver
+					, audio.Voices.IsMutedSaver
+					, audio.Ambience.VolumeSaver
+					, audio.Ambience.IsMutedSaver);
 				EditorUtility.DisplayDialog("Added Save Data", $"Added {dataAdded} save data objects into save settings.", "OK");
 			});
 			return base.CustomizeEditSettingsTree(returnTree, serializedSettings);

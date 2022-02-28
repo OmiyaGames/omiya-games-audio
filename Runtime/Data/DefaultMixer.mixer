@@ -121,26 +121,6 @@ AudioMixerGroupController:
   m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
---- !u!245 &-6511766988523977430
-AudioMixerSnapshotController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Omnipresent Music 2, Ambience 1
-  m_AudioMixer: {fileID: 24100000}
-  m_SnapshotID: e425bb6d99220b3489eed2dee4e7534c
-  m_FloatValues:
-    af5ea012dbc15ad48b10d685761cbb60: -80
-    81ce37e28f114164e9b5f3aaad13279f: 0
-    b71f8df391b331e4282e3b5f4fece85d: -80
-    98645516a7baf4f3aacf3de40f26fdee: -80
-    b67221e63e5be5a489e2f0a06590f604: -20
-    e2b695c8c9cfe2d47aa85cf2e364aca2: 0
-    fd19e09b2e0937942a53b3e52cfc8e64: -20
-    2fc9ac8c8e7b64323b9d95d38bc73f8d: 0
-    9f797e9faca6d494f9fc3b7e44e9af00: -20
-  m_TransitionOverrides: {}
 --- !u!243 &-6391479308386628390
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
@@ -160,29 +140,6 @@ AudioMixerGroupController:
   m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
---- !u!245 &-5561378140290427868
-AudioMixerSnapshotController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Omnipresent Music 1, Ambience 2
-  m_AudioMixer: {fileID: 24100000}
-  m_SnapshotID: 6ec316dcd6518a84994c67eebf037379
-  m_FloatValues:
-    af5ea012dbc15ad48b10d685761cbb60: 0
-    81ce37e28f114164e9b5f3aaad13279f: -80
-    ca920306a1a09514bbd3b42b9105f2ba: -80
-    b67221e63e5be5a489e2f0a06590f604: -20
-    cc5d97e61b3b90646aa1dad7bd4d4e70: -80
-    e2b695c8c9cfe2d47aa85cf2e364aca2: -80
-    fd19e09b2e0937942a53b3e52cfc8e64: -20
-    20b7214c5b4f201479d8e9531621abeb: -80
-    2fc9ac8c8e7b64323b9d95d38bc73f8d: -80
-    9f797e9faca6d494f9fc3b7e44e9af00: -20
-  m_TransitionOverrides:
-    98645516a7baf4f3aacf3de40f26fdee: 1
-    2fc9ac8c8e7b64323b9d95d38bc73f8d: 1
 --- !u!244 &-4958829173843992979
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
@@ -255,7 +212,7 @@ AudioMixerGroupController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: UI Effects
+  m_Name: Background
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: fcebff229c145d34fa6f42f329d6641b
   m_Children:
@@ -481,7 +438,7 @@ AudioMixerController:
     - fc5c7f3ae7ffb074aabb7dfad9246340
     - d1e5c9bb7cb67cf4b808310e5d29b724
     name: Categories View
-  m_CurrentViewIndex: 0
+  m_CurrentViewIndex: 1
   m_TargetSnapshot: {fileID: 24508402}
 --- !u!243 &24300001
 AudioMixerGroupController:
@@ -493,9 +450,9 @@ AudioMixerGroupController:
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 85a3cd409246d4f4293755caae9e4fb8
   m_Children:
-  - {fileID: -3467531491366739256}
   - {fileID: 24360054}
   - {fileID: -7890391247856025426}
+  - {fileID: -3467531491366739256}
   m_Volume: dce2c1f3936dc4ed59d5cb1b8e7bf448
   m_Pitch: fdde9ce9af59b479c9b91259d14a0106
   m_Send: 00000000000000000000000000000000
@@ -537,8 +494,8 @@ AudioMixerGroupController:
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 4854eba0ffcd7574687cd87ec89cb544
   m_Children:
-  - {fileID: 1275400074857829492}
   - {fileID: -3554993151468984194}
+  - {fileID: 1275400074857829492}
   m_Volume: 1255ecf40ecad19428364df5e58ac6f2
   m_Pitch: d2fca1b9e1170064c9c248b2fa26dae4
   m_Send: 00000000000000000000000000000000
@@ -680,26 +637,6 @@ AudioMixerSnapshotController:
   m_TransitionOverrides:
     98645516a7baf4f3aacf3de40f26fdee: 1
     2fc9ac8c8e7b64323b9d95d38bc73f8d: 1
---- !u!245 &24577990
-AudioMixerSnapshotController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Omnipresent Music 2, Ambience 2
-  m_AudioMixer: {fileID: 24100000}
-  m_SnapshotID: 792851e40137c41f48d39d57c7182795
-  m_FloatValues:
-    af5ea012dbc15ad48b10d685761cbb60: 0
-    81ce37e28f114164e9b5f3aaad13279f: 0
-    b71f8df391b331e4282e3b5f4fece85d: -80
-    98645516a7baf4f3aacf3de40f26fdee: -80
-    b67221e63e5be5a489e2f0a06590f604: -20
-    e2b695c8c9cfe2d47aa85cf2e364aca2: -80
-    fd19e09b2e0937942a53b3e52cfc8e64: -20
-    2fc9ac8c8e7b64323b9d95d38bc73f8d: 0
-    9f797e9faca6d494f9fc3b7e44e9af00: -20
-  m_TransitionOverrides: {}
 --- !u!243 &284820087614726871
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
@@ -859,8 +796,8 @@ AudioMixerGroupController:
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 8e291adffb4196e468768423e96f8189
   m_Children:
-  - {fileID: -2905697443491540066}
   - {fileID: 4901600072254744840}
+  - {fileID: -2905697443491540066}
   m_Volume: e49f30c123552d142a3fa8fdbaafffe1
   m_Pitch: 3a9fcacb46ac6d646b1b28bca27fa278
   m_Send: 00000000000000000000000000000000
