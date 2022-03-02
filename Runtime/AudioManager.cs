@@ -131,7 +131,11 @@ namespace OmiyaGames.Audio
 				audioData.Ambience.Setup();
 
 				// Check the TimeManager event
-				TimeManager.OnAfterManualPauseChanged += OnPauseChanged;
+				OnPauseChanged(false, TimeManager.IsManuallyPaused);
+				TimeManager.OnAfterIsManuallyPausedChanged += OnPauseChanged;
+
+				// Pause a frame
+				yield return null;
 			}
 
 			protected override void OnDestroy()
@@ -147,18 +151,18 @@ namespace OmiyaGames.Audio
 				audioData.Ambience.Dispose();
 
 				// Check the TimeManager event
-				TimeManager.OnAfterManualPauseChanged -= OnPauseChanged;
+				TimeManager.OnAfterIsManuallyPausedChanged -= OnPauseChanged;
 
 				// Call destroy
 				base.OnDestroy();
 			}
 
-			void OnPauseChanged(TimeManager pauseCheck)
+			void OnPauseChanged(bool _, bool newValue)
 			{
 				AudioSettings settings = GetData();
 				if (string.IsNullOrEmpty(settings.DuckParam) == false)
 				{
-					if (TimeManager.IsManuallyPaused == true)
+					if (newValue == true)
 					{
 						settings.Mixer.SetFloat(settings.DuckParam, 0f);
 					}
