@@ -73,91 +73,108 @@ namespace OmiyaGames.Audio
 		public const string UXML_PATH = "Packages/com.omiyagames.audio/Editor/Audio.uxml";
 
 		/// <summary>
-		/// TODO
+		/// Indicates whether the manager is either still
+		/// in the middle of setting up, or is already setup.
 		/// </summary>
+		public static Data.Status Status => AudioSettingsManager.GetDataStatus();
+
+		/// <summary>
+		/// A coroutine to setup this manager.
+		/// </summary>
+		/// <param name="forceSetup"></param>
 		/// <returns></returns>
-		public static IEnumerator Setup()
+		public static IEnumerator Setup(bool forceSetup = false)
 		{
-			yield return Manager.StartCoroutine(AudioSettingsManager.WaitUntilReady());
+			yield return Manager.StartCoroutine(AudioSettingsManager.Setup(forceSetup));
 		}
+
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public static AudioMixer Mixer => AudioSettingsManager.GetData().Mixer;
+		public static AudioMixer Mixer => AudioSettingsManager.GetDataOrThrow().Mixer;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public static AudioLayer Main => AudioSettingsManager.GetData().Main;
+		public static AudioLayer Main => AudioSettingsManager.GetDataOrThrow().Main;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public static AudioLayer.Background Music => AudioSettingsManager.GetData().Music;
+		public static AudioLayer.Background Music => AudioSettingsManager.GetDataOrThrow().Music;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public static AudioLayer.Spatial SoundEffects => AudioSettingsManager.GetData().SoundEffects;
+		public static AudioLayer.Spatial SoundEffects => AudioSettingsManager.GetDataOrThrow().SoundEffects;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public static AudioLayer.Spatial Voices => AudioSettingsManager.GetData().Voices;
+		public static AudioLayer.Spatial Voices => AudioSettingsManager.GetDataOrThrow().Voices;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public static AudioLayer.Background Ambience => AudioSettingsManager.GetData().Ambience;
+		public static AudioLayer.Background Ambience => AudioSettingsManager.GetDataOrThrow().Ambience;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public static float MuteVolumeDb => AudioSettingsManager.GetData().MuteVolumeDb;
+		public static float MuteVolumeDb => AudioSettingsManager.GetDataOrThrow().MuteVolumeDb;
 
 		/// <summary>
 		/// TODO
 		/// </summary>
 		/// <param name="percent"></param>
 		/// <returns></returns>
-		public static float ConvertPercentToVolumeDb(float percent) => AudioSettingsManager.GetData().PercentToDbCurve.Evaluate(percent);
+		public static float ConvertPercentToVolumeDb(float percent) =>
+			AudioSettingsManager.GetDataOrThrow().PercentToDbCurve.Evaluate(percent);
 
 		class AudioSettingsManager : BaseSettingsManager<AudioSettingsManager, AudioSettings>
 		{
+			Data.Status status = Global.Settings.Data.Status.Fail;
+
 			/// <inheritdoc/>
 			protected override string AddressableName => ADDRESSABLE_NAME;
 
+			/// <inheritdoc/>
+			public override Data.Status GetStatus() => status;
+
 			protected override IEnumerator OnSetup()
 			{
+				// Reset status
+				status = Global.Settings.Data.Status.Loading;
+
 				// Setup dependencies
 				yield return Manager.StartCoroutine(SavesManager.Setup());
+				if (SavesManager.Status == Global.Settings.Data.Status.Fail)
+				{
+					// Indicate dependencies failed to load
+					status = Global.Settings.Data.Status.Fail;
+					yield break;
+				}
 
 				// Setup data
 				yield return Manager.StartCoroutine(base.OnSetup());
 
-				// Retrieve settings
-				AudioSettings audioData = GetData();
-
-				// Setup vaolume to current settings
-				audioData.Main.Setup();
-				audioData.Music.Setup();
-				audioData.SoundEffects.Setup();
-				audioData.Voices.Setup();
-				audioData.Ambience.Setup();
+				// Setup volume to current settings
+				Data.Main.Setup();
+				Data.Music.Setup();
+				Data.SoundEffects.Setup();
+				Data.Voices.Setup();
+				Data.Ambience.Setup();
 
 				// Check the TimeManager event
 				OnPauseChanged(false, TimeManager.IsManuallyPaused);
 				TimeManager.OnAfterIsManuallyPausedChanged += OnPauseChanged;
 
-				// Pause a frame
-				yield return null;
+				// Update status
+				status = base.GetStatus();
 			}
 
 			protected override void OnDestroy()
 			{
-				// Retrieve settings
-				AudioSettings audioData = GetData();
-
 				// Unsubscribe to events
-				audioData.Main.Dispose();
-				audioData.Music.Dispose();
-				audioData.SoundEffects.Dispose();
-				audioData.Voices.Dispose();
-				audioData.Ambience.Dispose();
+				Data.Main.Dispose();
+				Data.Music.Dispose();
+				Data.SoundEffects.Dispose();
+				Data.Voices.Dispose();
+				Data.Ambience.Dispose();
 
 				// Check the TimeManager event
 				TimeManager.OnAfterIsManuallyPausedChanged -= OnPauseChanged;
