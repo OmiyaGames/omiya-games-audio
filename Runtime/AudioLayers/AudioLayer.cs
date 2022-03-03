@@ -50,7 +50,7 @@ namespace OmiyaGames.Audio
 	/// Base info on each audio category.
 	/// </summary>
 	[Serializable]
-	public partial class Layer : IDisposable
+	public partial class AudioLayer : IDisposable
 	{
 		[SerializeField]
 		[Tooltip("The SaveObject storing volume settings for this layer.")]
@@ -66,9 +66,9 @@ namespace OmiyaGames.Audio
 		string pitchParam;
 
 		/// <summary>
-		/// A sublayer to <seealso cref="Layer"/>
+		/// A sublayer to <seealso cref="AudioLayer"/>
 		/// </summary>
-		public abstract class SubLayer : Layer
+		public abstract class SubLayer : AudioLayer
 		{
 			[SerializeField]
 			[Tooltip("The default mixer group to attach to the audio source if a script associated with this layer is created.")]

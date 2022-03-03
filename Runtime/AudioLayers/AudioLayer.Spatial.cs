@@ -3,7 +3,7 @@ using UnityEngine.Audio;
 
 namespace OmiyaGames.Audio
 {
-	public partial class Layer
+	public partial class AudioLayer
 	{
 		///-----------------------------------------------------------------------
 		/// <remarks>

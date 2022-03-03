@@ -71,15 +71,15 @@ namespace OmiyaGames.Audio
 		string duckParam = "Duck Level";
 
 		[SerializeField]
-		Layer main = new();
+		AudioLayer main = new();
 		[SerializeField]
-		Layer.Background music = new();
+		AudioLayer.Background music = new();
 		[SerializeField]
-		Layer.Spatial soundEffects = new();
+		AudioLayer.Spatial soundEffects = new();
 		[SerializeField]
-		Layer.Spatial voices = new();
+		AudioLayer.Spatial voices = new();
 		[SerializeField]
-		Layer.Background ambience = new();
+		AudioLayer.Background ambience = new();
 
 		/// <summary>
 		/// The main mixer of this game.
@@ -97,23 +97,23 @@ namespace OmiyaGames.Audio
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public Layer Main => main;
+		public AudioLayer Main => main;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public Layer.Background Music => music;
+		public AudioLayer.Background Music => music;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public Layer.Spatial SoundEffects => soundEffects;
+		public AudioLayer.Spatial SoundEffects => soundEffects;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public Layer.Spatial Voices => voices;
+		public AudioLayer.Spatial Voices => voices;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public Layer.Background Ambience => ambience;
+		public AudioLayer.Background Ambience => ambience;
 		/// <summary>
 		/// TODO
 		/// </summary>

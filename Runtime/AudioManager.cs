@@ -1,10 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.Audio;
-using OmiyaGames.Saves;
 using OmiyaGames.Managers;
-using OmiyaGames.Global;
 using OmiyaGames.Global.Settings;
 
 namespace OmiyaGames.Audio
@@ -81,23 +77,23 @@ namespace OmiyaGames.Audio
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public static Layer Main => AudioSettingsManager.GetData().Main;
+		public static AudioLayer Main => AudioSettingsManager.GetData().Main;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public static Layer.Background Music => AudioSettingsManager.GetData().Music;
+		public static AudioLayer.Background Music => AudioSettingsManager.GetData().Music;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public static Layer.Spatial SoundEffects => AudioSettingsManager.GetData().SoundEffects;
+		public static AudioLayer.Spatial SoundEffects => AudioSettingsManager.GetData().SoundEffects;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public static Layer.Spatial Voices => AudioSettingsManager.GetData().Voices;
+		public static AudioLayer.Spatial Voices => AudioSettingsManager.GetData().Voices;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public static Layer.Background Ambience => AudioSettingsManager.GetData().Ambience;
+		public static AudioLayer.Background Ambience => AudioSettingsManager.GetData().Ambience;
 		/// <summary>
 		/// TODO
 		/// </summary>
