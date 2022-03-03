@@ -175,10 +175,9 @@ namespace OmiyaGames.Audio
 		#region Helper Methods
 		float GetMixerFloat(string fieldName, float defaultValue)
 		{
-			float returnValue = defaultValue;
-			if (string.IsNullOrEmpty(fieldName) == false)
+			if (string.IsNullOrEmpty(fieldName) || (AudioManager.Mixer.GetFloat(fieldName, out float returnValue) == false))
 			{
-				AudioManager.Mixer.GetFloat(fieldName, out returnValue);
+				returnValue = defaultValue;
 			}
 			return returnValue;
 		}
