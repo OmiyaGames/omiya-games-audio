@@ -1,7 +1,9 @@
 using System.Collections;
 using UnityEngine.Audio;
 using OmiyaGames.Managers;
+using OmiyaGames.Global;
 using OmiyaGames.Global.Settings;
+using OmiyaGames.Saves;
 
 namespace OmiyaGames.Audio
 {
@@ -73,6 +75,14 @@ namespace OmiyaGames.Audio
 		/// <summary>
 		/// TODO
 		/// </summary>
+		/// <returns></returns>
+		public static IEnumerator Setup()
+		{
+			yield return Manager.StartCoroutine(AudioSettingsManager.WaitUntilReady());
+		}
+		/// <summary>
+		/// TODO
+		/// </summary>
 		public static AudioMixer Mixer => AudioSettingsManager.GetData().Mixer;
 		/// <summary>
 		/// TODO
@@ -113,8 +123,11 @@ namespace OmiyaGames.Audio
 
 			protected override IEnumerator OnSetup()
 			{
-				// Setup everything
-				yield return StartCoroutine(base.OnSetup());
+				// Setup dependencies
+				yield return Manager.StartCoroutine(SavesManager.Setup());
+
+				// Setup data
+				yield return Manager.StartCoroutine(base.OnSetup());
 
 				// Retrieve settings
 				AudioSettings audioData = GetData();
