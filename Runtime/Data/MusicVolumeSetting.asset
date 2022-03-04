@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: MusicVolumeSetting
   m_EditorClassIdentifier: 
   key: Music Volume
-  defaultValue: 0.9
   comments: The volume for music.
+  defaultValue: 0.6
+  onLoadFailed: 2
   hasMin: 1
   minValue: 0
   hasMax: 1

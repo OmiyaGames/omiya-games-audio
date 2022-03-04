@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: VoicesVolumeSetting
   m_EditorClassIdentifier: 
   key: Voice Volume
-  defaultValue: 1
   comments: The volume for voices.
+  defaultValue: 0.75
+  onLoadFailed: 2
   hasMin: 1
   minValue: 0
   hasMax: 1

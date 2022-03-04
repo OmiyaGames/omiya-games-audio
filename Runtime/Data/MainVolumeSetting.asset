@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: MainVolumeSetting
   m_EditorClassIdentifier: 
   key: Main Volume
-  defaultValue: 0.7
   comments: The maximum volume for any audio category.
+  defaultValue: 0.85
+  onLoadFailed: 2
   hasMin: 1
   minValue: 0
   hasMax: 1

@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: SoundEffectsVolumeSetting
   m_EditorClassIdentifier: 
   key: Sound Volume
-  defaultValue: 1
   comments: The volume for sound effects.
+  defaultValue: 0.9
+  onLoadFailed: 2
   hasMin: 1
   minValue: 0
   hasMax: 1
