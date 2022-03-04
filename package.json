@@ -15,8 +15,7 @@
   },
   "dependencies": {
     "com.unity.ext.nunit": "1.0.0",
-    "com.omiyagames.saves": "0.2.2-exp.1",
-    "com.omiyagames.managers": "1.0.1-pre.2"
+    "com.omiyagames.managers": "1.0.1-pre.3"
   },
   "keywords": [
     "Omiya Games",
