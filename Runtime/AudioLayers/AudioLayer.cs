@@ -152,7 +152,7 @@ namespace OmiyaGames.Audio
 		/// <param name="settings">
 		/// TODO
 		/// </param>
-		public void Setup()
+		internal void Setup()
 		{
 			// Setup the volume DB
 			UpdateVolumeDb(VolumePercent, IsMuted);
