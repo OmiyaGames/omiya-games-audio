@@ -6,6 +6,7 @@ using OmiyaGames.Saves;
 namespace OmiyaGames.Audio
 {
 	///-----------------------------------------------------------------------
+	/// <remarks>
 	/// <copyright file="AudioSettings.cs" company="Omiya Games">
 	/// The MIT License (MIT)
 	/// 
@@ -56,31 +57,6 @@ namespace OmiyaGames.Audio
 		/// <inheritdoc/>
 		public override int CurrentVersion => 0;
 
-		[System.Serializable]
-		public struct TimeScaleModifiers
-		{
-			[SerializeField]
-			AudioMixer mixer;
-			[SerializeField]
-			AudioMixerSnapshot defaultSnapshot;
-			[SerializeField]
-			AudioMixerSnapshot pausedSnapshot;
-			// TODO: look into changing audio based on time scale change later
-
-			/// <summary>
-			/// TODO
-			/// </summary>
-			public AudioMixer Mixer => mixer;
-			/// <summary>
-			/// TODO
-			/// </summary>
-			public AudioMixerSnapshot DefaultSnapshot => defaultSnapshot;
-			/// <summary>
-			/// TODO
-			/// </summary>
-			public AudioMixerSnapshot PausedSnapshot => pausedSnapshot;
-		}
-
 		// Note: many of these variable defaults are set in the Reset() method.
 		[SerializeField]
 		AudioMixer mixer;
@@ -103,7 +79,7 @@ namespace OmiyaGames.Audio
 		AudioLayer.Background ambience = new();
 
 		[SerializeField]
-		TimeScaleModifiers[] timeScaleSnapshots;
+		TimeScaleAudioModifiers[] timeScaleSnapshots;
 
 		/// <summary>
 		/// The main mixer of this game.
@@ -141,7 +117,7 @@ namespace OmiyaGames.Audio
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public TimeScaleModifiers[] TimeScaleSnapshots => timeScaleSnapshots;
+		public TimeScaleAudioModifiers[] TimeScaleSnapshots => timeScaleSnapshots;
 
 		/// <inheritdoc/>
 		protected override bool OnUpgrade(int oldVersion, out string errorMessage)

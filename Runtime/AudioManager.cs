@@ -132,12 +132,19 @@ namespace OmiyaGames.Audio
 			{
 				Default = 0,
 				Paused,
+				Slow,
+				Quicken,
 				NumberOfTypes
 			}
 
+			class SnapshotSet
+			{
+				public readonly AudioMixerSnapshot[] cache = new AudioMixerSnapshot[(int)SnapshotType.NumberOfTypes];
+				public readonly float[] weights = new float[(int)SnapshotType.NumberOfTypes];
+			}
+
 			Data.Status status = Global.Settings.Data.Status.Fail;
-			AudioMixerSnapshot[][] snapshotListCache = null;
-			float[][] snapshotWeightsCache = null;
+			SnapshotSet[] snapshots = null;
 
 			/// <inheritdoc/>
 			protected override string AddressableName => ADDRESSABLE_NAME;
@@ -174,6 +181,7 @@ namespace OmiyaGames.Audio
 
 				// Check the TimeManager event
 				UpdateSnapshots(TimeManager.TimeScale, TimeManager.IsManuallyPaused);
+				TimeManager.OnAfterTimeScaleChanged += OnTimeScaleChanged;
 				TimeManager.OnAfterIsManuallyPausedChanged += OnPauseChanged;
 			}
 
@@ -187,6 +195,7 @@ namespace OmiyaGames.Audio
 				Data.Ambience.Dispose();
 
 				// Check the TimeManager event
+				TimeManager.OnAfterTimeScaleChanged -= OnTimeScaleChanged;
 				TimeManager.OnAfterIsManuallyPausedChanged -= OnPauseChanged;
 
 				// Call destroy
@@ -194,50 +203,70 @@ namespace OmiyaGames.Audio
 			}
 
 			void OnPauseChanged(bool _, bool newValue) => UpdateSnapshots(TimeManager.TimeScale, newValue);
-
+			void OnTimeScaleChanged(float _, float newValue) => UpdateSnapshots(newValue, TimeManager.IsManuallyPaused);
 			void UpdateSnapshots(float currentTimeScale, bool isPaused)
 			{
+				// Check if there are any time scale snapshots to adjust
 				AudioSettings settings = GetData();
+				if (settings.TimeScaleSnapshots.Length == 0)
+				{
+					return;
+				}
 
 				// Setup cache, if it hasn't been already
-				if ((snapshotListCache == null) || (snapshotWeightsCache == null))
+				if (snapshots == null)
 				{
 					SetupCache(settings);
 				}
 
 				for (int i = 0; i < settings.TimeScaleSnapshots.Length; ++i)
 				{
+					TimeScaleAudioModifiers modifier = settings.TimeScaleSnapshots[i];
 					for (int j = 0; j < (int)SnapshotType.NumberOfTypes; ++j)
 					{
 						// Set the weight of the snapshot
-						snapshotWeightsCache[i][j] = GetSnapshotWeight(currentTimeScale, isPaused, (SnapshotType)j);
+						snapshots[i].weights[j] = GetWeight(currentTimeScale, isPaused, (SnapshotType)j, in modifier);
 					}
 
 					// Update all mixer with snapshot blend states
-					settings.TimeScaleSnapshots[i].Mixer.TransitionToSnapshots(snapshotListCache[i], snapshotWeightsCache[i], 0f);
+					AudioMixer mixer = modifier.Mixer;
+					if (mixer == null)
+					{
+						mixer = settings.Mixer;
+					}
+					mixer.TransitionToSnapshots(snapshots[i].cache, snapshots[i].weights, 0f);
+
+					// Update pitch
+					string paramName = settings.TimeScaleSnapshots[i].PitchParam;
+					if (string.IsNullOrEmpty(paramName) == false)
+					{
+						mixer.SetFloat(paramName, GetPitch(currentTimeScale, in modifier));
+					}
 				}
 
 				void SetupCache(AudioSettings settings)
 				{
-					snapshotListCache = new AudioMixerSnapshot[settings.TimeScaleSnapshots.Length][];
-					snapshotWeightsCache = new float[settings.TimeScaleSnapshots.Length][];
+					// FIXME: adjust the cache to take into account that some snapshot fields might be null
+					snapshots = new SnapshotSet[settings.TimeScaleSnapshots.Length];
 
-					for (int i = 0; i < settings.TimeScaleSnapshots.Length; ++i)
+					for (int i = 0; i < snapshots.Length; ++i)
 					{
 						// Just map the snapshots per category
-						snapshotListCache[i] = new AudioMixerSnapshot[(int)SnapshotType.NumberOfTypes];
-						snapshotListCache[i][(int)SnapshotType.Default] = settings.TimeScaleSnapshots[i].DefaultSnapshot;
-						snapshotListCache[i][(int)SnapshotType.Paused] = settings.TimeScaleSnapshots[i].PausedSnapshot;
+						snapshots[i] = new SnapshotSet();
+						snapshots[i].cache[(int)SnapshotType.Default] = settings.TimeScaleSnapshots[i].DefaultSnapshot;
+						snapshots[i].cache[(int)SnapshotType.Paused] = settings.TimeScaleSnapshots[i].PausedSnapshot;
+						snapshots[i].cache[(int)SnapshotType.Slow] = settings.TimeScaleSnapshots[i].SlowTimeSnapshot;
+						snapshots[i].cache[(int)SnapshotType.Quicken] = settings.TimeScaleSnapshots[i].QuickenTimeSnapshot;
 
 						// Set only the default snapshot with full weight
-						snapshotWeightsCache[i] = new float[(int)SnapshotType.NumberOfTypes];
-						snapshotWeightsCache[i][(int)SnapshotType.Default] = 1f;
+						snapshots[i].weights[(int)SnapshotType.Default] = 1f;
 					}
 				}
 
-				float GetSnapshotWeight(float currentTimeScale, bool isPaused, SnapshotType type)
+				float GetWeight(float currentTimeScale, bool isPaused, SnapshotType type, in TimeScaleAudioModifiers settings)
 				{
 					// Check time scale state
+					// FIXME: adjust the results to take into account that some snapshot fields might be null
 					if (isPaused)
 					{
 						// If paused, weigh pause snapshot to fullest
@@ -248,15 +277,71 @@ namespace OmiyaGames.Audio
 						// If normal, weigh pause snapshot to fullest
 						return (type == SnapshotType.Default) ? 1f : 0;
 					}
-					else if (currentTimeScale < 1f)
+					else
 					{
-						// FIXME: scale time down
-						return (type == SnapshotType.Default) ? 1f : 0;
+						// Grab the appropriate min-max range
+						Vector2 minMaxRange = settings.QuickenTimeRange;
+						if (currentTimeScale < 1f)
+						{
+							minMaxRange = settings.SlowTimeRange;
+						}
+
+						// Compute where the timescale is in this range
+						float time = Mathf.InverseLerp(minMaxRange.x, minMaxRange.y, currentTimeScale);
+
+						// Compute the rate
+						if (currentTimeScale < 1f)
+						{
+							if (type == SnapshotType.Slow)
+							{
+								return 1f - time;
+							}
+							else if (type == SnapshotType.Default)
+							{
+								return time;
+							}
+						}
+						else
+						{
+							if (type == SnapshotType.Quicken)
+							{
+								return time;
+							}
+							else if (type == SnapshotType.Default)
+							{
+								return 1f - time;
+							}
+						}
+						return 0;
+					}
+				}
+
+				float GetPitch(float currentTimeScale, in TimeScaleAudioModifiers settings)
+				{
+					// Check time scale state
+					// FIXME: adjust the results to take into account whether user enabled the feature or not
+					if (Mathf.Approximately(currentTimeScale, 1f))
+					{
+						return 1f;
 					}
 					else
 					{
-						// FIXME: scale time up
-						return (type == SnapshotType.Default) ? 1f : 0;
+						// Grab the appropriate min-max range
+						Vector2 minMaxRange = settings.QuickenTimeRange;
+						if (currentTimeScale < 1f)
+						{
+							minMaxRange = settings.SlowTimeRange;
+						}
+
+						// Compute where the timescale is in this range
+						float time = Mathf.InverseLerp(minMaxRange.x, minMaxRange.y, currentTimeScale);
+
+						// Compute the pitch
+						if (currentTimeScale < 1f)
+						{
+							return Mathf.Lerp(settings.LowestPitch, 1f, time);
+						}
+						return Mathf.Lerp(1f, settings.HighestPitch, time);
 					}
 				}
 			}
