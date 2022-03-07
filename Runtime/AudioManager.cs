@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEngine;
 using UnityEngine.Audio;
 using OmiyaGames.Managers;
 using OmiyaGames.Global;
@@ -127,7 +128,16 @@ namespace OmiyaGames.Audio
 
 		class AudioSettingsManager : BaseSettingsManager<AudioSettingsManager, AudioSettings>
 		{
+			enum SnapshotType
+			{
+				Default = 0,
+				Paused,
+				NumberOfTypes
+			}
+
 			Data.Status status = Global.Settings.Data.Status.Fail;
+			AudioMixerSnapshot[][] snapshotListCache = null;
+			float[][] snapshotWeightsCache = null;
 
 			/// <inheritdoc/>
 			protected override string AddressableName => ADDRESSABLE_NAME;
@@ -163,7 +173,7 @@ namespace OmiyaGames.Audio
 				Data.Ambience.Setup();
 
 				// Check the TimeManager event
-				OnPauseChanged(false, TimeManager.IsManuallyPaused);
+				UpdateSnapshots(TimeManager.TimeScale, TimeManager.IsManuallyPaused);
 				TimeManager.OnAfterIsManuallyPausedChanged += OnPauseChanged;
 			}
 
@@ -183,18 +193,70 @@ namespace OmiyaGames.Audio
 				base.OnDestroy();
 			}
 
-			void OnPauseChanged(bool _, bool newValue)
+			void OnPauseChanged(bool _, bool newValue) => UpdateSnapshots(TimeManager.TimeScale, newValue);
+
+			void UpdateSnapshots(float currentTimeScale, bool isPaused)
 			{
 				AudioSettings settings = GetData();
-				if (string.IsNullOrEmpty(settings.DuckParam) == false)
+
+				// Setup cache, if it hasn't been already
+				if ((snapshotListCache == null) || (snapshotWeightsCache == null))
 				{
-					if (newValue == true)
+					SetupCache(settings);
+				}
+
+				for (int i = 0; i < settings.TimeScaleSnapshots.Length; ++i)
+				{
+					for (int j = 0; j < (int)SnapshotType.NumberOfTypes; ++j)
 					{
-						settings.Mixer.SetFloat(settings.DuckParam, 0f);
+						// Set the weight of the snapshot
+						snapshotWeightsCache[i][j] = GetSnapshotWeight(currentTimeScale, isPaused, (SnapshotType)j);
+					}
+
+					// Update all mixer with snapshot blend states
+					settings.TimeScaleSnapshots[i].Mixer.TransitionToSnapshots(snapshotListCache[i], snapshotWeightsCache[i], 0f);
+				}
+
+				void SetupCache(AudioSettings settings)
+				{
+					snapshotListCache = new AudioMixerSnapshot[settings.TimeScaleSnapshots.Length][];
+					snapshotWeightsCache = new float[settings.TimeScaleSnapshots.Length][];
+
+					for (int i = 0; i < settings.TimeScaleSnapshots.Length; ++i)
+					{
+						// Just map the snapshots per category
+						snapshotListCache[i] = new AudioMixerSnapshot[(int)SnapshotType.NumberOfTypes];
+						snapshotListCache[i][(int)SnapshotType.Default] = settings.TimeScaleSnapshots[i].DefaultSnapshot;
+						snapshotListCache[i][(int)SnapshotType.Paused] = settings.TimeScaleSnapshots[i].PausedSnapshot;
+
+						// Set only the default snapshot with full weight
+						snapshotWeightsCache[i] = new float[(int)SnapshotType.NumberOfTypes];
+						snapshotWeightsCache[i][(int)SnapshotType.Default] = 1f;
+					}
+				}
+
+				float GetSnapshotWeight(float currentTimeScale, bool isPaused, SnapshotType type)
+				{
+					// Check time scale state
+					if (isPaused)
+					{
+						// If paused, weigh pause snapshot to fullest
+						return (type == SnapshotType.Paused) ? 1f : 0;
+					}
+					else if (Mathf.Approximately(currentTimeScale, 1f))
+					{
+						// If normal, weigh pause snapshot to fullest
+						return (type == SnapshotType.Default) ? 1f : 0;
+					}
+					else if (currentTimeScale < 1f)
+					{
+						// FIXME: scale time down
+						return (type == SnapshotType.Default) ? 1f : 0;
 					}
 					else
 					{
-						settings.Mixer.SetFloat(settings.DuckParam, MuteVolumeDb);
+						// FIXME: scale time up
+						return (type == SnapshotType.Default) ? 1f : 0;
 					}
 				}
 			}

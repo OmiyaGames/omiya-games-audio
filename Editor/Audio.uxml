@@ -8,28 +8,22 @@
             <uie:CurveField label="Volume % to dB Curve" binding-path="percentToDbCurve" name="timeToVolumeDbCurve" tooltip="Curve that converts a volume percent (0 to 1) into decibels (e.g. -80 to 0)" tabindex="2" />
         </ui:VisualElement>
         <OmiyaGames.Common.Editor.Spacer />
-        <ui:VisualElement name="effectFields">
-            <ui:Label text="Mixer Effect Parameters" display-tooltip-when-elided="false" name="header" enable-rich-text="false" class="header" />
-            <ui:TextField label="Duck Level" value="Duck Level" text="Duck Level" name="duckLevel" binding-path="duckParam" tooltip="The name of the exposed parameter for ducking level" tabindex="3" />
-        </ui:VisualElement>
-        <OmiyaGames.Common.Editor.Spacer />
         <ui:VisualElement name="audioLayers">
             <ui:Label text="Audio Layers" display-tooltip-when-elided="false" name="header" enable-rich-text="false" class="header" style="flex-direction: row-reverse;" />
-            <OmiyaGames.Common.Editor.Spacer />
-            <uie:PropertyField binding-path="main" tabindex="4" name="main" focusable="true" label="Main Layer" />
-            <OmiyaGames.Common.Editor.Spacer />
-            <uie:PropertyField binding-path="music" tabindex="5" name="music" focusable="true" label="Music Layer" />
-            <OmiyaGames.Common.Editor.Spacer />
-            <uie:PropertyField binding-path="soundEffects" tabindex="6" name="soundEffects" focusable="true" label="Sound Effects Layer" />
-            <OmiyaGames.Common.Editor.Spacer />
-            <uie:PropertyField binding-path="voices" tabindex="7" name="voices" focusable="true" label="Voices Layer" />
-            <OmiyaGames.Common.Editor.Spacer />
-            <uie:PropertyField binding-path="ambience" tabindex="8" name="ambience" focusable="true" label="Ambience Layer" />
+            <uie:PropertyField binding-path="main" tabindex="14" name="main" focusable="true" label="Main Layer" />
+            <uie:PropertyField binding-path="music" tabindex="15" name="music" focusable="true" label="Music Layer" />
+            <uie:PropertyField binding-path="soundEffects" tabindex="16" name="soundEffects" focusable="true" label="Sound Effects Layer" />
+            <uie:PropertyField binding-path="voices" tabindex="17" name="voices" focusable="true" label="Voices Layer" />
+            <uie:PropertyField binding-path="ambience" tabindex="18" name="ambience" focusable="true" label="Ambience Layer" />
         </ui:VisualElement>
-        <OmiyaGames.Common.Editor.Spacer />
         <ui:VisualElement name="buttonRow" style="flex-direction: row;">
             <ui:VisualElement style="flex-shrink: 0; flex-grow: 1;" />
-            <ui:Button text="Add Savers To Saves Settings" display-tooltip-when-elided="true" name="addSaveObjects" tooltip="Adds above saver files into Project Settings." style="-unity-text-align: middle-center;" />
+            <ui:Button text="Add Savers To Saves Settings" display-tooltip-when-elided="true" name="addSaveObjects" tooltip="Adds above saver files into Project Settings." tabindex="19" style="-unity-text-align: middle-center;" />
+        </ui:VisualElement>
+        <OmiyaGames.Common.Editor.Spacer />
+        <ui:VisualElement name="snapshotsFields">
+            <ui:Label text="Snapshots" display-tooltip-when-elided="false" name="header" enable-rich-text="false" class="header" style="flex-direction: row-reverse;" />
+            <uie:PropertyField binding-path="timeScaleSnapshots" tabindex="20" name="timeScaleSnapshots" focusable="true" label="Time Scale Snapshots" tooltip="Snapshots of AudioMixer for various states related to TimeManager&apos;s state" />
         </ui:VisualElement>
         <OmiyaGames.Common.Editor.Spacer />
     </ui:ScrollView>
