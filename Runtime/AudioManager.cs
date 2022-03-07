@@ -152,6 +152,9 @@ namespace OmiyaGames.Audio
 				// Setup data
 				yield return Manager.StartCoroutine(base.OnSetup());
 
+				// Update status (the rest of the code assumes AudioManager setup is finished)
+				status = base.GetStatus();
+
 				// Setup volume to current settings
 				Data.Main.Setup();
 				Data.Music.Setup();
@@ -162,9 +165,6 @@ namespace OmiyaGames.Audio
 				// Check the TimeManager event
 				OnPauseChanged(false, TimeManager.IsManuallyPaused);
 				TimeManager.OnAfterIsManuallyPausedChanged += OnPauseChanged;
-
-				// Update status
-				status = base.GetStatus();
 			}
 
 			protected override void OnDestroy()
