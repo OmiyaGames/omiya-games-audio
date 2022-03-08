@@ -58,6 +58,7 @@ namespace OmiyaGames.Audio
 	/// </summary>
 	/// <seealso cref="AudioSource"/>
 	[RequireComponent(typeof(AudioSource))]
+	[AddComponentMenu("Audio/Sound Effect", 100)]
 	public class SoundEffect : IAudio
 	{
 		public const float MinPitch = -3, MaxPitch = 3;
