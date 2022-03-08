@@ -60,6 +60,7 @@ namespace OmiyaGames.Audio.Editor
 			CreateSoundEffectScript(command, "One-off Sound Effect", out GameObject newObject, out SoundEffect effect, out AudioSource audioSource);
 
 			// Setup each component
+			// TODO: set layer setting to 3
 			effect.IsMutatingPitch = true;
 			effect.IsMutatingVolume = true;
 			SetupSpatialAudioSource(audioSource, GetSettings()?.SoundEffects);
@@ -77,7 +78,7 @@ namespace OmiyaGames.Audio.Editor
 			// Setup each component
 			effect.IsMutatingPitch = false;
 			effect.IsMutatingVolume = true;
-			SetupSpatialAudioSource(audioSource, GetSettings()?.SoundEffects);
+			SetupSpatialAudioSource(audioSource, GetSettings()?.Voices);
 
 			// Register the creation in the undo system
 			Undo.RegisterCreatedObjectUndo(newObject, "Create " + newObject.name);
@@ -91,13 +92,32 @@ namespace OmiyaGames.Audio.Editor
 
 		static void CreateSoundEffectScript(MenuCommand command, string name, out GameObject newObject, out SoundEffect effect, out AudioSource audioSource)
 		{
+			// Check if there's a canvas in the parent
+			bool applyRectTransform = false;
+			GameObject parentObject = command.context as GameObject;
+			if (parentObject != null)
+			{
+				Transform checkIsUx = parentObject.transform;
+				while (checkIsUx != null)
+				{
+					if (checkIsUx is RectTransform || checkIsUx.TryGetComponent<Canvas>(out _))
+					{
+						// Halt if transform is already a rect transform, or it has a Canvas component
+						applyRectTransform = true;
+						break;
+					}
+					checkIsUx = checkIsUx.transform.parent;
+				}
+			}
+
 			// Create a custom game object
-			newObject = new GameObject(name);
+			newObject = applyRectTransform ? new GameObject(name, typeof(RectTransform)) : new GameObject(name);
 
-			// Ensure it gets reparented if this was a context click (otherwise does nothing)
-			GameObjectUtility.SetParentAndAlign(newObject, command.context as GameObject);
+			// Ensure the game object gets parented and named correctly
+			GameObjectUtility.SetParentAndAlign(newObject, parentObject);
+			GameObjectUtility.EnsureUniqueNameForSibling(newObject);
 
-			// Add the appropriate scripts
+			// Add the appropriate components
 			effect = newObject.AddComponent<SoundEffect>();
 			audioSource = newObject.GetComponent<AudioSource>();
 			UnityEditorInternal.ComponentUtility.MoveComponentDown(audioSource);
