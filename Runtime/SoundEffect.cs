@@ -78,7 +78,7 @@ namespace OmiyaGames.Audio
 		/// The allowed range the pitch can mutate from the center pitch
 		/// </summary>
 		[SerializeField]
-		Vector2 pitchMutationRange = new Vector2(0.5f, 1.5f);
+		Vector2 pitchMutationRange = new Vector2(0.75f, 1.25f);
 		/// <summary>
 		/// Whether this sound effect's volume should be mutated
 		/// </summary>
@@ -88,7 +88,7 @@ namespace OmiyaGames.Audio
 		/// The allowed range the volume can mutate from the center pitch
 		/// </summary>
 		[SerializeField]
-		Vector2 volumeMutationRange = new Vector2(0.5f, 1f);
+		Vector2 volumeMutationRange = new Vector2(0.75f, 1f);
 
 		#region Local Properties
 		/// <summary>
@@ -98,10 +98,10 @@ namespace OmiyaGames.Audio
 		{
 			get
 			{
-				float returnVolume = Audio.volume;
-				if (mutateVolume == true)
+				float returnVolume = CurrentAudio.volume;
+				if (IsMutatingVolume == true)
 				{
-					returnVolume = (volumeMutationRange.x + volumeMutationRange.y) / 2f;
+					returnVolume = (VolumeMutationRange.x + VolumeMutationRange.y) / 2f;
 				}
 				return returnVolume;
 			}
@@ -114,10 +114,10 @@ namespace OmiyaGames.Audio
 		{
 			get
 			{
-				float returnPitch = Audio.pitch;
-				if (mutateVolume == true)
+				float returnPitch = CurrentAudio.pitch;
+				if (IsMutatingVolume == true)
 				{
-					returnPitch = (pitchMutationRange.x + pitchMutationRange.y) / 2f;
+					returnPitch = (PitchMutationRange.x + PitchMutationRange.y) / 2f;
 				}
 				return returnPitch;
 			}
@@ -127,6 +127,42 @@ namespace OmiyaGames.Audio
 		/// TODO
 		/// </summary>
 		public RandomList<AudioClip> ClipVariations => clipVariations;
+
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public bool IsMutatingPitch
+		{
+			get => mutatePitch;
+			set => mutatePitch = value;
+		}
+
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public bool IsMutatingVolume
+		{
+			get => mutateVolume;
+			set => mutateVolume = value;
+		}
+
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public Vector2 PitchMutationRange
+		{
+			get => pitchMutationRange;
+			set => pitchMutationRange = value;
+		}
+
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public Vector2 VolumeMutationRange
+		{
+			get => volumeMutationRange;
+			set => volumeMutationRange = value;
+		}
 		#endregion
 
 		#region Unity Events
@@ -135,20 +171,20 @@ namespace OmiyaGames.Audio
 			base.Awake();
 
 			// Check to see if audio already has a clip
-			if (Audio.clip != null)
+			if (CurrentAudio.clip != null)
 			{
 				// If so, check to see if it's already in the list
-				int frequency = ClipVariations.GetFrequency(Audio.clip);
+				int frequency = ClipVariations.GetFrequency(CurrentAudio.clip);
 				if (frequency == 0)
 				{
 					// If not, add it in with default frequency
-					ClipVariations.Add(Audio.clip);
+					ClipVariations.Add(CurrentAudio.clip);
 				}
 			}
 			else if (ClipVariations.Count > 0)
 			{
 				// Add a random clip into the audio, if there aren't any
-				Audio.clip = ClipVariations.NextRandomElement;
+				CurrentAudio.clip = ClipVariations.NextRandomElement;
 			}
 		}
 		#endregion
@@ -159,30 +195,30 @@ namespace OmiyaGames.Audio
 			if ((after == State.Playing) && (before != State.Paused))
 			{
 				// Stop the audio
-				Audio.Stop();
+				CurrentAudio.Stop();
 
 				// Pick a random clip
 				if (ClipVariations.Count > 1)
 				{
-					Audio.clip = ClipVariations.NextRandomElement;
+					CurrentAudio.clip = ClipVariations.NextRandomElement;
 				}
 
 				// Apply pitch mutation
-				if (mutatePitch == true)
+				if (IsMutatingPitch == true)
 				{
 					// Change the audio's pitch
-					Audio.pitch = Random.Range(pitchMutationRange.x, pitchMutationRange.y);
+					CurrentAudio.pitch = Random.Range(PitchMutationRange.x, PitchMutationRange.y);
 				}
 
 				// Update the volume
-				if (mutateVolume == true)
+				if (IsMutatingVolume == true)
 				{
 					// Change the audio's volume
-					Audio.volume = Random.Range(volumeMutationRange.x, volumeMutationRange.y);
+					CurrentAudio.volume = Random.Range(VolumeMutationRange.x, VolumeMutationRange.y);
 				}
 
 				// Play the audio
-				Audio.Play();
+				CurrentAudio.Play();
 				return true;
 			}
 

@@ -75,13 +75,16 @@ namespace OmiyaGames.Audio
 			Paused
 		}
 
-		State currentState = State.Stopped;
+		[HideInInspector]
 		AudioSource audioCache = null;
+		[SerializeField]
+		[ReadOnly]
+		State currentState = State.Stopped;
 
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public AudioSource Audio => Helpers.GetComponentCached(this, ref audioCache);
+		public virtual AudioSource CurrentAudio => Helpers.GetComponentCached(this, ref audioCache);
 
 		/// <summary>
 		/// TODO
@@ -120,20 +123,25 @@ namespace OmiyaGames.Audio
 
 		protected virtual void Awake()
 		{
-			if (Audio.playOnAwake == true)
+			if (CurrentAudio.playOnAwake == true)
 			{
 				currentState = State.Playing;
 			}
 		}
 
+		protected virtual void Reset()
+		{
+			audioCache = GetComponent<AudioSource>();
+		}
+
 		#region Helper Methods
 		protected virtual void UpdateStateToAudioIsPlaying(ref State state)
 		{
-			if ((state == State.Playing) && (Audio.isPlaying == false))
+			if ((state == State.Playing) && (CurrentAudio.isPlaying == false))
 			{
 				state = State.Stopped;
 			}
-			else if ((state == State.Stopped) && (Audio.isPlaying == true))
+			else if ((state == State.Stopped) && (CurrentAudio.isPlaying == true))
 			{
 				state = State.Playing;
 			}
@@ -161,12 +169,12 @@ namespace OmiyaGames.Audio
 						if (before == State.Stopped)
 						{
 							// Play the audio if we're switching from stopped to playing
-							Audio.Play();
+							CurrentAudio.Play();
 						}
 						else
 						{
 							// Unpause the audio if we're switching from paused to play
-							Audio.UnPause();
+							CurrentAudio.UnPause();
 						}
 						returnFlag = true;
 						break;
@@ -174,7 +182,7 @@ namespace OmiyaGames.Audio
 						if (before == State.Playing)
 						{
 							// Pause the audio if we're switching from playing to paused
-							Audio.Pause();
+							CurrentAudio.Pause();
 							returnFlag = true;
 						}
 						break;
@@ -183,11 +191,11 @@ namespace OmiyaGames.Audio
 						if (before == State.Paused)
 						{
 							// Unpause the audio
-							Audio.UnPause();
+							CurrentAudio.UnPause();
 						}
 
 						// Stop the audio
-						Audio.Stop();
+						CurrentAudio.Stop();
 						returnFlag = true;
 						break;
 				}
