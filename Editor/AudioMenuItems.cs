@@ -59,10 +59,13 @@ namespace OmiyaGames.Audio.Editor
 			// Create the new object
 			CreateSoundEffectScript(command, "One-off Sound Effect", out GameObject newObject, out SoundEffect effect, out AudioSource audioSource);
 
-			// Setup each component
+			// Setup sound effect script
 			// TODO: set layer setting to 3
 			effect.IsMutatingPitch = true;
 			effect.IsMutatingVolume = true;
+			effect.IsPausedOnTimeStop = !(audioSource.transform is RectTransform);
+
+			// Setup audio source
 			SetupSpatialAudioSource(audioSource, GetSettings()?.SoundEffects);
 
 			// Register the creation in the undo system
@@ -75,9 +78,12 @@ namespace OmiyaGames.Audio.Editor
 			// Create the new object
 			CreateSoundEffectScript(command, "One-off Voice", out GameObject newObject, out SoundEffect effect, out AudioSource audioSource);
 
-			// Setup each component
+			// Setup sound effect script
 			effect.IsMutatingPitch = false;
 			effect.IsMutatingVolume = true;
+			effect.IsPausedOnTimeStop = !(audioSource.transform is RectTransform);
+
+			// Setup audio source
 			SetupSpatialAudioSource(audioSource, GetSettings()?.Voices);
 
 			// Register the creation in the undo system
