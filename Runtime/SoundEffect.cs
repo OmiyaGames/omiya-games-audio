@@ -64,34 +64,20 @@ namespace OmiyaGames.Audio
 		public const float MinPitch = -3, MaxPitch = 3;
 		public const float MinVolume = 0, MaxVolume = 1;
 
-		/// <summary>
-		/// A series of clips to play at random
-		/// </summary>
 		[Tooltip("A randomized list of clips to play. Note that the clip set on the AudioSource on start will be added to this list automatically.")]
 		[SerializeField]
 		RandomList<AudioClip> clipVariations = new();
-		/// <summary>
-		/// Whether this sound effect's pitch should be mutated
-		/// </summary>
 		[SerializeField]
 		bool mutatePitch = false;
-		/// <summary>
-		/// The allowed range the pitch can mutate from the center pitch
-		/// </summary>
 		[SerializeField]
 		Vector2 pitchMutationRange = new Vector2(0.6f, 1.4f);
-		/// <summary>
-		/// Whether this sound effect's volume should be mutated
-		/// </summary>
 		[SerializeField]
 		bool mutateVolume = false;
-		/// <summary>
-		/// The allowed range the volume can mutate from the center pitch
-		/// </summary>
 		[SerializeField]
 		Vector2 volumeMutationRange = new Vector2(0.8f, 1f);
+		[SerializeField]
+		bool isPausedOnTimeStop = true;
 
-		#region Local Properties
 		/// <summary>
 		/// TODO
 		/// </summary>
@@ -107,7 +93,6 @@ namespace OmiyaGames.Audio
 				return returnVolume;
 			}
 		}
-
 		/// <summary>
 		/// TODO
 		/// </summary>
@@ -123,50 +108,53 @@ namespace OmiyaGames.Audio
 				return returnPitch;
 			}
 		}
-
 		/// <summary>
-		/// TODO
+		/// A series of clips to play at random
 		/// </summary>
 		public RandomList<AudioClip> ClipVariations => clipVariations;
-
 		/// <summary>
-		/// TODO
+		/// Whether this sound effect's pitch should be mutated
 		/// </summary>
 		public bool IsMutatingPitch
 		{
 			get => mutatePitch;
 			set => mutatePitch = value;
 		}
-
 		/// <summary>
-		/// TODO
+		/// Whether this sound effect's volume should be mutated
 		/// </summary>
 		public bool IsMutatingVolume
 		{
 			get => mutateVolume;
 			set => mutateVolume = value;
 		}
-
 		/// <summary>
-		/// TODO
+		/// The allowed range the pitch can mutate from the center pitch
 		/// </summary>
 		public Vector2 PitchMutationRange
 		{
 			get => pitchMutationRange;
 			set => pitchMutationRange = value;
 		}
-
 		/// <summary>
-		/// TODO
+		/// The allowed range the volume can mutate from the center pitch
 		/// </summary>
 		public Vector2 VolumeMutationRange
 		{
 			get => volumeMutationRange;
 			set => volumeMutationRange = value;
 		}
-		#endregion
+		/// <inheritdoc/>
+		public override bool IsPausedOnTimeStop
+		{
+			get => isPausedOnTimeStop;
+			set
+			{
+				isPausedOnTimeStop = value;
+				CurrentAudio.ignoreListenerPause = !isPausedOnTimeStop;
+			}
+		}
 
-		#region Unity Events
 		protected override void Awake()
 		{
 			base.Awake();
@@ -188,7 +176,6 @@ namespace OmiyaGames.Audio
 				CurrentAudio.clip = ClipVariations.NextRandomElement;
 			}
 		}
-		#endregion
 
 		protected override bool ChangeAudioSourceState(State before, State after)
 		{

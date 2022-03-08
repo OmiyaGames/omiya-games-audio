@@ -82,6 +82,17 @@ namespace OmiyaGames.Audio
 		State currentState = State.Stopped;
 
 		/// <summary>
+		/// Indicates whether this sound effect also pauses when
+		/// <seealso cref="Managers.TimeManager.IsManuallyPaused"/>
+		/// is true.
+		/// </summary>
+		public abstract bool IsPausedOnTimeStop
+		{
+			get;
+			set;
+		}
+
+		/// <summary>
 		/// TODO
 		/// </summary>
 		public virtual AudioSource CurrentAudio => Helpers.GetComponentCached(this, ref audioCache);
@@ -127,6 +138,8 @@ namespace OmiyaGames.Audio
 			{
 				currentState = State.Playing;
 			}
+
+			CurrentAudio.ignoreListenerPause = !IsPausedOnTimeStop;
 		}
 
 		protected virtual void Reset()
