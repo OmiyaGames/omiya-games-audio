@@ -179,8 +179,11 @@ namespace OmiyaGames.Audio
 				Data.Voices.Setup();
 				Data.Ambience.Setup();
 
-				// Check the TimeManager event
+				// Update snapshots and AudioListener
 				UpdateSnapshots(TimeManager.TimeScale, TimeManager.IsManuallyPaused);
+				AudioListener.pause = TimeManager.IsManuallyPaused;
+
+				// Listen to the TimeManager event
 				TimeManager.OnAfterTimeScaleChanged += OnTimeScaleChanged;
 				TimeManager.OnAfterIsManuallyPausedChanged += OnPauseChanged;
 			}
@@ -202,8 +205,14 @@ namespace OmiyaGames.Audio
 				base.OnDestroy();
 			}
 
-			void OnPauseChanged(bool _, bool newValue) => UpdateSnapshots(TimeManager.TimeScale, newValue);
+			void OnPauseChanged(bool _, bool newValue)
+			{
+				UpdateSnapshots(TimeManager.TimeScale, newValue);
+				AudioListener.pause = newValue;
+			}
+
 			void OnTimeScaleChanged(float _, float newValue) => UpdateSnapshots(newValue, TimeManager.IsManuallyPaused);
+
 			void UpdateSnapshots(float currentTimeScale, bool isPaused)
 			{
 				// Check if there are any time scale snapshots to adjust
