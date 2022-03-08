@@ -79,7 +79,7 @@ namespace OmiyaGames.Audio
 		/// The allowed range the pitch can mutate from the center pitch
 		/// </summary>
 		[SerializeField]
-		Vector2 pitchMutationRange = new Vector2(0.75f, 1.25f);
+		Vector2 pitchMutationRange = new Vector2(0.6f, 1.4f);
 		/// <summary>
 		/// Whether this sound effect's volume should be mutated
 		/// </summary>
@@ -89,7 +89,7 @@ namespace OmiyaGames.Audio
 		/// The allowed range the volume can mutate from the center pitch
 		/// </summary>
 		[SerializeField]
-		Vector2 volumeMutationRange = new Vector2(0.75f, 1f);
+		Vector2 volumeMutationRange = new Vector2(0.8f, 1f);
 
 		#region Local Properties
 		/// <summary>
