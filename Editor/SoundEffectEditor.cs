@@ -1,7 +1,9 @@
-﻿using UnityEditor;
+﻿using UnityEngine;
+using UnityEngine.UIElements;
+using UnityEditor;
 using UnityEditorInternal;
-using UnityEngine;
-using OmiyaGames.Audio;
+using UnityEditor.UIElements;
+using OmiyaGames.Common.Editor;
 
 namespace OmiyaGames.Audio.Editor
 {
@@ -60,94 +62,31 @@ namespace OmiyaGames.Audio.Editor
 	[CanEditMultipleObjects]
 	public class SoundEffectEditor : UnityEditor.Editor
 	{
-		const float VerticalMargin = 2;
-		static readonly GUILayoutOption SliderLabelWidth = GUILayout.MinWidth(90);
-		static readonly GUILayoutOption SliderTextFieldWidth = GUILayout.MinWidth(20);
-
-		SerializedProperty mutatePitch;
-		SerializedProperty pitchMutationRange;
-
-		SerializedProperty mutateVolume;
-		SerializedProperty volumeMutationRange;
-
-		SerializedProperty clipVariations;
-		ReorderableList clipVariationList;
-
-		protected void OnEnable()
+		public override VisualElement CreateInspectorGUI()
 		{
-			// Grab every field
-			mutatePitch = serializedObject.FindProperty("mutatePitch");
-			pitchMutationRange = serializedObject.FindProperty("pitchMutationRange");
-			mutateVolume = serializedObject.FindProperty("mutateVolume");
-			volumeMutationRange = serializedObject.FindProperty("volumeMutationRange");
-			clipVariations = serializedObject.FindProperty("clipVariations");
+			// Create a tree from the UXML file.
+			VisualElement returnTree = new VisualElement();
+			VisualTreeAsset originalTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.omiyagames.audio/Editor/SoundEffect.uxml");
+			originalTree.CloneTree(returnTree);
 
-			// Construct a list for the clip variations
-			clipVariationList = new ReorderableList(serializedObject, clipVariations, true, true, true, true);
-			clipVariationList.drawHeaderCallback = DrawClipVariationListHeader;
-			clipVariationList.drawElementCallback = DrawClipVariationListElement;
-		}
+			// Make enum read-only
+			EnumField playState = returnTree.Q<EnumField>("playState");
+			playState.SetEnabled(false);
 
-		public override void OnInspectorGUI()
-		{
-			serializedObject.Update();
+			// Make sure toggles disable their respective sliders
+			Toggle checkToggle = returnTree.Q<Toggle>("mutatePitchToggle");
+			RangeSlider pitchSlider = returnTree.Q<RangeSlider>("mutatePitchSlider");
+			pitchSlider.SetEnabled(checkToggle.value);
+			checkToggle.RegisterCallback<ChangeEvent<bool>>(e => pitchSlider.SetEnabled(e.newValue));
 
-			// Start the Mutate Pitch group
-			mutatePitch.boolValue = EditorGUILayout.BeginToggleGroup("Mutate Pitch", mutatePitch.boolValue);
-			if (mutatePitch.boolValue == true)
-			{
-				DisplayRangeSlider("Pitch Range", pitchMutationRange, SoundEffect.MinPitch, SoundEffect.MaxPitch);
-			}
-			EditorGUILayout.EndToggleGroup();
+			checkToggle = returnTree.Q<Toggle>("mutateVolumeToggle");
+			RangeSlider volumeSlider = returnTree.Q<RangeSlider>("mutateVolumeSlider");
+			volumeSlider.SetEnabled(checkToggle.value);
+			checkToggle.RegisterCallback<ChangeEvent<bool>>(e => volumeSlider.SetEnabled(e.newValue));
 
-			// Start the Mutate Volume group
-			mutateVolume.boolValue = EditorGUILayout.BeginToggleGroup("Mutate Volume", mutateVolume.boolValue);
-			if (mutateVolume.boolValue == true)
-			{
-				DisplayRangeSlider("Volume Range", volumeMutationRange, SoundEffect.MinVolume, SoundEffect.MaxVolume);
-			}
-			EditorGUILayout.EndToggleGroup();
-
-			// Start the audio clip variations list
-			clipVariationList.DoLayoutList();
-
-			serializedObject.ApplyModifiedProperties();
-		}
-
-		private void DisplayRangeSlider(string label, SerializedProperty rangeProperty, float min, float max)
-		{
-			// First, start a horizontal group
-			EditorGUILayout.BeginHorizontal();
-			Vector2 range = rangeProperty.vector2Value;
-
-			// Draw the label
-			EditorGUILayout.LabelField(label, SliderLabelWidth);
-
-			// Draw the min field
-			range.x = EditorGUILayout.FloatField(range.x, SliderTextFieldWidth);
-
-			// Display the min-max slider
-			EditorGUILayout.MinMaxSlider(ref range.x, ref range.y, min, max/*, SliderSliderWidth*/);
-
-			// Draw the max field
-			range.y = EditorGUILayout.FloatField(range.y, SliderTextFieldWidth);
-
-			// End the horizontal group
-			rangeProperty.vector2Value = range;
-			EditorGUILayout.EndHorizontal();
-		}
-
-		void DrawClipVariationListHeader(Rect rect)
-		{
-			EditorGUI.LabelField(rect, "Clip Variations");
-		}
-
-		void DrawClipVariationListElement(Rect rect, int index, bool isActive, bool isFocused)
-		{
-			SerializedProperty element = clipVariationList.serializedProperty.GetArrayElementAtIndex(index);
-			rect.y += VerticalMargin;
-			rect.height = EditorGUIUtility.singleLineHeight;
-			EditorGUI.PropertyField(rect, element, GUIContent.none);
+			// Bind to the object
+			returnTree.Bind(serializedObject);
+			return returnTree;
 		}
 	}
 }

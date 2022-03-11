@@ -1,0 +1,19 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" oge="OmiyaGames.Common.Editor" editor-extension-mode="True">
+    <Style src="project://database/Packages/com.omiyagames.global.settings/Editor/default-style.uss?fileID=7433441132597879392&amp;guid=3ae46e517b369d0478dabad92787dd4f&amp;type=3#default-style" />
+    <uie:EnumField label="State" binding-path="currentState" type="OmiyaGames.Audio.IAudio+State, OmiyaGames.Audio" focusable="false" name="playState" />
+    <ui:Toggle binding-path="isPausedOnTimeStop" name="pauseOnTimeStop" value="true" tooltip="If checked, don&apos;t play this sound effect if the game is paused." tabindex="1" text="Don&apos;t Play If Paused" />
+    <OmiyaGames.Common.Editor.Spacer />
+    <ui:Label text="Mutate" display-tooltip-when-elided="true" class="header" />
+    <ui:VisualElement name="mutatePitch" style="flex-direction: row;">
+        <ui:Toggle name="mutatePitchToggle" binding-path="mutatePitch" tabindex="10" text="Pitch" style="min-width: 150px;" />
+        <OmiyaGames.Common.Editor.RangeSlider max-value="1.4" low-limit="-3" high-limit="3" min-value="0.6" binding-path="pitchMutationRange" name="mutatePitchSlider" tabindex="11" style="flex-grow: 1;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="mutateVolume" style="flex-direction: row;">
+        <ui:Toggle name="mutateVolumeToggle" binding-path="mutateVolume" tabindex="20" text="Volume" style="min-width: 150px;" />
+        <OmiyaGames.Common.Editor.RangeSlider max-value="1" low-limit="0" high-limit="1" min-value="0.8" binding-path="volumeMutationRange" name="mutateVolumeSlider" tabindex="21" style="flex-grow: 1;" />
+    </ui:VisualElement>
+    <OmiyaGames.Common.Editor.Spacer />
+    <ui:Label text="Clips" display-tooltip-when-elided="true" class="header" />
+    <ui:SliderInt label="Max Layers" value="3" high-value="10" low-value="1" show-input-field="true" tooltip="Maximum number of overlapping sound effects this script will play. Any further sound effects will stop the oldest sound effect." tabindex="30" binding-path="maxNumLayers" name="maxLayers" />
+    <uie:PropertyField binding-path="clipVariations" name="clipVariations" tabindex="31" />
+</ui:UXML>

@@ -1,7 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections.Generic;
-using OmiyaGames.Global;
-using OmiyaGames.Saves;
 
 namespace OmiyaGames.Audio
 {
@@ -64,9 +63,10 @@ namespace OmiyaGames.Audio
 		public const float MinPitch = -3, MaxPitch = 3;
 		public const float MinVolume = 0, MaxVolume = 1;
 
-		[Tooltip("A randomized list of clips to play. Note that the clip set on the AudioSource on start will be added to this list automatically.")]
 		[SerializeField]
-		RandomList<AudioClip> clipVariations = new();
+		bool isPausedOnTimeStop = true;
+
+		[Header("Mutate")]
 		[SerializeField]
 		bool mutatePitch = false;
 		[SerializeField]
@@ -75,9 +75,29 @@ namespace OmiyaGames.Audio
 		bool mutateVolume = false;
 		[SerializeField]
 		Vector2 volumeMutationRange = new Vector2(0.8f, 1f);
-		[SerializeField]
-		bool isPausedOnTimeStop = true;
 
+		[Header("Clips")]
+		[SerializeField]
+		int maxNumLayers = 3;
+		[Tooltip("A randomized list of clips to play. Note that the clip set on the AudioSource on start will be added to this list automatically.")]
+		[SerializeField]
+		RandomList<AudioClip> clipVariations = new();
+
+		LinkedList<AudioSource> audioLayers = null;
+		AudioSource lastPlayedAudio = null;
+
+		/// <inheritdoc/>
+		public override bool IsPausedOnTimeStop
+		{
+			get => isPausedOnTimeStop;
+			set
+			{
+				isPausedOnTimeStop = value;
+				CurrentAudio.ignoreListenerPause = !isPausedOnTimeStop;
+			}
+		}
+		/// <inheritdoc/>
+		public override AudioSource CurrentAudio => lastPlayedAudio ?? base.CurrentAudio;
 		/// <summary>
 		/// TODO
 		/// </summary>
@@ -134,7 +154,7 @@ namespace OmiyaGames.Audio
 		public Vector2 PitchMutationRange
 		{
 			get => pitchMutationRange;
-			set => pitchMutationRange = value;
+			set => pitchMutationRange = ClampRange(value, MinPitch, MaxPitch);
 		}
 		/// <summary>
 		/// The allowed range the volume can mutate from the center pitch
@@ -142,19 +162,44 @@ namespace OmiyaGames.Audio
 		public Vector2 VolumeMutationRange
 		{
 			get => volumeMutationRange;
-			set => volumeMutationRange = value;
+			set => volumeMutationRange = ClampRange(value, MinVolume, MaxVolume);
 		}
-		/// <inheritdoc/>
-		public override bool IsPausedOnTimeStop
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public int MaxNumLayers
 		{
-			get => isPausedOnTimeStop;
+			get => maxNumLayers;
 			set
 			{
-				isPausedOnTimeStop = value;
-				CurrentAudio.ignoreListenerPause = !isPausedOnTimeStop;
+				if (value < 1)
+				{
+					value = 1;
+				}
+				if (maxNumLayers != value)
+				{
+					maxNumLayers = value;
+				}
+			}
+		}
+		/// <summary>
+		/// TODO
+		/// </summary>
+		protected LinkedList<AudioSource> AudioLayers
+		{
+			get
+			{
+				if (audioLayers == null)
+				{
+					audioLayers = new LinkedList<AudioSource>();
+					lastPlayedAudio = base.CurrentAudio;
+					audioLayers.AddLast(lastPlayedAudio);
+				}
+				return audioLayers;
 			}
 		}
 
+		/// <inheritdoc/>
 		protected override void Awake()
 		{
 			base.Awake();
@@ -182,6 +227,8 @@ namespace OmiyaGames.Audio
 			// Check if we're playing this sound effect from Playing or Stopped state
 			if ((after == State.Playing) && (before != State.Paused))
 			{
+				// FIXME: look through all the audio layers first
+				// before stopping the default one
 				// Stop the audio
 				CurrentAudio.Stop();
 
@@ -195,14 +242,14 @@ namespace OmiyaGames.Audio
 				if (IsMutatingPitch == true)
 				{
 					// Change the audio's pitch
-					CurrentAudio.pitch = Random.Range(PitchMutationRange.x, PitchMutationRange.y);
+					CurrentAudio.pitch = UnityEngine.Random.Range(PitchMutationRange.x, PitchMutationRange.y);
 				}
 
 				// Update the volume
 				if (IsMutatingVolume == true)
 				{
 					// Change the audio's volume
-					CurrentAudio.volume = Random.Range(VolumeMutationRange.x, VolumeMutationRange.y);
+					CurrentAudio.volume = UnityEngine.Random.Range(VolumeMutationRange.x, VolumeMutationRange.y);
 				}
 
 				// Play the audio
@@ -212,6 +259,21 @@ namespace OmiyaGames.Audio
 
 			// Otherwise, call base method
 			return base.ChangeAudioSourceState(before, after);
+		}
+
+		static Vector2 ClampRange(Vector2 value, float min, float max)
+		{
+			if (value.x < min)
+			{
+				value.x = min;
+			}
+
+			if (value.y > max)
+			{
+				value.y = max;
+			}
+
+			return value;
 		}
 	}
 }
