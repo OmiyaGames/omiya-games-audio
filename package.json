@@ -15,7 +15,8 @@
   },
   "dependencies": {
     "com.unity.ext.nunit": "1.0.0",
-    "com.omiyagames.managers": "1.0.1-pre.3"
+    "com.omiyagames.managers": "1.0.1-pre.4",
+    "com.omiyagames.common": "1.3.0"
   },
   "keywords": [
     "Omiya Games",
@@ -39,14 +40,19 @@
   ],
   "samples": [
     {
-      "displayName": "Default Audio Prefabs",
+      "displayName": "Custom Settings",
       "description": "Prefabs variants using default settings.",
-      "path": "Samples~/DefaultAssets"
+      "path": "Samples~/Custom Settings"
     },
     {
-      "displayName": "Custom Audio Settings",
+      "displayName": "Volume Sliders Demo",
       "description": "Collection of files to setup custom settings.",
-      "path": "Samples~/CustomAssets"
+      "path": "Samples~/Volume Sliders"
+    },
+    {
+      "displayName": "Sound Effects Demo",
+      "description": "Collection of files to setup custom settings.",
+      "path": "Samples~/Sound Effects"
     }
   ]
 }

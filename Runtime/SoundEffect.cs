@@ -342,7 +342,7 @@ namespace OmiyaGames.Audio
 					// If all current layers are still playing/paused,
 					// BUT the current number of layers is below the max limit of layers,
 					// create a new audio layer
-					playAudio = CloneComponent(AttachedSource);
+					playAudio = Helpers.CloneComponent(AttachedSource);
 					AllAudioLayers.AddLast(playAudio);
 				}
 				else
@@ -508,126 +508,6 @@ namespace OmiyaGames.Audio
 				checkNode = checkNode.Next;
 			}
 			return checkNode;
-		}
-
-		// FIXME: move this to OmiyaGames.Helpers
-		/// <summary>
-		/// Clones a component onto the same <c>GameObject</c>
-		/// the component is attached to.
-		/// </summary>
-		/// <typeparam name="T">
-		/// Component type.
-		/// </typeparam>
-		/// <param name="original">
-		/// The original component to clone.
-		/// </param>
-		/// <returns>
-		/// The new component with fields copied
-		/// from <paramref name="original"/>.
-		/// </returns>
-		/// <exception cref="System.ArgumentNullException">
-		/// If <paramref name="original"/> is null.
-		/// </exception>
-		public static T CloneComponent<T>(T original) where T : Component
-		{
-			if (original == null)
-			{
-				throw new System.ArgumentNullException(nameof(original));
-			}
-			return CloneComponent(original, original.gameObject);
-		}
-
-		// FIXME: move this to OmiyaGames.Helpers
-		/// <summary>
-		/// Clones a component to another <c>GameObject</c>.
-		/// </summary>
-		/// <typeparam name="T">
-		/// Component type.
-		/// </typeparam>
-		/// <param name="original">
-		/// The original component to clone.
-		/// </param>
-		/// <param name="destination">
-		/// The <c>GameObject</c> to attach the cloned
-		/// component to.
-		/// </param>
-		/// <returns>
-		/// The new component with fields copied
-		/// from <paramref name="original"/>.
-		/// </returns>
-		/// <exception cref="System.ArgumentNullException">
-		/// If <paramref name="original"/> and/or
-		/// <paramref name="destination"/> is null.
-		/// </exception>
-		/// <remarks>
-		/// Original source from 
-		/// <a href="http://answers.unity.com/answers/1118416/view.html">turbanov</a>.
-		/// </remarks>
-		public static T CloneComponent<T>(T original, GameObject destination) where T : Component
-		{
-			// Check arguments
-			if (original == null)
-			{
-				throw new System.ArgumentNullException(nameof(original));
-			}
-			else if (destination == null)
-			{
-				throw new System.ArgumentNullException(nameof(destination));
-			}
-
-			// Grabbing the real type of original, rather than relying on T.
-			System.Type realType = original.GetType();
-
-			// Create the new component at the destination
-			T clone = (T)destination.AddComponent(realType);
-
-			// Copy non-static fields from original to clone
-			System.Reflection.FieldInfo[] fields = realType.GetFields();
-			foreach (System.Reflection.FieldInfo field in fields)
-			{
-				// Skip static fields
-				if (field.IsStatic)
-				{
-					continue;
-				}
-				field.SetValue(clone, field.GetValue(original));
-			}
-
-			// Copy properties from original to clone
-			System.Reflection.PropertyInfo[] props = realType.GetProperties();
-			foreach (System.Reflection.PropertyInfo prop in props)
-			{
-				if (prop.CanWrite == false
-
-					// Skip name
-					|| prop.Name == "name"
-
-					// Skip obsolete properties
-					|| prop.IsDefined(typeof(System.ObsoleteAttribute), true)
-
-					// Skip materials due to memory leaks
-					|| prop.PropertyType.Equals(typeof(Material))
-					|| prop.PropertyType.Equals(typeof(Material[])))
-				{
-					continue;
-				}
-				prop.SetValue(clone, prop.GetValue(original, null), null);
-			}
-
-			if (original is Renderer originalRenderer)
-			{
-				// Edge case: for renderers, we're deliberately skipping the material properties
-				// to prevent memory leaks.  Instead, copy over the shared materials
-				(clone as Renderer).sharedMaterials = originalRenderer.sharedMaterials;
-			}
-			else if (clone is AudioSource clonedAudioSource)
-			{
-				// Edge case: for audio source, forcing time to be 0
-				// to prevent errors.
-				clonedAudioSource.time = 0;
-				clonedAudioSource.Stop();
-			}
-			return clone;
 		}
 
 		static Vector2 ClampRange(Vector2 value, float min, float max)
