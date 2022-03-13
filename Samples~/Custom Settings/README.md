@@ -13,3 +13,7 @@
     3. Save the new file to any location within the project's `Assets` folder.  This will setup the Saves Settings.
 5. Switch back to `Omiya Games -> Audio`, then scroll down and click the `Add Savers To Saves Settings` button.
 6. That's all there is to it!  Afterwards, feel free to edit the mixers and the project settings fields to your liking.
+
+## Hints
+
+- In this sample, there are a lot of assets starting with the phrase, `Savers - `.  These files contains the default volume and mute settings for each audio category.  It's recommended to edit these files, and run `File -> Save Project`.
