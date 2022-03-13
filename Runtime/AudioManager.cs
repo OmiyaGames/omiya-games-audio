@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using OmiyaGames.Managers;
@@ -139,12 +140,13 @@ namespace OmiyaGames.Audio
 
 			class SnapshotSet
 			{
-				public readonly AudioMixerSnapshot[] cache = new AudioMixerSnapshot[(int)SnapshotType.NumberOfTypes];
-				public readonly float[] weights = new float[(int)SnapshotType.NumberOfTypes];
+				public AudioMixerSnapshot[] snapshots = null;
+				public float[] weights = null;
+				public readonly ListSet<SnapshotType> indexToType = new((int)SnapshotType.NumberOfTypes);
 			}
 
 			Data.Status status = Global.Settings.Data.Status.Fail;
-			SnapshotSet[] snapshots = null;
+			SnapshotSet[] snapshotSettings = null;
 
 			/// <inheritdoc/>
 			protected override string AddressableName => ADDRESSABLE_NAME;
@@ -223,7 +225,7 @@ namespace OmiyaGames.Audio
 				}
 
 				// Setup cache, if it hasn't been already
-				if (snapshots == null)
+				if (snapshotSettings == null)
 				{
 					SetupCache(settings);
 				}
@@ -231,10 +233,11 @@ namespace OmiyaGames.Audio
 				for (int i = 0; i < settings.TimeScaleSnapshots.Length; ++i)
 				{
 					TimeScaleAudioModifiers modifier = settings.TimeScaleSnapshots[i];
-					for (int j = 0; j < (int)SnapshotType.NumberOfTypes; ++j)
+					for (int j = 0; j < snapshotSettings[i].indexToType.Count; ++j)
 					{
 						// Set the weight of the snapshot
-						snapshots[i].weights[j] = GetWeight(currentTimeScale, isPaused, (SnapshotType)j, in modifier);
+						SnapshotType type = snapshotSettings[i].indexToType[j];
+						snapshotSettings[i].weights[j] = GetWeight(currentTimeScale, isPaused, type, in modifier);
 					}
 
 					// Update all mixer with snapshot blend states
@@ -243,7 +246,7 @@ namespace OmiyaGames.Audio
 					{
 						mixer = settings.Mixer;
 					}
-					mixer.TransitionToSnapshots(snapshots[i].cache, snapshots[i].weights, 0f);
+					mixer.TransitionToSnapshots(snapshotSettings[i].snapshots, snapshotSettings[i].weights, 0f);
 
 					// Update pitch
 					string paramName = settings.TimeScaleSnapshots[i].PitchParam;
@@ -255,20 +258,54 @@ namespace OmiyaGames.Audio
 
 				void SetupCache(AudioSettings settings)
 				{
-					// FIXME: adjust the cache to take into account that some snapshot fields might be null
-					snapshots = new SnapshotSet[settings.TimeScaleSnapshots.Length];
-
-					for (int i = 0; i < snapshots.Length; ++i)
+					// Setup the map
+					snapshotSettings = new SnapshotSet[settings.TimeScaleSnapshots.Length];
+					for (int i = 0; i < snapshotSettings.Length; ++i)
 					{
 						// Just map the snapshots per category
-						snapshots[i] = new SnapshotSet();
-						snapshots[i].cache[(int)SnapshotType.Default] = settings.TimeScaleSnapshots[i].DefaultSnapshot;
-						snapshots[i].cache[(int)SnapshotType.Paused] = settings.TimeScaleSnapshots[i].PausedSnapshot;
-						snapshots[i].cache[(int)SnapshotType.Slow] = settings.TimeScaleSnapshots[i].SlowTimeSnapshot;
-						snapshots[i].cache[(int)SnapshotType.Quicken] = settings.TimeScaleSnapshots[i].QuickenTimeSnapshot;
+						snapshotSettings[i] = new();
+						ListSet<SnapshotType> indexToType = snapshotSettings[i].indexToType;
+						AddType(indexToType, SnapshotType.Default, settings.TimeScaleSnapshots[i].DefaultSnapshot);
+						AddType(indexToType, SnapshotType.Paused, settings.TimeScaleSnapshots[i].PausedSnapshot);
+						AddType(indexToType, SnapshotType.Slow, settings.TimeScaleSnapshots[i].SlowTimeSnapshot);
+						AddType(indexToType, SnapshotType.Quicken, settings.TimeScaleSnapshots[i].QuickenTimeSnapshot);
 
-						// Set only the default snapshot with full weight
-						snapshots[i].weights[(int)SnapshotType.Default] = 1f;
+						// Setup all arrays
+						snapshotSettings[i].snapshots = new AudioMixerSnapshot[indexToType.Count];
+						snapshotSettings[i].weights = new float[indexToType.Count];
+
+						for (int j = 0; j < indexToType.Count; ++j)
+						{
+							snapshotSettings[i].snapshots[j] = GetSnapshot(indexToType[j], in settings.TimeScaleSnapshots[i]);
+							snapshotSettings[i].weights[j] = (indexToType[j] == SnapshotType.Default) ? 1 : 0;
+						}
+					}
+
+					void AddType(ListSet<SnapshotType> set, SnapshotType key, AudioMixerSnapshot snapshot)
+					{
+						if (snapshot != null)
+						{
+							set.Add(key);
+						}
+						else if (key == SnapshotType.Default)
+						{
+							throw new System.ArgumentNullException(nameof(snapshot), "Default snapshot is strictly required, and cannot be null");
+						}
+					}
+
+					AudioMixerSnapshot GetSnapshot(SnapshotType key, in TimeScaleAudioModifiers modifier)
+					{
+						switch (key)
+						{
+							case SnapshotType.Paused:
+								return modifier.PausedSnapshot;
+							case SnapshotType.Slow:
+								return modifier.SlowTimeSnapshot;
+							case SnapshotType.Quicken:
+								return modifier.QuickenTimeSnapshot;
+							default:
+								return modifier.DefaultSnapshot;
+						}
 					}
 				}
 
