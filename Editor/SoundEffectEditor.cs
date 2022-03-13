@@ -69,10 +69,6 @@ namespace OmiyaGames.Audio.Editor
 			VisualTreeAsset originalTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.omiyagames.audio/Editor/SoundEffect.uxml");
 			originalTree.CloneTree(returnTree);
 
-			// Make enum read-only
-			EnumField playState = returnTree.Q<EnumField>("playState");
-			playState.SetEnabled(false);
-
 			// Make sure toggles disable their respective sliders
 			Toggle checkToggle = returnTree.Q<Toggle>("mutatePitchToggle");
 			RangeSlider pitchSlider = returnTree.Q<RangeSlider>("mutatePitchSlider");
@@ -83,6 +79,15 @@ namespace OmiyaGames.Audio.Editor
 			RangeSlider volumeSlider = returnTree.Q<RangeSlider>("mutateVolumeSlider");
 			volumeSlider.SetEnabled(checkToggle.value);
 			checkToggle.RegisterCallback<ChangeEvent<bool>>(e => volumeSlider.SetEnabled(e.newValue));
+
+			// Setup the limits of all sliders
+			SliderInt layerSlider = returnTree.Q<SliderInt>("maxLayers");
+			layerSlider.lowValue = SoundEffect.MIN_LAYERS;
+			layerSlider.highValue = SoundEffect.MAX_LAYERS;
+			pitchSlider.lowLimit = SoundEffect.MIN_PITCH;
+			pitchSlider.highLimit = SoundEffect.MAX_PITCH;
+			volumeSlider.lowLimit = SoundEffect.MIN_VOLUME;
+			volumeSlider.highLimit = SoundEffect.MAX_VOLUME;
 
 			// Bind to the object
 			returnTree.Bind(serializedObject);
