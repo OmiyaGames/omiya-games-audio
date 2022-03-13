@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3133df8873f9c8e49977b6d1310ad26c, type: 3}
-  m_Name: MusicVolumeSetting
+  m_Name: Saver - Sound Effects Volume
   m_EditorClassIdentifier: 
-  key: Music Volume
-  comments: The volume for music.
-  defaultValue: 0.6
+  key: Sound Volume
+  comments: The volume for sound effects.
+  defaultValue: 0.9
   onLoadFailed: 2
   hasMin: 1
   minValue: 0
