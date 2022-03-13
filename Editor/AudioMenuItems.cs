@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
@@ -60,10 +58,10 @@ namespace OmiyaGames.Audio.Editor
 			CreateSoundEffectScript(command, "One-off Sound Effect", out GameObject newObject, out SoundEffect effect, out AudioSource audioSource);
 
 			// Setup sound effect script
-			// TODO: set layer setting to 3
 			effect.IsMutatingPitch = true;
 			effect.IsMutatingVolume = true;
 			effect.IsPausedOnTimeStop = !(audioSource.transform is RectTransform);
+			effect.NumberOfLayers = 5;
 
 			// Setup audio source
 			SetupSpatialAudioSource(audioSource, GetSettings()?.SoundEffects);
@@ -82,6 +80,7 @@ namespace OmiyaGames.Audio.Editor
 			effect.IsMutatingPitch = false;
 			effect.IsMutatingVolume = true;
 			effect.IsPausedOnTimeStop = !(audioSource.transform is RectTransform);
+			effect.NumberOfLayers = 1;
 
 			// Setup audio source
 			SetupSpatialAudioSource(audioSource, GetSettings()?.Voices);
