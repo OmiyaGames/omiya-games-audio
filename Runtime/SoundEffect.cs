@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
 namespace OmiyaGames.Audio
@@ -58,13 +57,23 @@ namespace OmiyaGames.Audio
 	/// <seealso cref="AudioSource"/>
 	[RequireComponent(typeof(AudioSource))]
 	[AddComponentMenu("Audio/Sound Effect", 100)]
-	public class SoundEffect : IAudio
+	public class SoundEffect : MonoBehaviour
 	{
-		public const float MinPitch = -3, MaxPitch = 3;
-		public const float MinVolume = 0, MaxVolume = 1;
+		public enum Layer
+		{
+			All,
+			Latest
+		}
 
+		public const float MIN_PITCH = -3, MAX_PITCH = 3;
+		public const float MIN_VOLUME = 0, MAX_VOLUME = 1;
+		public const int MIN_LAYERS = 1, MAX_LAYERS = 10;
+
+		[HideInInspector]
+		AudioSource audioCache = null;
+		[Tooltip("A randomized list of clips to play. Note that the clip set on the AudioSource on start will be added to this list automatically.")]
 		[SerializeField]
-		bool isPausedOnTimeStop = true;
+		RandomList<AudioClip> clipVariations = new();
 
 		[Header("Mutate")]
 		[SerializeField]
@@ -76,58 +85,39 @@ namespace OmiyaGames.Audio
 		[SerializeField]
 		Vector2 volumeMutationRange = new Vector2(0.8f, 1f);
 
-		[Header("Clips")]
+		[Header("Other Settings")]
 		[SerializeField]
 		int maxNumLayers = 3;
-		[Tooltip("A randomized list of clips to play. Note that the clip set on the AudioSource on start will be added to this list automatically.")]
 		[SerializeField]
-		RandomList<AudioClip> clipVariations = new();
+		bool isPausedOnTimeStop = true;
 
-		LinkedList<AudioSource> audioLayers = null;
-		AudioSource lastPlayedAudio = null;
+		LinkedList<AudioSource> allAudioLayers = null;
 
 		/// <inheritdoc/>
-		public override bool IsPausedOnTimeStop
+		public bool IsPausedOnTimeStop
 		{
 			get => isPausedOnTimeStop;
 			set
 			{
-				isPausedOnTimeStop = value;
-				CurrentAudio.ignoreListenerPause = !isPausedOnTimeStop;
-			}
-		}
-		/// <inheritdoc/>
-		public override AudioSource CurrentAudio => lastPlayedAudio ?? base.CurrentAudio;
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public float CenterVolume
-		{
-			get
-			{
-				float returnVolume = CurrentAudio.volume;
-				if (IsMutatingVolume == true)
+				if (isPausedOnTimeStop != value)
 				{
-					returnVolume = (VolumeMutationRange.x + VolumeMutationRange.y) / 2f;
+					isPausedOnTimeStop = value;
+					foreach (AudioSource layer in AllAudioLayers)
+					{
+						layer.ignoreListenerPause = !isPausedOnTimeStop;
+					}
 				}
-				return returnVolume;
 			}
 		}
 		/// <summary>
-		/// TODO
+		/// The attached audio source that played the latest SFX.
 		/// </summary>
-		public float CenterPitch
-		{
-			get
-			{
-				float returnPitch = CurrentAudio.pitch;
-				if (IsMutatingVolume == true)
-				{
-					returnPitch = (PitchMutationRange.x + PitchMutationRange.y) / 2f;
-				}
-				return returnPitch;
-			}
-		}
+		public AudioSource LatestAudio => AllAudioLayers.Last.Value;
+		/// <summary>
+		/// All attached audio sources, sorted with
+		/// oldest source that played a SFX as first node.
+		/// </summary>
+		public IReadOnlyCollection<AudioSource> AllAudios => AllAudioLayers;
 		/// <summary>
 		/// A series of clips to play at random
 		/// </summary>
@@ -138,7 +128,24 @@ namespace OmiyaGames.Audio
 		public bool IsMutatingPitch
 		{
 			get => mutatePitch;
-			set => mutatePitch = value;
+			set
+			{
+				if (mutatePitch != value)
+				{
+					mutatePitch = value;
+					if (mutatePitch)
+					{
+						OriginalPitch = LatestAudio.pitch;
+					}
+					else
+					{
+						foreach (AudioSource layer in AllAudioLayers)
+						{
+							layer.pitch = OriginalPitch;
+						}
+					}
+				}
+			}
 		}
 		/// <summary>
 		/// Whether this sound effect's volume should be mutated
@@ -146,7 +153,24 @@ namespace OmiyaGames.Audio
 		public bool IsMutatingVolume
 		{
 			get => mutateVolume;
-			set => mutateVolume = value;
+			set
+			{
+				if (mutateVolume != value)
+				{
+					mutateVolume = value;
+					if (mutateVolume)
+					{
+						OriginalVolume = LatestAudio.volume;
+					}
+					else
+					{
+						foreach (AudioSource layer in AllAudioLayers)
+						{
+							layer.volume = OriginalVolume;
+						}
+					}
+				}
+			}
 		}
 		/// <summary>
 		/// The allowed range the pitch can mutate from the center pitch
@@ -154,7 +178,7 @@ namespace OmiyaGames.Audio
 		public Vector2 PitchMutationRange
 		{
 			get => pitchMutationRange;
-			set => pitchMutationRange = ClampRange(value, MinPitch, MaxPitch);
+			set => pitchMutationRange = ClampRange(value, MIN_PITCH, MAX_PITCH);
 		}
 		/// <summary>
 		/// The allowed range the volume can mutate from the center pitch
@@ -162,103 +186,448 @@ namespace OmiyaGames.Audio
 		public Vector2 VolumeMutationRange
 		{
 			get => volumeMutationRange;
-			set => volumeMutationRange = ClampRange(value, MinVolume, MaxVolume);
+			set => volumeMutationRange = ClampRange(value, MIN_VOLUME, MAX_VOLUME);
 		}
 		/// <summary>
-		/// TODO
+		/// The number of one-shot sounds this component will allow to overlap.
 		/// </summary>
-		public int MaxNumLayers
+		public int NumberOfLayers
 		{
 			get => maxNumLayers;
 			set
 			{
-				if (value < 1)
-				{
-					value = 1;
-				}
+				value = Mathf.Clamp(value, MIN_LAYERS, MAX_LAYERS);
 				if (maxNumLayers != value)
 				{
+					// Set the value
 					maxNumLayers = value;
+
+					// Check if we need to prune the layers
+					LinkedListNode<AudioSource> seekStoppedLayer = AllAudioLayers.First;
+					while (AllAudioLayers.Count > maxNumLayers)
+					{
+						// Look for an audio layer that is stopped
+						LinkedListNode<AudioSource> removeNode = FindFirstStoppedLayer(seekStoppedLayer);
+						if (removeNode != null)
+						{
+							// If one is found, move the seek node to the next one
+							// (for the next loop.)
+							seekStoppedLayer = removeNode.Next;
+						}
+						else
+						{
+							// If there isn't any, mark the oldest audio source that
+							// isn't attached to this script for removal.
+							removeNode = AllAudioLayers.First;
+						}
+
+						// Destroy the layer
+						Destroy(removeNode.Value);
+						AllAudioLayers.Remove(removeNode);
+					}
 				}
 			}
 		}
 		/// <summary>
-		/// TODO
+		/// The original audio source's pitch,
+		/// before mutation was applied.
 		/// </summary>
-		protected LinkedList<AudioSource> AudioLayers
+		public float OriginalPitch
+		{
+			get;
+			private set;
+		} = 1;
+		/// <summary>
+		/// The original audio source's volume,
+		/// before mutation was applied.
+		/// </summary>
+		public float OriginalVolume
+		{
+			get;
+			private set;
+		} = 1;
+
+		/// <summary>
+		/// All attached audio sources, sorted with
+		/// oldest source that played a SFX as first node.
+		/// </summary>
+		/// <remarks>
+		/// This is a write-able <see cref="LinkedList{T}"/> version of
+		/// <see cref="AllAudios"/>.
+		/// </remarks>
+		protected LinkedList<AudioSource> AllAudioLayers
 		{
 			get
 			{
-				if (audioLayers == null)
+				// Check to see if the audio layers are setup
+				if (allAudioLayers == null)
 				{
-					audioLayers = new LinkedList<AudioSource>();
-					lastPlayedAudio = base.CurrentAudio;
-					audioLayers.AddLast(lastPlayedAudio);
+					// Grab the attached audio source, and perform a setup
+					Setup(AttachedSource);
+
+					// Create the list, and add the first element
+					allAudioLayers = new LinkedList<AudioSource>();
+					allAudioLayers.AddLast(AttachedSource);
 				}
-				return audioLayers;
+				return allAudioLayers;
+			}
+		}
+		protected AudioSource AttachedSource => Helpers.GetComponentCached(this, ref audioCache);
+
+		/// <summary>
+		/// <para>
+		/// Plays an audio on the latest layer, based on whether
+		/// <see cref="LatestAudio"/>'s <see cref="AudioSource.loop"/> flag is
+		/// set to <c>true</c>.
+		/// </para><para>
+		/// Note: this method does <em>not</em> resume a previously
+		/// paused sound effect.
+		/// </para>
+		/// </summary>
+		/// <remarks>
+		/// <para>
+		/// If <see cref="LatestAudio"/>'s <see cref="AudioSource.loop"/> flag is set to
+		/// <c>true</c>, then this method checks to see the audio's state.
+		/// If stopped, a random clip will play on loop, with mutation applied to
+		/// pitch and volume if flagged to do so.
+		/// If paused, it resumes the paused clip, with pitch and volume unchanged.
+		/// Otherwise, this method does nothing.
+		/// </para><para>
+		/// If <see cref="LatestAudio"/>'s <see cref="AudioSource.loop"/> flag is <em>not</em>
+		/// set to <c>true</c>, then this method acts like
+		/// <see cref="AudioSource.PlayOneShot(AudioClip)"/>.
+		/// While this method attempts to play a sound effect on an audio layer that
+		/// isn't playing anything, if all of them are playing or paused,
+		/// this method will stop the audio layer that played the oldest clip,
+		/// and play a new random clip instead.
+		/// </para>
+		/// </remarks>
+		/// <seealso cref="Stop(Layer)"/>
+		/// <seealso cref="Pause(Layer)"/>
+		public void Play()
+		{
+			// Check to see if we're supposed to be looping.
+			AudioSource playAudio = LatestAudio;
+			if (playAudio.loop)
+			{
+				// First, attempt to unpause the latest audio.
+				// If paused, this updates the isPlaying flag to true.
+				playAudio.UnPause();
+
+				// Check if the audio is already playing
+				// or resuming from a previous pause.
+				if (playAudio.isPlaying == true)
+				{
+					// If so, halt
+					return;
+				}
+			}
+			else
+			{
+				// Look through all the audio layers first, and find one that has stopped.
+				LinkedListNode<AudioSource> checkLayer = FindFirstStoppedLayer(AllAudioLayers.First);
+
+				// Check if there's an audio layer that has stopped
+				if (checkLayer != null)
+				{
+					// Set the audio to play from
+					playAudio = checkLayer.Value;
+
+					// Shuffle the node to the end (making it the latest audio source)
+					AllAudioLayers.Remove(checkLayer);
+					AllAudioLayers.AddLast(checkLayer);
+				}
+				else if (AllAudioLayers.Count < NumberOfLayers)
+				{
+					// If all current layers are still playing/paused,
+					// BUT the current number of layers is below the max limit of layers,
+					// create a new audio layer
+					playAudio = CloneComponent(AttachedSource);
+					AllAudioLayers.AddLast(playAudio);
+				}
+				else
+				{
+					// If ALL layers are still playing/paused,
+					// and we can't make new audio layers,
+					// grab the first (i.e. oldest) layer
+					checkLayer = AllAudioLayers.First;
+					playAudio = checkLayer.Value;
+
+					// Shuffle the node to the end (making it the latest audio source)
+					AllAudioLayers.RemoveFirst();
+					AllAudioLayers.AddLast(checkLayer);
+				}
+			}
+
+			// Stop the audio before changing the clip
+			playAudio.Stop();
+
+			// Pick a random clip
+			if (ClipVariations.Count > 0)
+			{
+				playAudio.clip = ClipVariations.NextRandomElement;
+			}
+
+			// Apply pitch mutation
+			if (IsMutatingPitch == true)
+			{
+				// Change the audio's pitch
+				playAudio.pitch = Random.Range(PitchMutationRange.x, PitchMutationRange.y);
+			}
+
+			// Update the volume
+			if (IsMutatingVolume == true)
+			{
+				// Change the audio's volume
+				playAudio.volume = Random.Range(VolumeMutationRange.x, VolumeMutationRange.y);
+			}
+
+			// Play the audio back from the start
+			playAudio.Play();
+		}
+
+		/// <summary>
+		/// Stops the audio, and rewind to the beginning.
+		/// </summary>
+		/// <param name="layerToStop">
+		/// Which layer(s) to stop.
+		/// </param>
+		/// <seealso cref="Play()"/>
+		public void Stop(Layer layerToStop = Layer.All)
+		{
+			if (layerToStop == Layer.Latest)
+			{
+				LatestAudio.Stop();
+				return;
+			}
+
+			foreach (AudioSource source in AllAudioLayers)
+			{
+				source.Stop();
 			}
 		}
 
-		/// <inheritdoc/>
-		protected override void Awake()
+		/// <summary>
+		/// Pauses the audio, which can be resumed later.
+		/// </summary>
+		/// <param name="layerToStop">
+		/// Which layer(s) to pause.
+		/// </param>
+		/// <seealso cref="Play()"/>
+		/// <seealso cref="UnPause(Layer)"/>
+		public void Pause(Layer layerToPause = Layer.All)
 		{
-			base.Awake();
+			if (layerToPause == Layer.Latest)
+			{
+				LatestAudio.Pause();
+				return;
+			}
+
+			foreach (AudioSource source in AllAudioLayers)
+			{
+				source.Pause();
+			}
+		}
+
+		/// <summary>
+		/// Resumes the audio <em>if</em> it was paused earlier.
+		/// </summary>
+		/// <param name="layerToStop">
+		/// Which layer(s) to un-pause.
+		/// </param>
+		/// <seealso cref="Pause(Layer)"/>
+		public void UnPause(Layer layerToUnPause = Layer.All)
+		{
+			if (layerToUnPause == Layer.Latest)
+			{
+				LatestAudio.UnPause();
+				return;
+			}
+
+			foreach (AudioSource source in AllAudioLayers)
+			{
+				source.UnPause();
+			}
+		}
+
+		/// <summary>
+		/// Resumes the audio <em>if</em> it was paused earlier.
+		/// </summary>
+		/// <remarks>
+		/// This method is an alias to <seealso cref="UnPause(Layer)"/>.
+		/// </remarks>
+		/// <param name="layerToStop">
+		/// Which layer(s) to un-pause.
+		/// </param>
+		/// <seealso cref="Pause(Layer)"/>
+		public void Resume(Layer layerToResume = Layer.All) => UnPause(layerToResume);
+
+		void Awake()
+		{
+			// Check if this audio *should* be playing on awake
+			if (LatestAudio.playOnAwake)
+			{
+				// Override the audio-source behavior
+				Play();
+			}
+		}
+
+		void Setup(AudioSource attachedSource)
+		{
+			// Update attached audio source with listener settings
+			attachedSource.ignoreListenerPause = !IsPausedOnTimeStop;
+
+			// Grab the pitch and volume before doing any setup
+			OriginalPitch = attachedSource.pitch;
+			OriginalVolume = attachedSource.volume;
 
 			// Check to see if audio already has a clip
-			if (CurrentAudio.clip != null)
+			if (attachedSource.clip != null)
 			{
 				// If so, check to see if it's already in the list
-				int frequency = ClipVariations.GetFrequency(CurrentAudio.clip);
+				int frequency = ClipVariations.GetFrequency(attachedSource.clip);
 				if (frequency == 0)
 				{
 					// If not, add it in with default frequency
-					ClipVariations.Add(CurrentAudio.clip);
+					ClipVariations.Add(attachedSource.clip);
 				}
-			}
-			else if (ClipVariations.Count > 0)
-			{
-				// Add a random clip into the audio, if there aren't any
-				CurrentAudio.clip = ClipVariations.NextRandomElement;
 			}
 		}
 
-		protected override bool ChangeAudioSourceState(State before, State after)
+		static LinkedListNode<AudioSource> FindFirstStoppedLayer(LinkedListNode<AudioSource> checkNode)
 		{
-			// Check if we're playing this sound effect from Playing or Stopped state
-			if ((after == State.Playing) && (before != State.Paused))
+			while (checkNode != null)
 			{
-				// FIXME: look through all the audio layers first
-				// before stopping the default one
-				// Stop the audio
-				CurrentAudio.Stop();
-
-				// Pick a random clip
-				if (ClipVariations.Count > 1)
+				// Halt if this audio has stopped
+				if ((checkNode.Value.isPlaying == false) && (Mathf.Approximately(checkNode.Value.time, 0)))
 				{
-					CurrentAudio.clip = ClipVariations.NextRandomElement;
+					break;
 				}
 
-				// Apply pitch mutation
-				if (IsMutatingPitch == true)
-				{
-					// Change the audio's pitch
-					CurrentAudio.pitch = UnityEngine.Random.Range(PitchMutationRange.x, PitchMutationRange.y);
-				}
+				// Otherwise, check the next node
+				checkNode = checkNode.Next;
+			}
+			return checkNode;
+		}
 
-				// Update the volume
-				if (IsMutatingVolume == true)
-				{
-					// Change the audio's volume
-					CurrentAudio.volume = UnityEngine.Random.Range(VolumeMutationRange.x, VolumeMutationRange.y);
-				}
+		// FIXME: move this to OmiyaGames.Helpers
+		/// <summary>
+		/// Clones a component onto the same <c>GameObject</c>
+		/// the component is attached to.
+		/// </summary>
+		/// <typeparam name="T">
+		/// Component type.
+		/// </typeparam>
+		/// <param name="original">
+		/// The original component to clone.
+		/// </param>
+		/// <returns>
+		/// The new component with fields copied
+		/// from <paramref name="original"/>.
+		/// </returns>
+		/// <exception cref="System.ArgumentNullException">
+		/// If <paramref name="original"/> is null.
+		/// </exception>
+		public static T CloneComponent<T>(T original) where T : Component
+		{
+			if (original == null)
+			{
+				throw new System.ArgumentNullException(nameof(original));
+			}
+			return CloneComponent(original, original.gameObject);
+		}
 
-				// Play the audio
-				CurrentAudio.Play();
-				return true;
+		// FIXME: move this to OmiyaGames.Helpers
+		/// <summary>
+		/// Clones a component to another <c>GameObject</c>.
+		/// </summary>
+		/// <typeparam name="T">
+		/// Component type.
+		/// </typeparam>
+		/// <param name="original">
+		/// The original component to clone.
+		/// </param>
+		/// <param name="destination">
+		/// The <c>GameObject</c> to attach the cloned
+		/// component to.
+		/// </param>
+		/// <returns>
+		/// The new component with fields copied
+		/// from <paramref name="original"/>.
+		/// </returns>
+		/// <exception cref="System.ArgumentNullException">
+		/// If <paramref name="original"/> and/or
+		/// <paramref name="destination"/> is null.
+		/// </exception>
+		/// <remarks>
+		/// Original source from 
+		/// <a href="http://answers.unity.com/answers/1118416/view.html">turbanov</a>.
+		/// </remarks>
+		public static T CloneComponent<T>(T original, GameObject destination) where T : Component
+		{
+			// Check arguments
+			if (original == null)
+			{
+				throw new System.ArgumentNullException(nameof(original));
+			}
+			else if (destination == null)
+			{
+				throw new System.ArgumentNullException(nameof(destination));
 			}
 
-			// Otherwise, call base method
-			return base.ChangeAudioSourceState(before, after);
+			// Grabbing the real type of original, rather than relying on T.
+			System.Type realType = original.GetType();
+
+			// Create the new component at the destination
+			T clone = (T)destination.AddComponent(realType);
+
+			// Copy non-static fields from original to clone
+			System.Reflection.FieldInfo[] fields = realType.GetFields();
+			foreach (System.Reflection.FieldInfo field in fields)
+			{
+				// Skip static fields
+				if (field.IsStatic)
+				{
+					continue;
+				}
+				field.SetValue(clone, field.GetValue(original));
+			}
+
+			// Copy properties from original to clone
+			System.Reflection.PropertyInfo[] props = realType.GetProperties();
+			foreach (System.Reflection.PropertyInfo prop in props)
+			{
+				if (prop.CanWrite == false
+
+					// Skip name
+					|| prop.Name == "name"
+
+					// Skip obsolete properties
+					|| prop.IsDefined(typeof(System.ObsoleteAttribute), true)
+
+					// Skip materials due to memory leaks
+					|| prop.PropertyType.Equals(typeof(Material))
+					|| prop.PropertyType.Equals(typeof(Material[])))
+				{
+					continue;
+				}
+				prop.SetValue(clone, prop.GetValue(original, null), null);
+			}
+
+			if (original is Renderer originalRenderer)
+			{
+				// Edge case: for renderers, we're deliberately skipping the material properties
+				// to prevent memory leaks.  Instead, copy over the shared materials
+				(clone as Renderer).sharedMaterials = originalRenderer.sharedMaterials;
+			}
+			else if (clone is AudioSource clonedAudioSource)
+			{
+				// Edge case: for audio source, forcing time to be 0
+				// to prevent errors.
+				clonedAudioSource.time = 0;
+				clonedAudioSource.Stop();
+			}
+			return clone;
 		}
 
 		static Vector2 ClampRange(Vector2 value, float min, float max)
