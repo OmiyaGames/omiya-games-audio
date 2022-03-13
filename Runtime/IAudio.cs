@@ -54,6 +54,7 @@ namespace OmiyaGames.Audio
 	/// <code>AmbientMusic</code>, and <code>SoundEffect</code>.
 	/// </summary>
 	[RequireComponent(typeof(AudioSource))]
+	[System.Obsolete("Doesn't add anything")]
 	public abstract class IAudio : MonoBehaviour
 	{
 		/// <summary>
@@ -77,8 +78,6 @@ namespace OmiyaGames.Audio
 
 		[HideInInspector]
 		AudioSource audioCache = null;
-		[SerializeField]
-		[ReadOnly]
 		State currentState = State.Stopped;
 
 		/// <summary>
