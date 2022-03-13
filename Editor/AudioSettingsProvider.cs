@@ -1,7 +1,9 @@
 using System.Collections.Generic;
-using UnityEditor;
-using OmiyaGames.Global.Settings.Editor;
+using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEditor;
+using UnityEditor.UIElements;
+using OmiyaGames.Global.Settings.Editor;
 using OmiyaGames.Saves.Editor;
 
 namespace OmiyaGames.Audio.Editor
@@ -87,8 +89,15 @@ namespace OmiyaGames.Audio.Editor
 		/// <inheritdoc/>
 		protected override VisualElement CustomizeEditSettingsTree(VisualElement returnTree, SerializedObject serializedSettings)
 		{
-			Button saveSettings = returnTree.Query<Button>("addSaveObjects");
-			saveSettings.RegisterCallback<ClickEvent>(e =>
+			// Add behavior to the active settings field
+			ObjectField settingsField = returnTree.Query<ObjectField>("activeSettings");
+			settingsField.value = ActiveSettings;
+			// FIXME: expose ActiveSettings setter to be protected.
+			//settingsField.RegisterCallback<ChangeEvent<Object>>(e => ActiveSettings = e.newValue as AudioSettings);
+
+			// Add behavior to the saves button
+			Button addSavesButton = returnTree.Query<Button>("addSaveObjects");
+			addSavesButton.RegisterCallback<ClickEvent>(e =>
 			{
 				AudioSettings audio = ActiveSettings;
 				int dataAdded = SavesSettingsProvider.AddSaveData(

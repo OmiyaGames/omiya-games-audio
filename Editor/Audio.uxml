@@ -1,5 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" oge="OmiyaGames.Common.Editor" editor-extension-mode="True">
     <ui:ScrollView>
+        <uie:ObjectField label="Active Settings" name="activeSettings" type="OmiyaGames.Audio.AudioSettings, OmiyaGames.Audio"  tooltip="The settings that will be used by this project and included into any builds." allow-scene-objects="false" />
         <uie:ObjectField label="Mixer" name="mixer" binding-path="mixer" type="UnityEngine.Audio.AudioMixer, UnityEngine.AudioModule" tooltip="The global mixer this project will be based on." />
         <OmiyaGames.Common.Editor.Spacer />
         <ui:VisualElement name="volumeControls">
