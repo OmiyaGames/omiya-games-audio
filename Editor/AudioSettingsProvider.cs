@@ -92,8 +92,7 @@ namespace OmiyaGames.Audio.Editor
 			// Add behavior to the active settings field
 			ObjectField settingsField = returnTree.Query<ObjectField>("activeSettings");
 			settingsField.value = ActiveSettings;
-			// FIXME: expose ActiveSettings setter to be protected.
-			//settingsField.RegisterCallback<ChangeEvent<Object>>(e => ActiveSettings = e.newValue as AudioSettings);
+			settingsField.RegisterCallback<ChangeEvent<Object>>(e => OnUserChangedActiveSettings(e.newValue as AudioSettings));
 
 			// Add behavior to the saves button
 			Button addSavesButton = returnTree.Query<Button>("addSaveObjects");
