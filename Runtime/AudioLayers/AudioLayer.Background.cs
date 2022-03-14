@@ -53,28 +53,29 @@ namespace OmiyaGames.Audio
 		[System.Serializable]
 		public class Background : SubLayer
 		{
-			[SerializeField]
-			[Range(0f, 1.5f)]
-			float defaultFadeDuration;
-			[SerializeField]
-			AudioMixerGroup[] fadeGroups;
+			// TODO: actually properly implement...soon.
+			//[SerializeField]
+			//[Range(0f, 1.5f)]
+			//float defaultFadeDuration;
+			//[SerializeField]
+			//AudioMixerGroup[] fadeGroups;
 
-			/// <summary>
-			/// TODO
-			/// </summary>
-			public AudioMixerGroup[] FadeGroups
-			{
-				get => fadeGroups;
-				internal set => fadeGroups = value;
-			}
-			/// <summary>
-			/// TODO
-			/// </summary>
-			public float DefaultFadeDurationSeconds
-			{
-				get => defaultFadeDuration;
-				internal set => defaultFadeDuration = value;
-			}
+			///// <summary>
+			///// TODO
+			///// </summary>
+			//public AudioMixerGroup[] FadeGroups
+			//{
+			//	get => fadeGroups;
+			//	internal set => fadeGroups = value;
+			//}
+			///// <summary>
+			///// TODO
+			///// </summary>
+			//public float DefaultFadeDurationSeconds
+			//{
+			//	get => defaultFadeDuration;
+			//	internal set => defaultFadeDuration = value;
+			//}
 		}
 	}
 }
