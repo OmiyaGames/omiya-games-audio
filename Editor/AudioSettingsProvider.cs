@@ -117,8 +117,41 @@ namespace OmiyaGames.Audio.Editor
 
 		class Styles
 		{
-			// FIXME: fill this group
-			//public static readonly GUIContent defaultHitPauseDuration = new GUIContent("Default Hit Pause Duration Seconds");
+			public static readonly GUIContent ActiveSettings = new GUIContent("Active Settings");
+			public static readonly GUIContent Mixer = new GUIContent("Mixer");
+			
+			public static readonly GUIContent VolumeControls = new GUIContent("Volume Controls");
+			public static readonly GUIContent MuteVolume = new GUIContent("Mute Volume (dB)");
+			public static readonly GUIContent VolumePercentToDbCurve = new GUIContent("Volume % to dB Curve");
+			
+			public static readonly GUIContent MainLayer = new GUIContent("Main Layer");
+			public static readonly GUIContent MusicLayer = new GUIContent("Music Layer");
+			public static readonly GUIContent SoundEffectsLayer = new GUIContent("Sound Effects Layer");
+			public static readonly GUIContent VoicesLayer = new GUIContent("Voices Layer");
+			public static readonly GUIContent AmbienceLayer = new GUIContent("Ambience Layer");
+
+			public static readonly GUIContent VolumeSaver = new GUIContent("Volume Saver");
+			public static readonly GUIContent IsMutedSaver = new GUIContent("Is Muted Saver");
+			public static readonly GUIContent VolumeParam = new GUIContent("Volume Param");
+			public static readonly GUIContent PitchParam = new GUIContent("Pitch Param");
+			public static readonly GUIContent DefaultGroup = new GUIContent("Default Group");
+			public static readonly GUIContent DefaultUiGroup = new GUIContent("Default UI Group");
+
+			public static readonly GUIContent AddSaversToSavesSettings = new GUIContent("Add Savers to Saves Settings");
+
+			public static readonly GUIContent Snapshots = new GUIContent("Snapshots");
+			public static readonly GUIContent TimeScaleSnapshots = new GUIContent("Time Scale Snapshots");
+			public static readonly GUIContent DefaultSnapshot = new GUIContent("Default Snapshot");
+			public static readonly GUIContent EnablePause = new GUIContent("Enable Pause");
+			public static readonly GUIContent PausedSnapshot = new GUIContent("Paused Snapshot");
+			public static readonly GUIContent EnableSlow = new GUIContent("Enable Slow");
+			public static readonly GUIContent SlowTimeSnapshot = new GUIContent("Slow Time Snapshot");
+			public static readonly GUIContent EnableQuicken = new GUIContent("Enable Quicken");
+			public static readonly GUIContent QuickenTimeSnapshot = new GUIContent("Quicken Time Snapshot");
+			public static readonly GUIContent SlowTimeRange = new GUIContent("Slow Time Range");
+			public static readonly GUIContent LowestPitch = new GUIContent("Lowest Pitch");
+			public static readonly GUIContent QuickenTimeRange = new GUIContent("Quicken Time Range");
+			public static readonly GUIContent HighestPitch = new GUIContent("Highest Pitch");
 		}
 	}
 }
