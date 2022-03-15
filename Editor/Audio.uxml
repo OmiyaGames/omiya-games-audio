@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" oge="OmiyaGames.Common.Editor" editor-extension-mode="True">
     <ui:ScrollView>
-        <uie:ObjectField label="Active Settings" name="activeSettings" type="OmiyaGames.Audio.AudioSettings, OmiyaGames.Audio"  tooltip="The settings that will be used by this project and included into any builds." allow-scene-objects="false" />
+        <uie:ObjectField label="Active Settings" name="activeSettings" type="OmiyaGames.Audio.AudioSettings, OmiyaGames.Audio" tooltip="The settings that will be used by this project and included into any builds." allow-scene-objects="false" />
         <uie:ObjectField label="Mixer" name="mixer" binding-path="mixer" type="UnityEngine.Audio.AudioMixer, UnityEngine.AudioModule" tooltip="The global mixer this project will be based on." />
         <OmiyaGames.Common.Editor.Spacer />
         <ui:VisualElement name="volumeControls">
@@ -17,15 +17,12 @@
             <uie:PropertyField binding-path="voices" tabindex="17" name="voices" focusable="true" label="Voices Layer" />
             <uie:PropertyField binding-path="ambience" tabindex="18" name="ambience" focusable="true" label="Ambience Layer" />
         </ui:VisualElement>
-        <ui:VisualElement name="buttonRow" style="flex-direction: row;">
-            <ui:VisualElement style="flex-shrink: 0; flex-grow: 1;" />
-            <ui:Button text="Add Savers To Saves Settings" display-tooltip-when-elided="true" name="addSaveObjects" tooltip="Adds above saver files into Project Settings." tabindex="19" style="-unity-text-align: middle-center;" />
+        <OmiyaGames.Common.Editor.Spacer />
+        <ui:VisualElement name="effectsFields">
+            <ui:Label text="Audio Effects" display-tooltip-when-elided="false" name="header" enable-rich-text="false" class="header" style="flex-direction: row-reverse;" />
+            <uie:PropertyField binding-path="timeScaleEffects" tabindex="20" name="timeScaleEffects" focusable="true" label="Time-Related Effects" tooltip="Snapshots of AudioMixer for various states related to TimeManager&apos;s state" />
         </ui:VisualElement>
         <OmiyaGames.Common.Editor.Spacer />
-        <ui:VisualElement name="snapshotsFields">
-            <ui:Label text="Snapshots" display-tooltip-when-elided="false" name="header" enable-rich-text="false" class="header" style="flex-direction: row-reverse;" />
-            <uie:PropertyField binding-path="timeScaleSnapshots" tabindex="20" name="timeScaleSnapshots" focusable="true" label="Time Scale Snapshots" tooltip="Snapshots of AudioMixer for various states related to TimeManager&apos;s state" />
-        </ui:VisualElement>
-        <OmiyaGames.Common.Editor.Spacer />
+        <ui:Button text="Add Savers To Saves Settings" display-tooltip-when-elided="true" name="addSaveObjects" tooltip="Adds above saver files into Project Settings." tabindex="19" style="-unity-text-align: middle-center;" />
     </ui:ScrollView>
 </ui:UXML>
