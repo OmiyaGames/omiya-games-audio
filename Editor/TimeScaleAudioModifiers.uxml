@@ -1,0 +1,30 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" oge="OmiyaGames.Common.Editor" editor-extension-mode="True">
+    <Style src="project://database/Packages/com.omiyagames.global.settings/Editor/default-style.uss?fileID=7433441132597879392&amp;guid=3ae46e517b369d0478dabad92787dd4f&amp;type=3#default-style" />
+    <ui:Foldout text="Effects For" name="snapshots" value="true" tabindex="1">
+        <uie:ObjectField label="Default Snapshot" type="UnityEngine.Audio.AudioMixerSnapshot, UnityEngine.AudioModule" binding-path="defaultSnapshot" name="defaultSnapshot" tabindex="10" tooltip="Required: the snapshot to default to if TimeManager.TimeScale is one." />
+        <ui:VisualElement name="pauseRow" style="flex-direction: row; flex-wrap: wrap;">
+            <ui:Toggle text="Pause Effect" binding-path="enablePause" name="enablePause" tabindex="20" style="min-width: 116px;" />
+            <uie:ObjectField type="UnityEngine.Audio.AudioMixerSnapshot, UnityEngine.AudioModule" binding-path="pausedSnapshot" name="pausedSnapshot" tabindex="21" tooltip="The snapshot to trigger if game is paused." style="flex-grow: 1; height: 18px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="slowRow" style="flex-direction: row;">
+            <ui:Toggle text="Time Slow Effect" binding-path="enableSlow" name="enableSlow" tabindex="30" style="min-width: 116px;" />
+            <OmiyaGames.Common.Editor.RangeSlider high-limit="1" low-limit="0" binding-path="slowTimeRange" name="slowTimeRange" min-value="0.5" max-value="1" tabindex="31" tooltip="The range that TimeManager.TimeScale has to be in for this effect to trigger." style="flex-grow: 1;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="slowGroup">
+            <uie:ObjectField type="UnityEngine.Audio.AudioMixerSnapshot, UnityEngine.AudioModule" binding-path="slowTimeSnapshot" name="slowTimeSnapshot" tabindex="32" label="Slow Snapshot" tooltip="The optional snapshot to trigger if time is slowed" style="flex-grow: 1;" />
+            <OmiyaGames.Common.Editor.RangeSlider high-limit="1" low-limit="0" binding-path="slowPitchRange" name="slowPitchRange" label="Slow Pitch Range" min-value="0.5" tabindex="33" tooltip="The range of the pitch when slow is active." max-value="1" />
+            <OmiyaGames.Common.Editor.Spacer />
+        </ui:VisualElement>
+        <ui:VisualElement name="fastRow" style="flex-direction: row;">
+            <ui:Toggle text="Fast Time Effect" binding-path="enableFast" name="enableFast" tabindex="40" style="min-width: 116px;" />
+            <OmiyaGames.Common.Editor.RangeSlider high-limit="5" low-limit="1" binding-path="fastTimeRange" name="fastTimeRange" min-value="1" max-value="5" tabindex="41" tooltip="The range that TimeManager.TimeScale has to be in for this effect to trigger." style="flex-grow: 1;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="fastGroup">
+            <uie:ObjectField type="UnityEngine.Audio.AudioMixerSnapshot, UnityEngine.AudioModule" binding-path="fastTimeSnapshot" name="fastTimeSnapshot" tabindex="42" label="Fast Snapshot" tooltip="The optional snapshot to trigger if time is quickened." style="flex-grow: 1; height: 18px;" />
+            <OmiyaGames.Common.Editor.RangeSlider high-limit="5" low-limit="1" binding-path="fastPitchRange" name="fastPitchRange" label="Fast Pitch Range" min-value="1" tabindex="43" tooltip="The range of the pitch when fast is active." max-value="5" />
+            <OmiyaGames.Common.Editor.Spacer />
+        </ui:VisualElement>
+        <ui:TextField label="Pitch Param" value="Pitch" text="Pitch" binding-path="pitchParam" name="pitchParam" tabindex="50" tooltip="Optional field to fill in the mixer&apos;s exposed parameter for pitch. " />
+    </ui:Foldout>
+    <uie:ObjectField name="mixer" type="UnityEngine.Audio.AudioMixer, UnityEngine" binding-path="mixer" style="position: absolute; right: 0; top: 0; left: 137px;" />
+</ui:UXML>

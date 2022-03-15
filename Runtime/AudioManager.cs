@@ -280,7 +280,7 @@ namespace OmiyaGames.Audio
 						AddType(indexToType, SnapshotType.Default, true, modifiers.DefaultSnapshot);
 						AddType(indexToType, SnapshotType.Paused, modifiers.EnablePause, modifiers.PausedSnapshot);
 						AddType(indexToType, SnapshotType.Slow, modifiers.EnableSlow, modifiers.SlowTimeSnapshot);
-						AddType(indexToType, SnapshotType.Quicken, modifiers.EnableQuicken, modifiers.QuickenTimeSnapshot);
+						AddType(indexToType, SnapshotType.Quicken, modifiers.EnableFast, modifiers.FastTimeSnapshot);
 
 						// Setup all arrays
 						snapshotSettings[i].snapshots = new AudioMixerSnapshot[indexToType.Count];
@@ -314,7 +314,7 @@ namespace OmiyaGames.Audio
 							case SnapshotType.Slow:
 								return modifier.SlowTimeSnapshot;
 							case SnapshotType.Quicken:
-								return modifier.QuickenTimeSnapshot;
+								return modifier.FastTimeSnapshot;
 							default:
 								return modifier.DefaultSnapshot;
 						}
@@ -344,7 +344,7 @@ namespace OmiyaGames.Audio
 					else
 					{
 						type = SnapshotType.Quicken;
-						weight = Mathf.InverseLerp(settings.QuickenTimeRange.x, settings.QuickenTimeRange.y, currentTimeScale);
+						weight = Mathf.InverseLerp(settings.FastTimeRange.x, settings.FastTimeRange.y, currentTimeScale);
 					}
 				}
 
@@ -366,20 +366,20 @@ namespace OmiyaGames.Audio
 						float time = Mathf.InverseLerp(settings.SlowTimeRange.x, settings.SlowTimeRange.y, currentTimeScale);
 						
 						// Compute the pitch
-						return Mathf.Lerp(settings.LowestPitch, 1f, time);
+						return Mathf.Lerp(settings.SlowPitchRange.x, settings.SlowPitchRange.y, time);
 					}
 					else
 					{
-						if (settings.EnableQuicken == false)
+						if (settings.EnableFast == false)
 						{
 							return 1f;
 						}
 
 						// Compute where the timescale is in this range
-						float time = Mathf.InverseLerp(settings.QuickenTimeRange.x, settings.QuickenTimeRange.y, currentTimeScale);
+						float time = Mathf.InverseLerp(settings.FastTimeRange.x, settings.FastTimeRange.y, currentTimeScale);
 
 						// Compute the pitch
-						return Mathf.Lerp(1f, settings.HighestPitch, time);
+						return Mathf.Lerp(settings.FastPitchRange.x, settings.FastPitchRange.y, time);
 					}
 				}
 			}

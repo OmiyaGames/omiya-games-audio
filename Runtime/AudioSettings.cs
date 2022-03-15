@@ -78,8 +78,8 @@ namespace OmiyaGames.Audio
 		[SerializeField]
 		AudioLayer.Background ambience = new();
 
-		[SerializeField]
-		TimeScaleAudioModifiers[] timeScaleSnapshots;
+		[SerializeField, UnityEngine.Serialization.FormerlySerializedAs("timeScaleSnapshots")]
+		TimeScaleAudioModifiers[] timeScaleEffects;
 
 		/// <summary>
 		/// The main mixer of this game.
@@ -117,7 +117,7 @@ namespace OmiyaGames.Audio
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public TimeScaleAudioModifiers[] TimeScaleSnapshots => timeScaleSnapshots;
+		public TimeScaleAudioModifiers[] TimeScaleSnapshots => timeScaleEffects;
 
 		/// <inheritdoc/>
 		protected override bool OnUpgrade(int oldVersion, out string errorMessage)
@@ -165,7 +165,7 @@ namespace OmiyaGames.Audio
 			voices = defaultSettings.voices;
 			ambience = defaultSettings.ambience;
 
-			timeScaleSnapshots = defaultSettings.timeScaleSnapshots;
+			timeScaleEffects = defaultSettings.timeScaleEffects;
 		}
 
 		static AnimationCurve CreateDefaultCurve(int numberOfKeyFrames)

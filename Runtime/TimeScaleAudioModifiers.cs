@@ -50,40 +50,42 @@ namespace OmiyaGames.Audio
 	/// Helper struct for params in <seealso cref="AudioSettings"/>.
 	/// </summary>
 	[System.Serializable]
-	public struct TimeScaleAudioModifiers
+	public class TimeScaleAudioModifiers
 	{
 		[SerializeField]
 		AudioMixer mixer;
-		[SerializeField]
-		string pitchParam;
 		[SerializeField]
 		AudioMixerSnapshot defaultSnapshot;
 
 		[Header("Pause")]
 		[SerializeField]
-		bool enablePause;
+		bool enablePause = true;
 		[SerializeField]
 		AudioMixerSnapshot pausedSnapshot;
 
 		[Header("Slow")]
 		[SerializeField]
-		bool enableSlow;
+		bool enableSlow = false;
 		[SerializeField]
 		AudioMixerSnapshot slowTimeSnapshot;
 		[SerializeField]
-		Vector2 slowTimeRange;
+		Vector2 slowTimeRange = new Vector2(0.5f, 1f);
 		[SerializeField]
-		float lowestPitch;
+		Vector2 slowPitchRange = new Vector2(0.5f, 1f);
 
-		[Header("Quicken")]
+		[Header("Fast")]
 		[SerializeField]
-		bool enableQuicken;
+		bool enableFast = false;
 		[SerializeField]
-		AudioMixerSnapshot quickenTimeSnapshot;
+		AudioMixerSnapshot fastTimeSnapshot;
 		[SerializeField]
-		Vector2 quickenTimeRange;
+		Vector2 fastTimeRange = new Vector2(1f, 5f);
 		[SerializeField]
-		float highestPitch;
+		Vector2 fastPitchRange = new Vector2(1f, 5f);
+
+		[Header("Pitch")]
+		[SerializeField]
+		string pitchParam;
 
 		/// <summary>
 		/// TODO
@@ -112,19 +114,19 @@ namespace OmiyaGames.Audio
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public float LowestPitch => lowestPitch;
+		public Vector2 SlowPitchRange => slowPitchRange;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public AudioMixerSnapshot QuickenTimeSnapshot => quickenTimeSnapshot;
+		public AudioMixerSnapshot FastTimeSnapshot => fastTimeSnapshot;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public Vector2 QuickenTimeRange => quickenTimeRange;
+		public Vector2 FastTimeRange => fastTimeRange;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public float HighestPitch => highestPitch;
+		public Vector2 FastPitchRange => fastPitchRange;
 		/// <summary>
 		/// TODO
 		/// </summary>
@@ -136,6 +138,6 @@ namespace OmiyaGames.Audio
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public bool EnableQuicken => enableQuicken;
+		public bool EnableFast => enableFast;
 	}
 }

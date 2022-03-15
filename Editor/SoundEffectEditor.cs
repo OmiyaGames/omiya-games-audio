@@ -1,7 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.UIElements;
+﻿using UnityEngine.UIElements;
 using UnityEditor;
-using UnityEditorInternal;
 using UnityEditor.UIElements;
 using OmiyaGames.Common.Editor;
 
@@ -42,7 +40,7 @@ namespace OmiyaGames.Audio.Editor
 	/// <strong>Date:</strong> 5/25/2015<br/>
 	/// <strong>Author:</strong> Taro Omiya
 	/// </term>
-	/// <description>Initial verison.</description>
+	/// <description>Initial version.</description>
 	/// <item>
 	/// </item><term>
 	/// <strong>Version:</strong> 1.0.0-pre.1<br/>
@@ -55,13 +53,14 @@ namespace OmiyaGames.Audio.Editor
 	/// </remarks>
 	///-----------------------------------------------------------------------
 	/// <summary>
-	/// An editor to make it easier to edit <code>SoundEffect</code> scripts.
+	/// An editor to make it easier to edit <see cref="SoundEffect"/> scripts.
 	/// </summary>
 	/// <seealso cref="SoundEffect"/>
 	[CustomEditor(typeof(SoundEffect), true)]
 	[CanEditMultipleObjects]
 	public class SoundEffectEditor : UnityEditor.Editor
 	{
+		/// <inheritdoc/>
 		public override VisualElement CreateInspectorGUI()
 		{
 			// Create a tree from the UXML file.
