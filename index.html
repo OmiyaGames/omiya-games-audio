@@ -1,0 +1,288 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Omiya Games - Audio | Omiya Games - Audio documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Omiya Games - Audio | Omiya Games - Audio documentation ">
+    <meta name="generator" content="docfx 2.59.0.0">
+    
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles/docfx.vendor.css">
+    <link rel="stylesheet" href="styles/docfx.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <meta property="docfx:navrel" content="toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="index.html">
+                <img id="logo" class="svg" src="logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="article row grid">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="omiya-gameshttpswwwomiyagamescom---audio"><a href="https://www.omiyagames.com/">Omiya Games</a> - Audio</h1>
+
+<p><a href="https://omiyagames.github.io/omiya-games-audio/"><img src="https://github.com/OmiyaGames/omiya-games-audio/workflows/Host%20DocFX%20Documentation/badge.svg" alt="Audio documentation"></a> <a href="https://ko-fi.com/I3I51KS8F"><img src="https://img.shields.io/badge/donate-ko--fi-29abe0.svg?logo=ko-fi" alt="Ko-fi Badge"></a> <a href="/LICENSE.md"><img src="https://img.shields.io/github/license/OmiyaGames/omiya-games-audio" alt="License Badge"></a></p>
+<p><strong>Audio</strong> is an experimental tools package by <a href="https://www.omiyagames.com/">Omiya Games</a>, to eventually provide a number of audio-related tools useful for game development.  As of this writing, this package provides the following tools:</p>
+<h2 id="audio-manager">Audio Manager</h2>
+<p>The <code>AudioManager</code> is a script that interfaces with the project&#39;s Audio Mixer.  Its settings are visible in the Project Settings window, like so:</p>
+<p>![Project Settings](FIXME: add screenshot here.)</p>
+<p>As a singleton class, audio manager allows the developer to adjust the volume and pitch for one of 5 potential audio groups in an Audio Mixer from nearly anywhere:</p>
+<ul>
+<li><strong>Main</strong> - Adjusting the volume and pitch of this group will affect <em>all</em> audio.</li>
+<li><strong>Music</strong> - Affects music playing both in the background, and within the game world (e.g. a radio.)</li>
+<li><strong>Voices</strong> - Affects any spoken lines, grunts, and other human-like voices.</li>
+<li><strong>Ambience</strong> - Affects any ambient sound effects, usually playing in the background.</li>
+<li><strong>Sound Effects</strong> - Affects any other sound effects not covered by above groups.</li>
+</ul>
+<p>An example code will look something like below:</p>
+<pre><code class="lang-csharp">using System.Collections;
+using UnityEngine;
+using OmiyaGames.Audio;
+
+public class VolumeExample : MonoBehaviour
+{
+    // This tool adds a Sound Effect script
+    [SerializeField]
+    SoundEffect testSound;
+
+    IEnumerator Start()
+    {
+        // IMPORTANT! Setting up audio manager is required for adjusting volume and pitch control.
+        // This only needs to be called once throughout the entire game.
+        // It is also safe, though not recommended, to call this function multiple times.
+        yield return AudioManager.Setup();
+
+        // Adjust the volume like so, between 0f and 1f.
+        // Note that this value *does* get saved in PlayerPrefs.
+        // This means the next time user loads the game, and this script calls AudioManager.Setup(),
+        // the VolumePercent will be updated to the value it was set to last time the game was open.
+        AudioManager.Main.VolumePercent = 0.5f;
+
+        // Playing sound is fairly simple
+        testSound.Play();
+        yield return new WaitForSeconds(2f);
+
+        // Adjusting for a different audio grou.
+        // These values are also saved in PlayerPrefs.
+        AudioManager.SoundEffects.VolumePercent = 0.5f;
+        testSound.Play();
+    }
+}
+</code></pre><p>Audio manager also supports pitch-shifting and distortion effects in response to changes made to <code>TimeManager</code>.  These effects utilizes the mixer&#39;s snapshots:</p>
+<p>![Time-Related Effects Settings](FIXME: add screenshot here.)</p>
+<p>A script utilizing these effects will look something like:</p>
+<pre><code class="lang-csharp">using System.Collections;
+using UnityEngine;
+using OmiyaGames.Audio;
+using OmiyaGames.Managers;
+
+public class TimeEffectsExample : MonoBehaviour
+{
+    [SerializeField]
+    SoundEffect testSound;
+
+    IEnumerator Start()
+    {
+        // IMPORTANT! Setting up audio manager is also required for time-related audio effects.
+        yield return AudioManager.Setup();
+
+        // Pause the game to trigger the pause snapshots.
+        TimeManager.IsManuallyPaused = true;
+
+        testSound.Play();
+        yield return new WaitForSecondsRealtime(2f);
+
+        TimeManager.IsManuallyPaused = false;
+
+        // Changing timescale also changes the audio
+        TimeManager.TimeScale = 0.5f;
+        testSound.Play();
+
+        yield return new WaitForSecondsRealtime(2f);
+
+        TimeManager.TimeScale = 1.5f;
+        testSound.Play();
+    }
+}
+</code></pre><h2 id="sound-effect">Sound Effect</h2>
+<p>The <code>SoundEffect</code> script interfaces with an audio source to perform common tricks to create more varied sound effects.  It is designed to add features to Unity&#39;s built-in <code>AudioSource</code> component:</p>
+<p>![Sound Effect Fields](FIXME: add screenshot here.)</p>
+<p>Note that an audio clip doesn&#39;t have to be added into the audio source for <code>SoundEffect</code> to work: the script will automatically choose a random clip from the clip variations list and set the audio source&#39;s clip.  That said, if a clip has been added to the attached audio source, that will be added to the clip variations list on script awake, with a default <code>Frequency</code> of one.  Lastly, most adjustments made to the attached audio source -- besides volume and pitch, if <code>Mutate Volume</code> and <code>Mutate Pitch</code> fields are checked, respectively -- <em>will</em> affect the sound played by <code>SoundEffect</code>, including all the overlapping sound effects generated by this script.</p>
+<p>Using the sound effect script in code is pretty simple:</p>
+<pre><code class="lang-csharp">using System.Collections;
+using UnityEngine;
+using OmiyaGames.Audio;
+
+public class TimeEffectsExample : MonoBehaviour
+{
+    [SerializeField]
+    SoundEffect testSound;
+
+    IEnumerator Start()
+    {
+        // IMPORTANT! Setting up audio manager is also required for time-related audio effects.
+        yield return AudioManager.Setup();
+
+        // Pause the game to trigger the pause snapshots.
+        TimeManager.IsManuallyPaused = true;
+
+        testSound.Play();
+        yield return new WaitForSecondsRealtime(2f);
+
+        TimeManager.IsManuallyPaused = false;
+
+        // Changing timescale also changes the audio
+        TimeManager.TimeScale = 0.5f;
+        testSound.Play();
+
+        yield return new WaitForSecondsRealtime(2f);
+
+        TimeManager.TimeScale = 1.5f;
+        testSound.Play();
+    }
+}
+</code></pre><p>Also, sound effect can be directly added into the hierarchy via the <code>Create...</code> menu (both in the hierarchy window, and right-click context menu:)</p>
+<p>![Create Sound Effect](FIXME: add screenshot here.)</p>
+<h2 id="install">Install</h2>
+<p>This (we swear, one-time!) setup is a bit of a doozy.</p>
+<ol>
+<li>First, install the package via <a href="https://openupm.com/">OpenUPM&#39;s command line tool</a>, which handles installing this package and its many, many dependencies:<ol>
+<li>If you haven&#39;t already <a href="https://openupm.com/docs/getting-started.html#installing-openupm-cli">installed OpenUPM</a>, you can do so through Node.js&#39;s <code>npm</code> (obviously have Node.js installed in your system first):
+ <code>npm install -g openupm-cli</code></li>
+<li>Then, to install this package, just run the following command at the root of your Unity project:
+ <code>openupm add com.omiyagames.audio</code></li>
+</ol>
+</li>
+<li>Open Unity.</li>
+<li>One of this package&#39;s dependency is Unity&#39;s <code>Addressables</code>, which needs setup:<ol>
+<li>Select <code>Window -&gt; Asset Managerment -&gt; Addressables -&gt; Groups</code> from the file menu bar.
+ ![Addressables Groups context menu](FIXME: add screenshot here.)</li>
+<li>A pop-up with a single button will appear. Click <code>Create Addressables Settings</code>.
+ ![Addressables Groups pop-up](FIXME: add screenshot here.)</li>
+<li>After some new assets are created in the project, close the pop-up window.  Addressables are now setup.</li>
+</ol>
+</li>
+<li>Another dependency that needs setup is Omiya Games&#39; <code>Saves</code> package:<ol>
+<li>Select <code>Edit -&gt; Project Settings...</code> from the file menu bar.
+ ![Project Settings context menu](FIXME: add screenshot here.)</li>
+<li>On the left sidebar, select <code>Omiya Games -&gt; Saves</code>.
+ ![Saves project settings](FIXME: add screenshot here.)</li>
+<li>Click on <code>Create...</code>, and save the new package settings file to any location within the project&#39;s <code>Assets</code> folder
+ ![Save file pop-up](FIXME: add screenshot here.)</li>
+<li>Saves are now setup.</li>
+</ol>
+</li>
+<li>Select <code>Window -&gt; Package Manager...</code> from the file menu bar to open the package manager dock again.</li>
+<li>Import this package&#39;s <code>Custom Settings</code> sample.
+ ![Package Manager context menu](FIXME: add screenshot here.)</li>
+<li>Move all the imported files to a folder more accessible than the default location.  You will likely be editing these files mid-development.</li>
+<li>Select <code>Edit -&gt; Project Settings...</code> from the file menu bar to open project settings dock again.</li>
+<li>On the left sidebar, select <code>Omiya Games -&gt; Audio</code>.</li>
+<li>Drag-and-drop the imported settings file, <code>Audio Settings - Custom</code>, into the <code>Active Settings</code> field.
+![Audio project settings - Empty](FIXME: add screenshot here.)</li>
+<li>With the window content drastically changed, scroll to the bottom of the settings window, and click the <code>Add Savers To Saves Settings</code> button.
+![Audio project settings - Filled](FIXME: add screenshot here.)</li>
+<li>(Optional) In this sample, there are a lot of assets starting with the phrase, &quot;<code>Savers -</code>&quot;.  These files contains the default volume and mute settings for each audio category.  It&#39;s recommended to edit these files&#39; default values to your liking.
+![Saver files](FIXME: add screenshot here.)</li>
+<li>Select <code>File -&gt; Save Project</code> to save all the above settings.
+![Save Project](FIXME: add screenshot here.)</li>
+</ol>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://omiyagames.github.io/omiya-games-audio/">Documentation</a></li>
+<li><a href="/CHANGELOG.md">Change Log</a></li>
+</ul>
+<h2 id="license">LICENSE</h2>
+<p>Overall package is licensed under <a href="/LICENSE.md">MIT</a>, unless otherwise noted in the <a href="/THIRD%20PARTY%20NOTICES.md">3rd party licenses</a> file and/or source code.</p>
+<p>Copyright (c) 2019-2022 Omiya Games</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/OmiyaGames/omiya-games-audio/blob/main/Documentation~/index.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright © 2022 Omiya Games
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="styles/docfx.js"></script>
+    <script type="text/javascript" src="styles/main.js"></script>
+  </body>
+</html>
