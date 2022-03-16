@@ -2,169 +2,169 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://omiyagames.github.io/omiya-games-audio/api/Global.AudioLayerControls.html</loc>
-    <lastmod>2022-03-16T05:13:39+00:00</lastmod>
+    <lastmod>2022-03-16T05:44:25+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://omiyagames.github.io/omiya-games-audio/api/Global.EffectsControls.html</loc>
-    <lastmod>2022-03-16T05:13:39+00:00</lastmod>
+    <lastmod>2022-03-16T05:44:25+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://omiyagames.github.io/omiya-games-audio/api/Global.PlayAudioControl.html</loc>
-    <lastmod>2022-03-16T05:13:39+00:00</lastmod>
+    <lastmod>2022-03-16T05:44:25+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://omiyagames.github.io/omiya-games-audio/api/Global.PlaySoundEffect.html</loc>
-    <lastmod>2022-03-16T05:13:39+00:00</lastmod>
+    <lastmod>2022-03-16T05:44:25+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://omiyagames.github.io/omiya-games-audio/api/Global.Toolbar.html</loc>
-    <lastmod>2022-03-16T05:13:39+00:00</lastmod>
+    <lastmod>2022-03-16T05:44:25+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://omiyagames.github.io/omiya-games-audio/api/Global.VolumeMenu.html</loc>
-    <lastmod>2022-03-16T05:13:39+00:00</lastmod>
+    <lastmod>2022-03-16T05:44:25+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://omiyagames.github.io/omiya-games-audio/api/Global.html</loc>
-    <lastmod>2022-03-16T05:13:39+00:00</lastmod>
+    <lastmod>2022-03-16T05:44:25+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://omiyagames.github.io/omiya-games-audio/api/OmiyaGames.Audio.AudioLayer.Background.html</loc>
-    <lastmod>2022-03-16T05:13:39+00:00</lastmod>
+    <lastmod>2022-03-16T05:44:25+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://omiyagames.github.io/omiya-games-audio/api/OmiyaGames.Audio.AudioLayer.Spatial.html</loc>
-    <lastmod>2022-03-16T05:13:39+00:00</lastmod>
+    <lastmod>2022-03-16T05:44:25+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://omiyagames.github.io/omiya-games-audio/api/OmiyaGames.Audio.AudioLayer.SubLayer.html</loc>
-    <lastmod>2022-03-16T05:13:39+00:00</lastmod>
+    <lastmod>2022-03-16T05:44:25+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://omiyagames.github.io/omiya-games-audio/api/OmiyaGames.Audio.AudioLayer.html</loc>
-    <lastmod>2022-03-16T05:13:39+00:00</lastmod>
+    <lastmod>2022-03-16T05:44:25+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://omiyagames.github.io/omiya-games-audio/api/OmiyaGames.Audio.AudioManager.html</loc>
-    <lastmod>2022-03-16T05:13:39+00:00</lastmod>
+    <lastmod>2022-03-16T05:44:25+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://omiyagames.github.io/omiya-games-audio/api/OmiyaGames.Audio.AudioSettings.html</loc>
-    <lastmod>2022-03-16T05:13:39+00:00</lastmod>
+    <lastmod>2022-03-16T05:44:25+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://omiyagames.github.io/omiya-games-audio/api/OmiyaGames.Audio.Editor.AudioMenuItems.html</loc>
-    <lastmod>2022-03-16T05:13:39+00:00</lastmod>
+    <lastmod>2022-03-16T05:44:25+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://omiyagames.github.io/omiya-games-audio/api/OmiyaGames.Audio.Editor.AudioSettingsBuilder.html</loc>
-    <lastmod>2022-03-16T05:13:39+00:00</lastmod>
+    <lastmod>2022-03-16T05:44:25+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://omiyagames.github.io/omiya-games-audio/api/OmiyaGames.Audio.Editor.AudioSettingsEditor.html</loc>
-    <lastmod>2022-03-16T05:13:39+00:00</lastmod>
+    <lastmod>2022-03-16T05:44:25+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://omiyagames.github.io/omiya-games-audio/api/OmiyaGames.Audio.Editor.AudioSettingsProvider.html</loc>
-    <lastmod>2022-03-16T05:13:39+00:00</lastmod>
+    <lastmod>2022-03-16T05:44:25+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://omiyagames.github.io/omiya-games-audio/api/OmiyaGames.Audio.Editor.SoundEffectEditor.html</loc>
-    <lastmod>2022-03-16T05:13:39+00:00</lastmod>
+    <lastmod>2022-03-16T05:44:25+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://omiyagames.github.io/omiya-games-audio/api/OmiyaGames.Audio.Editor.TimeScaleAudioModifiersDrawer.html</loc>
-    <lastmod>2022-03-16T05:13:39+00:00</lastmod>
+    <lastmod>2022-03-16T05:44:25+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://omiyagames.github.io/omiya-games-audio/api/OmiyaGames.Audio.Editor.html</loc>
-    <lastmod>2022-03-16T05:13:39+00:00</lastmod>
+    <lastmod>2022-03-16T05:44:25+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://omiyagames.github.io/omiya-games-audio/api/OmiyaGames.Audio.SoundEffect.Layer.html</loc>
-    <lastmod>2022-03-16T05:13:39+00:00</lastmod>
+    <lastmod>2022-03-16T05:44:25+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://omiyagames.github.io/omiya-games-audio/api/OmiyaGames.Audio.SoundEffect.html</loc>
-    <lastmod>2022-03-16T05:13:39+00:00</lastmod>
+    <lastmod>2022-03-16T05:44:25+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://omiyagames.github.io/omiya-games-audio/api/OmiyaGames.Audio.TimeScaleAudioModifiers.html</loc>
-    <lastmod>2022-03-16T05:13:39+00:00</lastmod>
+    <lastmod>2022-03-16T05:44:25+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://omiyagames.github.io/omiya-games-audio/api/OmiyaGames.Audio.html</loc>
-    <lastmod>2022-03-16T05:13:39+00:00</lastmod>
+    <lastmod>2022-03-16T05:44:25+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://omiyagames.github.io/omiya-games-audio/index.html</loc>
-    <lastmod>2022-03-16T05:13:39+00:00</lastmod>
+    <lastmod>2022-03-16T05:44:25+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://omiyagames.github.io/omiya-games-audio/manual/audioManager.html</loc>
-    <lastmod>2022-03-16T05:13:39+00:00</lastmod>
+    <lastmod>2022-03-16T05:44:25+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://omiyagames.github.io/omiya-games-audio/manual/changelog.html</loc>
-    <lastmod>2022-03-16T05:13:39+00:00</lastmod>
+    <lastmod>2022-03-16T05:44:25+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://omiyagames.github.io/omiya-games-audio/manual/soundEffect.html</loc>
-    <lastmod>2022-03-16T05:13:39+00:00</lastmod>
+    <lastmod>2022-03-16T05:44:25+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
