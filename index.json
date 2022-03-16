@@ -132,7 +132,7 @@
   "manual/changelog.html": {
     "href": "manual/changelog.html",
     "title": "Change Log: | Omiya Games - Audio documentation",
-    "keywords": "Change Log: 1.0.0-pre.1 Initial release: TODO!"
+    "keywords": "Change Log: 0.1.0-exp.1 Initial release: Added AudioManager - singleton script that handles adjusting volumes and pitch per audio layer, apply audio effects when TimeManager changes, etc. Added AudioManager - MonoBehaviour script that handles common audio polishes, such as mutating pitch and volume, before playing a sound effect on the attached AudioSource ."
   },
   "manual/soundEffect.html": {
     "href": "manual/soundEffect.html",
