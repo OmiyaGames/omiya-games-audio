@@ -81,7 +81,7 @@
 
 <p>Note: this manual page is a work-in-progress.</p>
 <p>The <code>AudioManager</code> is a script that interfaces with the project&#39;s Audio Mixer.  Its settings are visible in the Project Settings window, like so:</p>
-<p><img src="https://omiyagames.github.io/template-unity-package/resources/AudioProjectSettings.png" alt="Project Settings"></p>
+<p><img src="https://omiyagames.github.io/omiya-games-audio/resources/AudioProjectSettings.png" alt="Project Settings"></p>
 <p>As a singleton class, audio manager allows the developer to adjust the volume and pitch for one of 5 potential audio groups in an Audio Mixer from nearly anywhere:</p>
 <ul>
 <li><strong>Main</strong> - Adjusting the volume and pitch of this group will affect <em>all</em> audio.</li>
@@ -126,7 +126,7 @@ public class VolumeExample : MonoBehaviour
 }
 </code></pre><h3 id="time-related-audio-distortions">Time-Related Audio Distortions</h3>
 <p>Audio manager also supports pitch-shifting and distortion effects in response to changes made to <code>TimeManager</code>.  These effects utilizes the mixer&#39;s snapshots:</p>
-<p><img src="https://omiyagames.github.io/template-unity-package/resources/TimeRelatedEffectsSettings.png" alt="Time-Related Effects Settings"></p>
+<p><img src="https://omiyagames.github.io/omiya-games-audio/resources/TimeRelatedEffectsSettings.png" alt="Time-Related Effects Settings"></p>
 <p>A script utilizing these effects will look something like:</p>
 <pre><code class="lang-csharp">using System.Collections;
 using UnityEngine;

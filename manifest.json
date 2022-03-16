@@ -328,7 +328,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "bLwzEjHVZVeexmtIpNRSb+yw+bi0XXWSkWxbJNTBJks="
+          "hash": "NNqbsS+sA+UuTlXXSCY+8ytI/qyLbLsFEWSP2ma4Fak="
         }
       },
       "is_incremental": false,
@@ -340,7 +340,7 @@
       "output": {
         ".html": {
           "relative_path": "manual/audioManager.html",
-          "hash": "alhXpqZkPr9NjKLmHXx2L+hlyvaw2dE8M80NhSzym6E="
+          "hash": "/fyd7gTWpcF+a/zgwXKk7mf4/iKIurT0DKk3ijqzU6Q="
         }
       },
       "is_incremental": false,
@@ -364,7 +364,7 @@
       "output": {
         ".html": {
           "relative_path": "manual/soundEffect.html",
-          "hash": "9qGtjliFrqWroWoOaVfIzdNMMXsZQQduInTwEufncUU="
+          "hash": "ORhle9ThF3JRMah1ZNE2ktroeTXcIQ+esn0Wh1HOZ+I="
         }
       },
       "is_incremental": false,
