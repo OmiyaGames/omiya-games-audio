@@ -1,6 +1,6 @@
 # [Omiya Games](https://www.omiyagames.com/) - Audio
 
-[![Audio documentation](https://github.com/OmiyaGames/omiya-games-audio/workflows/Host%20DocFX%20Documentation/badge.svg)](https://omiyagames.github.io/omiya-games-audio/) [![Ko-fi Badge](https://img.shields.io/badge/donate-ko--fi-29abe0.svg?logo=ko-fi)](https://ko-fi.com/I3I51KS8F) [![License Badge](https://img.shields.io/github/license/OmiyaGames/omiya-games-audio)](/LICENSE.md)
+[![openupm](https://img.shields.io/npm/v/com.omiyagames.audio?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.omiyagames.audio/) [![Audio documentation](https://github.com/OmiyaGames/omiya-games-audio/workflows/Host%20DocFX%20Documentation/badge.svg)](https://omiyagames.github.io/omiya-games-audio/) [![Ko-fi Badge](https://img.shields.io/badge/donate-ko--fi-29abe0.svg?logo=ko-fi)](https://ko-fi.com/I3I51KS8F) [![License Badge](https://img.shields.io/github/license/OmiyaGames/omiya-games-audio)](/LICENSE.md)
 
 **Audio** is an experimental tools package by [Omiya Games](https://www.omiyagames.com/), to eventually provide a number of audio-related tools useful for game development.  As of this writing, this package provides the following tools:
 
