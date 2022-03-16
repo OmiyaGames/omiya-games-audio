@@ -1,67 +1,194 @@
-# [Omiya Games](https://www.omiyagames.com/) - Template Unity Package
+# [Omiya Games](https://www.omiyagames.com/) - Audio
 
-[![Template Unity Package documentation](https://github.com/OmiyaGames/template-unity-package/workflows/Host%20DocFX%20Documentation/badge.svg)](https://omiyagames.github.io/template-unity-package/) [![Ko-fi Badge](https://img.shields.io/badge/donate-ko--fi-29abe0.svg?logo=ko-fi)](https://ko-fi.com/I3I51KS8F) [![License Badge](https://img.shields.io/github/license/OmiyaGames/template-unity-package)](/LICENSE.md)
+[![Audio documentation](https://github.com/OmiyaGames/omiya-games-audio/workflows/Host%20DocFX%20Documentation/badge.svg)](https://omiyagames.github.io/omiya-games-audio/) [![Ko-fi Badge](https://img.shields.io/badge/donate-ko--fi-29abe0.svg?logo=ko-fi)](https://ko-fi.com/I3I51KS8F) [![License Badge](https://img.shields.io/github/license/OmiyaGames/omiya-games-audio)](/LICENSE.md)
 
-![Unity Package Manager](https://omiyagames.github.io/template-unity-package/resources/preview.png)
+**Audio** is an experimental tools package by [Omiya Games](https://www.omiyagames.com/), to eventually provide a number of audio-related tools useful for game development.  As of this writing, this package provides the following tools:
 
-**Template Unity Package** is a Github template [Omiya Games](https://www.omiyagames.com/) uses to start a new [Unity](https://unity.com/) package.  To use this template for your own purposes, we recommend:
+## Audio Manager
 
-- Clicking on the green "Use this template" button to create a new online repository on Github directly, or
-- Click the "Releases" link, and download the latest archive as zip or gzip file.
+The `AudioManager` is a script that interfaces with the project's Audio Mixer.  Its settings are visible in the Project Settings window, like so:
 
-From there, consult the following documentation to get a better idea of what files should be edited and/or renamed, and how:
+![Project Settings](FIXME: add screenshot here.)
 
-## Documentation
+As a singleton class, audio manager allows the developer to adjust the volume and pitch for one of 5 potential audio groups in an Audio Mixer from nearly anywhere:
+- **Main** - Adjusting the volume and pitch of this group will affect *all* audio.
+- **Music** - Affects music playing both in the background, and within the game world (e.g. a radio.)
+- **Voices** - Affects any spoken lines, grunts, and other human-like voices.
+- **Ambience** - Affects any ambient sound effects, usually playing in the background.
+- **Sound Effects** - Affects any other sound effects not covered by above groups.
 
-As there are many steps to developing a Unity package, the documentation is currently split into a couple of parts, each covering a specific feature or overview:
+An example code will look something like below:
+```csharp
+using System.Collections;
+using UnityEngine;
+using OmiyaGames.Audio;
 
-- [File and Folder Structure](https://omiyagames.github.io/template-unity-package/manual/structure.html)
-- [Customizing Package Files](https://omiyagames.github.io/template-unity-package/manual/customizePackage.html)
-- [Adding Source Code and Assets](https://omiyagames.github.io/template-unity-package/manual/customizeSource.html)
-- [Adding Importable Assets](https://omiyagames.github.io/template-unity-package/manual/customizeSamples.html)
-- [Customizing Documentation](https://omiyagames.github.io/template-unity-package/manual/customizeDocumentation.html)
+public class VolumeExample : MonoBehaviour
+{
+    // This tool adds a Sound Effect script
+    [SerializeField]
+    SoundEffect testSound;
 
-The [author](https://github.com/japtar10101) of this package also wrote a blog post on [*How to Split Up an Existing Unity Git Project into Smaller Unity Packages*](https://www.taroomiya.com/2020/04/29/how-to-split-up-an-existing-unity-git-project-into-smaller-unity-packages/).
+    IEnumerator Start()
+    {
+        // IMPORTANT! Setting up audio manager is required for adjusting volume and pitch control.
+        // This only needs to be called once throughout the entire game.
+        // It is also safe, though not recommended, to call this function multiple times.
+        yield return AudioManager.Setup();
 
-Finally, changes in the project is documented under the [change log page](https://omiyagames.github.io/template-unity-package/manual/changelog.html).
+        // Adjust the volume like so, between 0f and 1f.
+        // Note that this value *does* get saved in PlayerPrefs.
+        // This means the next time user loads the game, and this script calls AudioManager.Setup(),
+        // the VolumePercent will be updated to the value it was set to last time the game was open.
+        AudioManager.Main.VolumePercent = 0.5f;
+
+        // Playing sound is fairly simple
+        testSound.Play();
+        yield return new WaitForSeconds(2f);
+
+        // Adjusting for a different audio grou.
+        // These values are also saved in PlayerPrefs.
+        AudioManager.SoundEffects.VolumePercent = 0.5f;
+        testSound.Play();
+    }
+}
+```
+
+Audio manager also supports pitch-shifting and distortion effects in response to changes made to `TimeManager`.  These effects utilizes the mixer's snapshots:
+
+![Time-Related Effects Settings](FIXME: add screenshot here.)
+
+A script utilizing these effects will look something like:
+```csharp
+using System.Collections;
+using UnityEngine;
+using OmiyaGames.Audio;
+using OmiyaGames.Managers;
+
+public class TimeEffectsExample : MonoBehaviour
+{
+    [SerializeField]
+    SoundEffect testSound;
+
+    IEnumerator Start()
+    {
+        // IMPORTANT! Setting up audio manager is also required for time-related audio effects.
+        yield return AudioManager.Setup();
+
+        // Pause the game to trigger the pause snapshots.
+        TimeManager.IsManuallyPaused = true;
+
+        testSound.Play();
+        yield return new WaitForSecondsRealtime(2f);
+
+        TimeManager.IsManuallyPaused = false;
+
+        // Changing timescale also changes the audio
+        TimeManager.TimeScale = 0.5f;
+        testSound.Play();
+
+        yield return new WaitForSecondsRealtime(2f);
+
+        TimeManager.TimeScale = 1.5f;
+        testSound.Play();
+    }
+}
+```
+
+## Sound Effect
+
+The `SoundEffect` script interfaces with an audio source to perform common tricks to create more varied sound effects.  It is designed to add features to Unity's built-in `AudioSource` component:
+
+![Sound Effect Fields](FIXME: add screenshot here.)
+
+Note that an audio clip doesn't have to be added into the audio source for `SoundEffect` to work: the script will automatically choose a random clip from the clip variations list and set the audio source's clip.  That said, if a clip has been added to the attached audio source, that will be added to the clip variations list on script awake, with a default `Frequency` of one.  Lastly, most adjustments made to the attached audio source -- besides volume and pitch, if `Mutate Volume` and `Mutate Pitch` fields are checked, respectively -- *will* affect the sound played by `SoundEffect`, including all the overlapping sound effects generated by this script.
+
+Using the sound effect script in code is pretty simple:
+```csharp
+using System.Collections;
+using UnityEngine;
+using OmiyaGames.Audio;
+
+public class TimeEffectsExample : MonoBehaviour
+{
+    [SerializeField]
+    SoundEffect testSound;
+
+    IEnumerator Start()
+    {
+        // IMPORTANT! Setting up audio manager is also required for time-related audio effects.
+        yield return AudioManager.Setup();
+
+        // Pause the game to trigger the pause snapshots.
+        TimeManager.IsManuallyPaused = true;
+
+        testSound.Play();
+        yield return new WaitForSecondsRealtime(2f);
+
+        TimeManager.IsManuallyPaused = false;
+
+        // Changing timescale also changes the audio
+        TimeManager.TimeScale = 0.5f;
+        testSound.Play();
+
+        yield return new WaitForSecondsRealtime(2f);
+
+        TimeManager.TimeScale = 1.5f;
+        testSound.Play();
+    }
+}
+```
+
+Also, sound effect can be directly added into the hierarchy via the `Create...` menu (both in the hierarchy window, and right-click context menu:)
+
+![Create Sound Effect](FIXME: add screenshot here.)
 
 ## Install
 
-For ease of updating installation instructions in future projects, a template instruction is specified below.  Note that [instructions on using OpenUPM's](#through-openupm) to install *this* template package is merely theoretical, as this project is not actually hosted in OpenUPM:
+This (we swear, one-time!) setup is a bit of a doozy.
 
-There are two common methods for installing this package.
-
-### Through [OpenUPM](https://openupm.com/)
-
-Installing via [OpenUPM's command line tool](https://openupm.com/) is recommended because it supports dependency resolution, upgrading, and downgrading this package.
-
-If you haven't already [installed OpenUPM](https://openupm.com/docs/getting-started.html#installing-openupm-cli), you can do so through Node.js's `npm` (obviously have Node.js installed in your system first):
-```
-npm install -g openupm-cli
-```
-Then, to install this package, just run the following command at the root of your Unity project:
-```
-openupm add com.omiyagames.template
-```
-
-### Through [Unity Package Manager](https://docs.unity3d.com/Manual/upm-ui-giturl.html)
-
-Unity's own Package Manager supports [importing packages through a URL to a Git repo](https://docs.unity3d.com/Manual/upm-ui-giturl.html):
-
-1. First, on this repository page, click the "Clone or download" button, and copy over this repository's HTTPS URL.  
-2. Then click on the + button on the upper-left-hand corner of the Package Manager, select "Add package from git URL..." on the context menu, then paste this repo's URL!
-
-While easier to follow than the first method, this one does not support dependency resolution and package upgrading when a new version is released.  So proceed with caution.
-
-## Generating Documentation on New Packages
-
-This package uses [DocFX](https://dotnet.github.io/docfx/) and Github Actions to auto-generate its documentation from both the comments in the source code and the Markdown files in the [`Documentation~`](/Documentation~) directory.  If templated/forked on GitHub, the new project may be configured to host its own documentation by following the instructions specified in the [Customizing Documentation](https://omiyagames.github.io/template-unity-package/manual/customizeDocumentation.html) page.
-
-For other git hosting websites, there is also has a pre-made [Doxygen](https://github.com/doxygen/doxygen) settings file in the same directory to run Doxywizard through.
+1. First, install the package via [OpenUPM's command line tool](https://openupm.com/), which handles installing this package and its many, many dependencies:
+    1. If you haven't already [installed OpenUPM](https://openupm.com/docs/getting-started.html#installing-openupm-cli), you can do so through Node.js's `npm` (obviously have Node.js installed in your system first):
+        ```
+        npm install -g openupm-cli
+        ```
+    2. Then, to install this package, just run the following command at the root of your Unity project:
+        ```
+        openupm add com.omiyagames.audio
+        ```
+2. Open Unity.
+3. One of this package's dependency is Unity's `Addressables`, which needs setup:
+    1. Select `Window -> Asset Managerment -> Addressables -> Groups` from the file menu bar.
+        ![Addressables Groups context menu](FIXME: add screenshot here.)
+    2. A pop-up with a single button will appear. Click `Create Addressables Settings`.
+        ![Addressables Groups pop-up](FIXME: add screenshot here.)
+    3. After some new assets are created in the project, close the pop-up window.  Addressables are now setup.
+4. Another dependency that needs setup is Omiya Games' `Saves` package:
+    1. Select `Edit -> Project Settings...` from the file menu bar.
+        ![Project Settings context menu](FIXME: add screenshot here.)
+    2. On the left sidebar, select `Omiya Games -> Saves`.
+        ![Saves project settings](FIXME: add screenshot here.)
+    3. Click on `Create...`, and save the new package settings file to any location within the project's `Assets` folder
+        ![Save file pop-up](FIXME: add screenshot here.)
+    3. Saves are now setup.
+5. Select `Window -> Package Manager...` from the file menu bar to open the package manager dock again.
+6. Import this package's `Custom Settings` sample.
+    ![Package Manager context menu](FIXME: add screenshot here.)
+7. Move all the imported files to a folder more accessible than the default location.  You will likely be editing these files mid-development.
+8. Select `Edit -> Project Settings...` from the file menu bar to open project settings dock again.
+9. On the left sidebar, select `Omiya Games -> Audio`.
+10. Drag-and-drop the imported settings file, `Audio Settings - Custom`, into the `Active Settings` field.
+    ![Audio project settings - Empty](FIXME: add screenshot here.)
+11. With the window content drastically changed, scroll to the bottom of the settings window, and click the `Add Savers To Saves Settings` button.
+    ![Audio project settings - Filled](FIXME: add screenshot here.)
+12. (Optional) In this sample, there are a lot of assets starting with the phrase, "`Savers - `".  These files contains the default volume and mute settings for each audio category.  It's recommended to edit these files' default values to your liking.
+    ![Saver files](FIXME: add screenshot here.)
+13. Select `File -> Save Project` to save all the above settings.
+    ![Save Project](FIXME: add screenshot here.)
 
 ## Resources
 
-- [Documentation](https://omiyagames.github.io/template-unity-package/)
+- [Documentation](https://omiyagames.github.io/omiya-games-audio/)
 - [Change Log](/CHANGELOG.md)
 
 ## LICENSE
