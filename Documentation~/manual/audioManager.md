@@ -4,7 +4,7 @@ Note: this manual page is a work-in-progress.
 
 The `AudioManager` is a script that interfaces with the project's Audio Mixer.  Its settings are visible in the Project Settings window, like so:
 
-![Project Settings](FIXME: add screenshot here.)
+![Project Settings](https://omiyagames.github.io/template-unity-package/resources/AudioProjectSettings.png)
 
 As a singleton class, audio manager allows the developer to adjust the volume and pitch for one of 5 potential audio groups in an Audio Mixer from nearly anywhere:
 - **Main** - Adjusting the volume and pitch of this group will affect *all* audio.
@@ -50,9 +50,10 @@ public class VolumeExample : MonoBehaviour
 }
 ```
 
+### Time-Related Audio Distortions
 Audio manager also supports pitch-shifting and distortion effects in response to changes made to `TimeManager`.  These effects utilizes the mixer's snapshots:
 
-![Time-Related Effects Settings](FIXME: add screenshot here.)
+![Time-Related Effects Settings](https://omiyagames.github.io/template-unity-package/resources/TimeRelatedEffectsSettings.png)
 
 A script utilizing these effects will look something like:
 ```csharp
