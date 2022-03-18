@@ -5,9 +5,6 @@ apiRules:
 - include:
     uidRegex: ^OmiyaGames\.Audio\.Editor$
     type: Namespace
-- include:
-    uidRegex: ^Global
-    type: Namespace
 - exclude:
     uidRegex: .*
     type: Namespace
