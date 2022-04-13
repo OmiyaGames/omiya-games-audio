@@ -9,6 +9,7 @@ using OmiyaGames.Saves;
 namespace OmiyaGames.Audio
 {
 	///-----------------------------------------------------------------------
+	/// <remarks>
 	/// <copyright file="AudioManager.cs" company="Omiya Games">
 	/// The MIT License (MIT)
 	/// 
@@ -44,7 +45,6 @@ namespace OmiyaGames.Audio
 	/// <strong>Author:</strong> Taro Omiya
 	/// </term>
 	/// <description>Initial verison.</description>
-	/// </description>
 	/// </item>
 	/// </list>
 	/// </remarks>
