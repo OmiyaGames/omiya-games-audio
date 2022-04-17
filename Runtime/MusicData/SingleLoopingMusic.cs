@@ -1,12 +1,15 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace OmiyaGames.Audio
 {
 	///-----------------------------------------------------------------------
 	/// <remarks>
-	/// <copyright file="MusicData.cs" company="Omiya Games">
+	/// <copyright file="SingleLoopingMusic.cs" company="Omiya Games">
 	/// The MIT License (MIT)
 	/// 
 	/// Copyright (c) 2022 Omiya Games
@@ -37,7 +40,7 @@ namespace OmiyaGames.Audio
 	/// <item>
 	/// <term>
 	/// <strong>Version:</strong> 1.1.0-pre.1<br/>
-	/// <strong>Date:</strong> 4/12/2022<br/>
+	/// <strong>Date:</strong> 4/16/2022<br/>
 	/// <strong>Author:</strong> Taro Omiya
 	/// </term>
 	/// <description>Initial verison.</description>
@@ -46,24 +49,17 @@ namespace OmiyaGames.Audio
 	/// </remarks>
 	///-----------------------------------------------------------------------
 	/// <summary>
-	/// An interface for music, used to generate <seealso cref="AudioSource"/>
-	/// playing a clip.
+	/// Set's up the background audio to a single looping music
 	/// </summary>
-	public abstract class MusicData : ScriptableObject
+	[CreateAssetMenu(menuName = "Omiya Games/Audio/Looping Music", fileName = "Looping Music", order = (MENU_ORDER))]
+	public class SingleLoopingMusic : MusicData
 	{
-		public const int MENU_ORDER = 210;
+		[SerializeField]
+		AssetReferenceT<AudioClip> loopingClip;
 
-		/// <summary>
-		/// Sets up <paramref name="attach"/> with <see cref="AudioSource"/>s
-		/// and other items to play the music.
-		/// </summary>
-		/// <param name="attach">
-		/// The script generated <see cref="AudioSource"/>s will be attached
-		/// or be child of.
-		/// </param>
-		/// <param name="audioGroup">
-		/// The mixer group the <see cref="AudioSource"/> will be outputting to.
-		/// </param>
-		public abstract IEnumerator Setup(MusicChanger attach, AudioMixerGroup audioGroup);
+		public override IEnumerator Setup(MusicChanger attach, AudioMixerGroup audioGroup)
+		{
+			throw new System.NotImplementedException();
+		}
 	}
 }

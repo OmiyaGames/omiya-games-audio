@@ -54,7 +54,7 @@ namespace OmiyaGames.Audio
 		MusicData playMusic;
 
 		/// <inheritdoc/>
-		public override IEnumerator<MusicData> AllData
+		public override IEnumerable<MusicData> AllData
 		{
 			get
 			{

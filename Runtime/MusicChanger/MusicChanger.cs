@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -53,9 +54,38 @@ namespace OmiyaGames.Audio
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public abstract IEnumerator<MusicData> AllData
+		public event System.Action<MusicChanger> OnBeforeDestroy;
+
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public abstract IEnumerable<MusicData> AllData
 		{
 			get;
 		}
+
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public virtual IEnumerator Setup()
+		{
+			// Make sure the audio manager is ready
+			yield return AudioManager.Setup();
+
+			// Setup all the music data
+			foreach (MusicData data in AllData)
+			{
+				// FIXME: figure out which audio group each data belongs to!
+				yield return data.Setup(this, null);
+				throw new System.NotImplementedException();
+			}
+
+			// FIXME: Play something?
+		}
+
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public virtual void OnDestroy() => OnBeforeDestroy?.Invoke(this);
 	}
 }
