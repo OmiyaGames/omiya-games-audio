@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.Audio;
 using OmiyaGames.Global.Settings;
-using OmiyaGames.Saves;
 
 namespace OmiyaGames.Audio
 {
@@ -78,6 +77,11 @@ namespace OmiyaGames.Audio
 		[SerializeField]
 		AudioLayer.Background ambience = new();
 
+		[SerializeField]
+		MusicDataStack.Settings musicSetup;
+		[SerializeField]
+		MusicDataStack.Settings ambienceSetup;
+
 		[SerializeField, UnityEngine.Serialization.FormerlySerializedAs("timeScaleSnapshots")]
 		TimeScaleAudioModifiers[] timeScaleEffects;
 
@@ -118,6 +122,14 @@ namespace OmiyaGames.Audio
 		/// TODO
 		/// </summary>
 		public TimeScaleAudioModifiers[] TimeScaleSnapshots => timeScaleEffects;
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public MusicDataStack.Settings MusicSetup => musicSetup;
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public MusicDataStack.Settings AmbienceSetup => ambienceSetup;
 
 		/// <inheritdoc/>
 		protected override bool OnUpgrade(int oldVersion, out string errorMessage)

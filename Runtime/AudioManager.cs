@@ -117,6 +117,14 @@ namespace OmiyaGames.Audio
 		/// TODO
 		/// </summary>
 		public static float MuteVolumeDb => AudioSettingsManager.GetDataOrThrow().MuteVolumeDb;
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public static MusicDataStack BackgroundMusicStack => AudioSettingsManager.GetInstanceOrThrow().BackgroundMusicStack;
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public static MusicDataStack BackgroundAmbienceStack => AudioSettingsManager.GetInstanceOrThrow().BackgroundAmbienceStack;
 
 		/// <summary>
 		/// TODO
@@ -149,6 +157,22 @@ namespace OmiyaGames.Audio
 
 			/// <inheritdoc/>
 			protected override string AddressableName => ADDRESSABLE_NAME;
+			/// <summary>
+			/// TODO
+			/// </summary>
+			public MusicDataStack BackgroundMusicStack
+			{
+				get;
+				private set;
+			} = null;
+			/// <summary>
+			/// TODO
+			/// </summary>
+			public MusicDataStack BackgroundAmbienceStack
+			{
+				get;
+				private set;
+			} = null;
 
 			/// <inheritdoc/>
 			public override Data.Status GetStatus() => status;
@@ -179,6 +203,13 @@ namespace OmiyaGames.Audio
 				Data.SoundEffects.Setup();
 				Data.Voices.Setup();
 				Data.Ambience.Setup();
+
+				// Setup music stacks
+				BackgroundMusicStack = new MusicDataStack(this, Data.MusicSetup, Data.PercentToDbCurve, "Music Stack");
+				BackgroundAmbienceStack = new MusicDataStack(this, Data.AmbienceSetup, Data.PercentToDbCurve, "Ambience Stack");
+
+				// Force this game object to be active
+				gameObject.SetActive(true);
 
 				// Update snapshots and AudioListener
 				UpdateSnapshots(TimeManager.TimeScale, TimeManager.IsManuallyPaused);

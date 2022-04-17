@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" oge="OmiyaGames.Common.Editor" editor-extension-mode="True">
+    <Style src="project://database/Packages/com.omiyagames.global.settings/Editor/default-style.uss?fileID=7433441132597879392&amp;guid=3ae46e517b369d0478dabad92787dd4f&amp;type=3#default-style" />
+    <uie:ObjectField type="UnityEngine.Audio.AudioMixerGroup, UnityEngine.AudioModule" binding-path="group" name="group" tabindex="0" tooltip="The group to pipe the Audio Source for this layer.">
+        <ui:TextField label="Volume Param Name" value="Fade Volume" text="Fade Volume" binding-path="paramName" name="paramName" tabindex="1" tooltip="The parameter name that adjusts the group&apos;s volume." />
+    </uie:ObjectField>
+</ui:UXML>

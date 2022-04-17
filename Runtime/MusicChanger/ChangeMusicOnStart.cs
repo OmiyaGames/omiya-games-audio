@@ -1,6 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace OmiyaGames.Audio
 {
@@ -48,32 +48,40 @@ namespace OmiyaGames.Audio
 	/// <summary>
 	/// Changes the background music on scene start.
 	/// </summary>
-	public class ChangeMusicOnStart : MusicChanger
+	public class ChangeMusicOnStart : MonoBehaviour
 	{
 		[SerializeField]
-		MusicData playMusic;
-
-		/// <inheritdoc/>
-		public override IEnumerable<MusicData> AllData
-		{
-			get
-			{
-				yield return PlayMusic;
-			}
-		}
+		bool clearAllMusicBeforePlaying = true;
+		[SerializeField]
+		float fadeInSeconds = 0.5f;
+		[SerializeField]
+		AssetReferenceT<MusicData> playMusic;
 
 		/// <summary>
-		/// The music that's playing.
+		/// Sets up the <seealso cref="MusicData"/> and <seealso cref="AudioManager"/>.
 		/// </summary>
-		public virtual MusicData PlayMusic
+		/// <returns>The coroutine for loading everything.</returns>
+		public virtual IEnumerator Start()
 		{
-			get => playMusic;
-		}
+			// Setup the manager
+			yield return AudioManager.Setup();
 
-		public virtual void Start()
-		{
-			// FIXME: from AudioManager, setup this music
-			//playMusic.Setup(this, );
+			// Verify if everthing loaded correctly
+			if (AudioManager.Status == Global.Settings.Data.Status.Fail)
+			{
+				Debug.LogError("Unable to AudioManager.", this);
+				yield break;
+			}
+
+			// Setup this music
+			if(clearAllMusicBeforePlaying)
+			{
+				yield return StartCoroutine(AudioManager.BackgroundMusicStack.Reset(playMusic, fadeInSeconds));
+			}
+			else
+			{
+				yield return StartCoroutine(AudioManager.BackgroundMusicStack.Push(playMusic, fadeInSeconds));
+			}
 		}
 	}
 }

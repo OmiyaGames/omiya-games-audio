@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -61,9 +62,24 @@ namespace OmiyaGames.Audio
 		/// The script generated <see cref="AudioSource"/>s will be attached
 		/// or be child of.
 		/// </param>
-		/// <param name="audioGroup">
-		/// The mixer group the <see cref="AudioSource"/> will be outputting to.
-		/// </param>
-		public abstract IEnumerator Setup(MusicChanger attach, AudioMixerGroup audioGroup);
+		/// 
+		public abstract IEnumerator Setup(GameObject attach, AudioSource audioPrefab, AudioMixerGroup group);
+
+		/// <summary>
+		/// Cleans-up a setup of data.
+		/// </summary>
+		/// <param name="attach"></param>
+		/// <returns></returns>
+		public abstract IEnumerator CleanUp(GameObject attach);
+
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public abstract void Play();
+
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public abstract void Stop();
 	}
 }

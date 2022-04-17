@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Audio;
+using UnityEngine.UIElements;
+using UnityEditor;
 
-namespace OmiyaGames.Audio
+namespace OmiyaGames.Audio.Editor
 {
 	///-----------------------------------------------------------------------
 	/// <remarks>
-	/// <copyright file="SingleLoopingMusic.cs" company="Omiya Games">
+	/// <copyright file="FadeLayerDrawer.cs" company="Omiya Games">
 	/// The MIT License (MIT)
 	/// 
 	/// Copyright (c) 2022 Omiya Games
@@ -37,54 +35,27 @@ namespace OmiyaGames.Audio
 	/// </listheader>
 	/// <item>
 	/// <term>
-	/// <strong>Version:</strong> 1.1.0-pre.1<br/>
-	/// <strong>Date:</strong> 4/16/2022<br/>
+	/// <strong>Date:</strong> 4/17/2022<br/>
 	/// <strong>Author:</strong> Taro Omiya
 	/// </term>
-	/// <description>Initial verison.</description>
+	/// <description>Initial version.</description>
 	/// </item>
 	/// </list>
 	/// </remarks>
 	///-----------------------------------------------------------------------
 	/// <summary>
-	/// Sets up the background audio to a single looping music
+	/// An editor to make it easier to edit <see cref="MusicDataStack.FadeLayer"/> scripts.
 	/// </summary>
-	[CreateAssetMenu(menuName = "Omiya Games/Audio/Looping Music", fileName = "Looping Music", order = (MENU_ORDER))]
-	public class SingleLoopingMusic : MusicData
+	/// <seealso cref="MusicDataStack.FadeLayer"/>
+	[CustomPropertyDrawer(typeof(MusicDataStack.FadeLayer))]
+	public class FadeLayerDrawer : PropertyDrawer
 	{
-		[SerializeField]
-		AudioClip loop;
-
-		[Header("Intro Stings")]
-		[SerializeField]
-		bool addIntroSting = false;
-		[SerializeField]
-		AudioClip introSting;
-		[SerializeField]
-		double introStingLength;
-
 		/// <inheritdoc/>
-		public override IEnumerator Setup(GameObject attach, AudioSource audioPrefab, AudioMixerGroup group)
+		public override VisualElement CreatePropertyGUI(SerializedProperty property)
 		{
-			throw new System.NotImplementedException();
-		}
-
-		/// <inheritdoc/>
-		public override IEnumerator CleanUp(GameObject attach)
-		{
-			throw new System.NotImplementedException();
-		}
-
-		/// <inheritdoc/>
-		public override void Play()
-		{
-			throw new System.NotImplementedException();
-		}
-
-		/// <inheritdoc/>
-		public override void Stop()
-		{
-			throw new System.NotImplementedException();
+			// Create container from UXML
+			VisualTreeAsset originalTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.omiyagames.audio/Editor/FadeLayer.uxml");
+			return originalTree.CloneTree(property.propertyPath);
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -62,25 +61,6 @@ namespace OmiyaGames.Audio
 		public abstract IEnumerable<MusicData> AllData
 		{
 			get;
-		}
-
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public virtual IEnumerator Setup()
-		{
-			// Make sure the audio manager is ready
-			yield return AudioManager.Setup();
-
-			// Setup all the music data
-			foreach (MusicData data in AllData)
-			{
-				// FIXME: figure out which audio group each data belongs to!
-				yield return data.Setup(this, null);
-				throw new System.NotImplementedException();
-			}
-
-			// FIXME: Play something?
 		}
 
 		/// <summary>
