@@ -1,12 +1,10 @@
-using System.Collections;
-using UnityEngine;
-using UnityEngine.AddressableAssets;
+﻿using System;
 
 namespace OmiyaGames.Audio
 {
 	///-----------------------------------------------------------------------
 	/// <remarks>
-	/// <copyright file="ChangeMusicOnStart.cs" company="Omiya Games">
+	/// <copyright file="FadeOutArgs.cs" company="Omiya Games">
 	/// The MIT License (MIT)
 	/// 
 	/// Copyright (c) 2022 Omiya Games
@@ -36,62 +34,43 @@ namespace OmiyaGames.Audio
 	/// </listheader>
 	/// <item>
 	/// <term>
-	/// <strong>Version:</strong> 1.1.0-pre.1<br/>
-	/// <strong>Date:</strong> 4/14/2022<br/>
+	/// <strong>Version:</strong> 1.0.0-pre.1<br/>
+	/// <strong>Date:</strong> 4/18/2022<br/>
 	/// <strong>Author:</strong> Taro Omiya
 	/// </term>
-	/// <description>Initial verison.</description>
+	/// <description>
+	/// Initial draft.
+	/// </description>
 	/// </item>
 	/// </list>
 	/// </remarks>
 	///-----------------------------------------------------------------------
 	/// <summary>
-	/// Changes the background music on scene start.
+	/// TODO
+	/// <seealso cref="UnityEngine.AudioSettings.dspTime"/>
 	/// </summary>
-	public class ChangeMusicOnStart : MonoBehaviour
+	public class FadeOutArgs : EventArgs
 	{
-		[SerializeField]
-		bool clearAllMusicBeforePlaying = true;
-		[SerializeField]
-		float fadeInSeconds = 0.5f;
-		[SerializeField]
-		AssetReferenceT<MusicData> playMusic;
+		double delay = 0;
+		double duration = 0;
 
 		/// <summary>
-		/// Sets up the <seealso cref="MusicData"/> and <seealso cref="AudioManager"/>.
+		/// Delay time in seconds, normalized by DSP scale.
+		/// <seealso cref="UnityEngine.AudioSettings.dspTime"/>
 		/// </summary>
-		/// <returns>The coroutine for loading everything.</returns>
-		public virtual IEnumerator Start()
+		public double Delay
 		{
-			// Setup the manager
-			yield return AudioManager.Setup();
-
-			// Verify if everthing loaded correctly
-			if (AudioManager.Status == Global.Settings.Data.Status.Fail)
-			{
-				Debug.LogError("Unable to AudioManager.", this);
-				yield break;
-			}
-
-			// Setup args
-			FadeInArgs fadeInArgs = new FadeInArgs()
-			{
-				Duration = fadeInSeconds,
-				FadeOut = new FadeOutArgs()
-				{
-					Duration = fadeInSeconds,
-				}
-			};
-
-			// Setup this music
-			if (clearAllMusicBeforePlaying)
-			{
-				yield return StartCoroutine(AudioManager.BackgroundMusicStack.Reset(playMusic, fadeInArgs));
-			}
-			else
-			{
-				yield return StartCoroutine(AudioManager.BackgroundMusicStack.Push(playMusic, fadeInArgs));
-			}
+			get => delay;
+			set => delay = PlaybackArgs.ClampNegative(value);
+		}
+		/// <summary>
+		/// Delay time in seconds, normalized by DSP scale.
+		/// <seealso cref="UnityEngine.AudioSettings.dspTime"/>
+		/// </summary>
+		public double Duration
+		{
+			get => duration;
+			set => duration = PlaybackArgs.ClampNegative(value);
 		}
 	}
 }

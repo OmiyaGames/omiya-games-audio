@@ -8,6 +8,8 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace OmiyaGames.Audio
 {
+	using Collections;
+
 	///-----------------------------------------------------------------------
 	/// <remarks>
 	/// <copyright file="MusicDataStack.cs" company="Omiya Games">
@@ -60,57 +62,38 @@ namespace OmiyaGames.Audio
 		/// TODO
 		/// </summary>
 		[Serializable]
-		public struct FadeLayer
-		{
-			[SerializeField]
-			[Tooltip("The group to pipe the Audio Source for this layer.")]
-			AudioMixerGroup group;
-			[SerializeField]
-			[Tooltip("The parameter name that adjusts the group's volume.")]
-			string paramName;
-
-			/// <summary>
-			/// TODO
-			/// </summary>
-			public AudioMixerGroup Group => group;
-			/// <summary>
-			/// TODO
-			/// </summary>
-			public string ParamName => paramName;
-		}
-
-		/// <summary>
-		/// TODO
-		/// </summary>
-		[Serializable]
 		public class Settings
 		{
 			[SerializeField]
 			[Tooltip("A prefab to setup an Audio Source for playing clips in the background.")]
 			AudioSource defaultAudioSetup;
 			[SerializeField]
-			FadeLayer[] fadeLayers;
+			MusicFader.Layer[] fadeLayers;
 
+			/// <summary>
+			/// TODO
+			/// </summary>
 			public AudioSource DefaultAudioSetup => defaultAudioSetup;
 
-			public FadeLayer[] FadeLayers => fadeLayers;
+			/// <summary>
+			/// TODO
+			/// </summary>
+			public MusicFader.Layer[] FadeLayers => fadeLayers;
 		}
 
 		class StackData
 		{
-			public StackData(MusicData music, GameObject gameObject, in FadeLayer layer)
+			public StackData(MusicData music, GameObject gameObject)
 			{
 				Music = music;
 				GameObject = gameObject;
-				Layer = layer;
 				MusicLoader = null;
 			}
 
-			public StackData(AsyncOperationHandle<MusicData> musicLoader, GameObject gameObject, in FadeLayer layer)
+			public StackData(AsyncOperationHandle<MusicData> musicLoader, GameObject gameObject)
 			{
 				Music = musicLoader.Result;
 				GameObject = gameObject;
-				Layer = layer;
 				MusicLoader = musicLoader;
 			}
 
@@ -122,23 +105,16 @@ namespace OmiyaGames.Audio
 			{
 				get;
 			}
-			[Obsolete("Will be removing this property entirely")]
-			public FadeLayer Layer
-			{
-				get;
-			}
 			public AsyncOperationHandle<MusicData>? MusicLoader
 			{
 				get;
 			}
-			public bool IsInStack
-			{
-				get;
-				set;
-			} = true;
 		}
 
-		int nextLayer = 0;
+		readonly MusicDataCollection<StackData> stack = new MusicDataCollection<StackData>();
+		readonly MusicFader fadeQueue;
+		readonly MonoBehaviour manager;
+		readonly Transform parentTransform;
 
 		/// <summary>
 		/// TODO
@@ -146,91 +122,62 @@ namespace OmiyaGames.Audio
 		internal MusicDataStack(MonoBehaviour manager, Settings settings, AnimationCurve percentToDbCurve, string name = "stack")
 		{
 			// Do some null-checking
+			if (manager == null)
+			{
+				throw new ArgumentNullException(nameof(manager));
+			}
 			if (settings == null)
 			{
 				throw new ArgumentNullException(nameof(settings));
 			}
 
-			if (percentToDbCurve == null)
-			{
-				throw new ArgumentNullException(nameof(percentToDbCurve));
-			}
-
-			// FIXME: do some more thorough test on settings
-
-			// Setup member variables
-			PercentToDbCurve = percentToDbCurve;
-			SetupInfo = settings;
-			Manager = manager;
+			// Construct member variables
+			this.manager = manager;
+			fadeQueue = new MusicFader(manager, settings.DefaultAudioSetup, percentToDbCurve, settings.FadeLayers);
 
 			// Setup parentTransform
 			var stackObject = new GameObject(name);
-			stackObject.transform.SetParent(Manager.transform);
-			ParentTransform = stackObject.transform;
+			stackObject.transform.SetParent(manager.transform);
+			parentTransform = stackObject.transform;
 		}
 
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public int Count => Stack.Count;
-		MonoBehaviour Manager
-		{
-			get;
-		}
-		Transform ParentTransform
-		{
-			get;
-		}
-		[Obsolete("Will be split up into smaller parts")]
-		Settings SetupInfo
-		{
-			get;
-		}
-		AnimationCurve PercentToDbCurve
-		{
-			get;
-		}
-		LinkedList<StackData> Stack
-		{
-			get;
-		} = new LinkedList<StackData>();
-		// FIXME: setup a helper class handling fade-outs
+		public int Count => stack.Count;
 
 		/// <summary>
 		/// TODO
 		/// </summary>
 		/// <param name="data"></param>
-		/// <param name="fadeInSeconds"></param>
+		/// <param name="args"></param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentNullException"></exception>
-		public IEnumerator Push(MusicData data, float fadeInSeconds = 0)
+		public void Push(MusicData data, FadeInArgs args = null)
 		{
 			if (data == null)
 			{
 				throw new ArgumentNullException(nameof(data));
 			}
 
-			// Setup the data
-			GenerateStackData(data, out FadeLayer layer, out GameObject newObject);
-			data.Setup(newObject, layer.Group, SetupInfo.DefaultAudioSetup);
-
 			// Push the layer info in the stack
-			StackData fadeOut = Stack.Last?.Value;
-			StackData fadeIn = new StackData(data, newObject, in layer);
-			Stack.AddLast(fadeIn);
+			GameObject newObject = new GameObject(data.name);
+			newObject.transform.SetParent(parentTransform);
+			StackData fadeIn = new StackData(data, newObject);
+			stack.AddLast(data, fadeIn);
 
 			// Perform an audio fade-out
-			yield return Manager.StartCoroutine(FadeMusic(fadeIn, fadeOut, fadeInSeconds));
+			fadeQueue.FadeIn(data, newObject, args);
 		}
 
 		/// <summary>
 		/// TODO
 		/// </summary>
 		/// <param name="data"></param>
-		/// <param name="fadeInSeconds"></param>
+		/// <param name="args"></param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentNullException"></exception>
-		public IEnumerator Push(AssetReferenceT<MusicData> data, float fadeInSeconds = 0)
+		public IEnumerator Push(AssetReferenceT<MusicData> data, FadeInArgs args = null)
 		{
 			if (data == null)
 			{
@@ -239,78 +186,73 @@ namespace OmiyaGames.Audio
 
 			// Attempt to load the data
 			AsyncOperationHandle<MusicData> loadDataHandle = data.LoadAssetAsync();
-			yield return loadDataHandle;
-
-			// Make sure it loaded correctly
-			switch (loadDataHandle.Status)
+			if (loadDataHandle.Status == AsyncOperationStatus.None)
 			{
-				case AsyncOperationStatus.None:
-					throw new Exception($"Unable to load AssetReference \"{data.SubObjectName}\"");
-				case AsyncOperationStatus.Failed:
-					throw loadDataHandle.OperationException;
+				yield return loadDataHandle;
+
+				// Make sure it loaded correctly
+				switch (loadDataHandle.Status)
+				{
+					case AsyncOperationStatus.None:
+						throw new Exception($"Unable to load AssetReference \"{data.SubObjectName}\"");
+					case AsyncOperationStatus.Failed:
+						throw loadDataHandle.OperationException;
+				}
 			}
 
-			// Setup the data
-			MusicData results = loadDataHandle.Result;
-			GenerateStackData(results, out FadeLayer layer, out GameObject newObject);
-			results.Setup(newObject, layer.Group, SetupInfo.DefaultAudioSetup);
-
 			// Push the layer info in the stack
-			StackData fadeOut = Stack.Last?.Value;
-			StackData fadeIn = new StackData(loadDataHandle, newObject, in layer);
-			Stack.AddLast(fadeIn);
+			GameObject newObject = new GameObject(loadDataHandle.Result.name);
+			newObject.transform.SetParent(parentTransform);
+			StackData fadeIn = new StackData(loadDataHandle.Result, newObject);
+			stack.AddLast(in loadDataHandle, fadeIn);
 
 			// Perform an audio fade-out
-			yield return Manager.StartCoroutine(FadeMusic(fadeIn, fadeOut, fadeInSeconds));
+			fadeQueue.FadeIn(loadDataHandle, newObject, args);
 		}
 
 		/// <summary>
 		/// TODO
 		/// </summary>
-		/// <param name="fadeOutSeconds"></param>
+		/// <param name="args"></param>
 		/// <returns></returns>
-		public IEnumerator Pop(float fadeOutSeconds = 0)
+		public void Pop(FadeInArgs args = null)
 		{
 			// Check if there's anything in the stack
 			if (Count == 0)
 			{
-				yield break;
+				return;
 			}
 
 			// Pop the last music
-			StackData fadeOut = Stack.Last.Value;
-			fadeOut.IsInStack = false;
-			Stack.RemoveLast();
+			stack.RemoveLast();
 
 			// Perform an audio fade-out
-			StackData fadeIn = Stack.Last?.Value;
-			yield return Manager.StartCoroutine(FadeMusic(fadeIn, fadeOut, fadeOutSeconds));
-
-			// Clean up the popped data
-			CleanUpData(in fadeOut);
+			MusicManager.Data<StackData> fadeIn = stack.Last;
+			if (fadeIn != null)
+			{
+				fadeQueue.FadeIn(fadeIn.Music, fadeIn.MetaData.GameObject, args);
+			}
 		}
 
 		/// <summary>
 		/// TODO
 		/// </summary>
 		/// <returns></returns>
-		public MusicData Peek() => Stack.Last?.Value.Music;
+		public MusicData Peek() => stack.Last?.Music;
 
 		/// <summary>
 		/// TODO
 		/// </summary>
 		/// <param name="data"></param>
-		public IEnumerator Reset(AssetReferenceT<MusicData> data, float fadeInSeconds = 0)
+		public void Reset(MusicData data, FadeInArgs args = null)
 		{
 			// Basically push the data
-			yield return Manager.StartCoroutine(Push(data, fadeInSeconds));
+			Push(data, args);
 
 			// Once that's done, clear all but one data
-			while (Stack.Count > 1)
+			while (stack.Count > 1)
 			{
-				Stack.First.Value.IsInStack = false;
-				CleanUpData(Stack.First.Value);
-				Stack.RemoveFirst();
+				stack.RemoveFirst();
 			}
 		}
 
@@ -318,43 +260,37 @@ namespace OmiyaGames.Audio
 		/// TODO
 		/// </summary>
 		/// <param name="data"></param>
-		public IEnumerator Reset(MusicData data, float fadeInSeconds = 0)
+		public IEnumerator Reset(AssetReferenceT<MusicData> data, FadeInArgs args = null)
 		{
 			// Basically push the data
-			yield return Manager.StartCoroutine(Push(data, fadeInSeconds));
+			yield return manager.StartCoroutine(Push(data, args));
 
 			// Once that's done, clear all but one data
-			while (Stack.Count > 1)
+			while (stack.Count > 1)
 			{
-				Stack.First.Value.IsInStack = false;
-				CleanUpData(Stack.First.Value);
-				Stack.RemoveFirst();
+				stack.RemoveFirst();
 			}
 		}
 
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public IEnumerator Clear(float fadeOutSeconds = 0)
+		public void Clear(FadeOutArgs args = null)
 		{
 			// Make sure there's actually something to clear
-			if (Count > 0)
+			if (Count == 0)
 			{
-				yield break;
+				return;
 			}
 
 			// Perform an audio fade-out
-			yield return Manager.StartCoroutine(FadeMusic(null, Stack.Last.Value, fadeOutSeconds));
-
-			// Actually clean-up and release all stack items
-			foreach (var data in Stack)
-			{
-				data.IsInStack = false;
-				CleanUpData(in data);
-			}
+			fadeQueue.FadeOut(args);
 
 			// Clear the stack
-			Stack.Clear();
+			while (stack.Count > 0)
+			{
+				stack.RemoveFirst();
+			}
 		}
 
 		/// <summary>
@@ -363,10 +299,10 @@ namespace OmiyaGames.Audio
 		public void Dispose()
 		{
 			// Clear the stack
-			Manager.StartCoroutine(Clear());
+			Clear();
 
 			// Destroy the transform
-			UnityEngine.Object.Destroy(ParentTransform.gameObject);
+			UnityEngine.Object.Destroy(parentTransform.gameObject);
 		}
 
 		/// <summary>
@@ -374,7 +310,7 @@ namespace OmiyaGames.Audio
 		/// </summary>
 		public IEnumerator<MusicData> GetEnumerator()
 		{
-			foreach (var stackData in Stack)
+			foreach (var stackData in stack)
 			{
 				yield return stackData.Music;
 			}
@@ -385,103 +321,7 @@ namespace OmiyaGames.Audio
 		/// </summary>
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-			return ((IEnumerable)Stack).GetEnumerator();
+			return ((IEnumerable)stack).GetEnumerator();
 		}
-
-		#region Helper Methods
-		void GenerateStackData(MusicData data, out FadeLayer layer, out GameObject newObject)
-		{
-			// Determine which layer to assign this data
-			layer = SetupInfo.FadeLayers[nextLayer++];
-			if (nextLayer > SetupInfo.FadeLayers.Length)
-			{
-				nextLayer = 0;
-			}
-
-			// Setup the data
-			newObject = new GameObject(data.name);
-			newObject.transform.SetParent(ParentTransform);
-		}
-
-		IEnumerator FadeMusic(StackData fadeIn, StackData fadeOut, float durationSeconds)
-		{
-			// Make sure both fade-outs aren't null
-			if ((fadeOut == null) && (fadeIn == null))
-			{
-				throw new ArgumentException($"{nameof(fadeOut)} and {nameof(fadeIn)} can't be null at the same time.");
-			}
-
-			// Setup the fade
-			if (fadeIn != null)
-			{
-				// Mute the fade-in
-				SetVolume(fadeIn, 0);
-
-				// Play the fade-in music
-				fadeIn.Music.Play(fadeIn.GameObject);
-			}
-
-			if (durationSeconds > 0)
-			{
-				float fadeInVolumePercent = AudioManager.MuteVolumeDb, fadeOutVolumeDb = 0;
-				if (fadeOut != null)
-				{
-					// Grab all the necessary parameters
-					AudioMixer mixer = fadeOut.Layer.Group.audioMixer;
-					string paramName = fadeOut.Layer.ParamName;
-
-					// Compute the volume
-					mixer.GetFloat(paramName, out fadeOutVolumeDb);
-				}
-
-				// FIXME: actually change the volume gradually over time
-				// Also, notice either fade outs can be null
-				yield return null;
-				throw new NotImplementedException();
-			}
-
-			// Close out the fade
-			if (fadeIn != null)
-			{
-				// Blast the fade-in to full volume
-				SetVolume(fadeIn, 1);
-			}
-
-			if (fadeOut != null)
-			{
-				// Mute the fade-out
-				SetVolume(fadeIn, 0);
-
-				// Stop the fade-out music
-				fadeOut.Music.Stop(null);
-			}
-
-			void SetVolume(in StackData fadeIn, float volumePercent)
-			{
-				// Grab all the necessary parameters
-				AudioMixer mixer = fadeIn.Layer.Group.audioMixer;
-				string paramName = fadeIn.Layer.ParamName;
-
-				// Compute the volume
-				float volumeDb = PercentToDbCurve.Evaluate(volumePercent);
-
-				// Update the mixer
-				mixer.SetFloat(paramName, volumeDb);
-			}
-		}
-
-		static void CleanUpData(in StackData data)
-		{
-			// Clean-up stack item
-			data.Music.CleanUp(data.GameObject);
-			UnityEngine.Object.Destroy(data.GameObject);
-
-			// Release loader of music
-			if (data.MusicLoader.HasValue)
-			{
-				Addressables.Release(data.MusicLoader.Value);
-			}
-		}
-		#endregion
 	}
 }

@@ -80,12 +80,6 @@ namespace OmiyaGames.Audio
 			{
 				get;
 			}
-
-			public bool IsPlaying
-			{
-				get;
-				set;
-			} = false;
 		}
 
 		readonly Dictionary<GameObject, AudioPlayers> cache = new Dictionary<GameObject, AudioPlayers>();
@@ -96,6 +90,12 @@ namespace OmiyaGames.Audio
 			// Grab the components from the cache
 			if (cache.TryGetValue(attach, out AudioPlayers players) == false)
 			{
+				// Make sure audio prefab is not null
+				if (audioPrefab == null)
+				{
+					throw new System.ArgumentNullException(nameof(audioPrefab), "Cannot create a new audio source without a prefab.");
+				}
+
 				// Setup the looping audio player
 				AudioSource main = Instantiate(audioPrefab, Vector3.zero, Quaternion.identity, attach.transform);
 				main.loop = true;
@@ -147,7 +147,7 @@ namespace OmiyaGames.Audio
 		}
 
 		/// <inheritdoc/>
-		public override void Play(GameObject attach)
+		public override void Play(GameObject attach, PlaybackArgs args)
 		{
 			// Check if this game object has been cached
 			if (cache.TryGetValue(attach, out AudioPlayers players) == false)
@@ -157,27 +157,25 @@ namespace OmiyaGames.Audio
 			}
 
 			// Check if the player is not playing
-			if (players.IsPlaying == false)
+			if (IsPlaying(attach) != PlayState.Stopped)
 			{
-				if (players.IntroSting)
-				{
-					// TODO: is .Play() accurate enough?  Do we need to use PlayScheduled instead?
-					players.IntroSting.Play();
-					players.Main.PlayScheduled(UnityEngine.AudioSettings.dspTime + playLoopAfterSeconds);
-				}
-				else
-				{
-					// Only play the main loop
-					players.Main.Play();
-				}
-
-				// Indicate we're playing
-				players.IsPlaying = true;
+				return;
+			}
+			if (players.IntroSting)
+			{
+				// TODO: is .Play() accurate enough?  Do we need to use PlayScheduled instead?
+				players.IntroSting.Play();
+				players.Main.PlayScheduled(UnityEngine.AudioSettings.dspTime + playLoopAfterSeconds);
+			}
+			else
+			{
+				// Only play the main loop
+				players.Main.Play();
 			}
 		}
 
 		/// <inheritdoc/>
-		public override void Stop(GameObject attach)
+		public override void Stop(GameObject attach, double delay)
 		{
 			// Check if this game object has been cached
 			if (cache.TryGetValue(attach, out AudioPlayers players) == false)
@@ -187,12 +185,26 @@ namespace OmiyaGames.Audio
 			}
 
 			// Check if the player is playing
-			if (players.IsPlaying)
+			if (IsPlaying(attach) != PlayState.Playing)
 			{
-				// Stop both audio sources
-				players.IntroSting.Stop();
+				return;
+			}
+
+			// Check if we need to delay stopping this audio
+			if (delay > 0)
+			{
+				// Calculate when to end
+				double endTime = UnityEngine.AudioSettings.dspTime + delay;
+
+				// Schedule end-time
+				players.Main.SetScheduledEndTime(endTime);
+				players.IntroSting?.SetScheduledEndTime(endTime);
+			}
+			else
+			{
+				// Stop both audio sources immediately
 				players.Main.Stop();
-				players.IsPlaying = false;
+				players.IntroSting?.Stop();
 			}
 		}
 
@@ -200,14 +212,19 @@ namespace OmiyaGames.Audio
 		public override PlayState IsPlaying(GameObject attach)
 		{
 			// Check if this game object has been cached
-			if (cache.TryGetValue(attach, out AudioPlayers players))
+			if (cache.TryGetValue(attach, out AudioPlayers players) == false)
 			{
-				// Return its play state
-				return players.IsPlaying ? PlayState.Playing : PlayState.Stopped;
+				return PlayState.Invalid;
 			}
-
-			// Otherwise, return invalid
-			return PlayState.Invalid;
+			else if (players.Main.isPlaying)
+			{
+				return PlayState.Playing;
+			}
+			else if ((players.IntroSting != null) && players.IntroSting.isPlaying)
+			{
+				return PlayState.Playing;
+			}
+			return PlayState.Stopped;
 		}
 
 		/// <summary>

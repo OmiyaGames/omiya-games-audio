@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -96,13 +94,15 @@ namespace OmiyaGames.Audio
 		/// TODO
 		/// </summary>
 		/// <param name="attach"></param>
-		public abstract void Play(GameObject attach);
+		/// <param name="args"></param>
+		public abstract void Play(GameObject attach, PlaybackArgs args = null);
 
 		/// <summary>
 		/// TODO
 		/// </summary>
 		/// <param name="attach"></param>
-		public abstract void Stop(GameObject attach);
+		/// <param name="delay"></param>
+		public abstract void Stop(GameObject attach, double delay = 0);
 
 		/// <summary>
 		/// TODO
