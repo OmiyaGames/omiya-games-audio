@@ -52,6 +52,25 @@ namespace OmiyaGames.Audio
 	/// </summary>
 	public abstract class MusicData : ScriptableObject
 	{
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public enum PlayState
+		{
+			/// <summary>
+			/// Unrecognized music
+			/// </summary>
+			Invalid = -1,
+			/// <summary>
+			/// Music has been stopped.
+			/// </summary>
+			Stopped = 0,
+			/// <summary>
+			/// Music is playing.
+			/// </summary>
+			Playing
+		}
+
 		public const int MENU_ORDER = 210;
 
 		/// <summary>
@@ -62,24 +81,34 @@ namespace OmiyaGames.Audio
 		/// The script generated <see cref="AudioSource"/>s will be attached
 		/// or be child of.
 		/// </param>
-		/// 
-		public abstract IEnumerator Setup(GameObject attach, AudioSource audioPrefab, AudioMixerGroup group);
+		/// <param name="group"></param>
+		/// <param name="audioPrefab"></param>
+		public abstract void Setup(GameObject attach, AudioMixerGroup group, AudioSource audioPrefab = null);
 
 		/// <summary>
 		/// Cleans-up a setup of data.
 		/// </summary>
 		/// <param name="attach"></param>
 		/// <returns></returns>
-		public abstract IEnumerator CleanUp(GameObject attach);
+		public abstract void CleanUp(GameObject attach);
 
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public abstract void Play();
+		/// <param name="attach"></param>
+		public abstract void Play(GameObject attach);
 
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public abstract void Stop();
+		/// <param name="attach"></param>
+		public abstract void Stop(GameObject attach);
+
+		/// <summary>
+		/// TODO
+		/// </summary>
+		/// <param name="attach"></param>
+		/// <returns>TODO</returns>
+		public abstract PlayState IsPlaying(GameObject attach);
 	}
 }

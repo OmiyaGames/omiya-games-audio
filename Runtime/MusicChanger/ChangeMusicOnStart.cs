@@ -74,7 +74,7 @@ namespace OmiyaGames.Audio
 			}
 
 			// Setup this music
-			if(clearAllMusicBeforePlaying)
+			if (clearAllMusicBeforePlaying)
 			{
 				yield return StartCoroutine(AudioManager.BackgroundMusicStack.Reset(playMusic, fadeInSeconds));
 			}

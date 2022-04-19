@@ -61,30 +61,171 @@ namespace OmiyaGames.Audio
 		[SerializeField]
 		AudioClip introSting;
 		[SerializeField]
-		double introStingLength;
+		double playLoopAfterSeconds;
+
+		class AudioPlayers
+		{
+			public AudioPlayers(AudioSource main, AudioSource introSting)
+			{
+				Main = main;
+				IntroSting = introSting;
+			}
+
+			public AudioSource Main
+			{
+				get;
+			}
+
+			public AudioSource IntroSting
+			{
+				get;
+			}
+
+			public bool IsPlaying
+			{
+				get;
+				set;
+			} = false;
+		}
+
+		readonly Dictionary<GameObject, AudioPlayers> cache = new Dictionary<GameObject, AudioPlayers>();
 
 		/// <inheritdoc/>
-		public override IEnumerator Setup(GameObject attach, AudioSource audioPrefab, AudioMixerGroup group)
+		public override void Setup(GameObject attach, AudioMixerGroup group, AudioSource audioPrefab)
 		{
-			throw new System.NotImplementedException();
+			// Grab the components from the cache
+			if (cache.TryGetValue(attach, out AudioPlayers players) == false)
+			{
+				// Setup the looping audio player
+				AudioSource main = Instantiate(audioPrefab, Vector3.zero, Quaternion.identity, attach.transform);
+				main.loop = true;
+				main.clip = loop;
+
+				// Check if we need to generate the intro sting player
+				AudioSource intro = null;
+				if (addIntroSting)
+				{
+					intro = Instantiate(audioPrefab, Vector3.zero, Quaternion.identity, attach.transform);
+					intro.loop = false;
+					intro.clip = introSting;
+				}
+
+				// Add this to the cache
+				players = new AudioPlayers(main, intro);
+				cache.Add(attach, players);
+			}
+
+			// Setup the audio groups
+			players.Main.outputAudioMixerGroup = group;
+			players.IntroSting.outputAudioMixerGroup = group;
 		}
 
 		/// <inheritdoc/>
-		public override IEnumerator CleanUp(GameObject attach)
+		public override void CleanUp(GameObject attach)
 		{
-			throw new System.NotImplementedException();
+			// Check if this game object has been cached
+			if (cache.TryGetValue(attach, out AudioPlayers players) == false)
+			{
+				// If not, skip cleaning up this object
+				return;
+			}
+
+			// Destroy the main audio player
+			Destroy(players.Main);
+
+			// Destroy the intro sting audio player
+			if (players.IntroSting != null)
+			{
+				Destroy(players.IntroSting);
+			}
+
+			// Remove this entry from the cache
+			cache.Remove(attach);
+
+			// Destroy the attached object itself
+			Destroy(attach);
 		}
 
 		/// <inheritdoc/>
-		public override void Play()
+		public override void Play(GameObject attach)
 		{
-			throw new System.NotImplementedException();
+			// Check if this game object has been cached
+			if (cache.TryGetValue(attach, out AudioPlayers players) == false)
+			{
+				// If not, skip cleaning up this object
+				return;
+			}
+
+			// Check if the player is not playing
+			if (players.IsPlaying == false)
+			{
+				if (players.IntroSting)
+				{
+					// TODO: is .Play() accurate enough?  Do we need to use PlayScheduled instead?
+					players.IntroSting.Play();
+					players.Main.PlayScheduled(UnityEngine.AudioSettings.dspTime + playLoopAfterSeconds);
+				}
+				else
+				{
+					// Only play the main loop
+					players.Main.Play();
+				}
+
+				// Indicate we're playing
+				players.IsPlaying = true;
+			}
 		}
 
 		/// <inheritdoc/>
-		public override void Stop()
+		public override void Stop(GameObject attach)
 		{
-			throw new System.NotImplementedException();
+			// Check if this game object has been cached
+			if (cache.TryGetValue(attach, out AudioPlayers players) == false)
+			{
+				// If not, skip cleaning up this object
+				return;
+			}
+
+			// Check if the player is playing
+			if (players.IsPlaying)
+			{
+				// Stop both audio sources
+				players.IntroSting.Stop();
+				players.Main.Stop();
+				players.IsPlaying = false;
+			}
+		}
+
+		/// <inheritdoc/>
+		public override PlayState IsPlaying(GameObject attach)
+		{
+			// Check if this game object has been cached
+			if (cache.TryGetValue(attach, out AudioPlayers players))
+			{
+				// Return its play state
+				return players.IsPlaying ? PlayState.Playing : PlayState.Stopped;
+			}
+
+			// Otherwise, return invalid
+			return PlayState.Invalid;
+		}
+
+		/// <summary>
+		/// Calculates how long <see cref="introSting"/> is,
+		/// and sets <see cref="playLoopAfterSeconds"/>.
+		/// This produces a more accurate value than
+		/// <see cref="AudioClip.length"/>.
+		/// </summary>
+		[ContextMenu("Calculate Intro Sting Duration")]
+		public void SetLoopDelayToIntroStingDuration()
+		{
+			// Make sure we have a sting to play
+			if (addIntroSting && introSting)
+			{
+				// Calculate the duration based on samples and frequency
+				playLoopAfterSeconds = introSting.samples;
+				playLoopAfterSeconds /= introSting.frequency;
+			}
 		}
 	}
 }

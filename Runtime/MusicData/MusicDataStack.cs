@@ -96,7 +96,7 @@ namespace OmiyaGames.Audio
 			public FadeLayer[] FadeLayers => fadeLayers;
 		}
 
-		struct StackData
+		class StackData
 		{
 			public StackData(MusicData music, GameObject gameObject, in FadeLayer layer)
 			{
@@ -122,6 +122,7 @@ namespace OmiyaGames.Audio
 			{
 				get;
 			}
+			[Obsolete("Will be removing this property entirely")]
 			public FadeLayer Layer
 			{
 				get;
@@ -130,6 +131,11 @@ namespace OmiyaGames.Audio
 			{
 				get;
 			}
+			public bool IsInStack
+			{
+				get;
+				set;
+			} = true;
 		}
 
 		int nextLayer = 0;
@@ -175,6 +181,7 @@ namespace OmiyaGames.Audio
 		{
 			get;
 		}
+		[Obsolete("Will be split up into smaller parts")]
 		Settings SetupInfo
 		{
 			get;
@@ -187,6 +194,7 @@ namespace OmiyaGames.Audio
 		{
 			get;
 		} = new LinkedList<StackData>();
+		// FIXME: setup a helper class handling fade-outs
 
 		/// <summary>
 		/// TODO
@@ -204,10 +212,10 @@ namespace OmiyaGames.Audio
 
 			// Setup the data
 			GenerateStackData(data, out FadeLayer layer, out GameObject newObject);
-			yield return data.Setup(newObject, SetupInfo.DefaultAudioSetup, layer.Group);
+			data.Setup(newObject, layer.Group, SetupInfo.DefaultAudioSetup);
 
 			// Push the layer info in the stack
-			StackData? fadeOut = Stack.Last?.Value;
+			StackData fadeOut = Stack.Last?.Value;
 			StackData fadeIn = new StackData(data, newObject, in layer);
 			Stack.AddLast(fadeIn);
 
@@ -245,10 +253,10 @@ namespace OmiyaGames.Audio
 			// Setup the data
 			MusicData results = loadDataHandle.Result;
 			GenerateStackData(results, out FadeLayer layer, out GameObject newObject);
-			yield return results.Setup(newObject, SetupInfo.DefaultAudioSetup, layer.Group);
+			results.Setup(newObject, layer.Group, SetupInfo.DefaultAudioSetup);
 
 			// Push the layer info in the stack
-			StackData? fadeOut = Stack.Last?.Value;
+			StackData fadeOut = Stack.Last?.Value;
 			StackData fadeIn = new StackData(loadDataHandle, newObject, in layer);
 			Stack.AddLast(fadeIn);
 
@@ -271,10 +279,11 @@ namespace OmiyaGames.Audio
 
 			// Pop the last music
 			StackData fadeOut = Stack.Last.Value;
+			fadeOut.IsInStack = false;
 			Stack.RemoveLast();
 
 			// Perform an audio fade-out
-			StackData? fadeIn = Stack.Last?.Value;
+			StackData fadeIn = Stack.Last?.Value;
 			yield return Manager.StartCoroutine(FadeMusic(fadeIn, fadeOut, fadeOutSeconds));
 
 			// Clean up the popped data
@@ -299,6 +308,7 @@ namespace OmiyaGames.Audio
 			// Once that's done, clear all but one data
 			while (Stack.Count > 1)
 			{
+				Stack.First.Value.IsInStack = false;
 				CleanUpData(Stack.First.Value);
 				Stack.RemoveFirst();
 			}
@@ -316,6 +326,7 @@ namespace OmiyaGames.Audio
 			// Once that's done, clear all but one data
 			while (Stack.Count > 1)
 			{
+				Stack.First.Value.IsInStack = false;
 				CleanUpData(Stack.First.Value);
 				Stack.RemoveFirst();
 			}
@@ -338,6 +349,7 @@ namespace OmiyaGames.Audio
 			// Actually clean-up and release all stack items
 			foreach (var data in Stack)
 			{
+				data.IsInStack = false;
 				CleanUpData(in data);
 			}
 
@@ -391,7 +403,7 @@ namespace OmiyaGames.Audio
 			newObject.transform.SetParent(ParentTransform);
 		}
 
-		IEnumerator FadeMusic(StackData? fadeIn, StackData? fadeOut, float durationSeconds)
+		IEnumerator FadeMusic(StackData fadeIn, StackData fadeOut, float durationSeconds)
 		{
 			// Make sure both fade-outs aren't null
 			if ((fadeOut == null) && (fadeIn == null))
@@ -400,23 +412,23 @@ namespace OmiyaGames.Audio
 			}
 
 			// Setup the fade
-			if (fadeIn.HasValue)
+			if (fadeIn != null)
 			{
 				// Mute the fade-in
-				SetVolume(fadeIn.Value, 0);
+				SetVolume(fadeIn, 0);
 
 				// Play the fade-in music
-				fadeIn.Value.Music.Play();
+				fadeIn.Music.Play(fadeIn.GameObject);
 			}
 
 			if (durationSeconds > 0)
 			{
 				float fadeInVolumePercent = AudioManager.MuteVolumeDb, fadeOutVolumeDb = 0;
-				if (fadeOut.HasValue)
+				if (fadeOut != null)
 				{
 					// Grab all the necessary parameters
-					AudioMixer mixer = fadeOut.Value.Layer.Group.audioMixer;
-					string paramName = fadeOut.Value.Layer.ParamName;
+					AudioMixer mixer = fadeOut.Layer.Group.audioMixer;
+					string paramName = fadeOut.Layer.ParamName;
 
 					// Compute the volume
 					mixer.GetFloat(paramName, out fadeOutVolumeDb);
@@ -429,19 +441,19 @@ namespace OmiyaGames.Audio
 			}
 
 			// Close out the fade
-			if (fadeIn.HasValue)
+			if (fadeIn != null)
 			{
 				// Blast the fade-in to full volume
-				SetVolume(fadeIn.Value, 1);
+				SetVolume(fadeIn, 1);
 			}
 
-			if (fadeOut.HasValue)
+			if (fadeOut != null)
 			{
 				// Mute the fade-out
-				SetVolume(fadeIn.Value, 0);
+				SetVolume(fadeIn, 0);
 
 				// Stop the fade-out music
-				fadeOut.Value.Music.Stop();
+				fadeOut.Music.Stop(null);
 			}
 
 			void SetVolume(in StackData fadeIn, float volumePercent)
@@ -460,8 +472,11 @@ namespace OmiyaGames.Audio
 
 		static void CleanUpData(in StackData data)
 		{
-			// Clean-up and release stack item
+			// Clean-up stack item
 			data.Music.CleanUp(data.GameObject);
+			UnityEngine.Object.Destroy(data.GameObject);
+
+			// Release loader of music
 			if (data.MusicLoader.HasValue)
 			{
 				Addressables.Release(data.MusicLoader.Value);
