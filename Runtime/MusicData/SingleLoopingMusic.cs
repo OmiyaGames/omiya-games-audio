@@ -117,7 +117,10 @@ namespace OmiyaGames.Audio
 
 			// Setup the audio groups
 			players.Main.outputAudioMixerGroup = group;
-			players.IntroSting.outputAudioMixerGroup = group;
+			if (players.IntroSting)
+			{
+				players.IntroSting.outputAudioMixerGroup = group;
+			}
 		}
 
 		/// <inheritdoc/>
