@@ -104,7 +104,13 @@ AudioMixerController:
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
   m_UpdateMode: 1
-  m_ExposedParameters: []
+  m_ExposedParameters:
+  - guid: 35ab42b749a65e54ca1d2637bc2d4104
+    name: Fade 1 Volume
+  - guid: bac072d27abe81b4984679c9941163d6
+    name: Fade 2 Volume
+  - guid: c8ef680ab5f87b8419e5e96411495420
+    name: Fade 3 Volume
   m_AudioMixerGroupViews:
   - guids:
     - 85a3cd409246d4f4293755caae9e4fb8
