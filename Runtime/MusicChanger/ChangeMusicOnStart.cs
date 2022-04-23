@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -50,12 +51,22 @@ namespace OmiyaGames.Audio
 	/// </summary>
 	public class ChangeMusicOnStart : MonoBehaviour
 	{
+		public enum Behavior
+		{
+			ClearStack,
+			PausePriorMusic,
+			StopPriorMusic
+		}
+
 		[SerializeField]
-		bool clearAllMusicBeforePlaying = true;
+		AssetReferenceT<MusicData> playMusic;
+		[SerializeField]
+		AssetReferenceT<MusicData> playAmbience;
 		[SerializeField]
 		float fadeInSeconds = 0.5f;
 		[SerializeField]
-		AssetReferenceT<MusicData> playMusic;
+		[Tooltip("The behavior to apply to music playing prior to Start. Clear Stack unloads it from memory.")]
+		Behavior stackBehavior = Behavior.ClearStack;
 
 		/// <summary>
 		/// Sets up the <seealso cref="MusicData"/> and <seealso cref="AudioManager"/>.
@@ -80,17 +91,31 @@ namespace OmiyaGames.Audio
 				FadeOut = new FadeOutArgs()
 				{
 					Duration = fadeInSeconds,
+					Pause = (stackBehavior == Behavior.PausePriorMusic)
 				}
 			};
 
 			// Setup this music
-			if (clearAllMusicBeforePlaying)
+			List<Coroutine> allLoads = new List<Coroutine>(2);
+			PushMusicDataToStack(playMusic, AudioManager.BackgroundMusicStack, fadeInArgs, allLoads);
+			PushMusicDataToStack(playAmbience, AudioManager.BackgroundAmbienceStack, fadeInArgs, allLoads);
+
+			// Wait until all fade-outs are over
+			foreach (var load in allLoads)
 			{
-				yield return StartCoroutine(AudioManager.BackgroundMusicStack.Reset(playMusic, fadeInArgs));
+				yield return load;
 			}
-			else
+		}
+
+		void PushMusicDataToStack(AssetReferenceT<MusicData> playMusic, MusicDataStack stack, FadeInArgs fadeInArgs, List<Coroutine> allLoads)
+		{
+			if ((string.IsNullOrEmpty(playMusic.AssetGUID) == false) && (stack.PeekAssetGuid() != playMusic.AssetGUID))
 			{
-				yield return StartCoroutine(AudioManager.BackgroundMusicStack.Push(playMusic, fadeInArgs));
+				if (stackBehavior == Behavior.ClearStack)
+				{
+					stack.Clear(fadeInArgs.FadeOut);
+				}
+				allLoads.Add(StartCoroutine(stack.Push(playMusic, fadeInArgs)));
 			}
 		}
 	}

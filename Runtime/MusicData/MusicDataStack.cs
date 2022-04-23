@@ -243,27 +243,17 @@ namespace OmiyaGames.Audio
 		/// <summary>
 		/// TODO
 		/// </summary>
-		/// <param name="data"></param>
-		public void Reset(MusicData data, FadeInArgs args = null)
-		{
-			// Basically push the data
-			Push(data, args);
-
-			// Once that's done, clear all but one data
-			while (stack.Count > 1)
-			{
-				stack.RemoveFirst();
-			}
-		}
+		/// <returns></returns>
+		public string PeekAssetGuid() => throw new NotImplementedException();
 
 		/// <summary>
 		/// TODO
 		/// </summary>
 		/// <param name="data"></param>
-		public IEnumerator Reset(AssetReferenceT<MusicData> data, FadeInArgs args = null)
+		public void Reset(MusicData data, FadeInArgs args = null)
 		{
 			// Basically push the data
-			yield return manager.StartCoroutine(Push(data, args));
+			Push(data, args);
 
 			// Once that's done, clear all but one data
 			while (stack.Count > 1)

@@ -72,5 +72,14 @@ namespace OmiyaGames.Audio
 			get => duration;
 			set => duration = PlaybackArgs.ClampNegative(value);
 		}
+		/// <summary>
+		/// If true, pauses the audio being faded out.
+		/// Otherwise, stops it.
+		/// </summary>
+		public bool Pause
+		{
+			get;
+			set;
+		}
 	}
 }

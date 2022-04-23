@@ -160,10 +160,17 @@ namespace OmiyaGames.Audio
 			}
 
 			// Check if the player is not playing
-			if (IsPlaying(attach) != PlayState.Stopped)
+			PlayState state = IsPlaying(attach);
+			switch(state)
 			{
-				return;
+				case PlayState.Playing:
+				case PlayState.Invalid:
+					return;
 			}
+
+			// FIXME: actually use DSP into account
+			// FIXME: figure out how to resume properly
+
 			if (players.IntroSting)
 			{
 				// TODO: is .Play() accurate enough?  Do we need to use PlayScheduled instead?
@@ -178,7 +185,7 @@ namespace OmiyaGames.Audio
 		}
 
 		/// <inheritdoc/>
-		public override void Stop(GameObject attach, double delay)
+		public override void Stop(GameObject attach)
 		{
 			// Check if this game object has been cached
 			if (cache.TryGetValue(attach, out AudioPlayers players) == false)
@@ -193,22 +200,33 @@ namespace OmiyaGames.Audio
 				return;
 			}
 
-			// Check if we need to delay stopping this audio
-			if (delay > 0)
-			{
-				// Calculate when to end
-				double endTime = UnityEngine.AudioSettings.dspTime + delay;
+			// Stop both audio sources immediately
+			players.Main.Stop();
+			players.IntroSting?.Stop();
+		}
 
-				// Schedule end-time
-				players.Main.SetScheduledEndTime(endTime);
-				players.IntroSting?.SetScheduledEndTime(endTime);
-			}
-			else
+
+		/// <inheritdoc/>
+		public override void Pause(GameObject attach)
+		{
+			// Check if this game object has been cached
+			if (cache.TryGetValue(attach, out AudioPlayers players) == false)
 			{
-				// Stop both audio sources immediately
-				players.Main.Stop();
-				players.IntroSting?.Stop();
+				// If not, skip cleaning up this object
+				return;
 			}
+
+			// Check if the player is playing
+			if (IsPlaying(attach) != PlayState.Playing)
+			{
+				return;
+			}
+
+			// Pause main audio source
+			// FIXME: figure out the times and scheduled delays so resuming is easier
+			// FIXME: don't forget to reset these stats on Stop()
+			players.Main.Pause();
+			players.IntroSting?.Pause();
 		}
 
 		/// <inheritdoc/>

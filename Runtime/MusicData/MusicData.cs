@@ -66,7 +66,11 @@ namespace OmiyaGames.Audio
 			/// <summary>
 			/// Music is playing.
 			/// </summary>
-			Playing
+			Playing,
+			/// <summary>
+			/// Music has been paused.
+			/// </summary>
+			Paused
 		}
 
 		public const int MENU_ORDER = 210;
@@ -101,8 +105,14 @@ namespace OmiyaGames.Audio
 		/// TODO
 		/// </summary>
 		/// <param name="attach"></param>
-		/// <param name="delay"></param>
-		public abstract void Stop(GameObject attach, double delay = 0);
+		/// 
+		public abstract void Stop(GameObject attach);
+
+		/// <summary>
+		/// TODO
+		/// </summary>
+		/// <param name="attach"></param>
+		public abstract void Pause(GameObject attach);
 
 		/// <summary>
 		/// TODO
