@@ -114,21 +114,16 @@ namespace OmiyaGames.Audio
 
 			void PushMusicDataToStack(AssetReferenceT<MusicData> playMusic, MusicDataStack history, FadeInArgs fadeInArgs, List<Coroutine> allLoads)
 			{
-				// Make sure asset is valid
-				if (string.IsNullOrEmpty(playMusic.AssetGUID) == false)
+				// Check if we want to clear the music history
+				if (historyBehavior == Behavior.ClearHistory)
 				{
-					// Check if we're not already playing the music
-					if ((alwaysRestart == false) && (history.PeekAssetGuid() == playMusic.AssetGUID))
-					{
-						return;
-					}
+					history.Clear(fadeInArgs.FadeOut);
+				}
 
-					// Check if we want to clear the music history
-					if (historyBehavior == Behavior.ClearHistory)
-					{
-						history.Clear(fadeInArgs.FadeOut);
-					}
-
+				// Make sure asset is valid
+				if ((string.IsNullOrEmpty(playMusic.AssetGUID) == false)
+					&& (alwaysRestart || (history.PeekAssetGuid() != playMusic.AssetGUID)))
+				{
 					// Push this music into the history
 					allLoads.Add(StartCoroutine(history.Push(playMusic, fadeInArgs)));
 				}
