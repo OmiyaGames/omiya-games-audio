@@ -120,11 +120,11 @@ namespace OmiyaGames.Audio
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public static MusicDataStack BackgroundMusicStack => AudioSettingsManager.GetInstanceOrThrow().BackgroundMusicStack;
+		public static MusicDataStack BackgroundMusicHistory => AudioSettingsManager.GetInstanceOrThrow().BackgroundMusicStack;
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public static MusicDataStack BackgroundAmbienceStack => AudioSettingsManager.GetInstanceOrThrow().BackgroundAmbienceStack;
+		public static MusicDataStack BackgroundAmbienceHistory => AudioSettingsManager.GetInstanceOrThrow().BackgroundAmbienceStack;
 
 		/// <summary>
 		/// TODO

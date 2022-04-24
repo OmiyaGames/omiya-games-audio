@@ -53,7 +53,7 @@ namespace OmiyaGames.Audio
 	{
 		public enum Behavior
 		{
-			ClearStack,
+			ClearHistory,
 			PausePriorMusic,
 			StopPriorMusic
 		}
@@ -62,11 +62,16 @@ namespace OmiyaGames.Audio
 		AssetReferenceT<MusicData> playMusic;
 		[SerializeField]
 		AssetReferenceT<MusicData> playAmbience;
+
+		[Header("Play Behavior")]
 		[SerializeField]
-		float fadeInSeconds = 0.5f;
+		double fadeInSeconds = 0.5f;
+		[SerializeField]
+		[Tooltip("If true, restarts the music even if it's already playing in the background.")]
+		bool alwaysRestart = false;
 		[SerializeField]
 		[Tooltip("The behavior to apply to music playing prior to Start. Clear Stack unloads it from memory.")]
-		Behavior stackBehavior = Behavior.ClearStack;
+		Behavior historyBehavior = Behavior.ClearHistory;
 
 		/// <summary>
 		/// Sets up the <seealso cref="MusicData"/> and <seealso cref="AudioManager"/>.
@@ -85,37 +90,48 @@ namespace OmiyaGames.Audio
 			}
 
 			// Setup args
-			FadeInArgs fadeInArgs = new FadeInArgs()
+			FadeInArgs fadeInArgs = new()
 			{
 				Duration = fadeInSeconds,
 				FadeOut = new FadeOutArgs()
 				{
+					Delay = 0,
 					Duration = fadeInSeconds,
-					Pause = (stackBehavior == Behavior.PausePriorMusic)
+					Pause = (historyBehavior == Behavior.PausePriorMusic)
 				}
 			};
 
 			// Setup this music
 			List<Coroutine> allLoads = new List<Coroutine>(2);
-			PushMusicDataToStack(playMusic, AudioManager.BackgroundMusicStack, fadeInArgs, allLoads);
-			PushMusicDataToStack(playAmbience, AudioManager.BackgroundAmbienceStack, fadeInArgs, allLoads);
+			PushMusicDataToStack(playMusic, AudioManager.BackgroundMusicHistory, fadeInArgs, allLoads);
+			PushMusicDataToStack(playAmbience, AudioManager.BackgroundAmbienceHistory, fadeInArgs, allLoads);
 
 			// Wait until all fade-outs are over
 			foreach (var load in allLoads)
 			{
 				yield return load;
 			}
-		}
 
-		void PushMusicDataToStack(AssetReferenceT<MusicData> playMusic, MusicDataStack stack, FadeInArgs fadeInArgs, List<Coroutine> allLoads)
-		{
-			if ((string.IsNullOrEmpty(playMusic.AssetGUID) == false) && (stack.PeekAssetGuid() != playMusic.AssetGUID))
+			void PushMusicDataToStack(AssetReferenceT<MusicData> playMusic, MusicDataStack history, FadeInArgs fadeInArgs, List<Coroutine> allLoads)
 			{
-				if (stackBehavior == Behavior.ClearStack)
+				// Make sure asset is valid
+				if (string.IsNullOrEmpty(playMusic.AssetGUID) == false)
 				{
-					stack.Clear(fadeInArgs.FadeOut);
+					// Check if we're not already playing the music
+					if ((alwaysRestart == false) && (history.PeekAssetGuid() == playMusic.AssetGUID))
+					{
+						return;
+					}
+
+					// Check if we want to clear the music history
+					if (historyBehavior == Behavior.ClearHistory)
+					{
+						history.Clear(fadeInArgs.FadeOut);
+					}
+
+					// Push this music into the history
+					allLoads.Add(StartCoroutine(history.Push(playMusic, fadeInArgs)));
 				}
-				allLoads.Add(StartCoroutine(stack.Push(playMusic, fadeInArgs)));
 			}
 		}
 	}

@@ -88,13 +88,15 @@ namespace OmiyaGames.Audio
 				Music = music;
 				GameObject = gameObject;
 				MusicLoader = null;
+				AssetGuid = null;
 			}
 
-			public StackData(AsyncOperationHandle<MusicData> musicLoader, GameObject gameObject)
+			public StackData(in AsyncOperationHandle<MusicData> musicLoader, string assetGuid, GameObject gameObject)
 			{
 				Music = musicLoader.Result;
 				GameObject = gameObject;
 				MusicLoader = musicLoader;
+				AssetGuid = assetGuid;
 			}
 
 			public MusicData Music
@@ -106,6 +108,10 @@ namespace OmiyaGames.Audio
 				get;
 			}
 			public AsyncOperationHandle<MusicData>? MusicLoader
+			{
+				get;
+			}
+			public string AssetGuid
 			{
 				get;
 			}
@@ -203,7 +209,7 @@ namespace OmiyaGames.Audio
 			// Push the layer info in the stack
 			GameObject newObject = new GameObject(loadDataHandle.Result.name);
 			newObject.transform.SetParent(parentTransform);
-			StackData fadeIn = new StackData(loadDataHandle.Result, newObject);
+			StackData fadeIn = new StackData(loadDataHandle, data.AssetGUID, newObject);
 			stack.AddLast(in loadDataHandle, fadeIn);
 
 			// Perform an audio fade-out
@@ -244,7 +250,7 @@ namespace OmiyaGames.Audio
 		/// TODO
 		/// </summary>
 		/// <returns></returns>
-		public string PeekAssetGuid() => throw new NotImplementedException();
+		public string PeekAssetGuid() => stack.Last?.MetaData?.AssetGuid;
 
 		/// <summary>
 		/// TODO

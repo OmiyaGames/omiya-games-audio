@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace OmiyaGames.Audio
 {
@@ -49,9 +50,13 @@ namespace OmiyaGames.Audio
 	/// TODO
 	/// <seealso cref="UnityEngine.AudioSettings.dspTime"/>
 	/// </summary>
+	[Serializable]
 	public class FadeInArgs : PlaybackArgs
 	{
-		double duration;
+		[SerializeField]
+		double duration = 0;
+		[SerializeField]
+		FadeOutArgs fadeOut = new();
 
 		/// <summary>
 		/// TODO
@@ -67,8 +72,17 @@ namespace OmiyaGames.Audio
 		/// </summary>
 		public FadeOutArgs FadeOut
 		{
-			get;
-			set;
+			get => fadeOut;
+			set => fadeOut = value;
+		}
+
+		/// <summary>
+		/// Fixes any invalid property values.
+		/// </summary>
+		public void Setup()
+		{
+			Duration = duration;
+			fadeOut?.Setup();
 		}
 	}
 }

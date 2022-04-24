@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace OmiyaGames.Audio
 {
@@ -49,10 +50,15 @@ namespace OmiyaGames.Audio
 	/// TODO
 	/// <seealso cref="UnityEngine.AudioSettings.dspTime"/>
 	/// </summary>
+	[Serializable]
 	public class FadeOutArgs : EventArgs
 	{
+		[SerializeField]
 		double delay = 0;
+		[SerializeField]
 		double duration = 0;
+		[SerializeField]
+		bool pause = false;
 
 		/// <summary>
 		/// Delay time in seconds, normalized by DSP scale.
@@ -78,8 +84,17 @@ namespace OmiyaGames.Audio
 		/// </summary>
 		public bool Pause
 		{
-			get;
-			set;
+			get => pause;
+			set => pause = value;
+		}
+
+		/// <summary>
+		/// Fixes any invalid property values.
+		/// </summary>
+		public void Setup()
+		{
+			Delay = delay;
+			Duration = duration;
 		}
 	}
 }
