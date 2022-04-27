@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -36,6 +37,9 @@ namespace OmiyaGames.Audio.Collections
 			public Layer layer;
 			public double startTime;
 			public double fadeDuration;
+			public float volumePercent;
+			public Coroutine fadeRoutine;
+			public bool pauseOnFadeOut;
 		}
 
 		int nextLayer = 0;
@@ -46,6 +50,7 @@ namespace OmiyaGames.Audio.Collections
 		readonly AudioSource defaultAudioPrefab;
 		readonly MusicDataCollection<PlayData> fadeOutQueue = new MusicDataCollection<PlayData>();
 		readonly AnimationCurve percentToDbCurve;
+		readonly Action afterFadeOut;
 
 		/// <summary>
 		/// TODO
@@ -93,6 +98,7 @@ namespace OmiyaGames.Audio.Collections
 			this.defaultAudioPrefab = defaultAudioPrefab;
 			this.percentToDbCurve = percentToDbCurve;
 			this.fadeLayers = fadeLayers;
+			this.afterFadeOut = new Action(() => PruneFadeOutQueue(false));
 		}
 
 		/// <summary>
@@ -102,7 +108,7 @@ namespace OmiyaGames.Audio.Collections
 		/// <param name="player"></param>
 		/// <param name="args"></param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public void FadeIn(MusicData music, GameObject player, FadeInArgs args = null)
+		public void FadeIn(MusicData music, GameObject player, FadeInArgs args)
 		{
 			// Check if arguments are valid
 			if (music == null)
@@ -130,7 +136,7 @@ namespace OmiyaGames.Audio.Collections
 		/// <param name="player"></param>
 		/// <param name="args"></param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public void FadeIn(AsyncOperationHandle<MusicData> music, GameObject player, FadeInArgs args = null)
+		public void FadeIn(AsyncOperationHandle<MusicData> music, GameObject player, FadeInArgs args)
 		{
 			// Check if arguments are valid
 			if (player == null)
@@ -151,7 +157,7 @@ namespace OmiyaGames.Audio.Collections
 		/// TODO
 		/// </summary>
 		/// <param name="args"></param>
-		public bool FadeOut(FadeOutArgs args = null)
+		public bool FadeOut(FadeOutArgs args)
 		{
 			// Check if the current music is assigned
 			bool isFadingOut = false;
@@ -160,39 +166,67 @@ namespace OmiyaGames.Audio.Collections
 				return isFadingOut;
 			}
 
+			// Stop the fade-in coroutine, if one is running
+			if (currentMetaData.fadeRoutine != null)
+			{
+				manager.StopCoroutine(currentMetaData.fadeRoutine);
+				currentMetaData.fadeRoutine = null;
+			}
+
 			// Check if the last music even played
-			if (currentMetaData.startTime < UnityEngine.AudioSettings.dspTime)
+			isFadingOut = currentMetaData.startTime < UnityEngine.AudioSettings.dspTime;
+			if (isFadingOut)
 			{
 				// Update the metadata
 				currentMetaData.startTime = UnityEngine.AudioSettings.dspTime;
 				currentMetaData.fadeDuration = 0;
+				currentMetaData.pauseOnFadeOut = false;
 				if (args != null)
 				{
 					currentMetaData.startTime += args.Delay;
 					currentMetaData.fadeDuration = args.Duration;
+					currentMetaData.pauseOnFadeOut = args.Pause;
 				}
 
 				// Add the current music into the fade-out queue
 				fadeOutQueue.AddLast(currentMusic.Music, currentMetaData);
-				isFadingOut = true;
-			}
 
-			// FIXME: perform fade out
-			// For now, we just make the current music stop immediately
-			currentMusic.Music.Stop(currentMetaData.player);
-			SetVolume(in currentMetaData.layer, 0);
+				// Check if the queue exceeds the number of layers
+				PruneFadeOutQueue(false);
+
+				// Start the fade-out coroutine
+				currentMetaData.fadeRoutine = manager.StartCoroutine(FadeRoutine(currentMetaData, true, afterFadeOut));
+			}
+			else
+			{
+				// If not, stop or pause the last music
+				if ((args != null) && args.Pause)
+				{
+					currentMusic.Music.Pause(currentMetaData.player);
+				}
+				else
+				{
+					currentMusic.Music.Stop(currentMetaData.player);
+				}
+
+				// Silence the layer the music was playing on
+				SetVolume(in currentMetaData.layer, 0);
+			}
 
 			// Reset the variables
 			SetCurrentMusicData(null, null);
 			return isFadingOut;
 		}
 
-		void FadeIn(MusicManager music, GameObject player, FadeInArgs args = null)
+		void FadeIn(MusicManager music, GameObject player, FadeInArgs args)
 		{
-			// Fade out the current music
-			if (FadeOut(args?.FadeOut))
+			// Prune the fade-out queue as well
+			PruneFadeOutQueue(true);
+
+			// Check if there are any music being faded out
+			if (fadeOutQueue.Count > 0)
 			{
-				// If fade-out was performed, increment layer index
+				// Increment layer index
 				nextLayer = (nextLayer + 1) % fadeLayers.Length;
 			}
 
@@ -211,6 +245,7 @@ namespace OmiyaGames.Audio.Collections
 			{
 				player = player,
 				layer = layer,
+				volumePercent = 0f,
 				startTime = startTime,
 				fadeDuration = fadeDuration,
 			});
@@ -220,9 +255,8 @@ namespace OmiyaGames.Audio.Collections
 			currentMusic.Music.Setup(player, layer.Group, defaultAudioPrefab);
 			currentMusic.Music.Play(player, args);
 
-			// FIXME: perform the fade-in
-			// For now, basically just play instantly
-			SetVolume(in layer, 1);
+			// Start the fade-in coroutine
+			currentMetaData.fadeRoutine = manager.StartCoroutine(FadeRoutine(currentMetaData, false));
 		}
 
 		void SetCurrentMusicData(MusicManager music, PlayData metaData)
@@ -252,6 +286,92 @@ namespace OmiyaGames.Audio.Collections
 
 			// Update the mixer
 			mixer.SetFloat(paramName, volumeDb);
+		}
+
+		IEnumerator FadeRoutine(PlayData metaData, bool fadeOut, Action afterFadeFinished = null)
+		{
+			// Set starting volume
+			float startingVolumePercent = metaData.volumePercent;
+			SetVolume(in metaData.layer, startingVolumePercent);
+
+			// Wait until start time is met
+			if (metaData.startTime > UnityEngine.AudioSettings.dspTime)
+			{
+				yield return new WaitUntil(() => UnityEngine.AudioSettings.dspTime >= metaData.startTime);
+			}
+
+			// Start the fade
+			double currentDuration = 0;
+			while (currentDuration < metaData.fadeDuration)
+			{
+				// Set the volume
+				float volumePercent = (float)(currentDuration / metaData.fadeDuration);
+				volumePercent = Mathf.Clamp01(volumePercent);
+				if (fadeOut)
+				{
+					// For fade out, flip the fade direction, and scale it by starting volume
+					volumePercent = 1f - volumePercent;
+					volumePercent *= startingVolumePercent;
+				}
+				metaData.volumePercent = volumePercent;
+				SetVolume(in metaData.layer, metaData.volumePercent);
+
+				// Wait for a frame
+				yield return null;
+
+				// Calculate how much time has passed
+				currentDuration = UnityEngine.AudioSettings.dspTime - metaData.startTime;
+			}
+
+			// Set ending volume
+			metaData.volumePercent = fadeOut ? 0 : 1;
+			SetVolume(in metaData.layer, metaData.volumePercent);
+
+			// Run the action indicating fade has completed
+			afterFadeFinished?.Invoke();
+		}
+
+		void PruneFadeOutQueue(bool includeCurrentMusic)
+		{
+			// Calculate how many elements should be in the fade queue
+			int finalQueueSize = fadeLayers.Length;
+			if (includeCurrentMusic && (finalQueueSize > 0))
+			{
+				--finalQueueSize;
+			}
+
+			// Check if queue is not empty
+			while (fadeOutQueue.Count > 0)
+			{
+				// Grab the first element in the queue
+				var dequeue = fadeOutQueue.First;
+
+				// Break if queue is within expected size limit, AND the first element has not finished fading
+				if ((fadeOutQueue.Count <= finalQueueSize) &&
+					((dequeue.MetaData.startTime + dequeue.MetaData.fadeDuration) > UnityEngine.AudioSettings.dspTime))
+				{
+					break;
+				}
+
+				// Stop the corresponding coroutine
+				if (dequeue.MetaData.fadeRoutine != null)
+				{
+					manager.StopCoroutine(dequeue.MetaData.fadeRoutine);
+				}
+
+				// Pause or stop the music
+				if (dequeue.MetaData.pauseOnFadeOut)
+				{
+					dequeue.Music.Pause(dequeue.MetaData.player);
+				}
+				else
+				{
+					dequeue.Music.Stop(dequeue.MetaData.player);
+				}
+
+				// Remove an element from the queue
+				fadeOutQueue.RemoveFirst();
+			}
 		}
 	}
 }

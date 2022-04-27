@@ -117,7 +117,8 @@ namespace OmiyaGames.Audio
 			}
 		}
 
-		readonly MusicDataCollection<StackData> stack = new MusicDataCollection<StackData>();
+		// TODO: consider splitting this up so fader and history are more separated
+		readonly MusicDataCollection<StackData> history = new MusicDataCollection<StackData>();
 		readonly MusicFader fadeQueue;
 		readonly MonoBehaviour manager;
 		readonly Transform parentTransform;
@@ -150,7 +151,7 @@ namespace OmiyaGames.Audio
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public int Count => stack.Count;
+		public int Count => history.Count;
 
 		/// <summary>
 		/// TODO
@@ -170,7 +171,7 @@ namespace OmiyaGames.Audio
 			GameObject newObject = new GameObject(data.name);
 			newObject.transform.SetParent(parentTransform);
 			StackData fadeIn = new StackData(data, newObject);
-			stack.AddLast(data, fadeIn);
+			history.AddLast(data, fadeIn);
 
 			// Perform an audio fade-out
 			fadeQueue.FadeIn(data, newObject, args);
@@ -210,7 +211,7 @@ namespace OmiyaGames.Audio
 			GameObject newObject = new GameObject(loadDataHandle.Result.name);
 			newObject.transform.SetParent(parentTransform);
 			StackData fadeIn = new StackData(loadDataHandle, data.AssetGUID, newObject);
-			stack.AddLast(in loadDataHandle, fadeIn);
+			history.AddLast(in loadDataHandle, fadeIn);
 
 			// Perform an audio fade-out
 			fadeQueue.FadeIn(loadDataHandle, newObject, args);
@@ -230,10 +231,10 @@ namespace OmiyaGames.Audio
 			}
 
 			// Pop the last music
-			stack.RemoveLast();
+			history.RemoveLast();
 
 			// Perform an audio fade-out
-			MusicManager.Data<StackData> fadeIn = stack.Last;
+			MusicManager.Data<StackData> fadeIn = history.Last;
 			if (fadeIn != null)
 			{
 				fadeQueue.FadeIn(fadeIn.Music, fadeIn.MetaData.GameObject, args);
@@ -244,13 +245,13 @@ namespace OmiyaGames.Audio
 		/// TODO
 		/// </summary>
 		/// <returns></returns>
-		public MusicData Peek() => stack.Last?.Music;
+		public MusicData Peek() => history.Last?.Music;
 
 		/// <summary>
 		/// TODO
 		/// </summary>
 		/// <returns></returns>
-		public string PeekAssetGuid() => stack.Last?.MetaData?.AssetGuid;
+		public string PeekAssetGuid() => history.Last?.MetaData?.AssetGuid;
 
 		/// <summary>
 		/// TODO
@@ -262,9 +263,9 @@ namespace OmiyaGames.Audio
 			Push(data, args);
 
 			// Once that's done, clear all but one data
-			while (stack.Count > 1)
+			while (history.Count > 1)
 			{
-				stack.RemoveFirst();
+				history.RemoveFirst();
 			}
 		}
 
@@ -283,9 +284,9 @@ namespace OmiyaGames.Audio
 			fadeQueue.FadeOut(args);
 
 			// Clear the stack
-			while (stack.Count > 0)
+			while (history.Count > 0)
 			{
-				stack.RemoveFirst();
+				history.RemoveFirst();
 			}
 		}
 
@@ -306,7 +307,7 @@ namespace OmiyaGames.Audio
 		/// </summary>
 		public IEnumerator<MusicData> GetEnumerator()
 		{
-			foreach (var stackData in stack)
+			foreach (var stackData in history)
 			{
 				yield return stackData.Music;
 			}
@@ -317,7 +318,7 @@ namespace OmiyaGames.Audio
 		/// </summary>
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-			return ((IEnumerable)stack).GetEnumerator();
+			return ((IEnumerable)history).GetEnumerator();
 		}
 	}
 }

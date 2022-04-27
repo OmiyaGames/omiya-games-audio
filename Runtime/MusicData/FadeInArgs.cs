@@ -65,7 +65,7 @@ namespace OmiyaGames.Audio
 		public double Duration
 		{
 			get => duration;
-			set => ClampNegative(duration);
+			set => duration = ClampNegative(value);
 		}
 		/// <summary>
 		/// TODO

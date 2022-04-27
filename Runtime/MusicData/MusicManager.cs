@@ -4,6 +4,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace OmiyaGames.Audio.Collections
 {
+	// FIXME: this is *reallY* convoluted.  Start cleaning up, or thinkg of a better way to manage.
 	internal class MusicManager
 	{
 		/// <summary>

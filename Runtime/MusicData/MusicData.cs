@@ -75,6 +75,7 @@ namespace OmiyaGames.Audio
 
 		public const int MENU_ORDER = 210;
 
+		// FIXME: might be better for Setup to create an instance of a MonoBehavior
 		/// <summary>
 		/// Sets up <paramref name="attach"/> with <see cref="AudioSource"/>s
 		/// and other items to play the music.
@@ -99,7 +100,7 @@ namespace OmiyaGames.Audio
 		/// </summary>
 		/// <param name="attach"></param>
 		/// <param name="args"></param>
-		public abstract void Play(GameObject attach, PlaybackArgs args = null);
+		public abstract void Play(GameObject attach, PlaybackArgs args);
 
 		/// <summary>
 		/// TODO
