@@ -95,7 +95,7 @@ AudioMixerController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mixer - Ambience - Fade
+  m_Name: Default Mixer - Ambience - Fade
   m_OutputGroup: {fileID: -8247839761791358478, guid: 4ef7e734f56bd254ab434ad350eaf229, type: 2}
   m_MasterGroup: {fileID: 24300001}
   m_Snapshots:
