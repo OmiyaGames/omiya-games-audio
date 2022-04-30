@@ -59,9 +59,9 @@ namespace OmiyaGames.Audio
 		}
 
 		[SerializeField]
-		AssetReferenceT<MusicData> playMusic;
+		AssetReferenceT<BackgroundAudio> playMusic;
 		[SerializeField]
-		AssetReferenceT<MusicData> playAmbience;
+		AssetReferenceT<BackgroundAudio> playAmbience;
 
 		[Header("Play Behavior")]
 		[SerializeField]
@@ -74,7 +74,7 @@ namespace OmiyaGames.Audio
 		Behavior historyBehavior = Behavior.ClearHistory;
 
 		/// <summary>
-		/// Sets up the <seealso cref="MusicData"/> and <seealso cref="AudioManager"/>.
+		/// Sets up the <seealso cref="BackgroundAudio"/> and <seealso cref="AudioManager"/>.
 		/// </summary>
 		/// <returns>The coroutine for loading everything.</returns>
 		public virtual IEnumerator Start()
@@ -112,7 +112,7 @@ namespace OmiyaGames.Audio
 				yield return load;
 			}
 
-			void PushMusicDataToStack(AssetReferenceT<MusicData> playMusic, MusicDataStack history, FadeInArgs fadeInArgs, List<Coroutine> allLoads)
+			void PushMusicDataToStack(AssetReferenceT<BackgroundAudio> playMusic, MusicDataStack history, FadeInArgs fadeInArgs, List<Coroutine> allLoads)
 			{
 				// Check if we want to clear the music history
 				if (historyBehavior == Behavior.ClearHistory)

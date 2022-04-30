@@ -27,28 +27,28 @@ namespace OmiyaGames.Audio.Collections
 		/// </summary>
 		/// <param name="music"></param>
 		/// <param name="metadata"></param>
-		public void AddFirst(MusicData music, T metadata) => AddFirst(MusicManager.Create(music), metadata);
+		public void AddFirst(BackgroundAudio music, T metadata) => AddFirst(MusicManager.Create(music), metadata);
 
 		/// <summary>
 		/// TODO
 		/// </summary>
 		/// <param name="music"></param>
 		/// <param name="metadata"></param>
-		public void AddFirst(in AsyncOperationHandle<MusicData> music, T metadata) => AddFirst(MusicManager.Create(music), metadata);
+		public void AddFirst(in AsyncOperationHandle<BackgroundAudio> music, T metadata) => AddFirst(MusicManager.Create(music), metadata);
 
 		/// <summary>
 		/// TODO
 		/// </summary>
 		/// <param name="music"></param>
 		/// <param name="metadata"></param>
-		public void AddLast(MusicData music, T metadata) => AddLast(MusicManager.Create(music), metadata);
+		public void AddLast(BackgroundAudio music, T metadata) => AddLast(MusicManager.Create(music), metadata);
 
 		/// <summary>
 		/// TODO
 		/// </summary>
 		/// <param name="music"></param>
 		/// <param name="metadata"></param>
-		public void AddLast(in AsyncOperationHandle<MusicData> music, T metadata) => AddLast(MusicManager.Create(music), metadata);
+		public void AddLast(in AsyncOperationHandle<BackgroundAudio> music, T metadata) => AddLast(MusicManager.Create(music), metadata);
 
 		/// <summary>
 		/// TODO

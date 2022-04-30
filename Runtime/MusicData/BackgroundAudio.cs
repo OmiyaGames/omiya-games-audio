@@ -5,7 +5,7 @@ namespace OmiyaGames.Audio
 {
 	///-----------------------------------------------------------------------
 	/// <remarks>
-	/// <copyright file="MusicData.cs" company="Omiya Games">
+	/// <copyright file="BackgroundAudio.cs" company="Omiya Games">
 	/// The MIT License (MIT)
 	/// 
 	/// Copyright (c) 2022 Omiya Games
@@ -48,7 +48,7 @@ namespace OmiyaGames.Audio
 	/// An interface for music, used to generate <seealso cref="AudioSource"/>
 	/// playing a clip.
 	/// </summary>
-	public abstract class MusicData : ScriptableObject
+	public abstract class BackgroundAudio : ScriptableObject
 	{
 		/// <summary>
 		/// TODO

@@ -50,7 +50,7 @@ namespace OmiyaGames.Audio
 	/// Sets up the background audio to a single looping music
 	/// </summary>
 	[CreateAssetMenu(menuName = "Omiya Games/Audio/Looping Music", fileName = "Looping Music", order = (MENU_ORDER))]
-	public class SingleLoopingMusic : MusicData
+	public class SingleLoopingMusic : BackgroundAudio
 	{
 		[SerializeField]
 		AudioClip loop;

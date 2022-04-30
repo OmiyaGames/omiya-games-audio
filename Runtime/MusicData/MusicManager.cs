@@ -23,7 +23,7 @@ namespace OmiyaGames.Audio.Collections
 			/// <summary>
 			/// TODO
 			/// </summary>
-			public MusicData Music => manager.Music;
+			public BackgroundAudio Music => manager.Music;
 			/// <summary>
 			/// TODO
 			/// </summary>
@@ -35,9 +35,9 @@ namespace OmiyaGames.Audio.Collections
 
 		event System.Action<MusicManager> OnDispose;
 
-		static readonly Dictionary<MusicData, MusicManager> dataCache = new Dictionary<MusicData, MusicManager>();
+		static readonly Dictionary<BackgroundAudio, MusicManager> dataCache = new Dictionary<BackgroundAudio, MusicManager>();
 
-		internal static MusicManager Create(MusicData music, System.Action<MusicManager> onDispose = null)
+		internal static MusicManager Create(BackgroundAudio music, System.Action<MusicManager> onDispose = null)
 		{
 			if (dataCache.TryGetValue(music, out MusicManager returnManager) == false)
 			{
@@ -52,7 +52,7 @@ namespace OmiyaGames.Audio.Collections
 			return returnManager;
 		}
 
-		internal static MusicManager Create(AsyncOperationHandle<MusicData> music, System.Action<MusicManager> onDispose = null)
+		internal static MusicManager Create(AsyncOperationHandle<BackgroundAudio> music, System.Action<MusicManager> onDispose = null)
 		{
 			if (dataCache.TryGetValue(music.Result, out MusicManager returnManager) == false)
 			{
@@ -67,22 +67,22 @@ namespace OmiyaGames.Audio.Collections
 			return returnManager;
 		}
 
-		readonly AsyncOperationHandle<MusicData>? musicLoader;
+		readonly AsyncOperationHandle<BackgroundAudio>? musicLoader;
 		uint counter = 0;
 
-		MusicManager(MusicData music)
+		MusicManager(BackgroundAudio music)
 		{
 			Music = music;
 			musicLoader = null;
 		}
 
-		MusicManager(AsyncOperationHandle<MusicData> musicLoader)
+		MusicManager(AsyncOperationHandle<BackgroundAudio> musicLoader)
 		{
 			Music = musicLoader.Result;
 			this.musicLoader = musicLoader;
 		}
 
-		public MusicData Music
+		public BackgroundAudio Music
 		{
 			get;
 		}

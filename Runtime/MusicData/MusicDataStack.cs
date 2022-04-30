@@ -56,7 +56,7 @@ namespace OmiyaGames.Audio
 	/// <summary>
 	/// TODO
 	/// </summary>
-	public class MusicDataStack : IDisposable, IReadOnlyCollection<MusicData>
+	public class MusicDataStack : IDisposable, IReadOnlyCollection<BackgroundAudio>
 	{
 		/// <summary>
 		/// TODO
@@ -83,7 +83,7 @@ namespace OmiyaGames.Audio
 
 		class StackData
 		{
-			public StackData(MusicData music, GameObject gameObject)
+			public StackData(BackgroundAudio music, GameObject gameObject)
 			{
 				Music = music;
 				GameObject = gameObject;
@@ -91,7 +91,7 @@ namespace OmiyaGames.Audio
 				AssetGuid = null;
 			}
 
-			public StackData(in AsyncOperationHandle<MusicData> musicLoader, string assetGuid, GameObject gameObject)
+			public StackData(in AsyncOperationHandle<BackgroundAudio> musicLoader, string assetGuid, GameObject gameObject)
 			{
 				Music = musicLoader.Result;
 				GameObject = gameObject;
@@ -99,7 +99,7 @@ namespace OmiyaGames.Audio
 				AssetGuid = assetGuid;
 			}
 
-			public MusicData Music
+			public BackgroundAudio Music
 			{
 				get;
 			}
@@ -107,7 +107,7 @@ namespace OmiyaGames.Audio
 			{
 				get;
 			}
-			public AsyncOperationHandle<MusicData>? MusicLoader
+			public AsyncOperationHandle<BackgroundAudio>? MusicLoader
 			{
 				get;
 			}
@@ -160,7 +160,7 @@ namespace OmiyaGames.Audio
 		/// <param name="args"></param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentNullException"></exception>
-		public void Push(MusicData data, FadeInArgs args = null)
+		public void Push(BackgroundAudio data, FadeInArgs args = null)
 		{
 			if (data == null)
 			{
@@ -184,7 +184,7 @@ namespace OmiyaGames.Audio
 		/// <param name="args"></param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentNullException"></exception>
-		public IEnumerator Push(AssetReferenceT<MusicData> data, FadeInArgs args = null)
+		public IEnumerator Push(AssetReferenceT<BackgroundAudio> data, FadeInArgs args = null)
 		{
 			if (data == null)
 			{
@@ -192,7 +192,7 @@ namespace OmiyaGames.Audio
 			}
 
 			// Attempt to load the data
-			AsyncOperationHandle<MusicData> loadDataHandle = data.LoadAssetAsync();
+			AsyncOperationHandle<BackgroundAudio> loadDataHandle = data.LoadAssetAsync();
 			if (loadDataHandle.Status == AsyncOperationStatus.None)
 			{
 				yield return loadDataHandle;
@@ -245,7 +245,7 @@ namespace OmiyaGames.Audio
 		/// TODO
 		/// </summary>
 		/// <returns></returns>
-		public MusicData Peek() => history.Last?.Music;
+		public BackgroundAudio Peek() => history.Last?.Music;
 
 		/// <summary>
 		/// TODO
@@ -257,7 +257,7 @@ namespace OmiyaGames.Audio
 		/// TODO
 		/// </summary>
 		/// <param name="data"></param>
-		public void Reset(MusicData data, FadeInArgs args = null)
+		public void Reset(BackgroundAudio data, FadeInArgs args = null)
 		{
 			// Basically push the data
 			Push(data, args);
@@ -305,7 +305,7 @@ namespace OmiyaGames.Audio
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public IEnumerator<MusicData> GetEnumerator()
+		public IEnumerator<BackgroundAudio> GetEnumerator()
 		{
 			foreach (var stackData in history)
 			{

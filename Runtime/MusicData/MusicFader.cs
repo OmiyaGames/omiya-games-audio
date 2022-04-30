@@ -108,7 +108,7 @@ namespace OmiyaGames.Audio.Collections
 		/// <param name="player"></param>
 		/// <param name="args"></param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public void FadeIn(MusicData music, GameObject player, FadeInArgs args)
+		public void FadeIn(BackgroundAudio music, GameObject player, FadeInArgs args)
 		{
 			// Check if arguments are valid
 			if (music == null)
@@ -136,7 +136,7 @@ namespace OmiyaGames.Audio.Collections
 		/// <param name="player"></param>
 		/// <param name="args"></param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public void FadeIn(AsyncOperationHandle<MusicData> music, GameObject player, FadeInArgs args)
+		public void FadeIn(AsyncOperationHandle<BackgroundAudio> music, GameObject player, FadeInArgs args)
 		{
 			// Check if arguments are valid
 			if (player == null)
