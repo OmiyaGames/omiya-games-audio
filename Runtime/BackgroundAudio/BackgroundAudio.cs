@@ -93,6 +93,7 @@ namespace OmiyaGames.Audio
 		/// </summary>
 		/// <param name="attach"></param>
 		/// <returns></returns>
+		[System.Obsolete("To be removed entirely")]
 		public abstract void CleanUp(GameObject attach);
 
 		/// <summary>
@@ -100,19 +101,21 @@ namespace OmiyaGames.Audio
 		/// </summary>
 		/// <param name="attach"></param>
 		/// <param name="args"></param>
+		[System.Obsolete("Use Player.Play(PlaybackArgs) instead")]
 		public abstract void Play(GameObject attach, PlaybackArgs args);
 
 		/// <summary>
 		/// TODO
 		/// </summary>
 		/// <param name="attach"></param>
-		/// 
+		[System.Obsolete("Use Player.Stop() instead")]
 		public abstract void Stop(GameObject attach);
 
 		/// <summary>
 		/// TODO
 		/// </summary>
 		/// <param name="attach"></param>
+		[System.Obsolete("Use Player.Pause() instead")]
 		public abstract void Pause(GameObject attach);
 
 		/// <summary>
@@ -120,6 +123,52 @@ namespace OmiyaGames.Audio
 		/// </summary>
 		/// <param name="attach"></param>
 		/// <returns>TODO</returns>
+		[System.Obsolete("Use Player.State instead")]
 		public abstract PlayState IsPlaying(GameObject attach);
+
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public abstract class Player : MonoBehaviour
+		{
+			/// <summary>
+			/// TODO
+			/// </summary>
+			public abstract PlayState State
+			{
+				get;
+			}
+			/// <summary>
+			/// TODO
+			/// </summary>
+			public abstract AudioMixerGroup MixerGroup
+			{
+				set;
+			}
+
+			/// <summary>
+			/// TODO
+			/// </summary>
+			/// <param name="args"></param>
+			public abstract void Play(PlaybackArgs args);
+
+			/// <summary>
+			/// TODO
+			/// </summary>
+			public abstract void Stop();
+
+			/// <summary>
+			/// TODO
+			/// </summary>
+			public abstract void Pause();
+
+			/// <summary>
+			/// TODO
+			/// </summary>
+			public abstract void Resume();
+
+			/// <inheritdoc/>
+			public abstract void OnDestroy();
+		}
 	}
 }
