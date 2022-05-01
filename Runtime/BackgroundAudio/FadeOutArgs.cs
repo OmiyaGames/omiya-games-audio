@@ -91,7 +91,7 @@ namespace OmiyaGames.Audio
 		/// <summary>
 		/// Fixes any invalid property values.
 		/// </summary>
-		public void Setup()
+		public void FixData()
 		{
 			Delay = delay;
 			Duration = duration;

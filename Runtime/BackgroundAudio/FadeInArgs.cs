@@ -54,7 +54,12 @@ namespace OmiyaGames.Audio
 	public class FadeInArgs : PlaybackArgs
 	{
 		[SerializeField]
-		double duration = 0;
+		double delaySeconds = 0;
+		[SerializeField]
+		double durationSeconds = 0;
+		[SerializeField]
+		[Tooltip("Restart playing this music, even if it's already playing in the background, or in the process of fading out.")]
+		bool forceRestart = false;
 		[SerializeField]
 		FadeOutArgs fadeOut = new();
 
@@ -62,10 +67,29 @@ namespace OmiyaGames.Audio
 		/// TODO
 		/// <seealso cref="UnityEngine.AudioSettings.dspTime"/>
 		/// </summary>
-		public double Duration
+		public double DurationSeconds
 		{
-			get => duration;
-			set => duration = ClampNegative(value);
+			get => durationSeconds;
+			set => durationSeconds = ClampNegative(value);
+		}
+		/// <summary>
+		/// TODO
+		/// <seealso cref="UnityEngine.AudioSettings.dspTime"/>
+		/// </summary>
+		public double DelaySeconds
+		{
+			get => delaySeconds;
+			set => delaySeconds = ClampNegative(value);
+		}
+		/// <summary>
+		/// If checked, restart playing this music,
+		/// even if it's already playing in the background,
+		/// or in the process of fading out.
+		/// </summary>
+		public bool ForceRestart
+		{
+			get => forceRestart;
+			set => forceRestart = value;
 		}
 		/// <summary>
 		/// TODO
@@ -79,10 +103,11 @@ namespace OmiyaGames.Audio
 		/// <summary>
 		/// Fixes any invalid property values.
 		/// </summary>
-		public void Setup()
+		public void FixData()
 		{
-			Duration = duration;
-			fadeOut?.Setup();
+			DurationSeconds = durationSeconds;
+			DelaySeconds = delaySeconds;
+			fadeOut?.FixData();
 		}
 	}
 }

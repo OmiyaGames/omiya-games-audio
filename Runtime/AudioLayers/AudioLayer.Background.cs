@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.Audio;
+using OmiyaGames.Audio.Collections;
 
 namespace OmiyaGames.Audio
 {
@@ -53,29 +53,26 @@ namespace OmiyaGames.Audio
 		[System.Serializable]
 		public class Background : SubLayer
 		{
-			// TODO: actually properly implement...soon.
-			//[SerializeField]
-			//[Range(0f, 1.5f)]
-			//float defaultFadeDuration;
-			//[SerializeField]
-			//AudioMixerGroup[] fadeGroups;
+			[SerializeField]
+			MusicFader.Layer[] fadeLayers;
 
-			///// <summary>
-			///// TODO
-			///// </summary>
-			//public AudioMixerGroup[] FadeGroups
-			//{
-			//	get => fadeGroups;
-			//	internal set => fadeGroups = value;
-			//}
-			///// <summary>
-			///// TODO
-			///// </summary>
-			//public float DefaultFadeDurationSeconds
-			//{
-			//	get => defaultFadeDuration;
-			//	internal set => defaultFadeDuration = value;
-			//}
+			/// <summary>
+			/// TODO
+			/// </summary>
+			public MusicFader.Layer[] FadeLayers
+			{
+				get => fadeLayers;
+				internal set => fadeLayers = value;
+			}
+
+			/// <summary>
+			/// TODO
+			/// </summary>
+			public MusicDataStack Player
+			{
+				get;
+				internal set;
+			} = null;
 		}
 	}
 }

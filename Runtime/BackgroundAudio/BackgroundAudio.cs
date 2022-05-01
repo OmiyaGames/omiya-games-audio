@@ -70,10 +70,23 @@ namespace OmiyaGames.Audio
 			/// <summary>
 			/// Music has been paused.
 			/// </summary>
-			Paused
+			Paused,
+			/// <summary>
+			/// Music is scheduled to start playing,
+			/// but haven't, yet.
+			/// </summary>
+			Scheduled
 		}
 
 		public const int MENU_ORDER = 210;
+
+		[SerializeField]
+		AudioSource mainAudioSourcePrefab;
+
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public AudioSource MainAudioSourcePrefab => mainAudioSourcePrefab;
 
 		// FIXME: might be better for Setup to create an instance of a MonoBehavior
 		/// <summary>
@@ -134,6 +147,13 @@ namespace OmiyaGames.Audio
 			/// <summary>
 			/// TODO
 			/// </summary>
+			public abstract BackgroundAudio Data
+			{
+				get;
+			}
+			/// <summary>
+			/// TODO
+			/// </summary>
 			public abstract PlayState State
 			{
 				get;
@@ -162,13 +182,19 @@ namespace OmiyaGames.Audio
 			/// </summary>
 			public abstract void Pause();
 
+			/// <inheritdoc/>
+			public abstract void OnDestroy();
+
 			/// <summary>
 			/// TODO
 			/// </summary>
-			public abstract void Resume();
-
-			/// <inheritdoc/>
-			public abstract void OnDestroy();
+			public virtual void Resume()
+			{
+				if (State == PlayState.Paused)
+				{
+					Play(null);
+				}
+			}
 		}
 	}
 }

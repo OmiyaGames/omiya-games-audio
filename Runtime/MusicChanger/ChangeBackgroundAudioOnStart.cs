@@ -7,7 +7,7 @@ namespace OmiyaGames.Audio
 {
 	///-----------------------------------------------------------------------
 	/// <remarks>
-	/// <copyright file="ChangeMusicOnStart.cs" company="Omiya Games">
+	/// <copyright file="ChangeBackgroundAudioOnStart.cs" company="Omiya Games">
 	/// The MIT License (MIT)
 	/// 
 	/// Copyright (c) 2022 Omiya Games
@@ -49,19 +49,37 @@ namespace OmiyaGames.Audio
 	/// <summary>
 	/// Changes the background music on scene start.
 	/// </summary>
-	public class ChangeMusicOnStart : MonoBehaviour
+	public class ChangeBackgroundAudioOnStart : MonoBehaviour
 	{
+		/// <summary>
+		/// TODO
+		/// </summary>
 		public enum Behavior
 		{
+			/// <summary>
+			/// TODO
+			/// </summary>
 			ClearHistory,
+			/// <summary>
+			/// TODO
+			/// </summary>
 			PausePriorMusic,
+			/// <summary>
+			/// TODO
+			/// </summary>
 			StopPriorMusic
 		}
 
 		[SerializeField]
-		AssetReferenceT<BackgroundAudio> playMusic;
+		bool useAddressables = false;
 		[SerializeField]
-		AssetReferenceT<BackgroundAudio> playAmbience;
+		BackgroundAudio playMusic;
+		[SerializeField]
+		BackgroundAudio playAmbience;
+		[SerializeField]
+		AssetReferenceT<BackgroundAudio> playMusicRef;
+		[SerializeField]
+		AssetReferenceT<BackgroundAudio> playAmbienceRef;
 
 		[Header("Play Behavior")]
 		[SerializeField]
@@ -92,41 +110,64 @@ namespace OmiyaGames.Audio
 			// Setup args
 			FadeInArgs fadeInArgs = new()
 			{
-				Duration = fadeInSeconds,
-				FadeOut = new FadeOutArgs()
+				DurationSeconds = fadeInSeconds,
+				ForceRestart = alwaysRestart,
+				FadeOut = new()
 				{
-					Delay = 0,
 					Duration = fadeInSeconds,
 					Pause = (historyBehavior == Behavior.PausePriorMusic)
 				}
 			};
 
 			// Setup this music
+			if (useAddressables == false)
+			{
+				PushMusicDataToStack(playMusic, AudioManager.Music.Player, fadeInArgs);
+				PushMusicDataToStack(playAmbience, AudioManager.Ambience.Player, fadeInArgs);
+				yield break;
+			}
+
+			// Load the addressables
 			List<Coroutine> allLoads = new List<Coroutine>(2);
-			PushMusicDataToStack(playMusic, AudioManager.BackgroundMusicHistory, fadeInArgs, allLoads);
-			PushMusicDataToStack(playAmbience, AudioManager.BackgroundAmbienceHistory, fadeInArgs, allLoads);
+			PushMusicDataToStack(playMusicRef, AudioManager.Music.Player, fadeInArgs, allLoads);
+			PushMusicDataToStack(playAmbienceRef, AudioManager.Ambience.Player, fadeInArgs, allLoads);
 
 			// Wait until all fade-outs are over
 			foreach (var load in allLoads)
 			{
 				yield return load;
 			}
+		}
 
-			void PushMusicDataToStack(AssetReferenceT<BackgroundAudio> playMusic, MusicDataStack history, FadeInArgs fadeInArgs, List<Coroutine> allLoads)
+		void PushMusicDataToStack(BackgroundAudio playAudio, MusicDataStack history, FadeInArgs fadeInArgs)
+		{
+			// Check if we want to clear the music history
+			if (historyBehavior == Behavior.ClearHistory)
 			{
-				// Check if we want to clear the music history
-				if (historyBehavior == Behavior.ClearHistory)
-				{
-					history.Clear(fadeInArgs.FadeOut);
-				}
+				history.Clear(fadeInArgs.FadeOut);
+			}
 
-				// Make sure asset is valid
-				if ((string.IsNullOrEmpty(playMusic.AssetGUID) == false)
-					&& (alwaysRestart || (history.PeekAssetGuid() != playMusic.AssetGUID)))
-				{
-					// Push this music into the history
-					allLoads.Add(StartCoroutine(history.Push(playMusic, fadeInArgs)));
-				}
+			// Make sure asset is valid
+			if (playAudio)
+			{
+				// Push this music into the history
+				history.Push(playAudio, fadeInArgs);
+			}
+		}
+
+		void PushMusicDataToStack(AssetReferenceT<BackgroundAudio> playAudio, MusicDataStack history, FadeInArgs fadeInArgs, List<Coroutine> allLoads)
+		{
+			// Check if we want to clear the music history
+			if (historyBehavior == Behavior.ClearHistory)
+			{
+				history.Clear(fadeInArgs.FadeOut);
+			}
+
+			// Make sure asset is valid
+			if (string.IsNullOrEmpty(playAudio.AssetGUID) == false)
+			{
+				// Push this music into the history
+				allLoads.Add(StartCoroutine(history.Push(playAudio, fadeInArgs)));
 			}
 		}
 	}

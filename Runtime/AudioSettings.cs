@@ -125,10 +125,12 @@ namespace OmiyaGames.Audio
 		/// <summary>
 		/// TODO
 		/// </summary>
+		[System.Obsolete("To be replaced with AudioLayer.Background.fadeLayers")]
 		public MusicDataStack.Settings MusicSetup => musicSetup;
 		/// <summary>
 		/// TODO
 		/// </summary>
+		[System.Obsolete("To be replaced with AudioLayer.Background.fadeLayers")]
 		public MusicDataStack.Settings AmbienceSetup => ambienceSetup;
 
 		/// <inheritdoc/>

@@ -236,7 +236,7 @@ namespace OmiyaGames.Audio.Collections
 			if (args != null)
 			{
 				startTime += args.StartTime;
-				fadeDuration = args.Duration;
+				fadeDuration = args.DurationSeconds;
 			}
 
 			// Setup the member variables
