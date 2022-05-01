@@ -54,8 +54,6 @@ namespace OmiyaGames.Audio
 	public class FadeInArgs : PlaybackArgs
 	{
 		[SerializeField]
-		double delaySeconds = 0;
-		[SerializeField]
 		double durationSeconds = 0;
 		[SerializeField]
 		[Tooltip("Restart playing this music, even if it's already playing in the background, or in the process of fading out.")]
@@ -71,15 +69,6 @@ namespace OmiyaGames.Audio
 		{
 			get => durationSeconds;
 			set => durationSeconds = ClampNegative(value);
-		}
-		/// <summary>
-		/// TODO
-		/// <seealso cref="UnityEngine.AudioSettings.dspTime"/>
-		/// </summary>
-		public double DelaySeconds
-		{
-			get => delaySeconds;
-			set => delaySeconds = ClampNegative(value);
 		}
 		/// <summary>
 		/// If checked, restart playing this music,
@@ -103,10 +92,10 @@ namespace OmiyaGames.Audio
 		/// <summary>
 		/// Fixes any invalid property values.
 		/// </summary>
-		public void FixData()
+		public override void FixData()
 		{
+			base.FixData();
 			DurationSeconds = durationSeconds;
-			DelaySeconds = delaySeconds;
 			fadeOut?.FixData();
 		}
 	}

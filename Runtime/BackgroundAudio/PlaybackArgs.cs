@@ -54,8 +54,10 @@ namespace OmiyaGames.Audio
 	/// </summary>
 	public class PlaybackArgs : EventArgs
 	{
-		double delay = 0;
-		double startTime = 0;
+		[SerializeField]
+		double delaySeconds = 0;
+		[SerializeField]
+		double skipForwardToSeconds = 0;
 
 		/// <summary>
 		/// If <paramref name="time"/> is negative,
@@ -67,19 +69,30 @@ namespace OmiyaGames.Audio
 		/// Delay time in seconds, normalized by DSP scale.
 		/// <seealso cref="UnityEngine.AudioSettings.dspTime"/>
 		/// </summary>
-		public double Delay
+		public double DelaySeconds
 		{
-			get => delay;
-			set => delay = ClampNegative(value);
+			get => delaySeconds;
+			set => delaySeconds = ClampNegative(value);
 		}
+
 		/// <summary>
-		/// The timestamp to start on the music, in seconds, normalized by DSP scale.
+		/// Allows playing from the middle of an audio clip by skipping
+		/// forward in time by X seconds, normalized by DSP scale.
 		/// <seealso cref="UnityEngine.AudioSettings.dspTime"/>
 		/// </summary>
-		public double StartTime
+		public double SkipForwardToSeconds
 		{
-			get => startTime;
-			set => startTime = ClampNegative(value);
+			get => skipForwardToSeconds;
+			set => skipForwardToSeconds = ClampNegative(value);
+		}
+
+		/// <summary>
+		/// Fixes any invalid property values.
+		/// </summary>
+		public virtual void FixData()
+		{
+			DelaySeconds = delaySeconds;
+			SkipForwardToSeconds = skipForwardToSeconds;
 		}
 	}
 }

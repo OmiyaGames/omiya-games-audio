@@ -33,7 +33,7 @@ namespace OmiyaGames.Audio.Collections
 
 		class PlayData
 		{
-			public GameObject player;
+			public BackgroundAudio.Player player;
 			public Layer layer;
 			public double startTime;
 			public double fadeDuration;
@@ -123,7 +123,6 @@ namespace OmiyaGames.Audio.Collections
 			// Perform fade-in
 			MusicManager instance = MusicManager.Create(music, e =>
 			{
-				e.Music.CleanUp(player);
 				UnityEngine.Object.Destroy(player);
 			});
 			FadeIn(instance, player, args);
@@ -147,7 +146,6 @@ namespace OmiyaGames.Audio.Collections
 			// Perform fade-in
 			MusicManager instance = MusicManager.Create(music, e =>
 			{
-				e.Music.CleanUp(player);
 				UnityEngine.Object.Destroy(player);
 			});
 			FadeIn(instance, player, args);
@@ -183,8 +181,8 @@ namespace OmiyaGames.Audio.Collections
 				currentMetaData.pauseOnFadeOut = false;
 				if (args != null)
 				{
-					currentMetaData.startTime += args.Delay;
-					currentMetaData.fadeDuration = args.Duration;
+					currentMetaData.startTime += args.DelaySeconds;
+					currentMetaData.fadeDuration = args.DurationSeconds;
 					currentMetaData.pauseOnFadeOut = args.Pause;
 				}
 
@@ -202,11 +200,11 @@ namespace OmiyaGames.Audio.Collections
 				// If not, stop or pause the last music
 				if ((args != null) && args.Pause)
 				{
-					currentMusic.Music.Pause(currentMetaData.player);
+					currentMetaData.player.Pause();
 				}
 				else
 				{
-					currentMusic.Music.Stop(currentMetaData.player);
+					currentMetaData.player.Stop();
 				}
 
 				// Silence the layer the music was playing on
@@ -218,7 +216,7 @@ namespace OmiyaGames.Audio.Collections
 			return isFadingOut;
 		}
 
-		void FadeIn(MusicManager music, GameObject player, FadeInArgs args)
+		void FadeIn(MusicManager music, GameObject attach, FadeInArgs args)
 		{
 			// Prune the fade-out queue as well
 			PruneFadeOutQueue(true);
@@ -229,18 +227,22 @@ namespace OmiyaGames.Audio.Collections
 				// Increment layer index
 				nextLayer = (nextLayer + 1) % fadeLayers.Length;
 			}
+			Layer layer = fadeLayers[nextLayer];
 
 			// Calculate time
 			double startTime = UnityEngine.AudioSettings.dspTime;
 			double fadeDuration = 0;
 			if (args != null)
 			{
-				startTime += args.StartTime;
+				startTime += args.DelaySeconds;
 				fadeDuration = args.DurationSeconds;
 			}
 
+			// Generate a new player
+			BackgroundAudio.Player player = music.Music.GeneratePlayer(attach);
+			player.MixerGroup = layer.Group;
+
 			// Setup the member variables
-			Layer layer = fadeLayers[nextLayer];
 			SetCurrentMusicData(music, new PlayData()
 			{
 				player = player,
@@ -251,9 +253,7 @@ namespace OmiyaGames.Audio.Collections
 			});
 
 			// Start playing the music
-			currentMusic.IncrementCounter();
-			currentMusic.Music.Setup(player, layer.Group, defaultAudioPrefab);
-			currentMusic.Music.Play(player, args);
+			player.Play(args);
 
 			// Start the fade-in coroutine
 			currentMetaData.fadeRoutine = manager.StartCoroutine(FadeRoutine(currentMetaData, false));
@@ -362,11 +362,11 @@ namespace OmiyaGames.Audio.Collections
 				// Pause or stop the music
 				if (dequeue.MetaData.pauseOnFadeOut)
 				{
-					dequeue.Music.Pause(dequeue.MetaData.player);
+					dequeue.MetaData.player.Pause();
 				}
 				else
 				{
-					dequeue.Music.Stop(dequeue.MetaData.player);
+					dequeue.MetaData.player.Stop();
 				}
 
 				// Remove an element from the queue

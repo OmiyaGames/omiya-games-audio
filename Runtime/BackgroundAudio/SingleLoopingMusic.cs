@@ -52,200 +52,32 @@ namespace OmiyaGames.Audio
 	[CreateAssetMenu(menuName = "Omiya Games/Audio/Looping Music", fileName = "Looping Music", order = (MENU_ORDER))]
 	public class SingleLoopingMusic : BackgroundAudio
 	{
+		// FIXME: remove the public from all of these member variables
 		[SerializeField]
-		AudioClip loop;
+		public AudioClip loop;
 
 		[Header("Intro Stings")]
 		[SerializeField]
-		bool addIntroSting = false;
+		public bool addIntroSting = false;
 		[SerializeField]
-		AudioClip introSting;
+		public AudioClip introSting;
 		[SerializeField]
-		double playLoopAfterSeconds;
-
-		class AudioPlayers
-		{
-			public AudioPlayers(AudioSource main, AudioSource introSting)
-			{
-				Main = main;
-				IntroSting = introSting;
-			}
-
-			public AudioSource Main
-			{
-				get;
-			}
-
-			public AudioSource IntroSting
-			{
-				get;
-			}
-		}
-
-		readonly Dictionary<GameObject, AudioPlayers> cache = new Dictionary<GameObject, AudioPlayers>();
+		public double playLoopAfterSeconds;
 
 		/// <inheritdoc/>
-		public override void Setup(GameObject attach, AudioMixerGroup group, AudioSource audioPrefab)
+		public override Player GeneratePlayer(GameObject attach)
 		{
-			// Grab the components from the cache
-			if (cache.TryGetValue(attach, out AudioPlayers players) == false)
-			{
-				// Make sure audio prefab is not null
-				if (audioPrefab == null)
-				{
-					throw new System.ArgumentNullException(nameof(audioPrefab), "Cannot create a new audio source without a prefab.");
-				}
-
-				// Setup the looping audio player
-				AudioSource main = Instantiate(audioPrefab, Vector3.zero, Quaternion.identity, attach.transform);
-				main.loop = true;
-				main.clip = loop;
-
-				// Check if we need to generate the intro sting player
-				AudioSource intro = null;
-				if (addIntroSting)
-				{
-					intro = Instantiate(audioPrefab, Vector3.zero, Quaternion.identity, attach.transform);
-					intro.loop = false;
-					intro.clip = introSting;
-				}
-
-				// Add this to the cache
-				players = new AudioPlayers(main, intro);
-				cache.Add(attach, players);
-			}
-
-			// Setup the audio groups
-			players.Main.outputAudioMixerGroup = group;
-			if (players.IntroSting)
-			{
-				players.IntroSting.outputAudioMixerGroup = group;
-			}
+			var returnScript = attach.AddComponent<SingleLoopingMusicPlayer>();
+			returnScript.Setup(this);
+			return returnScript;
 		}
 
 		/// <inheritdoc/>
-		public override void CleanUp(GameObject attach)
+		public override void Reset()
 		{
-			// Check if this game object has been cached
-			if (cache.TryGetValue(attach, out AudioPlayers players) == false)
-			{
-				// If not, skip cleaning up this object
-				return;
-			}
+			base.Reset();
 
-			// Destroy the main audio player
-			Destroy(players.Main);
-
-			// Destroy the intro sting audio player
-			if (players.IntroSting != null)
-			{
-				Destroy(players.IntroSting);
-			}
-
-			// Remove this entry from the cache
-			cache.Remove(attach);
-
-			// Destroy the attached object itself
-			Destroy(attach);
-		}
-
-		/// <inheritdoc/>
-		public override void Play(GameObject attach, PlaybackArgs args)
-		{
-			// Check if this game object has been cached
-			if (cache.TryGetValue(attach, out AudioPlayers players) == false)
-			{
-				// If not, skip cleaning up this object
-				return;
-			}
-
-			// Check if the player is not playing
-			PlayState state = IsPlaying(attach);
-			switch(state)
-			{
-				case PlayState.Playing:
-				case PlayState.Invalid:
-					return;
-			}
-
-			// FIXME: actually use DSP into account
-			// FIXME: figure out how to resume properly
-
-			if (players.IntroSting)
-			{
-				// TODO: is .Play() accurate enough?  Do we need to use PlayScheduled instead?
-				players.IntroSting.Play();
-				players.Main.PlayScheduled(UnityEngine.AudioSettings.dspTime + playLoopAfterSeconds);
-			}
-			else
-			{
-				// Only play the main loop
-				players.Main.Play();
-			}
-		}
-
-		/// <inheritdoc/>
-		public override void Stop(GameObject attach)
-		{
-			// Check if this game object has been cached
-			if (cache.TryGetValue(attach, out AudioPlayers players) == false)
-			{
-				// If not, skip cleaning up this object
-				return;
-			}
-
-			// Check if the player is playing
-			if (IsPlaying(attach) != PlayState.Playing)
-			{
-				return;
-			}
-
-			// Stop both audio sources immediately
-			players.Main.Stop();
-			players.IntroSting?.Stop();
-		}
-
-
-		/// <inheritdoc/>
-		public override void Pause(GameObject attach)
-		{
-			// Check if this game object has been cached
-			if (cache.TryGetValue(attach, out AudioPlayers players) == false)
-			{
-				// If not, skip cleaning up this object
-				return;
-			}
-
-			// Check if the player is playing
-			if (IsPlaying(attach) != PlayState.Playing)
-			{
-				return;
-			}
-
-			// Pause main audio source
-			// FIXME: figure out the times and scheduled delays so resuming is easier
-			// FIXME: don't forget to reset these stats on Stop()
-			players.Main.Pause();
-			players.IntroSting?.Pause();
-		}
-
-		/// <inheritdoc/>
-		public override PlayState IsPlaying(GameObject attach)
-		{
-			// Check if this game object has been cached
-			if (cache.TryGetValue(attach, out AudioPlayers players) == false)
-			{
-				return PlayState.Invalid;
-			}
-			else if (players.Main.isPlaying)
-			{
-				return PlayState.Playing;
-			}
-			else if ((players.IntroSting != null) && players.IntroSting.isPlaying)
-			{
-				return PlayState.Playing;
-			}
-			return PlayState.Stopped;
+			SetLoopDelayToIntroStingDuration();
 		}
 
 		/// <summary>
@@ -261,8 +93,7 @@ namespace OmiyaGames.Audio
 			if (addIntroSting && introSting)
 			{
 				// Calculate the duration based on samples and frequency
-				playLoopAfterSeconds = introSting.samples;
-				playLoopAfterSeconds /= introSting.frequency;
+				playLoopAfterSeconds = AudioManager.CalculateClipLengthSeconds(introSting);
 			}
 		}
 	}

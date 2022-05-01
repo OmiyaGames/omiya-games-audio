@@ -56,10 +56,6 @@ namespace OmiyaGames.Audio
 		public enum PlayState
 		{
 			/// <summary>
-			/// Unrecognized music
-			/// </summary>
-			Invalid = -1,
-			/// <summary>
 			/// Music has been stopped.
 			/// </summary>
 			Stopped = 0,
@@ -88,7 +84,6 @@ namespace OmiyaGames.Audio
 		/// </summary>
 		public AudioSource MainAudioSourcePrefab => mainAudioSourcePrefab;
 
-		// FIXME: might be better for Setup to create an instance of a MonoBehavior
 		/// <summary>
 		/// Sets up <paramref name="attach"/> with <see cref="AudioSource"/>s
 		/// and other items to play the music.
@@ -97,53 +92,29 @@ namespace OmiyaGames.Audio
 		/// The script generated <see cref="AudioSource"/>s will be attached
 		/// or be child of.
 		/// </param>
-		/// <param name="group"></param>
-		/// <param name="audioPrefab"></param>
-		public abstract void Setup(GameObject attach, AudioMixerGroup group, AudioSource audioPrefab = null);
+		/// 
+		/// 
+		public abstract Player GeneratePlayer(GameObject attach);
 
-		/// <summary>
-		/// Cleans-up a setup of data.
-		/// </summary>
-		/// <param name="attach"></param>
-		/// <returns></returns>
-		[System.Obsolete("To be removed entirely")]
-		public abstract void CleanUp(GameObject attach);
-
-		/// <summary>
-		/// TODO
-		/// </summary>
-		/// <param name="attach"></param>
-		/// <param name="args"></param>
-		[System.Obsolete("Use Player.Play(PlaybackArgs) instead")]
-		public abstract void Play(GameObject attach, PlaybackArgs args);
-
-		/// <summary>
-		/// TODO
-		/// </summary>
-		/// <param name="attach"></param>
-		[System.Obsolete("Use Player.Stop() instead")]
-		public abstract void Stop(GameObject attach);
-
-		/// <summary>
-		/// TODO
-		/// </summary>
-		/// <param name="attach"></param>
-		[System.Obsolete("Use Player.Pause() instead")]
-		public abstract void Pause(GameObject attach);
-
-		/// <summary>
-		/// TODO
-		/// </summary>
-		/// <param name="attach"></param>
-		/// <returns>TODO</returns>
-		[System.Obsolete("Use Player.State instead")]
-		public abstract PlayState IsPlaying(GameObject attach);
+		/// <inheritdoc/>
+		public virtual void Reset()
+		{
+#if UNITY_EDITOR
+			const string DEFAULT_PREFAB_PATH = AudioSettings.DATA_DIRECTORY + "Default Background Audio Source.prefab";
+			mainAudioSourcePrefab = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioSource>(DEFAULT_PREFAB_PATH);
+#endif
+		}
 
 		/// <summary>
 		/// TODO
 		/// </summary>
 		public abstract class Player : MonoBehaviour
 		{
+			/// <summary>
+			/// TODO
+			/// </summary>
+			public event System.Action<Player> OnBeforeDestroy;
+
 			/// <summary>
 			/// TODO
 			/// </summary>
@@ -182,9 +153,6 @@ namespace OmiyaGames.Audio
 			/// </summary>
 			public abstract void Pause();
 
-			/// <inheritdoc/>
-			public abstract void OnDestroy();
-
 			/// <summary>
 			/// TODO
 			/// </summary>
@@ -194,6 +162,12 @@ namespace OmiyaGames.Audio
 				{
 					Play(null);
 				}
+			}
+
+			/// <inheritdoc/>
+			protected virtual void OnDestroy()
+			{
+				OnBeforeDestroy?.Invoke(this);
 			}
 		}
 	}

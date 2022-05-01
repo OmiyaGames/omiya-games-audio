@@ -54,32 +54,32 @@ namespace OmiyaGames.Audio
 	public class FadeOutArgs : EventArgs
 	{
 		[SerializeField]
-		double delay = 0;
+		double delaySeconds = 0;
 		[SerializeField]
-		double duration = 0;
+		double durationSeconds = 0;
 		[SerializeField]
 		bool pause = false;
 
 		/// <summary>
-		/// Delay time in seconds, normalized by DSP scale.
+		/// Delay fade-out effect in seconds, normalized by DSP scale.
 		/// <seealso cref="UnityEngine.AudioSettings.dspTime"/>
 		/// </summary>
-		public double Delay
+		public double DelaySeconds
 		{
-			get => delay;
-			set => delay = PlaybackArgs.ClampNegative(value);
+			get => delaySeconds;
+			set => delaySeconds = PlaybackArgs.ClampNegative(value);
 		}
 		/// <summary>
-		/// Delay time in seconds, normalized by DSP scale.
+		/// Duration of fade-out when it begins, in seconds, normalized by DSP scale.
 		/// <seealso cref="UnityEngine.AudioSettings.dspTime"/>
 		/// </summary>
-		public double Duration
+		public double DurationSeconds
 		{
-			get => duration;
-			set => duration = PlaybackArgs.ClampNegative(value);
+			get => durationSeconds;
+			set => durationSeconds = PlaybackArgs.ClampNegative(value);
 		}
 		/// <summary>
-		/// If true, pauses the audio being faded out.
+		/// If true, pauses the audio after being faded out.
 		/// Otherwise, stops it.
 		/// </summary>
 		public bool Pause
@@ -93,8 +93,8 @@ namespace OmiyaGames.Audio
 		/// </summary>
 		public void FixData()
 		{
-			Delay = delay;
-			Duration = duration;
+			DelaySeconds = delaySeconds;
+			DurationSeconds = durationSeconds;
 		}
 	}
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7267573277256604193}
   - component: {fileID: 510468775912118851}
   m_Layer: 0
-  m_Name: Default Audio Source Setup
+  m_Name: Default Background Audio Source
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -56,6 +56,8 @@ namespace OmiyaGames.Audio
 		/// <inheritdoc/>
 		public override int CurrentVersion => 0;
 
+		public const string DATA_DIRECTORY = "Packages/com.omiyagames.audio/Runtime/Data/";
+
 		// Note: many of these variable defaults are set in the Reset() method.
 		[SerializeField]
 		AudioMixer mixer;
@@ -160,7 +162,6 @@ namespace OmiyaGames.Audio
 #if UNITY_EDITOR
 		void Reset()
 		{
-			const string DATA_DIRECTORY = "Packages/com.omiyagames.audio/Runtime/Data/";
 			const string DEFAULT_SETTINGS_PATH = DATA_DIRECTORY + "Audio Settings - Default.asset";
 			const int NUM_KEYFRAMES = 15;
 

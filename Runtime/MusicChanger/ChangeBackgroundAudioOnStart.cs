@@ -114,7 +114,7 @@ namespace OmiyaGames.Audio
 				ForceRestart = alwaysRestart,
 				FadeOut = new()
 				{
-					Duration = fadeInSeconds,
+					DurationSeconds = fadeInSeconds,
 					Pause = (historyBehavior == Behavior.PausePriorMusic)
 				}
 			};
