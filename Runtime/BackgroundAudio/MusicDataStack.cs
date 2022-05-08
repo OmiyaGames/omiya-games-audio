@@ -10,6 +10,50 @@ namespace OmiyaGames.Audio
 {
 	using Collections;
 
+	/**
+	 * FIXME: OK, it's time to rethink how this is going to work.
+	 * There are far too many things going on in this file.  We need more organization.
+	 * First, what features do we need?
+	 * 
+	 * 1) Fading in and fading out music players.  This can be done through coroutines,
+	 * though we'll need a AudioMixerGroup manager that:
+	 *   A) assigns unique AudioMixerGroup per playing audio, and
+	 *   B) auto-stops/paused audio to free-up new AudioMixerGroups for us.
+	 *   C) Allow fade-in and fade-out of the same music.
+	 * 2) Garbage-collect audio that are stopped.
+	 *   A) Perhaps it destroys these audio players after a certain time.
+	 *   B) Audio players will need to notify this garbage collector when they stop/pause.
+	 *   C) If a player for a music already exists, and isn't playing, either
+	 *   resume if paused, or start from the beginning if stopped or the user forced it.
+	 * 3) Retain a history of last music played.  This history needs a size limit.
+	 * 4) Provide access to the latest music that's playing, and access to the player's
+	 * interface (i.e. functions, properties, etc.)\
+	 * 
+	 * OK, so here's the plan:
+	 * 
+	 * 1) Create a prototype of a audio garbage collector, which ALL it does is
+	 * create a new player each time it receives a music.
+	 * DON'T destroy these players yet, but do keep the reference,
+	 * and more importantly, pair it with the music data.
+	 * 
+	 * 2) Update the music fader to be much more minimal in implementation.
+	 * It should track which player is fading in, which is fading out,
+	 * cancel the fade-in or -out, and reverse progress of fade-in or -out
+	 * if prompted.  It should NOT fade-out other music if fade-in was called.
+	 * Allow a different parent script to manage that, instead.
+	 * More importantly, this fader should use the garbage collector, above.
+	 * 
+	 * 3) Have a "property" of the current music and its player that's currently
+	 * playing.  This is going to be the primary method the programmer will
+	 * interact with this interface.  Changing this property (or better yet,
+	 * calling the play/stop/pause methods) should utilize the fader to
+	 * change which music is fading in and out.
+	 * 
+	 * 4) Actually properly implement the garbage collector.
+	 * 
+	 * 5) Setup the audio history.
+	 */
+
 	///-----------------------------------------------------------------------
 	/// <remarks>
 	/// <copyright file="MusicDataStack.cs" company="Omiya Games">
