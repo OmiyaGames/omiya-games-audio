@@ -49,7 +49,8 @@ namespace OmiyaGames.Audio
 	 * calling the play/stop/pause methods) should utilize the fader to
 	 * change which music is fading in and out.
 	 * 
-	 * 4) Actually properly implement the garbage collector.
+	 * 4) Actually properly implement the garbage collector.  It should
+	 * return a list of existing player for a music data, if there are any.
 	 * 
 	 * 5) Setup the audio history.
 	 */
