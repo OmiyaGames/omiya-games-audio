@@ -224,6 +224,8 @@ namespace OmiyaGames.Audio
 				// Setup music stacks
 				Data.Music.Player = new MusicDataStack(this, Data.MusicSetup, Data.PercentToDbCurve, "Music Stack");
 				Data.Ambience.Player = new MusicDataStack(this, Data.AmbienceSetup, Data.PercentToDbCurve, "Ambience Stack");
+				SetupBackgroundLayer(Data.Music, "Music Stack");
+				SetupBackgroundLayer(Data.Ambience, "Ambience Stack");
 
 				// Force this game object to be active
 				gameObject.SetActive(true);
@@ -235,6 +237,12 @@ namespace OmiyaGames.Audio
 				// Listen to the TimeManager event
 				TimeManager.OnAfterTimeScaleChanged += OnTimeScaleChanged;
 				TimeManager.OnAfterIsManuallyPausedChanged += OnPauseChanged;
+
+				void SetupBackgroundLayer(AudioLayer.Background layer, string gameObjectName)
+				{
+					layer.PlayerManager = AudioPlayerManager.Create(transform, gameObjectName);
+					layer.GroupManager = new MixerGroupManager(layer.PlayerManager, Data.PercentToDbCurve, layer.FadeLayers);
+				}
 			}
 
 			protected override void OnDestroy()

@@ -54,12 +54,12 @@ namespace OmiyaGames.Audio
 		public class Background : SubLayer
 		{
 			[SerializeField]
-			MusicFader.Layer[] fadeLayers;
+			MixerGroupManager.Layer[] fadeLayers;
 
 			/// <summary>
 			/// TODO
 			/// </summary>
-			public MusicFader.Layer[] FadeLayers
+			public MixerGroupManager.Layer[] FadeLayers
 			{
 				get => fadeLayers;
 				internal set => fadeLayers = value;
@@ -73,6 +73,24 @@ namespace OmiyaGames.Audio
 				get;
 				internal set;
 			} = null;
+
+			/// <summary>
+			/// TODO
+			/// </summary>
+			public AudioPlayerManager PlayerManager
+			{
+				get;
+				internal set;
+			} = null;
+
+			/// <summary>
+			/// TODO
+			/// </summary>
+			public MixerGroupManager GroupManager
+			{
+				get;
+				internal set;
+			}
 		}
 	}
 }

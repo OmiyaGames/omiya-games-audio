@@ -112,6 +112,25 @@ namespace OmiyaGames.Audio
 		/// <summary>
 		/// TODO
 		/// </summary>
+		/// <param name="gameObjectName"></param>
+		/// <returns></returns>
+		public static AudioPlayerManager Create(Transform parent, string gameObjectName)
+		{
+			// Create the GameObject
+			GameObject gameObject = new GameObject(gameObjectName);
+
+			// Position the GameObject
+			gameObject.transform.SetParent(parent);
+			gameObject.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+			gameObject.transform.localScale = Vector3.one;
+
+			// Create the manager script
+			return gameObject.AddComponent<AudioPlayerManager>();
+		}
+
+		/// <summary>
+		/// TODO
+		/// </summary>
 		public float GarbageCollectEverySeconds
 		{
 			get => garbageCollectEverySeconds;

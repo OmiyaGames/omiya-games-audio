@@ -50,6 +50,7 @@ namespace OmiyaGames.Audio.Editor
 	/// </summary>
 	/// <seealso cref="MusicDataStack.FadeLayer"/>
 	[CustomPropertyDrawer(typeof(MusicFader.Layer))]
+	[CustomPropertyDrawer(typeof(MixerGroupManager.Layer))]
 	public class FadeLayerDrawer : PropertyDrawer
 	{
 		/// <inheritdoc/>
