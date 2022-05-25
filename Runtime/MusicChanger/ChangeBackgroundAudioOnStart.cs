@@ -122,8 +122,8 @@ namespace OmiyaGames.Audio
 			// Setup this music
 			if (useAddressables == false)
 			{
-				PushMusicDataToStack(playMusic, AudioManager.Music.Player, fadeInArgs);
-				PushMusicDataToStack(playAmbience, AudioManager.Ambience.Player, fadeInArgs);
+				PushMusicDataToStack(playMusic, AudioManager.Music, fadeInArgs);
+				PushMusicDataToStack(playAmbience, AudioManager.Ambience, fadeInArgs);
 				yield break;
 			}
 
@@ -139,20 +139,33 @@ namespace OmiyaGames.Audio
 			}
 		}
 
-		void PushMusicDataToStack(BackgroundAudio playAudio, MusicDataStack history, FadeInArgs fadeInArgs)
+		void PushMusicDataToStack(BackgroundAudio playAudio, AudioLayer.Background backgroundAudio, FadeInArgs fadeInArgs)
 		{
-			// Check if we want to clear the music history
-			if (historyBehavior == Behavior.ClearHistory)
-			{
-				history.Clear(fadeInArgs.FadeOut);
-			}
-
 			// Make sure asset is valid
 			if (playAudio)
 			{
-				// Push this music into the history
-				history.Push(playAudio, fadeInArgs);
+				// Fade the currently playing players out
+				BackgroundAudio.Player[] fadingPlayers = backgroundAudio.GroupManager.GetManagedPlayers();
+				foreach (var fadingPlayer in fadingPlayers)
+				{
+					backgroundAudio.GroupManager.FadeOut(fadingPlayer, fadeInArgs.FadeOut);
+				}
+
+				// Fade the player in
+				BackgroundAudio.Player player = backgroundAudio.PlayerManager.GetOrCreatePlayer(playAudio);
+				backgroundAudio.GroupManager.FadeIn(player, fadeInArgs);
+
+				// TODO: Push this music into the history
+				//history.Push(playAudio, fadeInArgs);
 			}
+
+			// Clean up music manager
+			var cleanUp = AudioPlayerManager.AudioState.Stopped;
+			if (historyBehavior == Behavior.ClearHistory)
+			{
+				cleanUp = AudioPlayerManager.AudioState.NotPlaying;
+			}
+			backgroundAudio.PlayerManager.GarbageCollect(cleanUp);
 		}
 
 		void PushMusicDataToStack(AssetReferenceT<BackgroundAudio> playAudio, MusicDataStack history, FadeInArgs fadeInArgs, List<Coroutine> allLoads)

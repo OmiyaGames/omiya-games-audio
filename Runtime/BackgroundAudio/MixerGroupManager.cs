@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -104,19 +105,19 @@ namespace OmiyaGames.Audio
 				get;
 				set;
 			} = 0;
-			
+
 			public double FadeDuration
 			{
 				get;
 				set;
 			} = 0;
-			
+
 			public float VolumePercent
 			{
 				get;
 				set;
 			} = 0;
-			
+
 			public Coroutine FadeRoutine
 			{
 				get;
@@ -174,16 +175,6 @@ namespace OmiyaGames.Audio
 			for (int i = 0; i < fadeLayers.Length; i++)
 			{
 				fader[i] = new FadeSet(in fadeLayers[i]);
-			}
-		}
-
-		// FIXME: get rid of this constructor when MusicFader is removed
-		public MixerGroupManager(AudioPlayerManager manager, AnimationCurve percentToDbCurve, params Collections.MusicFader.Layer[] fadeLayers)
-			: this(manager, percentToDbCurve, new Layer[fadeLayers.Length])
-		{
-			for (int i = 0; i < fadeLayers.Length; i++)
-			{
-				fader[i] = new FadeSet(new Layer(fadeLayers[i]));
 			}
 		}
 
@@ -323,6 +314,23 @@ namespace OmiyaGames.Audio
 				playerInfo.Player = null;
 				playerInfo.FadeRoutine = null;
 			}
+		}
+
+		/// <summary>
+		/// TODO
+		/// </summary>
+		/// <returns></returns>
+		public BackgroundAudio.Player[] GetManagedPlayers()
+		{
+			List<BackgroundAudio.Player> managedPlayers = new(fader.Length);
+			foreach (var fadeLayer in fader)
+			{
+				if (fadeLayer.Player != null)
+				{
+					managedPlayers.Add(fadeLayer.Player);
+				}
+			}
+			return managedPlayers.ToArray();
 		}
 
 		#region Helper Methods
