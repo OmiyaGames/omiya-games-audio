@@ -114,6 +114,14 @@ namespace OmiyaGames.Audio
 			/// TODO
 			/// </summary>
 			public event System.Action<Player> OnBeforeDestroy;
+			/// <summary>
+			/// TODO
+			/// </summary>
+			public abstract event ITrackable<PlayState>.ChangeEvent OnBeforeChangeState;
+			/// <summary>
+			/// TODO
+			/// </summary>
+			public abstract event ITrackable<PlayState>.ChangeEvent OnAfterChangeState;
 
 			/// <summary>
 			/// TODO

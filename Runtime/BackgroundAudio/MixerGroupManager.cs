@@ -179,6 +179,20 @@ namespace OmiyaGames.Audio
 		}
 
 		/// <summary>
+		/// TODO
+		/// </summary>
+		/// <param name="index"></param>
+		/// <returns></returns>
+		public AudioMixerGroup GetMixerGroup(int index) => fader[index].Layer.Group;
+
+		/// <summary>
+		/// TODO
+		/// </summary>
+		/// <param name="layerIndex"></param>
+		/// <param name="volumePercent"></param>
+		public void SetVolume(int layerIndex, float volumePercent) => SetVolume(fader[layerIndex].Layer, volumePercent);
+
+		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="attach"></param>

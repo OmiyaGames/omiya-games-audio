@@ -88,7 +88,7 @@ namespace OmiyaGames.Audio
 		[Tooltip("If true, restarts the music even if it's already playing in the background.")]
 		bool alwaysRestart = false;
 		[SerializeField]
-		[Tooltip("The behavior to apply to music playing prior to Start. Clear Stack unloads it from memory.")]
+		[Tooltip("The behavior to apply to music playing prior to Start. Clear History unloads it from memory.")]
 		Behavior historyBehavior = Behavior.ClearHistory;
 
 		/// <summary>
@@ -159,12 +159,13 @@ namespace OmiyaGames.Audio
 				//history.Push(playAudio, fadeInArgs);
 			}
 
-			// Clean up music manager
 			var cleanUp = AudioPlayerManager.AudioState.Stopped;
 			if (historyBehavior == Behavior.ClearHistory)
 			{
-				cleanUp = AudioPlayerManager.AudioState.NotPlaying;
+				cleanUp |= AudioPlayerManager.AudioState.NotPlaying | AudioPlayerManager.AudioState.Scheduled;
 			}
+
+			// Clean up music manager
 			backgroundAudio.PlayerManager.GarbageCollect(cleanUp);
 		}
 

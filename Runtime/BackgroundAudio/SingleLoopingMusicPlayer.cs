@@ -19,6 +19,11 @@ namespace OmiyaGames.Audio
 		AudioSource loop;
 
 		/// <inheritdoc/>
+		public override event ITrackable<BackgroundAudio.PlayState>.ChangeEvent OnBeforeChangeState;
+		/// <inheritdoc/>
+		public override event ITrackable<BackgroundAudio.PlayState>.ChangeEvent OnAfterChangeState;
+
+		/// <inheritdoc/>
 		public override BackgroundAudio Data => data;
 		/// <inheritdoc/>
 		public override BackgroundAudio.PlayState State
@@ -77,21 +82,33 @@ namespace OmiyaGames.Audio
 		/// <inheritdoc/>
 		public override void Play(PlaybackArgs args)
 		{
+			// Grab the state changes
+			BackgroundAudio.PlayState startState = State;
+			BackgroundAudio.PlayState endState = BackgroundAudio.PlayState.Playing;
+
 			// Determine when to start playing the audio
 			double playTimeStamp = UnityEngine.AudioSettings.dspTime;
 			double skipForwardToSeconds = 0;
 			if (args != null)
 			{
-				playTimeStamp += args.DelaySeconds;
 				skipForwardToSeconds = args.SkipForwardToSeconds;
+
+				if (args.DelaySeconds > 0)
+				{
+					endState = BackgroundAudio.PlayState.Scheduled;
+					playTimeStamp += args.DelaySeconds;
+				}
 			}
 
+			// Invoke state change event
+			OnBeforeChangeState?.Invoke(startState, endState);
+
 			// Check the state
-			if (State == BackgroundAudio.PlayState.Stopped)
+			if (startState == BackgroundAudio.PlayState.Stopped)
 			{
 				PlayFromStop(playTimeStamp, skipForwardToSeconds);
 			}
-			else if (State == BackgroundAudio.PlayState.Paused)
+			else if (startState == BackgroundAudio.PlayState.Paused)
 			{
 				if (intro != null)
 				{
@@ -103,17 +120,30 @@ namespace OmiyaGames.Audio
 					loop.PlayScheduled(playTimeStamp);
 				}
 			}
+
+			// Invoke state change event
+			OnAfterChangeState?.Invoke(startState, endState);
 		}
 
 		/// <inheritdoc/>
 		[ContextMenu("Stop Immediately")]
 		public override void Stop()
 		{
-			// Stop both audio sources immediately
-			loop.Stop();
-			if (intro != null)
+			BackgroundAudio.PlayState startState = State;
+			if (startState != BackgroundAudio.PlayState.Stopped)
 			{
-				intro.Stop();
+				// Invoke state change event
+				OnBeforeChangeState?.Invoke(startState, BackgroundAudio.PlayState.Stopped);
+
+				// Stop both audio sources immediately
+				loop.Stop();
+				if (intro != null)
+				{
+					intro.Stop();
+				}
+
+				// Invoke state change event
+				OnAfterChangeState?.Invoke(startState, BackgroundAudio.PlayState.Stopped);
 			}
 		}
 
@@ -121,18 +151,28 @@ namespace OmiyaGames.Audio
 		[ContextMenu("Pause Immediately")]
 		public override void Pause()
 		{
-			// Pause main audio source
-			if (intro != null)
+			BackgroundAudio.PlayState startState = State;
+			if ((startState == BackgroundAudio.PlayState.Playing) || (startState == BackgroundAudio.PlayState.Scheduled))
 			{
-				// FIXME: figure out the times and scheduled delays so resuming is easier
-				// FIXME: don't forget to reset these stats on Stop()
-				throw new System.NotImplementedException();
-				intro.Pause();
-				loop.Pause();
-			}
-			else
-			{
-				loop.Pause();
+				// Invoke state change event
+				OnBeforeChangeState?.Invoke(startState, BackgroundAudio.PlayState.Paused);
+
+				// Pause main audio source
+				if (intro != null)
+				{
+					// FIXME: figure out the times and scheduled delays so resuming is easier
+					// FIXME: don't forget to reset these stats on Stop()
+					throw new System.NotImplementedException();
+					intro.Pause();
+					loop.Pause();
+				}
+				else
+				{
+					loop.Pause();
+				}
+
+				// Invoke state change event
+				OnAfterChangeState?.Invoke(startState, BackgroundAudio.PlayState.Paused);
 			}
 		}
 
