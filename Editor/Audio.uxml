@@ -18,11 +18,6 @@
             <uie:PropertyField binding-path="ambience" tabindex="18" name="ambience" focusable="true" label="Ambience Layer" />
         </ui:VisualElement>
         <OmiyaGames.Common.Editor.Spacer />
-        <ui:VisualElement name="defaultSetups">
-            <ui:Label text="Background Audio Setups" display-tooltip-when-elided="false" name="header" enable-rich-text="false" class="header" style="flex-direction: row-reverse;" />
-            <uie:PropertyField binding-path="musicSetup" tabindex="20" name="musicSetup" focusable="true" label="Music" />
-            <uie:PropertyField binding-path="ambienceSetup" tabindex="21" name="ambienceSetup" focusable="true" label="Ambience" />
-        </ui:VisualElement>
         <OmiyaGames.Common.Editor.Spacer />
         <ui:VisualElement name="effectsFields">
             <ui:Label text="Audio Effects" display-tooltip-when-elided="false" name="header" enable-rich-text="false" class="header" style="flex-direction: row-reverse;" />

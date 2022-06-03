@@ -79,11 +79,6 @@ namespace OmiyaGames.Audio
 		[SerializeField]
 		AudioLayer.Background ambience = new();
 
-		[SerializeField]
-		MusicDataStack.Settings musicSetup;
-		[SerializeField]
-		MusicDataStack.Settings ambienceSetup;
-
 		[SerializeField, UnityEngine.Serialization.FormerlySerializedAs("timeScaleSnapshots")]
 		TimeScaleAudioModifiers[] timeScaleEffects;
 
@@ -124,16 +119,6 @@ namespace OmiyaGames.Audio
 		/// TODO
 		/// </summary>
 		public TimeScaleAudioModifiers[] TimeScaleSnapshots => timeScaleEffects;
-		/// <summary>
-		/// TODO
-		/// </summary>
-		[System.Obsolete("To be replaced with AudioLayer.Background.fadeLayers")]
-		public MusicDataStack.Settings MusicSetup => musicSetup;
-		/// <summary>
-		/// TODO
-		/// </summary>
-		[System.Obsolete("To be replaced with AudioLayer.Background.fadeLayers")]
-		public MusicDataStack.Settings AmbienceSetup => ambienceSetup;
 
 		/// <inheritdoc/>
 		protected override bool OnUpgrade(int oldVersion, out string errorMessage)
