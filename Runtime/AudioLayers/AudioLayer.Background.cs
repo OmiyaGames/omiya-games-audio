@@ -68,15 +68,6 @@ namespace OmiyaGames.Audio
 			/// <summary>
 			/// TODO
 			/// </summary>
-			public MusicDataStack Player
-			{
-				get;
-				internal set;
-			} = null;
-
-			/// <summary>
-			/// TODO
-			/// </summary>
 			public AudioPlayerManager PlayerManager
 			{
 				get;

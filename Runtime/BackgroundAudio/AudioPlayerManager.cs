@@ -87,14 +87,6 @@ namespace OmiyaGames.Audio
 			All = Playing | Paused | Stopped | Scheduled,
 		}
 
-		class AudioMetaData
-		{
-			public Dictionary<BackgroundAudio.Player, PlayerMetaData> PlayerMap
-			{
-				get;
-			} = new();
-		}
-
 		class PlayerMetaData
 		{
 			public float LastStateChanged
@@ -114,8 +106,7 @@ namespace OmiyaGames.Audio
 		float garbageCollectEverySeconds = 5;
 
 		readonly System.Text.StringBuilder nameBuilder = new();
-		readonly HashSet<BackgroundAudio.Player> lockedPlayers = new();
-		readonly Dictionary<BackgroundAudio, AudioMetaData> generatedPlayers = new();
+		readonly Dictionary<AssetRef<BackgroundAudio>, Dictionary<BackgroundAudio.Player, PlayerMetaData>> generatedPlayers = new();
 
 		/// <summary>
 		/// TODO
@@ -151,13 +142,13 @@ namespace OmiyaGames.Audio
 		/// <param name="audio"></param>
 		/// <param name="playerState"></param>
 		/// <returns></returns>
-		public BackgroundAudio.Player GetPlayer(BackgroundAudio audio, AudioState playerState = AudioState.All)
+		public BackgroundAudio.Player GetPlayer(AssetRef<BackgroundAudio> audio, AudioState playerState = AudioState.All)
 		{
 			// Check if there's a map of players available for the audio
 			if (generatedPlayers.TryGetValue(audio, out var metaData))
 			{
 				// If so, go through each player
-				foreach (var player in metaData.PlayerMap.Keys)
+				foreach (var player in metaData.Keys)
 				{
 					// Check if condition matches
 					if (IsPlayerMatchingState(player, playerState))
@@ -175,27 +166,98 @@ namespace OmiyaGames.Audio
 		/// <param name="audio"></param>
 		/// <param name="playerState"></param>
 		/// <returns></returns>
-		public BackgroundAudio.Player GetOrCreatePlayer(BackgroundAudio audio, AudioState playerState = AudioState.All)
+		public IEnumerator CreatePlayer(AssetRef<BackgroundAudio> audio)
 		{
 			// Check if a player already exists
-			BackgroundAudio.Player returnPlayer = GetPlayer(audio, playerState);
-			if (returnPlayer == null)
+			if (generatedPlayers.TryGetValue(audio, out var playerMap) == false)
 			{
 				// If not, find or create a new audio player map
-				if (generatedPlayers.TryGetValue(audio, out var metaData) == false)
-				{
-					// Create a new map
-					metaData = new();
-
-					// Make sure this is in the record
-					generatedPlayers.Add(audio, metaData);
-				}
-
-				// Create a new player and its metadata
-				returnPlayer = CreatePlayer(audio, metaData.PlayerMap.Count);
-				metaData.PlayerMap.Add(returnPlayer, CreateMetaData(returnPlayer));
+				playerMap = new();
+				generatedPlayers.Add(audio, playerMap);
 			}
-			return returnPlayer;
+
+			// Load the metadata (the next couple of steps can be lengthy, so don't yield yet)
+			IEnumerator loadAssetHandle = audio.LoadAssetAsync();
+			
+			// Develop name of append
+			nameBuilder.Append(audio.Name);
+			nameBuilder.Append(" (");
+			nameBuilder.Append(playerMap.Count);
+			nameBuilder.Append(')');
+
+			// Create a new object
+			GameObject newObject = new GameObject(nameBuilder.ToString());
+			newObject.transform.SetParent(transform);
+			newObject.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+			newObject.transform.localScale = Vector3.one;
+
+			// Wait until asset is fully loaded
+			nameBuilder.Clear();
+			yield return loadAssetHandle;
+
+			// Generate the new player
+			BackgroundAudio.Player newPlayer = audio.Asset.GeneratePlayer(newObject);
+
+			// Generate a metadata
+			PlayerMetaData newMetaData = new()
+			{
+				LastStateChanged = Time.unscaledTime
+			};
+			newPlayer.OnAfterChangeState += OnAfterChangeState;
+
+			// Add all that into the map
+			playerMap.Add(newPlayer, newMetaData);
+
+			void OnAfterChangeState(BackgroundAudio.PlayState _, BackgroundAudio.PlayState newState)
+			{
+				// Update time stamp
+				newMetaData.LastStateChanged = Time.unscaledTime;
+
+				// Check new state
+				if ((newState == BackgroundAudio.PlayState.Stopped) && (newMetaData.GarbageCollector == null))
+				{
+					// Start the garbage collection coroutine if player is stopped
+					newMetaData.GarbageCollector = newPlayer.StartCoroutine(DelayGarbageCollect());
+				}
+				else if ((newState != BackgroundAudio.PlayState.Stopped) && (newMetaData.GarbageCollector != null))
+				{
+					// Otherwise, stop the garbage collection sequence
+					StopCoroutine(newMetaData.GarbageCollector);
+					newMetaData.GarbageCollector = null;
+				}
+			}
+
+			IEnumerator DelayGarbageCollect()
+			{
+				// Wait for desired seconds
+				yield return new WaitForSecondsRealtime(GarbageCollectEverySeconds);
+
+				// Perform garbage collection
+				if (generatedPlayers.TryGetValue(audio, out var audioMetaData))
+				{
+					// Destroy the player
+					audioMetaData.Remove(newPlayer);
+					Destroy(newPlayer.gameObject);
+
+					// Check if map is empty
+					if (audioMetaData.Count <= 0)
+					{
+						// Search for the original key
+						foreach (var key in generatedPlayers.Keys)
+						{
+							if (key.Equals(audio))
+							{
+								// Release the asset on this key
+								key.ReleaseAsset();
+								break;
+							}
+						}
+
+						// Remove the key from the map
+						generatedPlayers.Remove(audio);
+					}
+				}
+			}
 		}
 
 		/// <summary>
@@ -205,12 +267,12 @@ namespace OmiyaGames.Audio
 		public void GarbageCollect(AudioState removePlayersWithStates = AudioState.NotPlaying, bool removeBackgroundAudio = true)
 		{
 			// Check if there's a map of players available for the audio
-			List<BackgroundAudio> audioToDelete = new(generatedPlayers.Count);
+			List<AssetRef<BackgroundAudio>> audioToDelete = new(generatedPlayers.Count);
 			foreach (var metaData in generatedPlayers)
 			{
 				// If so, go through each player
-				List<BackgroundAudio.Player> playersToDelete = new(metaData.Value.PlayerMap.Count);
-				foreach (var player in metaData.Value.PlayerMap.Keys)
+				List<BackgroundAudio.Player> playersToDelete = new(metaData.Value.Count);
+				foreach (var player in metaData.Value.Keys)
 				{
 					// Check if condition matches
 					if (IsPlayerMatchingState(player, removePlayersWithStates))
@@ -223,12 +285,12 @@ namespace OmiyaGames.Audio
 				// Delete the player from the map
 				foreach (var player in playersToDelete)
 				{
-					metaData.Value.PlayerMap.Remove(player);
+					metaData.Value.Remove(player);
 					Destroy(player.gameObject);
 				}
 
 				// Check if there are any players left in the map
-				if (metaData.Value.PlayerMap.Count <= 0)
+				if (metaData.Value.Count <= 0)
 				{
 					audioToDelete.Add(metaData.Key);
 				}
@@ -240,23 +302,10 @@ namespace OmiyaGames.Audio
 				foreach (var audioFiles in audioToDelete)
 				{
 					generatedPlayers.Remove(audioFiles);
+					audioFiles.ReleaseAsset();
 				}
 			}
 		}
-
-		/// <summary>
-		/// Prevent an audio player from being destroyed by the garbage collector.
-		/// </summary>
-		/// <param name="player"></param>
-		/// <returns></returns>
-		public bool LockPlayer(BackgroundAudio.Player player) => lockedPlayers.Add(player);
-
-		/// <summary>
-		/// Release an audio player to the garbage collector.
-		/// </summary>
-		/// <param name="player"></param>
-		/// <returns></returns>
-		public bool ReleasePlayer(BackgroundAudio.Player player) => lockedPlayers.Remove(player);
 
 		/// <summary>
 		/// TODO
@@ -265,7 +314,7 @@ namespace OmiyaGames.Audio
 		/// <param name="returnPlayers"></param>
 		/// <param name="playerState"></param>
 		/// <exception cref="System.ArgumentNullException"></exception>
-		public void GetPlayers(BackgroundAudio audio, AudioState playerState, in List<BackgroundAudio.Player> returnPlayers)
+		public void GetPlayers(AssetRef<BackgroundAudio> audio, AudioState playerState, in List<BackgroundAudio.Player> returnPlayers)
 		{
 			if (returnPlayers == null)
 			{
@@ -276,7 +325,7 @@ namespace OmiyaGames.Audio
 			if (generatedPlayers.TryGetValue(audio, out var metaData))
 			{
 				// If so, go through each player
-				foreach (var player in metaData.PlayerMap.Keys)
+				foreach (var player in metaData.Keys)
 				{
 					// Check if condition matches
 					if (IsPlayerMatchingState(player, playerState))
@@ -292,67 +341,13 @@ namespace OmiyaGames.Audio
 		/// TODO
 		/// </summary>
 		/// <param name="audio"></param>
-		/// <param name="returnPlayers"></param>
-		/// <param name="playerState"></param>
-		/// <exception cref="System.ArgumentNullException"></exception>
-		public void GetOrCreatePlayers(BackgroundAudio audio, AudioState playerState, in List<BackgroundAudio.Player> returnPlayers)
-		{
-			if (returnPlayers == null)
-			{
-				throw new System.ArgumentNullException(nameof(returnPlayers));
-			}
-
-			// Grab the players
-			int numPlayers = returnPlayers.Count;
-			GetPlayers(audio, playerState, in returnPlayers);
-
-			// Check if any was returned
-			if (returnPlayers.Count == numPlayers)
-			{
-				// If not, find or create a new audio player map
-				if (generatedPlayers.TryGetValue(audio, out var metaData) == false)
-				{
-					// Create a new map
-					metaData = new();
-
-					// Make sure this is in the record
-					generatedPlayers.Add(audio, metaData);
-				}
-
-				// Create a new player and its metadata
-				var newPlayer = CreatePlayer(audio, metaData.PlayerMap.Count);
-				metaData.PlayerMap.Add(newPlayer, CreateMetaData(newPlayer));
-
-				// Add the new player into the list
-				returnPlayers.Add(newPlayer);
-			}
-		}
-
-		/// <summary>
-		/// TODO
-		/// </summary>
-		/// <param name="audio"></param>
 		/// <param name="playerState"></param>
 		/// <returns></returns>
-		public List<BackgroundAudio.Player> GetPlayers(BackgroundAudio audio, AudioState playerState = AudioState.All)
+		public List<BackgroundAudio.Player> GetPlayers(AssetRef<BackgroundAudio> audio, AudioState playerState = AudioState.All)
 		{
 			// By default, return null
 			List<BackgroundAudio.Player> returnPlayers = new();
 			GetPlayers(audio, playerState, in returnPlayers);
-			return returnPlayers;
-		}
-
-		/// <summary>
-		/// TODO
-		/// </summary>
-		/// <param name="audio"></param>
-		/// <param name="playerState"></param>
-		/// <returns></returns>
-		public List<BackgroundAudio.Player> GetOrCreatePlayers(BackgroundAudio audio, AudioState playerState = AudioState.All)
-		{
-			// By default, return null
-			List<BackgroundAudio.Player> returnPlayers = new();
-			GetOrCreatePlayers(audio, playerState, in returnPlayers);
 			return returnPlayers;
 		}
 
@@ -381,77 +376,6 @@ namespace OmiyaGames.Audio
 					break;
 			}
 			return (state & compareState) != 0;
-		}
-
-		BackgroundAudio.Player CreatePlayer(BackgroundAudio audio, int appendNumber)
-		{
-			// Develop name of append
-			nameBuilder.Append(audio.name);
-			nameBuilder.Append(" (");
-			nameBuilder.Append(appendNumber);
-			nameBuilder.Append(')');
-
-			// Create a new object
-			GameObject newObject = new GameObject(nameBuilder.ToString());
-			newObject.transform.SetParent(transform);
-			newObject.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
-			newObject.transform.localScale = Vector3.one;
-
-			// Reset stuff
-			nameBuilder.Clear();
-			return audio.GeneratePlayer(newObject);
-		}
-
-		PlayerMetaData CreateMetaData(BackgroundAudio.Player player)
-		{
-			PlayerMetaData returnData = new()
-			{
-				LastStateChanged = Time.unscaledTime,
-				GarbageCollector = player.StartCoroutine(DelayGarbageCollect()),
-			};
-
-			player.OnAfterChangeState += OnAfterChangeState;
-
-			return returnData;
-
-			void OnAfterChangeState(BackgroundAudio.PlayState _, BackgroundAudio.PlayState newState)
-			{
-				// Update time stamp
-				returnData.LastStateChanged = Time.unscaledTime;
-
-				// Check new state
-				if ((newState == BackgroundAudio.PlayState.Stopped) && (returnData.GarbageCollector == null))
-				{
-					// Start the garbage collection coroutine if player is stopped
-					returnData.GarbageCollector = player.StartCoroutine(DelayGarbageCollect());
-				}
-				else if ((newState != BackgroundAudio.PlayState.Stopped) && (returnData.GarbageCollector != null))
-				{
-					// Otherwise, stop the garbage collection sequence
-					StopCoroutine(returnData.GarbageCollector);
-					returnData.GarbageCollector = null;
-				}
-			}
-
-			IEnumerator DelayGarbageCollect()
-			{
-				// Wait for desired seconds
-				yield return new WaitForSecondsRealtime(GarbageCollectEverySeconds);
-
-				// Perform garbage collection
-				if (generatedPlayers.TryGetValue(player.Data, out var audioMetaData))
-				{
-					// Destroy the player
-					audioMetaData.PlayerMap.Remove(player);
-					Destroy(player.gameObject);
-
-					// Check if map is empty
-					if (audioMetaData.PlayerMap.Count <= 0)
-					{
-						generatedPlayers.Remove(player.Data);
-					}
-				}
-			}
 		}
 		#endregion
 	}

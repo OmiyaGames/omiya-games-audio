@@ -1,6 +1,8 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.AddressableAssets;
 using OmiyaGames.Managers;
 using OmiyaGames.Global;
 using OmiyaGames.Global.Settings;
@@ -72,6 +74,20 @@ namespace OmiyaGames.Audio
 		/// Path to UXML file.
 		/// </summary>
 		public const string UXML_PATH = "Packages/com.omiyagames.audio/Editor/Audio.uxml";
+
+		class AudioFilePlayerPair
+		{
+			public AssetRef<BackgroundAudio> File
+			{
+				get;
+				set;
+			}
+			public BackgroundAudio.Player Player
+			{
+				get;
+				set;
+			}
+		}
 
 		/// <summary>
 		/// Indicates whether the manager is either still
@@ -167,6 +183,101 @@ namespace OmiyaGames.Audio
 			return (int)System.Math.Round(clip.frequency * timeStamp);
 		}
 
+		/// <summary>
+		/// TODO
+		/// </summary>
+		/// <param name="playMusic"></param>
+		/// <param name="playAmbience"></param>
+		/// <param name="fadeInArgs"></param>
+		public static IEnumerator PlayMusicAndAmbience(BackgroundAudio playMusic, BackgroundAudio playAmbience, FadeInArgs fadeInArgs = null)
+		{
+			// Push all the valid assets/references into the map
+			Dictionary<AudioLayer.Background, AudioFilePlayerPair> loadAudioMap = new(2);
+			AddToAudioMap(Music, playMusic);
+			AddToAudioMap(Ambience, playAmbience);
+
+			// Star the coroutine
+			yield return Manager.StartCoroutine(PlayMusicAndAmbience(loadAudioMap, fadeInArgs));
+
+			void AddToAudioMap(AudioLayer.Background backgroundAudio, BackgroundAudio playAudio)
+			{
+				if (playAudio != null)
+				{
+					loadAudioMap.Add(backgroundAudio, new()
+					{
+						File = new(playAudio)
+					});
+				}
+			}
+		}
+
+		/// <summary>
+		/// TODO
+		/// </summary>
+		/// <param name="playMusicRef"></param>
+		/// <param name="playAmbienceRef"></param>
+		/// <param name="fadeInArgs"></param>
+		public static IEnumerator PlayMusicAndAmbience(AssetReferenceT<BackgroundAudio> playMusicRef, AssetReferenceT<BackgroundAudio> playAmbienceRef, FadeInArgs fadeInArgs = null)
+		{
+			// Push all the valid assets/references into the map
+			Dictionary<AudioLayer.Background, AudioFilePlayerPair> loadAudioMap = new(2);
+			AddToAudioMap(Music, playMusicRef);
+			AddToAudioMap(Ambience, playAmbienceRef);
+
+			// Star the coroutine
+			yield return Manager.StartCoroutine(PlayMusicAndAmbience(loadAudioMap, fadeInArgs));
+
+			void AddToAudioMap(AudioLayer.Background backgroundAudio, AssetReferenceT<BackgroundAudio> playAudioRef)
+			{
+				if (playAudioRef != null)
+				{
+					loadAudioMap.Add(backgroundAudio, new()
+					{
+						File = new(playAudioRef)
+					});
+				}
+			}
+		}
+
+		static IEnumerator PlayMusicAndAmbience(Dictionary<AudioLayer.Background, AudioFilePlayerPair> loadAudioMap, FadeInArgs fadeInArgs)
+		{
+			// Grab the corresponding player for each audio asset
+			foreach (var pair in loadAudioMap)
+			{
+				// Attempt to grab a player, first
+				BackgroundAudio.Player player = pair.Key.PlayerManager.GetPlayer(pair.Value.File);
+				if (player == null)
+				{
+					// Create a new player, and retrieve the new one
+					yield return pair.Key.PlayerManager.CreatePlayer(pair.Value.File);
+					player = pair.Key.PlayerManager.GetPlayer(pair.Value.File);
+				}
+
+				// Set the player variable
+				pair.Value.Player = player;
+			}
+
+			// Fade the currently playing players out
+			FadeOut(Music, fadeInArgs?.FadeOut);
+			FadeOut(Ambience, fadeInArgs?.FadeOut);
+
+			// Fade the players in
+			foreach (var pair in loadAudioMap)
+			{
+				pair.Key.GroupManager.FadeIn(pair.Value.Player, fadeInArgs);
+			}
+
+			static void FadeOut(AudioLayer.Background backgroundAudio, FadeOutArgs fadeOutArgs)
+			{
+				// Fade the currently playing players out
+				BackgroundAudio.Player[] fadingPlayers = backgroundAudio.GroupManager.GetManagedPlayers();
+				foreach (var fadingPlayer in fadingPlayers)
+				{
+					backgroundAudio.GroupManager.FadeOut(fadingPlayer, fadeOutArgs);
+				}
+			}
+		}
+
 		class AudioSettingsManager : BaseSettingsManager<AudioSettingsManager, AudioSettings>
 		{
 			enum SnapshotType
@@ -222,8 +333,6 @@ namespace OmiyaGames.Audio
 				Data.Ambience.Setup();
 
 				// Setup music stacks
-				Data.Music.Player = new MusicDataStack(this, Data.MusicSetup, Data.PercentToDbCurve, "Music Stack");
-				Data.Ambience.Player = new MusicDataStack(this, Data.AmbienceSetup, Data.PercentToDbCurve, "Ambience Stack");
 				SetupBackgroundLayer(Data.Music, "Music Stack");
 				SetupBackgroundLayer(Data.Ambience, "Ambience Stack");
 

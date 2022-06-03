@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -70,6 +69,23 @@ namespace OmiyaGames.Audio
 			StopPriorMusic
 		}
 
+		class AudioFilePlayerPair
+		{
+			public AssetRef<BackgroundAudio> File
+			{
+				get;
+				set;
+			}
+			public BackgroundAudio.Player Player
+			{
+				get;
+				set;
+			}
+		}
+
+		public event System.Action<ChangeBackgroundAudioOnStart> OnBeforeAudioChange;
+		public event System.Action<ChangeBackgroundAudioOnStart> OnAfterAudioChange;
+
 		[SerializeField]
 		bool useAddressables = false;
 		[SerializeField]
@@ -107,6 +123,9 @@ namespace OmiyaGames.Audio
 				yield break;
 			}
 
+			// Start the event
+			OnBeforeAudioChange?.Invoke(this);
+
 			// Setup args
 			FadeInArgs fadeInArgs = new()
 			{
@@ -119,46 +138,26 @@ namespace OmiyaGames.Audio
 				}
 			};
 
-			// Setup this music
+			// Switch the music and ambience
 			if (useAddressables == false)
 			{
-				PushMusicDataToStack(playMusic, AudioManager.Music, fadeInArgs);
-				PushMusicDataToStack(playAmbience, AudioManager.Ambience, fadeInArgs);
-				yield break;
+				yield return AudioManager.PlayMusicAndAmbience(playMusic, playAmbience, fadeInArgs);
 			}
-
-			// Load the addressables
-			List<Coroutine> allLoads = new List<Coroutine>(2);
-			PushMusicDataToStack(playMusicRef, AudioManager.Music.Player, fadeInArgs, allLoads);
-			PushMusicDataToStack(playAmbienceRef, AudioManager.Ambience.Player, fadeInArgs, allLoads);
-
-			// Wait until all fade-outs are over
-			foreach (var load in allLoads)
+			else
 			{
-				yield return load;
+				yield return AudioManager.PlayMusicAndAmbience(playMusicRef, playAmbienceRef, fadeInArgs);
 			}
+
+			// Clean-up the currently loaded music
+			GarbageCollect(AudioManager.Music);
+			GarbageCollect(AudioManager.Ambience);
+
+			// Invoke event
+			OnAfterAudioChange?.Invoke(this);
 		}
 
-		void PushMusicDataToStack(BackgroundAudio playAudio, AudioLayer.Background backgroundAudio, FadeInArgs fadeInArgs)
+		void GarbageCollect(AudioLayer.Background backgroundAudio)
 		{
-			// Make sure asset is valid
-			if (playAudio)
-			{
-				// Fade the currently playing players out
-				BackgroundAudio.Player[] fadingPlayers = backgroundAudio.GroupManager.GetManagedPlayers();
-				foreach (var fadingPlayer in fadingPlayers)
-				{
-					backgroundAudio.GroupManager.FadeOut(fadingPlayer, fadeInArgs.FadeOut);
-				}
-
-				// Fade the player in
-				BackgroundAudio.Player player = backgroundAudio.PlayerManager.GetOrCreatePlayer(playAudio);
-				backgroundAudio.GroupManager.FadeIn(player, fadeInArgs);
-
-				// TODO: Push this music into the history
-				//history.Push(playAudio, fadeInArgs);
-			}
-
 			var cleanUp = AudioPlayerManager.AudioState.Stopped;
 			if (historyBehavior == Behavior.ClearHistory)
 			{
@@ -167,22 +166,6 @@ namespace OmiyaGames.Audio
 
 			// Clean up music manager
 			backgroundAudio.PlayerManager.GarbageCollect(cleanUp);
-		}
-
-		void PushMusicDataToStack(AssetReferenceT<BackgroundAudio> playAudio, MusicDataStack history, FadeInArgs fadeInArgs, List<Coroutine> allLoads)
-		{
-			// Check if we want to clear the music history
-			if (historyBehavior == Behavior.ClearHistory)
-			{
-				history.Clear(fadeInArgs.FadeOut);
-			}
-
-			// Make sure asset is valid
-			if (string.IsNullOrEmpty(playAudio.AssetGUID) == false)
-			{
-				// Push this music into the history
-				allLoads.Add(StartCoroutine(history.Push(playAudio, fadeInArgs)));
-			}
 		}
 	}
 }
