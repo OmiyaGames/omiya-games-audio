@@ -3,20 +3,58 @@ using System.Collections;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
+// TODO: consider moving this to a different package so other addressable-relying
+// packages can rely on this struct, too.
 namespace OmiyaGames.Audio
 {
-	// FIXME: move this to a different package
+	///-----------------------------------------------------------------------
+	/// <remarks>
+	/// <copyright file="AssetRef.cs" company="Omiya Games">
+	/// The MIT License (MIT)
+	/// 
+	/// Copyright (c) 2022 Omiya Games
+	/// 
+	/// Permission is hereby granted, free of charge, to any person obtaining a copy
+	/// of this software and associated documentation files (the "Software"), to deal
+	/// in the Software without restriction, including without limitation the rights
+	/// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	/// copies of the Software, and to permit persons to whom the Software is
+	/// furnished to do so, subject to the following conditions:
+	/// 
+	/// The above copyright notice and this permission notice shall be included in
+	/// all copies or substantial portions of the Software.
+	/// 
+	/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	/// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	/// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	/// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	/// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	/// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+	/// THE SOFTWARE.
+	/// </copyright>
+	/// <list type="table">
+	/// <listheader>
+	/// <term>Revision</term>
+	/// <description>Description</description>
+	/// </listheader>
+	/// <item>
+	/// <term>
+	/// <strong>Version:</strong> 1.1.0-pre.1<br/>
+	/// <strong>Date:</strong> 6/3/2022<br/>
+	/// <strong>Author:</strong> Taro Omiya
+	/// </term>
+	/// <description>Initial verison.</description>
+	/// </item>
+	/// </list>
+	/// </remarks>
+	///-----------------------------------------------------------------------
+	/// <summary>
+	/// A common wrapper to an asset.  Use this to represent Assets that could
+	/// <em>either</em> be a direct reference to a project asset, or an
+	/// addressable reference.
+	/// </summary>
 	public struct AssetRef<TObject> : IEquatable<TObject>, IEquatable<AssetRef<TObject>>, IEquatable<AssetReferenceT<TObject>> where TObject : UnityEngine.Object
 	{
-		public enum State
-		{
-			Null,
-			DirectAsset,
-			Unloaded,
-			Loading,
-			Ready
-		}
-
 		bool isLoading;
 
 		/// <summary>
@@ -61,7 +99,7 @@ namespace OmiyaGames.Audio
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public State CurrentState
+		public AssetRef.State CurrentState
 		{
 			get
 			{
@@ -69,28 +107,28 @@ namespace OmiyaGames.Audio
 				{
 					if (Asset != null)
 					{
-						return State.DirectAsset;
+						return AssetRef.State.DirectAsset;
 					}
 
-					return State.Null;
+					return AssetRef.State.Null;
 				}
 
 				if (string.IsNullOrEmpty(Reference.AssetGUID))
 				{
-					return State.Null;
+					return AssetRef.State.Null;
 				}
 
 				if (isLoading)
 				{
-					return State.Loading;
+					return AssetRef.State.Loading;
 				}
 
 				if (Asset != null)
 				{
-					return State.Ready;
+					return AssetRef.State.Ready;
 				}
 
-				return State.Unloaded;
+				return AssetRef.State.Unloaded;
 			}
 		}
 
@@ -151,7 +189,7 @@ namespace OmiyaGames.Audio
 		/// <returns></returns>
 		public IEnumerator LoadAssetAsync()
 		{
-			if (CurrentState == State.Unloaded)
+			if (CurrentState == AssetRef.State.Unloaded)
 			{
 				// Flag as loading
 				isLoading = true;
@@ -169,7 +207,7 @@ namespace OmiyaGames.Audio
 		public void ReleaseAsset()
 		{
 			// Check if the handle is done
-			if (Reference.OperationHandle.IsDone)
+			if ((Reference != null) && Reference.OperationHandle.IsDone)
 			{
 				// Release the handle
 				Addressables.Release(Reference.OperationHandle);
@@ -179,6 +217,7 @@ namespace OmiyaGames.Audio
 			}
 		}
 
+		#region Event handler
 		void LoadAssetHandle_Completed(AsyncOperationHandle<TObject> obj)
 		{
 			// Make sure loading succeeded
@@ -201,6 +240,34 @@ namespace OmiyaGames.Audio
 				// Throw an exception
 				throw obj.OperationException;
 			}
+		}
+		#endregion
+	}
+
+	public static class AssetRef
+	{
+		public enum State
+		{
+			/// <summary>
+			/// 
+			/// </summary>
+			Null,
+			/// <summary>
+			/// 
+			/// </summary>
+			DirectAsset,
+			/// <summary>
+			/// 
+			/// </summary>
+			Unloaded,
+			/// <summary>
+			/// 
+			/// </summary>
+			Loading,
+			/// <summary>
+			/// 
+			/// </summary>
+			Ready
 		}
 	}
 }

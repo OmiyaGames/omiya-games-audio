@@ -152,6 +152,13 @@ namespace OmiyaGames.Audio
 			GarbageCollect(AudioManager.Music);
 			GarbageCollect(AudioManager.Ambience);
 
+			// Clear history
+			if (historyBehavior == Behavior.ClearHistory)
+			{
+				PruneHistory(AudioManager.Music.History, playMusic, playMusicRef);
+				PruneHistory(AudioManager.Ambience.History, playAmbience, playAmbienceRef);
+			}
+
 			// Invoke event
 			OnAfterAudioChange?.Invoke(this);
 		}
@@ -166,6 +173,25 @@ namespace OmiyaGames.Audio
 
 			// Clean up music manager
 			backgroundAudio.PlayerManager.GarbageCollect(cleanUp);
+		}
+
+		void PruneHistory(AudioHistory history, BackgroundAudio playMusic, AssetReferenceT<BackgroundAudio> playMusicRef)
+		{
+			if (useAddressables && string.IsNullOrEmpty(playMusicRef.AssetGUID))
+			{
+				history.Clear();
+			}
+			else if (!useAddressables && (playMusic == null))
+			{
+				history.Clear();
+			}
+			else
+			{
+				while (history.Count > 1)
+				{
+					history.RemoveOldest();
+				}
+			}
 		}
 	}
 }

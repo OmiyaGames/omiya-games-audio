@@ -168,6 +168,12 @@ namespace OmiyaGames.Audio
 		/// <returns></returns>
 		public IEnumerator CreatePlayer(AssetRef<BackgroundAudio> audio)
 		{
+			// Null-check
+			if (audio.CurrentState == AssetRef.State.Null)
+			{
+				throw new System.ArgumentNullException(nameof(audio));
+			}
+
 			// Check if a player already exists
 			if (generatedPlayers.TryGetValue(audio, out var playerMap) == false)
 			{

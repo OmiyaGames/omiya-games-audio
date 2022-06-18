@@ -69,13 +69,23 @@ namespace OmiyaGames.Audio
 		[SerializeField]
 		string playerTag = "Player";
 
-		readonly HashSet<Collider> colliderTracker = new();
+		int numCollidersEntered = 0;
 		Coroutine lastCoroutine = null;
+		bool isMusicAdded = false, isAmbienceAdded = false;
 
 		void OnTriggerEnter(Collider other)
 		{
-			if (other.CompareTag(playerTag) && colliderTracker.Add(other) && (colliderTracker.Count == 1))
+			// Check if this is the object we want to detect
+			if (other.CompareTag(playerTag))
 			{
+				// Check if other colliders are already in this trigger
+				++numCollidersEntered;
+				if (numCollidersEntered > 1)
+				{
+					// If so, don't bother playing music
+					return;
+				}
+
 				// Stop the last coroutine
 				if (lastCoroutine != null)
 				{
@@ -97,11 +107,15 @@ namespace OmiyaGames.Audio
 					// Switch the music and ambience
 					if (useAddressables == false)
 					{
-						yield return AudioManager.PlayMusicAndAmbience(playMusic, playAmbience, fadeInArgs);
+						yield return StartCoroutine(AudioManager.PlayMusicAndAmbience(playMusic, playAmbience, fadeInArgs));
+						isMusicAdded = (playMusic != null);
+						isAmbienceAdded = (playAmbience != null);
 					}
 					else
 					{
-						yield return AudioManager.PlayMusicAndAmbience(playMusicRef, playAmbienceRef, fadeInArgs);
+						yield return StartCoroutine(AudioManager.PlayMusicAndAmbience(playMusicRef, playAmbienceRef, fadeInArgs));
+						isMusicAdded = !string.IsNullOrEmpty(playMusicRef.AssetGUID);
+						isAmbienceAdded = !string.IsNullOrEmpty(playAmbienceRef.AssetGUID);
 					}
 
 					// Indicate the coroutine has finished
@@ -112,8 +126,17 @@ namespace OmiyaGames.Audio
 
 		void OnTriggerExit(Collider other)
 		{
-			if (other.CompareTag(playerTag) && colliderTracker.Remove(other) && (colliderTracker.Count == 0))
+			// Make sure this collider was actually in the trigger before
+			if (other.CompareTag(playerTag))
 			{
+				// Check if there are still other colliders in this trigger
+				--numCollidersEntered;
+				if (numCollidersEntered > 0)
+				{
+					// If so, don't bother swapping music
+					return;
+				}
+
 				// Stop the last coroutine
 				if (lastCoroutine != null)
 				{
@@ -132,22 +155,37 @@ namespace OmiyaGames.Audio
 
 				IEnumerator RevertBackgroundAudio(FadeInArgs fadeInArgs)
 				{
-					// FIXME: Switch the music and ambience
-					//AudioManager.Music.Player.Pop();
-					yield return null;
-					//if (useAddressables == false)
-					//{
-					//	yield return AudioManager.PlayMusicAndAmbience(playMusic, playAmbience, fadeInArgs);
-					//}
-					//else
-					//{
-					//	yield return AudioManager.PlayMusicAndAmbience(playMusicRef, playAmbienceRef, fadeInArgs);
-					//}
+					// Check if music has been added OnTriggerEnter
+					// Pop the latest music from history, and grab the next latest one.
+					AssetRef<BackgroundAudio> lastMusic = isMusicAdded ? PopMusicFromHistory(AudioManager.Music.History) : new();
+
+					// Pop the latest music from history, and grab the next latest one.
+					AssetRef<BackgroundAudio> lastAmbience = isAmbienceAdded ? PopMusicFromHistory(AudioManager.Ambience.History) : new();
+
+					// Play the last tunes from history
+					yield return StartCoroutine(AudioManager.PlayMusicAndAmbience(lastMusic, lastAmbience, fadeInArgs));
 
 					// Indicate the coroutine has finished
 					lastCoroutine = null;
 				}
 			}
+		}
+
+		static AssetRef<BackgroundAudio> PopMusicFromHistory(AudioHistory history)
+		{
+			// Setup null
+			AssetRef<BackgroundAudio> lastMusic = new();
+
+			// Pop a music off from the history
+			history.RemoveLatest();
+
+			// Return the next newest music
+			AssetRef<BackgroundAudio>? poppedMusic = history.Latest;
+			if (poppedMusic.HasValue)
+			{
+				lastMusic = poppedMusic.Value;
+			}
+			return lastMusic;
 		}
 	}
 }

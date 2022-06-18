@@ -191,24 +191,10 @@ namespace OmiyaGames.Audio
 		/// <param name="fadeInArgs"></param>
 		public static IEnumerator PlayMusicAndAmbience(BackgroundAudio playMusic, BackgroundAudio playAmbience, FadeInArgs fadeInArgs = null)
 		{
-			// Push all the valid assets/references into the map
-			Dictionary<AudioLayer.Background, AudioFilePlayerPair> loadAudioMap = new(2);
-			AddToAudioMap(Music, playMusic);
-			AddToAudioMap(Ambience, playAmbience);
-
-			// Star the coroutine
-			yield return Manager.StartCoroutine(PlayMusicAndAmbience(loadAudioMap, fadeInArgs));
-
-			void AddToAudioMap(AudioLayer.Background backgroundAudio, BackgroundAudio playAudio)
-			{
-				if (playAudio != null)
-				{
-					loadAudioMap.Add(backgroundAudio, new()
-					{
-						File = new(playAudio)
-					});
-				}
-			}
+			yield return Manager.StartCoroutine(PlayMusicAndAmbience(
+				new AssetRef<BackgroundAudio>(playMusic),
+				new AssetRef<BackgroundAudio>(playAmbience),
+				fadeInArgs));
 		}
 
 		/// <summary>
@@ -219,6 +205,20 @@ namespace OmiyaGames.Audio
 		/// <param name="fadeInArgs"></param>
 		public static IEnumerator PlayMusicAndAmbience(AssetReferenceT<BackgroundAudio> playMusicRef, AssetReferenceT<BackgroundAudio> playAmbienceRef, FadeInArgs fadeInArgs = null)
 		{
+			yield return Manager.StartCoroutine(PlayMusicAndAmbience(
+				new AssetRef<BackgroundAudio>(playMusicRef),
+				new AssetRef<BackgroundAudio>(playAmbienceRef),
+				fadeInArgs));
+		}
+
+		/// <summary>
+		/// TODO
+		/// </summary>
+		/// <param name="playMusicRef"></param>
+		/// <param name="playAmbienceRef"></param>
+		/// <param name="fadeInArgs"></param>
+		public static IEnumerator PlayMusicAndAmbience(AssetRef<BackgroundAudio> playMusicRef, AssetRef<BackgroundAudio> playAmbienceRef, FadeInArgs fadeInArgs = null)
+		{
 			// Push all the valid assets/references into the map
 			Dictionary<AudioLayer.Background, AudioFilePlayerPair> loadAudioMap = new(2);
 			AddToAudioMap(Music, playMusicRef);
@@ -227,13 +227,13 @@ namespace OmiyaGames.Audio
 			// Star the coroutine
 			yield return Manager.StartCoroutine(PlayMusicAndAmbience(loadAudioMap, fadeInArgs));
 
-			void AddToAudioMap(AudioLayer.Background backgroundAudio, AssetReferenceT<BackgroundAudio> playAudioRef)
+			void AddToAudioMap(AudioLayer.Background backgroundAudio, in AssetRef<BackgroundAudio> playAudioRef)
 			{
-				if (playAudioRef != null)
+				if (playAudioRef.CurrentState != AssetRef.State.Null)
 				{
 					loadAudioMap.Add(backgroundAudio, new()
 					{
-						File = new(playAudioRef)
+						File = playAudioRef
 					});
 				}
 			}
@@ -265,6 +265,7 @@ namespace OmiyaGames.Audio
 			foreach (var pair in loadAudioMap)
 			{
 				pair.Key.GroupManager.FadeIn(pair.Value.Player, fadeInArgs);
+				pair.Key.History.Add(pair.Value.File);
 			}
 
 			static void FadeOut(AudioLayer.Background backgroundAudio, FadeOutArgs fadeOutArgs)

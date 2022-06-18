@@ -54,7 +54,14 @@ namespace OmiyaGames.Audio
 		public class Background : SubLayer
 		{
 			[SerializeField]
+			[Range(2, AudioHistory.DEFAULT_HISTORY_SIZE)]
+			[Tooltip("Max capacity of audio history.")]
+			int maxHistoryCapacity = AudioHistory.DEFAULT_HISTORY_SIZE;
+			[SerializeField]
+			[Tooltip("List of Audio Mixer Groups and parameters changing the volumes of the group.")]
 			MixerGroupManager.Layer[] fadeLayers;
+
+			AudioHistory history = null;
 
 			/// <summary>
 			/// TODO
@@ -81,6 +88,21 @@ namespace OmiyaGames.Audio
 			{
 				get;
 				internal set;
+			}
+
+			/// <summary>
+			/// TODO
+			/// </summary>
+			public AudioHistory History
+			{
+				get 
+				{
+					if (history == null)
+					{
+						history = new AudioHistory(maxHistoryCapacity);
+					}
+					return history;
+				}
 			}
 		}
 	}
