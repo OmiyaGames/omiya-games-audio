@@ -1,14 +1,12 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using OmiyaGames.Audio;
 using UnityEngine.AddressableAssets;
 
 namespace OmiyaGames.Audio
 {
 	///-----------------------------------------------------------------------
 	/// <remarks>
-	/// <copyright file="ChangeMusicOnEnter.cs" company="Omiya Games">
+	/// <copyright file="ChangeAudioOnTrigger.cs" company="Omiya Games">
 	/// The MIT License (MIT)
 	/// 
 	/// Copyright (c) 2022 Omiya Games
@@ -50,24 +48,27 @@ namespace OmiyaGames.Audio
 	/// <summary>
 	/// Changes the background music on trigger enter.
 	/// </summary>
-	public class ChangeBackgroundAudioOnEnter : MonoBehaviour
+	public class ChangeAudioOnTrigger : MonoBehaviour
 	{
 		[SerializeField]
-		bool useAddressables = false;
+		AssetRefSerialized<BackgroundAudio> playMusic;
 		[SerializeField]
-		BackgroundAudio playMusic;
+		AssetRefSerialized<BackgroundAudio> playAmbience;
+
+		[Header("Trigger Behavior")]
 		[SerializeField]
-		BackgroundAudio playAmbience;
+		[Tooltip("Only colliders with this tag will trigger audio changes")]
+		string colliderTag = "Player";
 		[SerializeField]
-		AssetReferenceT<BackgroundAudio> playMusicRef;
-		[SerializeField]
-		AssetReferenceT<BackgroundAudio> playAmbienceRef;
+		[Tooltip("If checked, reverts the music to the one last played")]
+		bool revertOnExit = true;
 
 		[Header("Play Behavior")]
 		[SerializeField]
 		float fadeInSeconds = 0.5f;
 		[SerializeField]
-		string playerTag = "Player";
+		[Tooltip("If true, restarts the music even if it's already playing in the background.")]
+		bool alwaysRestart = false;
 
 		int numCollidersEntered = 0;
 		Coroutine lastCoroutine = null;
@@ -76,7 +77,7 @@ namespace OmiyaGames.Audio
 		void OnTriggerEnter(Collider other)
 		{
 			// Check if this is the object we want to detect
-			if (other.CompareTag(playerTag))
+			if (other.CompareTag(colliderTag))
 			{
 				// Check if other colliders are already in this trigger
 				++numCollidersEntered;
@@ -96,6 +97,7 @@ namespace OmiyaGames.Audio
 				lastCoroutine = StartCoroutine(PlayBackgroundAudio(new()
 				{
 					DurationSeconds = fadeInSeconds,
+					ForceRestart = alwaysRestart,
 					FadeOut = new()
 					{
 						DurationSeconds = fadeInSeconds
@@ -104,19 +106,9 @@ namespace OmiyaGames.Audio
 
 				IEnumerator PlayBackgroundAudio(FadeInArgs fadeInArgs)
 				{
-					// Switch the music and ambience
-					if (useAddressables == false)
-					{
-						yield return StartCoroutine(AudioManager.PlayMusicAndAmbience(playMusic, playAmbience, fadeInArgs));
-						isMusicAdded = (playMusic != null);
-						isAmbienceAdded = (playAmbience != null);
-					}
-					else
-					{
-						yield return StartCoroutine(AudioManager.PlayMusicAndAmbience(playMusicRef, playAmbienceRef, fadeInArgs));
-						isMusicAdded = !string.IsNullOrEmpty(playMusicRef.AssetGUID);
-						isAmbienceAdded = !string.IsNullOrEmpty(playAmbienceRef.AssetGUID);
-					}
+					yield return StartCoroutine(AudioManager.PlayMusicAndAmbience(playMusic, playAmbience, fadeInArgs));
+					isMusicAdded = playMusic.HasValue;
+					isAmbienceAdded = playAmbience.HasValue;
 
 					// Indicate the coroutine has finished
 					lastCoroutine = null;
@@ -127,11 +119,11 @@ namespace OmiyaGames.Audio
 		void OnTriggerExit(Collider other)
 		{
 			// Make sure this collider was actually in the trigger before
-			if (other.CompareTag(playerTag))
+			if (other.CompareTag(colliderTag))
 			{
 				// Check if there are still other colliders in this trigger
 				--numCollidersEntered;
-				if (numCollidersEntered > 0)
+				if ((numCollidersEntered > 0) || (revertOnExit == false))
 				{
 					// If so, don't bother swapping music
 					return;

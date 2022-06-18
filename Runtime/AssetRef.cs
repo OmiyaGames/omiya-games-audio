@@ -244,8 +244,14 @@ namespace OmiyaGames.Audio
 		#endregion
 	}
 
+	/// <summary>
+	/// TODO
+	/// </summary>
 	public static class AssetRef
 	{
+		/// <summary>
+		/// TODO
+		/// </summary>
 		public enum State
 		{
 			/// <summary>

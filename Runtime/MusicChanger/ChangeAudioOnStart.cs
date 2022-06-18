@@ -6,7 +6,7 @@ namespace OmiyaGames.Audio
 {
 	///-----------------------------------------------------------------------
 	/// <remarks>
-	/// <copyright file="ChangeBackgroundAudioOnStart.cs" company="Omiya Games">
+	/// <copyright file="ChangeAudioOnStart.cs" company="Omiya Games">
 	/// The MIT License (MIT)
 	/// 
 	/// Copyright (c) 2022 Omiya Games
@@ -48,7 +48,7 @@ namespace OmiyaGames.Audio
 	/// <summary>
 	/// Changes the background music on scene start.
 	/// </summary>
-	public class ChangeBackgroundAudioOnStart : MonoBehaviour
+	public class ChangeAudioOnStart : MonoBehaviour
 	{
 		/// <summary>
 		/// TODO
@@ -83,19 +83,13 @@ namespace OmiyaGames.Audio
 			}
 		}
 
-		public event System.Action<ChangeBackgroundAudioOnStart> OnBeforeAudioChange;
-		public event System.Action<ChangeBackgroundAudioOnStart> OnAfterAudioChange;
+		public event System.Action<ChangeAudioOnStart> OnBeforeAudioChange;
+		public event System.Action<ChangeAudioOnStart> OnAfterAudioChange;
 
 		[SerializeField]
-		bool useAddressables = false;
+		AssetRefSerialized<BackgroundAudio> playMusic;
 		[SerializeField]
-		BackgroundAudio playMusic;
-		[SerializeField]
-		BackgroundAudio playAmbience;
-		[SerializeField]
-		AssetReferenceT<BackgroundAudio> playMusicRef;
-		[SerializeField]
-		AssetReferenceT<BackgroundAudio> playAmbienceRef;
+		AssetRefSerialized<BackgroundAudio> playAmbience;
 
 		[Header("Play Behavior")]
 		[SerializeField]
@@ -139,14 +133,7 @@ namespace OmiyaGames.Audio
 			};
 
 			// Switch the music and ambience
-			if (useAddressables == false)
-			{
-				yield return AudioManager.PlayMusicAndAmbience(playMusic, playAmbience, fadeInArgs);
-			}
-			else
-			{
-				yield return AudioManager.PlayMusicAndAmbience(playMusicRef, playAmbienceRef, fadeInArgs);
-			}
+			yield return StartCoroutine(AudioManager.PlayMusicAndAmbience(playMusic, playAmbience, fadeInArgs));
 
 			// Clean-up the currently loaded music
 			GarbageCollect(AudioManager.Music);
@@ -155,8 +142,8 @@ namespace OmiyaGames.Audio
 			// Clear history
 			if (historyBehavior == Behavior.ClearHistory)
 			{
-				PruneHistory(AudioManager.Music.History, playMusic, playMusicRef);
-				PruneHistory(AudioManager.Ambience.History, playAmbience, playAmbienceRef);
+				PruneHistory(AudioManager.Music.History, playMusic);
+				PruneHistory(AudioManager.Ambience.History, playAmbience);
 			}
 
 			// Invoke event
@@ -175,22 +162,18 @@ namespace OmiyaGames.Audio
 			backgroundAudio.PlayerManager.GarbageCollect(cleanUp);
 		}
 
-		void PruneHistory(AudioHistory history, BackgroundAudio playMusic, AssetReferenceT<BackgroundAudio> playMusicRef)
+		void PruneHistory(AudioHistory history, AssetRefSerialized<BackgroundAudio> playMusic)
 		{
-			if (useAddressables && string.IsNullOrEmpty(playMusicRef.AssetGUID))
-			{
-				history.Clear();
-			}
-			else if (!useAddressables && (playMusic == null))
-			{
-				history.Clear();
-			}
-			else
+			if (playMusic.HasValue)
 			{
 				while (history.Count > 1)
 				{
 					history.RemoveOldest();
 				}
+			}
+			else
+			{
+				history.Clear();
 			}
 		}
 	}
