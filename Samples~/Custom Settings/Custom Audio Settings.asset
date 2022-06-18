@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 296e4596f63e35b46b7e78a147c31d95, type: 3}
-  m_Name: Audio Settings - Custom
+  m_Name: Custom Audio Settings
   m_EditorClassIdentifier: 
   serializedVersion: 0
   mixer: {fileID: 24100000, guid: a27101d6a9911c642abcf0457f27aa0b, type: 2}
@@ -167,6 +167,14 @@ MonoBehaviour:
     volumeParam: Music Volume
     pitchParam: Music Pitch
     defaultGroup: {fileID: 3286772865204972398, guid: 3d9802391df641d40a9bcb10e898d974, type: 2}
+    maxHistoryCapacity: 100
+    fadeLayers:
+    - group: {fileID: -8558441678866494280, guid: 3d9802391df641d40a9bcb10e898d974, type: 2}
+      paramName: Fade 1 Volume
+    - group: {fileID: 2068805176508917942, guid: 3d9802391df641d40a9bcb10e898d974, type: 2}
+      paramName: Fade 2 Volume
+    - group: {fileID: -3380059979980416576, guid: 3d9802391df641d40a9bcb10e898d974, type: 2}
+      paramName: Fade 3 Volume
   soundEffects:
     volumeSaver: {fileID: 11400000, guid: 89c8c87171f56594e954152af1beefd1, type: 2}
     isMutedSaver: {fileID: 11400000, guid: cb0a9a7d577ff4d4ba627dc19922e456, type: 2}
@@ -187,7 +195,15 @@ MonoBehaviour:
     volumeParam: Ambience Volume
     pitchParam: Ambience Pitch
     defaultGroup: {fileID: 3286772865204972398, guid: 7fb655fe33bbd3a48ac97c46a791f83c, type: 2}
-  timeScaleSnapshots:
+    maxHistoryCapacity: 100
+    fadeLayers:
+    - group: {fileID: -8558441678866494280, guid: 7fb655fe33bbd3a48ac97c46a791f83c, type: 2}
+      paramName: Fade 1 Volume
+    - group: {fileID: 2068805176508917942, guid: 7fb655fe33bbd3a48ac97c46a791f83c, type: 2}
+      paramName: Fade 2 Volume
+    - group: {fileID: -3380059979980416576, guid: 7fb655fe33bbd3a48ac97c46a791f83c, type: 2}
+      paramName: Fade 3 Volume
+  timeScaleEffects:
   - mixer: {fileID: 24100000, guid: 6dbc8e9233eda2c4483e0f3d63315f90, type: 2}
     defaultSnapshot: {fileID: 24508402, guid: 6dbc8e9233eda2c4483e0f3d63315f90, type: 2}
     enablePause: 1
