@@ -186,38 +186,10 @@ namespace OmiyaGames.Audio
 		/// <summary>
 		/// TODO
 		/// </summary>
-		/// <param name="playMusic"></param>
-		/// <param name="playAmbience"></param>
-		/// <param name="fadeInArgs"></param>
-		public static IEnumerator PlayMusicAndAmbience(BackgroundAudio playMusic, BackgroundAudio playAmbience, FadeInArgs fadeInArgs = null)
-		{
-			yield return Manager.StartCoroutine(PlayMusicAndAmbience(
-				new AssetRef<BackgroundAudio>(playMusic),
-				new AssetRef<BackgroundAudio>(playAmbience),
-				fadeInArgs));
-		}
-
-		/// <summary>
-		/// TODO
-		/// </summary>
 		/// <param name="playMusicRef"></param>
 		/// <param name="playAmbienceRef"></param>
 		/// <param name="fadeInArgs"></param>
-		public static IEnumerator PlayMusicAndAmbience(AssetReferenceT<BackgroundAudio> playMusicRef, AssetReferenceT<BackgroundAudio> playAmbienceRef, FadeInArgs fadeInArgs = null)
-		{
-			yield return Manager.StartCoroutine(PlayMusicAndAmbience(
-				new AssetRef<BackgroundAudio>(playMusicRef),
-				new AssetRef<BackgroundAudio>(playAmbienceRef),
-				fadeInArgs));
-		}
-
-		/// <summary>
-		/// TODO
-		/// </summary>
-		/// <param name="playMusicRef"></param>
-		/// <param name="playAmbienceRef"></param>
-		/// <param name="fadeInArgs"></param>
-		public static IEnumerator PlayMusicAndAmbience(AssetRef<BackgroundAudio> playMusicRef, AssetRef<BackgroundAudio> playAmbienceRef, FadeInArgs fadeInArgs = null)
+		public static IEnumerator PlayMusicAndAmbience(AssetRef<BackgroundAudio> playMusicRef, AssetRef<BackgroundAudio> playAmbienceRef, FadeInArgs fadeInArgs = null, FadeOutArgs fadeOutArgs = null)
 		{
 			// Push all the valid assets/references into the map
 			Dictionary<AudioLayer.Background, AudioFilePlayerPair> loadAudioMap = new(2);
@@ -225,7 +197,7 @@ namespace OmiyaGames.Audio
 			AddToAudioMap(Ambience, playAmbienceRef);
 
 			// Star the coroutine
-			yield return Manager.StartCoroutine(PlayMusicAndAmbience(loadAudioMap, fadeInArgs));
+			yield return Manager.StartCoroutine(PlayMusicAndAmbience(loadAudioMap, fadeInArgs, fadeOutArgs));
 
 			void AddToAudioMap(AudioLayer.Background backgroundAudio, in AssetRef<BackgroundAudio> playAudioRef)
 			{
@@ -239,7 +211,7 @@ namespace OmiyaGames.Audio
 			}
 		}
 
-		static IEnumerator PlayMusicAndAmbience(Dictionary<AudioLayer.Background, AudioFilePlayerPair> loadAudioMap, FadeInArgs fadeInArgs)
+		static IEnumerator PlayMusicAndAmbience(Dictionary<AudioLayer.Background, AudioFilePlayerPair> loadAudioMap, FadeInArgs fadeInArgs, FadeOutArgs fadeOutArgs)
 		{
 			// Grab the corresponding player for each audio asset
 			foreach (var pair in loadAudioMap)
@@ -257,14 +229,15 @@ namespace OmiyaGames.Audio
 				pair.Value.Player = player;
 			}
 
-			// Fade the currently playing players out
-			FadeOut(Music, fadeInArgs?.FadeOut);
-			FadeOut(Ambience, fadeInArgs?.FadeOut);
-
-			// Fade the players in
 			foreach (var pair in loadAudioMap)
 			{
+				// Fade the currently playing players out
+				FadeOut(pair.Key, fadeOutArgs);
+
+				// Fade the players in
 				pair.Key.GroupManager.FadeIn(pair.Value.Player, fadeInArgs);
+
+				// Add to history
 				pair.Key.History.Add(pair.Value.File);
 			}
 

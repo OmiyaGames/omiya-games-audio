@@ -3,7 +3,6 @@ using UnityEngine.Audio;
 
 namespace OmiyaGames.Audio
 {
-
 	// FIXME: move this class as a private, nested class to SingleLoopingMusic
 	// It's currently separated in a file for testing purposes.
 	/// <summary>
@@ -35,20 +34,9 @@ namespace OmiyaGames.Audio
 				{
 					return BackgroundAudio.PlayState.Playing;
 				}
-				else if (loop.timeSamples > 0)
+				else if ((intro != null) && (intro.isPlaying))
 				{
-					return BackgroundAudio.PlayState.Paused;
-				}
-				else if (intro != null)
-				{
-					if (intro.isPlaying)
-					{
-						return BackgroundAudio.PlayState.Playing;
-					}
-					else if (intro.timeSamples > 0)
-					{
-						return BackgroundAudio.PlayState.Paused;
-					}
+					return BackgroundAudio.PlayState.Playing;
 				}
 				return BackgroundAudio.PlayState.Stopped;
 			}
@@ -108,18 +96,6 @@ namespace OmiyaGames.Audio
 			{
 				PlayFromStop(playTimeStamp, skipForwardToSeconds);
 			}
-			else if (startState == BackgroundAudio.PlayState.Paused)
-			{
-				if (intro != null)
-				{
-					// FIXME: actually use DSP into account
-					throw new System.NotImplementedException();
-				}
-				else
-				{
-					loop.PlayScheduled(playTimeStamp);
-				}
-			}
 
 			// Invoke state change event
 			OnAfterChangeState?.Invoke(startState, endState);
@@ -148,33 +124,33 @@ namespace OmiyaGames.Audio
 		}
 
 		/// <inheritdoc/>
-		[ContextMenu("Pause Immediately")]
-		public override void Pause()
-		{
-			BackgroundAudio.PlayState startState = State;
-			if ((startState == BackgroundAudio.PlayState.Playing) || (startState == BackgroundAudio.PlayState.Scheduled))
-			{
-				// Invoke state change event
-				OnBeforeChangeState?.Invoke(startState, BackgroundAudio.PlayState.Paused);
+		//[ContextMenu("Pause Immediately")]
+		//public override void Pause()
+		//{
+		//	BackgroundAudio.PlayState startState = State;
+		//	if ((startState == BackgroundAudio.PlayState.Playing) || (startState == BackgroundAudio.PlayState.Scheduled))
+		//	{
+		//		// Invoke state change event
+		//		OnBeforeChangeState?.Invoke(startState, BackgroundAudio.PlayState.Paused);
 
-				// Pause main audio source
-				if (intro != null)
-				{
-					// FIXME: figure out the times and scheduled delays so resuming is easier
-					// FIXME: don't forget to reset these stats on Stop()
-					throw new System.NotImplementedException();
-					intro.Pause();
-					loop.Pause();
-				}
-				else
-				{
-					loop.Pause();
-				}
+		//		// Pause main audio source
+		//		if (intro != null)
+		//		{
+		//			// FIXME: figure out the times and scheduled delays so resuming is easier
+		//			// FIXME: don't forget to reset these stats on Stop()
+		//			throw new System.NotImplementedException();
+		//			intro.Pause();
+		//			loop.Pause();
+		//		}
+		//		else
+		//		{
+		//			loop.Pause();
+		//		}
 
-				// Invoke state change event
-				OnAfterChangeState?.Invoke(startState, BackgroundAudio.PlayState.Paused);
-			}
-		}
+		//		// Invoke state change event
+		//		OnAfterChangeState?.Invoke(startState, BackgroundAudio.PlayState.Paused);
+		//	}
+		//}
 
 		/// <inheritdoc/>
 		internal void Setup(SingleLoopingMusic data)

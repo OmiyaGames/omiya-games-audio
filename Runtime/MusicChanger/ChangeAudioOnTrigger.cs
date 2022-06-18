@@ -97,15 +97,14 @@ namespace OmiyaGames.Audio
 				{
 					DurationSeconds = fadeInSeconds,
 					ForceRestart = alwaysRestart,
-					FadeOut = new()
-					{
-						DurationSeconds = fadeInSeconds
-					}
+				}, new()
+				{
+					DurationSeconds = fadeInSeconds
 				}));
 
-				IEnumerator PlayBackgroundAudio(FadeInArgs fadeInArgs)
+				IEnumerator PlayBackgroundAudio(FadeInArgs fadeInArgs, FadeOutArgs fadeOutArgs)
 				{
-					yield return StartCoroutine(AudioManager.PlayMusicAndAmbience(playMusic, playAmbience, fadeInArgs));
+					yield return StartCoroutine(AudioManager.PlayMusicAndAmbience(playMusic, playAmbience, fadeInArgs, fadeOutArgs));
 					isMusicAdded = playMusic.HasValue;
 					isAmbienceAdded = playAmbience.HasValue;
 
@@ -138,13 +137,13 @@ namespace OmiyaGames.Audio
 				lastCoroutine = StartCoroutine(RevertBackgroundAudio(new()
 				{
 					DurationSeconds = fadeInSeconds,
-					FadeOut = new()
-					{
-						DurationSeconds = fadeInSeconds
-					}
+					ForceRestart = alwaysRestart,
+				}, new()
+				{
+					DurationSeconds = fadeInSeconds
 				}));
 
-				IEnumerator RevertBackgroundAudio(FadeInArgs fadeInArgs)
+				IEnumerator RevertBackgroundAudio(FadeInArgs fadeInArgs, FadeOutArgs fadeOutArgs)
 				{
 					// Check if music has been added OnTriggerEnter
 					// Pop the latest music from history, and grab the next latest one.
@@ -154,7 +153,7 @@ namespace OmiyaGames.Audio
 					AssetRef<BackgroundAudio> lastAmbience = isAmbienceAdded ? PopMusicFromHistory(AudioManager.Ambience.History) : new();
 
 					// Play the last tunes from history
-					yield return StartCoroutine(AudioManager.PlayMusicAndAmbience(lastMusic, lastAmbience, fadeInArgs));
+					yield return StartCoroutine(AudioManager.PlayMusicAndAmbience(lastMusic, lastAmbience, fadeInArgs, fadeOutArgs));
 
 					// Indicate the coroutine has finished
 					lastCoroutine = null;

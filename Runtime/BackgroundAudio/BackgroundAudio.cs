@@ -64,14 +64,14 @@ namespace OmiyaGames.Audio
 			/// </summary>
 			Playing,
 			/// <summary>
-			/// Music has been paused.
-			/// </summary>
-			Paused,
-			/// <summary>
 			/// Music is scheduled to start playing,
 			/// but haven't, yet.
 			/// </summary>
-			Scheduled
+			Scheduled,
+			/// <summary>
+			/// Music has been paused.
+			/// </summary>
+			//Paused,
 		}
 
 		public const int MENU_ORDER = 210;
@@ -159,18 +159,18 @@ namespace OmiyaGames.Audio
 			/// <summary>
 			/// TODO
 			/// </summary>
-			public abstract void Pause();
+			//public abstract void Pause();
 
 			/// <summary>
 			/// TODO
 			/// </summary>
-			public virtual void Resume()
-			{
-				if (State == PlayState.Paused)
-				{
-					Play(null);
-				}
-			}
+			//public virtual void Resume()
+			//{
+			//	if (State == PlayState.Paused)
+			//	{
+			//		Play(null);
+			//	}
+			//}
 
 			/// <inheritdoc/>
 			protected virtual void OnDestroy()

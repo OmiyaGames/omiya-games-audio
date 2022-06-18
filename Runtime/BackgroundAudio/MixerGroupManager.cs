@@ -214,7 +214,6 @@ namespace OmiyaGames.Audio
 				{
 					DelaySeconds = args.DelaySeconds,
 					DurationSeconds = args.DurationSeconds,
-					Pause = true
 				});
 			}
 
@@ -307,14 +306,7 @@ namespace OmiyaGames.Audio
 			void EndFadeOut()
 			{
 				// Pause or stop the player
-				if (args.Pause)
-				{
-					playerInfo.Player.Pause();
-				}
-				else
-				{
-					playerInfo.Player.Stop();
-				}
+				playerInfo.Player.Stop();
 
 				// Reset the info
 				playerInfo.Player = null;
@@ -385,7 +377,6 @@ namespace OmiyaGames.Audio
 				switch (fadeInfo.Player.State)
 				{
 					case BackgroundAudio.PlayState.Stopped:
-					case BackgroundAudio.PlayState.Paused:
 
 						// If so, return that
 						return ConfigureFadeInfo(fadeInfo, player);

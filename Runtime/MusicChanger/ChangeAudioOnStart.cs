@@ -62,10 +62,6 @@ namespace OmiyaGames.Audio
 			/// <summary>
 			/// TODO
 			/// </summary>
-			PausePriorMusic,
-			/// <summary>
-			/// TODO
-			/// </summary>
 			StopPriorMusic
 		}
 
@@ -125,15 +121,14 @@ namespace OmiyaGames.Audio
 			{
 				DurationSeconds = fadeInSeconds,
 				ForceRestart = alwaysRestart,
-				FadeOut = new()
-				{
-					DurationSeconds = fadeInSeconds,
-					Pause = (historyBehavior == Behavior.PausePriorMusic)
-				}
+			};
+			FadeOutArgs fadeOutArgs = new()
+			{
+				DurationSeconds = fadeInSeconds,
 			};
 
 			// Switch the music and ambience
-			yield return StartCoroutine(AudioManager.PlayMusicAndAmbience(playMusic, playAmbience, fadeInArgs));
+			yield return StartCoroutine(AudioManager.PlayMusicAndAmbience(playMusic, playAmbience, fadeInArgs, fadeOutArgs));
 
 			// Clean-up the currently loaded music
 			GarbageCollect(AudioManager.Music);

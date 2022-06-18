@@ -58,8 +58,6 @@ namespace OmiyaGames.Audio
 		[SerializeField]
 		[Tooltip("Restart playing this music, even if it's already playing in the background, or in the process of fading out.")]
 		bool forceRestart = false;
-		[SerializeField]
-		FadeOutArgs fadeOut = new();
 
 		/// <summary>
 		/// TODO
@@ -80,14 +78,6 @@ namespace OmiyaGames.Audio
 			get => forceRestart;
 			set => forceRestart = value;
 		}
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public FadeOutArgs FadeOut
-		{
-			get => fadeOut;
-			set => fadeOut = value;
-		}
 
 		/// <summary>
 		/// Fixes any invalid property values.
@@ -96,7 +86,6 @@ namespace OmiyaGames.Audio
 		{
 			base.FixData();
 			DurationSeconds = durationSeconds;
-			fadeOut?.FixData();
 		}
 	}
 }

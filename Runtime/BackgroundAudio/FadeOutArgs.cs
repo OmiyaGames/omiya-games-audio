@@ -57,8 +57,6 @@ namespace OmiyaGames.Audio
 		double delaySeconds = 0;
 		[SerializeField]
 		double durationSeconds = 0;
-		[SerializeField]
-		bool pause = false;
 
 		/// <summary>
 		/// Delay fade-out effect in seconds, normalized by DSP scale.
@@ -77,15 +75,6 @@ namespace OmiyaGames.Audio
 		{
 			get => durationSeconds;
 			set => durationSeconds = PlaybackArgs.ClampNegative(value);
-		}
-		/// <summary>
-		/// If true, pauses the audio after being faded out.
-		/// Otherwise, stops it.
-		/// </summary>
-		public bool Pause
-		{
-			get => pause;
-			set => pause = value;
 		}
 
 		/// <summary>

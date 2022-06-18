@@ -67,24 +67,24 @@ namespace OmiyaGames.Audio
 			/// <summary>
 			/// TODO
 			/// </summary>
-			Paused = 1 << 2,
+			Stopped = 1 << 2,
 			/// <summary>
 			/// TODO
 			/// </summary>
-			Stopped = 1 << 3,
+			Scheduled = 1 << 3,
 			/// <summary>
 			/// TODO
 			/// </summary>
-			Scheduled = 1 << 4,
+			//Paused = 1 << 2,
 
 			/// <summary>
 			/// TODO
 			/// </summary>
-			NotPlaying = Paused | Stopped,
+			NotPlaying = Stopped/* | Paused*/,
 			/// <summary>
 			/// TODO
 			/// </summary>
-			All = Playing | Paused | Stopped | Scheduled,
+			All = Playing | Stopped | Scheduled/* | Paused*/,
 		}
 
 		class PlayerMetaData
@@ -371,9 +371,9 @@ namespace OmiyaGames.Audio
 				case BackgroundAudio.PlayState.Playing:
 					compareState = AudioState.Playing;
 					break;
-				case BackgroundAudio.PlayState.Paused:
-					compareState = AudioState.Paused;
-					break;
+				//case BackgroundAudio.PlayState.Paused:
+				//	compareState = AudioState.Paused;
+				//	break;
 				case BackgroundAudio.PlayState.Stopped:
 					compareState = AudioState.Stopped;
 					break;
