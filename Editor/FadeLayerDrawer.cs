@@ -3,8 +3,6 @@ using UnityEditor;
 
 namespace OmiyaGames.Audio.Editor
 {
-	using Collections;
-
 	///-----------------------------------------------------------------------
 	/// <remarks>
 	/// <copyright file="FadeLayerDrawer.cs" company="Omiya Games">
@@ -49,7 +47,6 @@ namespace OmiyaGames.Audio.Editor
 	/// An editor to make it easier to edit <see cref="MusicDataStack.FadeLayer"/> scripts.
 	/// </summary>
 	/// <seealso cref="MusicDataStack.FadeLayer"/>
-	[CustomPropertyDrawer(typeof(MusicFader.Layer))]
 	[CustomPropertyDrawer(typeof(MixerGroupManager.Layer))]
 	public class FadeLayerDrawer : PropertyDrawer
 	{

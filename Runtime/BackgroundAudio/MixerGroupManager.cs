@@ -65,13 +65,6 @@ namespace OmiyaGames.Audio
 			[Tooltip("The parameter name that adjusts the group's volume.")]
 			string paramName;
 
-			// FIXME: remove this constructor when MusicFader is deleted
-			public Layer(in Collections.MusicFader.Layer layer)
-			{
-				group = layer.Group;
-				paramName = layer.ParamName;
-			}
-
 			/// <summary>
 			/// TODO
 			/// </summary>
@@ -155,18 +148,17 @@ namespace OmiyaGames.Audio
 				throw new ArgumentException("There must be at least one valid fade layer", nameof(fadeLayers));
 			}
 
-			// FIXME: comment back this arg check in
-			//foreach (var layer in fadeLayers)
-			//{
-			//	if (layer.Group == null)
-			//	{
-			//		throw new ArgumentNullException(nameof(fadeLayers), "All fade layers must have a group assigned");
-			//	}
-			//	if (string.IsNullOrEmpty(layer.ParamName))
-			//	{
-			//		throw new ArgumentException("All fade layers must have a parameter name assigned", nameof(fadeLayers));
-			//	}
-			//}
+			foreach (var layer in fadeLayers)
+			{
+				if (layer.Group == null)
+				{
+					throw new ArgumentNullException(nameof(fadeLayers), "All fade layers must have a group assigned");
+				}
+				if (string.IsNullOrEmpty(layer.ParamName))
+				{
+					throw new ArgumentException("All fade layers must have a parameter name assigned", nameof(fadeLayers));
+				}
+			}
 
 			this.manager = manager;
 			this.percentToDbCurve = percentToDbCurve;
