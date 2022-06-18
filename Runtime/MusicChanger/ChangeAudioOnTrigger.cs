@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace OmiyaGames.Audio
 {
@@ -119,11 +118,11 @@ namespace OmiyaGames.Audio
 		void OnTriggerExit(Collider other)
 		{
 			// Make sure this collider was actually in the trigger before
-			if (other.CompareTag(colliderTag))
+			if (revertOnExit && other.CompareTag(colliderTag))
 			{
 				// Check if there are still other colliders in this trigger
 				--numCollidersEntered;
-				if ((numCollidersEntered > 0) || (revertOnExit == false))
+				if (numCollidersEntered > 0)
 				{
 					// If so, don't bother swapping music
 					return;
