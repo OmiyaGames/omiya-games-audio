@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace OmiyaGames.Audio.Editor
@@ -48,16 +46,14 @@ namespace OmiyaGames.Audio.Editor
 	/// Helper class to create an audio preview of a player.
 	/// </summary>
 	/// <seealso cref="SingleLoopingMusic"/>
-	public class BackgroundAudioPreview
+	public class BackgroundAudioPreview : System.IDisposable
 	{
+		static GameObject playerObject = null;
+
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public bool IsPlaying
-		{
-			get;
-			private set;
-		}
+		public bool IsPlaying => (PlayStartTime >= 0);
 
 		/// <summary>
 		/// TODO
@@ -72,19 +68,42 @@ namespace OmiyaGames.Audio.Editor
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public void Play()
+		public void Dispose()
 		{
-			PlayStartTime = UnityEngine.AudioSettings.dspTime;
-			throw new System.NotImplementedException();
+			if (playerObject != null)
+			{
+				PlayStartTime = -1;
+
+				Helpers.Destroy(playerObject);
+				playerObject = null;
+			}
 		}
 
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public void Stop()
+		public void Play(BackgroundAudio audioFile)
 		{
-			PlayStartTime = -1;
-			throw new System.NotImplementedException();
+			if (IsPlaying == false)
+			{
+				// Dispose any prior-playing music
+				Dispose();
+
+				// Set the start time
+				PlayStartTime = UnityEngine.AudioSettings.dspTime;
+
+				// Generate the preview object
+				playerObject = new GameObject("Preview Audio");
+				playerObject.hideFlags = HideFlags.HideAndDontSave;
+				playerObject.SetActive(true);
+
+				// Play the audio file
+				audioFile.GeneratePlayer(playerObject).Play(new()
+				{
+					DelaySeconds = 0,
+					SkipForwardToSeconds = 0,
+				});
+			}
 		}
 	}
 }

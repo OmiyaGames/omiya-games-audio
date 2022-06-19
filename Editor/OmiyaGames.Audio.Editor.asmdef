@@ -3,6 +3,7 @@
     "rootNamespace": "OmiyaGames.Audio.Editor",
     "references": [
         "GUID:9e24947de15b9834991c9d8411ea37cf",
+        "GUID:cdda17712c724478898665290e9a02cc",
         "GUID:73334d1191806264fb59fd6048e3af4c",
         "GUID:90033a3be777c4196bcbfc7e725c4e31",
         "GUID:d766f256271d9b74799b11c75fce9f10",

@@ -1,4 +1,5 @@
-﻿using UnityEngine.UIElements;
+﻿using UnityEngine;
+using UnityEngine.UIElements;
 using UnityEditor;
 using UnityEditor.UIElements;
 
@@ -56,8 +57,8 @@ namespace OmiyaGames.Audio.Editor
 		const string LABEL_STOP = "Stop";
 
 		readonly BackgroundAudioPreview audioPreview = new();
-		ProgressBar previewProgressBar = null;
-		double loopStartTime = 0;
+		ProgressBar introProgressBar = null, loopProgressBar = null;
+		double introEndTime = 0, loopStartTime = 0;
 
 		/// <inheritdoc/>
 		public override VisualElement CreateInspectorGUI()
@@ -68,74 +69,213 @@ namespace OmiyaGames.Audio.Editor
 			originalTree.CloneTree(returnTree);
 
 			// Configure intro stinger to auto-enable the play after loop fields
+			introProgressBar = returnTree.Q<ProgressBar>("introProgress");
+			loopProgressBar = returnTree.Q<ProgressBar>("loopProgress");
 			ObjectField checkIntro = returnTree.Q<ObjectField>("introSting");
+			ObjectField checkLoop = returnTree.Q<ObjectField>("mainLoop");
 			DoubleField playAfter = returnTree.Q<DoubleField>("playLoopAfterSeconds");
 			Button resetplayAfter = returnTree.Q<Button>("resetPlayLoopAfterButton");
+			Button previewButton = returnTree.Q<Button>("previewButton");
 
-			bool enableControls = (checkIntro.value != null);
-			playAfter.SetEnabled(enableControls);
-			resetplayAfter.SetEnabled(enableControls);
+			// Setup the controls
+			previewButton.text = LABEL_PLAY;
+			UpdateIntroControls(checkIntro.value != null);
+			UpdateIntroPreview((TargetAudio.IntroSting != null));
+			UpdateLoopPreview(TargetAudio.Loop);
+			UpdatePreviewControls((TargetAudio.IntroSting != null) || (TargetAudio.Loop != null));
 
-			checkIntro.RegisterCallback<ChangeEvent<UnityEngine.Object>>(e =>
+			checkIntro.RegisterCallback<ChangeEvent<Object>>(e =>
 			{
 				bool enableControls = (e.newValue != null);
-				playAfter.SetEnabled(enableControls);
-				resetplayAfter.SetEnabled(enableControls);
+				UpdateIntroControls(enableControls);
 
 				// If intro is set to a new value, update it's duration
 				if (enableControls && (e.newValue != e.previousValue))
 				{
-					TargetMusic.SetLoopDelayToIntroStingDuration();
+					TargetAudio.SetLoopDelayToIntroStingDuration();
 				}
+
+				// Update preview
+				UpdateIntroPreview(enableControls);
+				UpdateLoopPreview(TargetAudio.Loop);
+				UpdatePreviewControls(enableControls || (TargetAudio.Loop != null));
+			});
+			checkLoop.RegisterCallback<ChangeEvent<Object>>(e =>
+			{
+				// Update preview
+				UpdateLoopPreview(e.newValue as AudioClip);
+				UpdateIntroPreview(TargetAudio.IntroSting != null);
+				UpdatePreviewControls((TargetAudio.IntroSting != null) && (e.newValue != null));
 			});
 			resetplayAfter.RegisterCallback<ClickEvent>(e =>
 			{
-				TargetMusic.SetLoopDelayToIntroStingDuration();
+				TargetAudio.SetLoopDelayToIntroStingDuration();
 			});
-
-			// Configure the preview stuff
-			previewProgressBar = returnTree.Q<ProgressBar>("playerProgress");
-			Button previewButton = returnTree.Q<Button>("previewButton");
-
-			previewButton.text = LABEL_PLAY;
-
 			previewButton.RegisterCallback<ClickEvent>(e =>
 			{
 				if (audioPreview.IsPlaying)
 				{
-					audioPreview.Stop();
+					audioPreview.Dispose();
 					previewButton.text = LABEL_PLAY;
+					introProgressBar.value = 0;
+					loopProgressBar.value = 0;
 				}
 				else
 				{
-					audioPreview.Play();
+					audioPreview.Play(TargetAudio);
 					previewButton.text = LABEL_STOP;
-					if (TargetMusic.IntroSting != null)
+
+					// Setup floats
+					introEndTime = audioPreview.PlayStartTime;
+					if (TargetAudio.IntroSting != null)
 					{
-						loopStartTime = audioPreview.PlayStartTime + TargetMusic.PlayLoopAfterSeconds;
+						introProgressBar.lowValue = 0;
+						introProgressBar.highValue = (float)TargetAudio.PlayLoopAfterSeconds;
+						introEndTime += TargetAudio.PlayLoopAfterSeconds;
 					}
+					if (TargetAudio.Loop != null)
+					{
+						loopProgressBar.lowValue = 0;
+						loopProgressBar.highValue = (float)AudioManager.CalculateClipLengthSeconds(TargetAudio.Loop);
+					}
+					loopStartTime = introEndTime;
 				}
 
 				// Zero the progress bar
-				previewProgressBar.value = 0;
+				introProgressBar.value = 0;
 			});
 
 			// Bind to the object
 			returnTree.Bind(serializedObject);
 			return returnTree;
-		}
 
-		/// <inheritdoc/>
-		public override void OnInspectorGUI()
-		{
-			base.OnInspectorGUI();
-
-			if (audioPreview.IsPlaying && (previewProgressBar != null))
+			void UpdateIntroControls(bool enableControls)
 			{
-				// FIXME: actuall indicate progress in the audio preview
+				playAfter.SetEnabled(enableControls);
+				resetplayAfter.SetEnabled(enableControls);
+			}
+
+			void UpdateIntroPreview(bool display)
+			{
+				if (display)
+				{
+					introProgressBar.style.display = DisplayStyle.Flex;
+
+					// Check if intro is visible
+					if (loopProgressBar.style.display == DisplayStyle.None)
+					{
+						// If not, take full length
+						introProgressBar.style.width = new Length(100, LengthUnit.Percent);
+					}
+					else
+					{
+						// Otherwise, calculate width
+						double introLength = TargetAudio.PlayLoopAfterSeconds;
+						double fullLength = introLength + AudioManager.CalculateClipLengthSeconds(TargetAudio.Loop);
+						introProgressBar.style.width = new Length((float)(introLength * 100 / fullLength), LengthUnit.Percent);
+					}
+				}
+				else
+				{
+					introProgressBar.style.display = DisplayStyle.None;
+				}
+			}
+
+			void UpdateLoopPreview(AudioClip loop)
+			{
+				if (loop != null)
+				{
+					// Display progress bar
+					loopProgressBar.style.display = DisplayStyle.Flex;
+
+					// Check if intro is visible
+					if (introProgressBar.style.display == DisplayStyle.None)
+					{
+						// If not, take full length
+						loopProgressBar.style.width = new Length(100, LengthUnit.Percent);
+					}
+					else
+					{
+						// Otherwise, calculate width
+						double loopLength = AudioManager.CalculateClipLengthSeconds(loop);
+						double fullLength = loopLength + TargetAudio.PlayLoopAfterSeconds;
+						loopProgressBar.style.width = new Length((float)(loopLength * 100 / fullLength), LengthUnit.Percent);
+					}
+				}
+				else
+				{
+					loopProgressBar.style.display = DisplayStyle.None;
+				}
+			}
+
+			void UpdatePreviewControls(bool enable)
+			{
+				introProgressBar.SetEnabled(enable);
+				loopProgressBar.SetEnabled(enable);
+				previewButton.SetEnabled(enable);
 			}
 		}
 
-		SingleLoopingMusic TargetMusic => ((SingleLoopingMusic)target);
+		/// <inheritdoc/>
+		void UpdateProgressBar()
+		{
+			if (audioPreview.IsPlaying)
+			{
+				// Check if intro progress bar is visible
+				if ((introProgressBar != null) && (introProgressBar.style.display != DisplayStyle.None))
+				{
+					// Update intro progress
+					if (UnityEngine.AudioSettings.dspTime < introEndTime)
+					{
+						introProgressBar.value = (float)(UnityEngine.AudioSettings.dspTime - audioPreview.PlayStartTime);
+					}
+					else
+					{
+						introProgressBar.value = introProgressBar.highValue;
+					}
+				}
+
+				// Check if loop progress bar is visible
+				if ((loopProgressBar != null) && (loopProgressBar.style.display != DisplayStyle.None))
+				{
+					// Offset loop start time
+					while ((UnityEngine.AudioSettings.dspTime - loopStartTime) > loopProgressBar.highValue)
+					{
+						loopStartTime += loopProgressBar.highValue;
+					}
+
+					// Update loop progress
+					if (UnityEngine.AudioSettings.dspTime > introEndTime)
+					{
+						loopProgressBar.value = (float)(UnityEngine.AudioSettings.dspTime - loopStartTime);
+					}
+					else
+					{
+						loopProgressBar.value = loopProgressBar.lowValue;
+					}
+				}
+			}
+		}
+
+		/// <inheritdoc/>
+		void OnDestroy()
+		{
+			OnDisable();
+		}
+
+		/// <inheritdoc/>
+		void OnEnable()
+		{
+			EditorApplication.update += UpdateProgressBar;
+		}
+
+		/// <inheritdoc/>
+		void OnDisable()
+		{
+			EditorApplication.update -= UpdateProgressBar;
+			audioPreview.Dispose();
+		}
+
+		SingleLoopingMusic TargetAudio => ((SingleLoopingMusic)target);
 	}
 }
