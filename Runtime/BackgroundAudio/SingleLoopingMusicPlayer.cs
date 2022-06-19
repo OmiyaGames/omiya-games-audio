@@ -16,6 +16,8 @@ namespace OmiyaGames.Audio
 		AudioSource intro;
 		[SerializeField]
 		AudioSource loop;
+		[SerializeField]
+		double playTimeStamp = 0;
 
 		/// <inheritdoc/>
 		public override event ITrackable<BackgroundAudio.PlayState>.ChangeEvent OnBeforeChangeState;
@@ -29,13 +31,13 @@ namespace OmiyaGames.Audio
 		{
 			get
 			{
-				// FIXME: this isn't sophisticated enough
-				if (loop.isPlaying)
+				if (((loop != null) && (loop.isPlaying)) ||
+					((intro != null) && (intro.isPlaying)))
 				{
-					return BackgroundAudio.PlayState.Playing;
-				}
-				else if ((intro != null) && (intro.isPlaying))
-				{
+					if (playTimeStamp < UnityEngine.AudioSettings.dspTime)
+					{
+						return BackgroundAudio.PlayState.Scheduled;
+					}
 					return BackgroundAudio.PlayState.Playing;
 				}
 				return BackgroundAudio.PlayState.Stopped;
@@ -75,7 +77,7 @@ namespace OmiyaGames.Audio
 			BackgroundAudio.PlayState endState = BackgroundAudio.PlayState.Playing;
 
 			// Determine when to start playing the audio
-			double playTimeStamp = UnityEngine.AudioSettings.dspTime;
+			playTimeStamp = UnityEngine.AudioSettings.dspTime;
 			double skipForwardToSeconds = 0;
 			if (args != null)
 			{
@@ -94,7 +96,7 @@ namespace OmiyaGames.Audio
 			// Check the state
 			if (startState == BackgroundAudio.PlayState.Stopped)
 			{
-				PlayFromStop(playTimeStamp, skipForwardToSeconds);
+				PlayFromStop(skipForwardToSeconds);
 			}
 
 			// Invoke state change event
@@ -112,7 +114,10 @@ namespace OmiyaGames.Audio
 				OnBeforeChangeState?.Invoke(startState, BackgroundAudio.PlayState.Stopped);
 
 				// Stop both audio sources immediately
-				loop.Stop();
+				if (loop != null)
+				{
+					loop.Stop();
+				}
 				if (intro != null)
 				{
 					intro.Stop();
@@ -165,23 +170,27 @@ namespace OmiyaGames.Audio
 			this.data = data;
 
 			// Setup the looping audio player
-			loop = Instantiate(Data.MainAudioSourcePrefab, Vector3.zero, Quaternion.identity, transform);
-			loop.gameObject.name = "Looping Audio Player";
-			loop.loop = true;
-			loop.clip = data.loop;
+			loop = null;
+			if (data.Loop)
+			{
+				loop = Instantiate(Data.MainAudioSourcePrefab, Vector3.zero, Quaternion.identity, transform);
+				loop.gameObject.name = "Looping Audio Player";
+				loop.loop = true;
+				loop.clip = data.Loop;
+			}
 
 			// Check if we need to generate the intro sting player
 			intro = null;
-			if (data.addIntroSting)
+			if (data.IntroSting)
 			{
 				intro = Instantiate(data.MainAudioSourcePrefab, Vector3.zero, Quaternion.identity, transform);
 				intro.gameObject.name = "Intro Sting Player";
 				intro.loop = false;
-				intro.clip = data.introSting;
+				intro.clip = data.IntroSting;
 			}
 		}
 
-		void PlayFromStop(double playTimeStamp, double skipForwardToSeconds)
+		void PlayFromStop(double skipForwardToSeconds)
 		{
 			// Check if there's an intro sting to play
 			if (intro != null)
@@ -195,40 +204,44 @@ namespace OmiyaGames.Audio
 					intro.timeSamples = AudioManager.CalculateTimeSample(intro.clip, skipForwardToSeconds);
 
 					// Delay playing the main tune
-					playTimeStamp += data.playLoopAfterSeconds;
+					playTimeStamp += data.PlayLoopAfterSeconds;
 
 					// Update skip forward timestamp for main loop
-					skipForwardToSeconds -= data.playLoopAfterSeconds;
+					skipForwardToSeconds -= data.PlayLoopAfterSeconds;
 				}
 				else
 				{
-					// Don't play intro sting, and skip main-loop forward by a certin amount
+					// Don't play intro sting, and skip main-loop forward by a certain amount
 					skipForwardToSeconds -= introLength;
 				}
 			}
 
-			// Schedule when to play the main loop
-			loop.PlayScheduled(playTimeStamp);
-
-			// Correct skip forward time for main loop
-			if (skipForwardToSeconds < 0)
+			// Check if there's a loop to play
+			if (loop != null)
 			{
-				skipForwardToSeconds = 0;
-			}
-			else
-			{
-				// Calculate how long the main loop is
-				double mainLength = AudioManager.CalculateClipLengthSeconds(loop.clip);
+				// Schedule when to play the main loop
+				loop.PlayScheduled(playTimeStamp);
 
-				// Reduce skip forward duration by this number until it's small enough
-				while (skipForwardToSeconds > mainLength)
+				// Correct skip forward time for main loop
+				if (skipForwardToSeconds < 0)
 				{
-					skipForwardToSeconds -= mainLength;
+					skipForwardToSeconds = 0;
 				}
-			}
+				else
+				{
+					// Calculate how long the main loop is
+					double mainLength = AudioManager.CalculateClipLengthSeconds(loop.clip);
 
-			// Skip main forward in time
-			loop.timeSamples = AudioManager.CalculateTimeSample(loop.clip, skipForwardToSeconds);
+					// Reduce skip forward duration by this number until it's small enough
+					while (skipForwardToSeconds > mainLength)
+					{
+						skipForwardToSeconds -= mainLength;
+					}
+				}
+
+				// Skip main forward in time
+				loop.timeSamples = AudioManager.CalculateTimeSample(loop.clip, skipForwardToSeconds);
+			}
 		}
 	}
 }

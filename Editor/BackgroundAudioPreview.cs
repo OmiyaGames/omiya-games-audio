@@ -1,13 +1,15 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-namespace OmiyaGames.Audio
+namespace OmiyaGames.Audio.Editor
 {
 	///-----------------------------------------------------------------------
 	/// <remarks>
-	/// <copyright file="SingleLoopingMusic.cs" company="Omiya Games">
+	/// <copyright file="BackgroundAudioPreview.cs" company="Omiya Games">
 	/// The MIT License (MIT)
 	/// 
-	/// Copyright (c) 2022 Omiya Games
+	/// Copyright (c) 2014-2022 Omiya Games
 	/// 
 	/// Permission is hereby granted, free of charge, to any person obtaining a copy
 	/// of this software and associated documentation files (the "Software"), to deal
@@ -34,75 +36,55 @@ namespace OmiyaGames.Audio
 	/// </listheader>
 	/// <item>
 	/// <term>
-	/// <strong>Version:</strong> 1.1.0-pre.1<br/>
-	/// <strong>Date:</strong> 4/16/2022<br/>
+	/// <strong>Date:</strong> 6/19/2022<br/>
 	/// <strong>Author:</strong> Taro Omiya
 	/// </term>
-	/// <description>Initial verison.</description>
+	/// <description>Initial version.</description>
 	/// </item>
 	/// </list>
 	/// </remarks>
 	///-----------------------------------------------------------------------
 	/// <summary>
-	/// Sets up the background audio to a single looping music
+	/// Helper class to create an audio preview of a player.
 	/// </summary>
-	[CreateAssetMenu(menuName = "Omiya Games/Audio/Looping Music", fileName = "Looping Music", order = (MENU_ORDER))]
-	public class SingleLoopingMusic : BackgroundAudio
+	/// <seealso cref="SingleLoopingMusic"/>
+	public class BackgroundAudioPreview
 	{
-		// FIXME: remove the public from all of these member variables
-		[SerializeField]
-		private AudioClip loop;
-
-		[Header("Intro Stings")]
-		[SerializeField]
-		private AudioClip introSting;
-		[SerializeField]
-		private double playLoopAfterSeconds;
-
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public double PlayLoopAfterSeconds => playLoopAfterSeconds;
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public AudioClip IntroSting => introSting;
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public AudioClip Loop => loop;
-
-		/// <inheritdoc/>
-		public override Player GeneratePlayer(GameObject attach)
+		public bool IsPlaying
 		{
-			var returnScript = attach.AddComponent<SingleLoopingMusicPlayer>();
-			returnScript.Setup(this);
-			return returnScript;
-		}
-
-		/// <inheritdoc/>
-		public override void Reset()
-		{
-			base.Reset();
-
-			SetLoopDelayToIntroStingDuration();
+			get;
+			private set;
 		}
 
 		/// <summary>
-		/// Calculates how long <see cref="IntroSting"/> is,
-		/// and sets <see cref="PlayLoopAfterSeconds"/>.
-		/// This produces a more accurate value than
-		/// <see cref="AudioClip.length"/>.
+		/// TODO
 		/// </summary>
-		[ContextMenu("Calculate Intro Sting Duration")]
-		public void SetLoopDelayToIntroStingDuration()
+		/// <seealso cref="UnityEngine.AudioSettings.dspTime"/>
+		public double PlayStartTime
 		{
-			// Make sure we have a sting to play
-			if (IntroSting != null)
-			{
-				// Calculate the duration based on samples and frequency
-				playLoopAfterSeconds = AudioManager.CalculateClipLengthSeconds(IntroSting);
-			}
+			get;
+			private set;
+		} = -1;
+
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public void Play()
+		{
+			PlayStartTime = UnityEngine.AudioSettings.dspTime;
+			throw new System.NotImplementedException();
+		}
+
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public void Stop()
+		{
+			PlayStartTime = -1;
+			throw new System.NotImplementedException();
 		}
 	}
 }
