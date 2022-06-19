@@ -104,9 +104,26 @@ namespace OmiyaGames.Audio
 
 				IEnumerator PlayBackgroundAudio(FadeInArgs fadeInArgs, FadeOutArgs fadeOutArgs)
 				{
-					yield return StartCoroutine(AudioManager.PlayMusicAndAmbience(playMusic, playAmbience, fadeInArgs, fadeOutArgs));
-					isMusicAdded = playMusic.HasValue;
-					isAmbienceAdded = playAmbience.HasValue;
+					// Reset flags
+					isMusicAdded = false;
+					isAmbienceAdded = false;
+
+					// Start the coroutines
+					Coroutine musicCoroutine = null, ambienceCoroutine = null;
+					if (playMusic.HasValue)
+					{
+						musicCoroutine = StartCoroutine(AudioManager.Music.PlayNextCoroutine(
+							playMusic, fadeInArgs, fadeOutArgs, player => isMusicAdded = (player != null)));
+					}
+					if (playAmbience.HasValue)
+					{
+						ambienceCoroutine = StartCoroutine(AudioManager.Ambience.PlayNextCoroutine(
+							playAmbience, fadeInArgs, fadeOutArgs, player => isAmbienceAdded = (player != null)));
+					}
+
+					// Delay the yielding so loading both music and ambience can happen at around the same time
+					yield return musicCoroutine;
+					yield return ambienceCoroutine;
 
 					// Indicate the coroutine has finished
 					lastCoroutine = null;
@@ -145,37 +162,29 @@ namespace OmiyaGames.Audio
 
 				IEnumerator RevertBackgroundAudio(FadeInArgs fadeInArgs, FadeOutArgs fadeOutArgs)
 				{
+					// Start the coroutines
+					Coroutine musicCoroutine = null, ambienceCoroutine = null;
+
 					// Check if music has been added OnTriggerEnter
-					// Pop the latest music from history, and grab the next latest one.
-					AssetRef<BackgroundAudio> lastMusic = isMusicAdded ? PopMusicFromHistory(AudioManager.Music.History) : new();
+					if (isMusicAdded)
+					{
+						musicCoroutine = StartCoroutine(AudioManager.Music.PlayPreviousCoroutine(
+							fadeInArgs, fadeOutArgs, player => isMusicAdded = (player != null)));
+					}
+					if (isAmbienceAdded)
+					{
+						ambienceCoroutine = StartCoroutine(AudioManager.Ambience.PlayPreviousCoroutine(
+							fadeInArgs, fadeOutArgs, player => isAmbienceAdded = (player != null)));
+					}
 
-					// Pop the latest music from history, and grab the next latest one.
-					AssetRef<BackgroundAudio> lastAmbience = isAmbienceAdded ? PopMusicFromHistory(AudioManager.Ambience.History) : new();
-
-					// Play the last tunes from history
-					yield return StartCoroutine(AudioManager.PlayMusicAndAmbience(lastMusic, lastAmbience, fadeInArgs, fadeOutArgs));
+					// Delay the yielding so loading both music and ambience can happen at around the same time
+					yield return musicCoroutine;
+					yield return ambienceCoroutine;
 
 					// Indicate the coroutine has finished
 					lastCoroutine = null;
 				}
 			}
-		}
-
-		static AssetRef<BackgroundAudio> PopMusicFromHistory(AudioHistory history)
-		{
-			// Setup null
-			AssetRef<BackgroundAudio> lastMusic = new();
-
-			// Pop a music off from the history
-			history.RemoveLatest();
-
-			// Return the next newest music
-			AssetRef<BackgroundAudio>? poppedMusic = history.Latest;
-			if (poppedMusic.HasValue)
-			{
-				lastMusic = poppedMusic.Value;
-			}
-			return lastMusic;
 		}
 	}
 }

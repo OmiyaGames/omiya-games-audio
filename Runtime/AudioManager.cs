@@ -75,20 +75,6 @@ namespace OmiyaGames.Audio
 		/// </summary>
 		public const string UXML_PATH = "Packages/com.omiyagames.audio/Editor/Audio.uxml";
 
-		class AudioFilePlayerPair
-		{
-			public AssetRef<BackgroundAudio> File
-			{
-				get;
-				set;
-			}
-			public BackgroundAudio.Player Player
-			{
-				get;
-				set;
-			}
-		}
-
 		/// <summary>
 		/// Indicates whether the manager is either still
 		/// in the middle of setting up, or is already setup.
@@ -183,75 +169,6 @@ namespace OmiyaGames.Audio
 			return (int)System.Math.Round(clip.frequency * timeStamp);
 		}
 
-		/// <summary>
-		/// TODO
-		/// </summary>
-		/// <param name="playMusicRef"></param>
-		/// <param name="playAmbienceRef"></param>
-		/// <param name="fadeInArgs"></param>
-		public static IEnumerator PlayMusicAndAmbience(AssetRef<BackgroundAudio> playMusicRef, AssetRef<BackgroundAudio> playAmbienceRef, FadeInArgs fadeInArgs = null, FadeOutArgs fadeOutArgs = null)
-		{
-			// Push all the valid assets/references into the map
-			Dictionary<AudioLayer.Background, AudioFilePlayerPair> loadAudioMap = new(2);
-			AddToAudioMap(Music, playMusicRef);
-			AddToAudioMap(Ambience, playAmbienceRef);
-
-			// Star the coroutine
-			yield return Manager.StartCoroutine(PlayMusicAndAmbience(loadAudioMap, fadeInArgs, fadeOutArgs));
-
-			void AddToAudioMap(AudioLayer.Background backgroundAudio, in AssetRef<BackgroundAudio> playAudioRef)
-			{
-				if (playAudioRef.CurrentState != AssetRef.State.Null)
-				{
-					loadAudioMap.Add(backgroundAudio, new()
-					{
-						File = playAudioRef
-					});
-				}
-			}
-		}
-
-		static IEnumerator PlayMusicAndAmbience(Dictionary<AudioLayer.Background, AudioFilePlayerPair> loadAudioMap, FadeInArgs fadeInArgs, FadeOutArgs fadeOutArgs)
-		{
-			// Grab the corresponding player for each audio asset
-			foreach (var pair in loadAudioMap)
-			{
-				// Attempt to grab a player, first
-				BackgroundAudio.Player player = pair.Key.PlayerManager.GetPlayer(pair.Value.File);
-				if (player == null)
-				{
-					// Create a new player, and retrieve the new one
-					yield return pair.Key.PlayerManager.CreatePlayer(pair.Value.File);
-					player = pair.Key.PlayerManager.GetPlayer(pair.Value.File);
-				}
-
-				// Set the player variable
-				pair.Value.Player = player;
-			}
-
-			foreach (var pair in loadAudioMap)
-			{
-				// Fade the currently playing players out
-				FadeOut(pair.Key, fadeOutArgs);
-
-				// Fade the players in
-				pair.Key.GroupManager.FadeIn(pair.Value.Player, fadeInArgs);
-
-				// Add to history
-				pair.Key.History.Add(pair.Value.File);
-			}
-
-			static void FadeOut(AudioLayer.Background backgroundAudio, FadeOutArgs fadeOutArgs)
-			{
-				// Fade the currently playing players out
-				BackgroundAudio.Player[] fadingPlayers = backgroundAudio.GroupManager.GetManagedPlayers();
-				foreach (var fadingPlayer in fadingPlayers)
-				{
-					backgroundAudio.GroupManager.FadeOut(fadingPlayer, fadeOutArgs);
-				}
-			}
-		}
-
 		class AudioSettingsManager : BaseSettingsManager<AudioSettingsManager, AudioSettings>
 		{
 			enum SnapshotType
@@ -323,7 +240,7 @@ namespace OmiyaGames.Audio
 
 				void SetupBackgroundLayer(AudioLayer.Background layer, string gameObjectName)
 				{
-					layer.PlayerManager = AudioPlayerManager.Create(transform, gameObjectName);
+					layer.PlayerManager = AudioPlayerManager.CreateManager(transform, gameObjectName);
 					layer.GroupManager = new MixerGroupManager(layer.PlayerManager, Data.PercentToDbCurve, layer.FadeLayers);
 				}
 			}

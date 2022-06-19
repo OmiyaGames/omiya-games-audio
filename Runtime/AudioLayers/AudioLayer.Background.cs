@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace OmiyaGames.Audio
 {
@@ -94,13 +96,254 @@ namespace OmiyaGames.Audio
 			/// </summary>
 			public AudioHistory History
 			{
-				get 
+				get
 				{
 					if (history == null)
 					{
 						history = new AudioHistory(maxHistoryCapacity);
 					}
 					return history;
+				}
+			}
+
+			/// <summary>
+			/// Grabs the currently-playing audio file from <see cref="History"/>.
+			/// </summary>
+			public AssetRef<BackgroundAudio> CurrentFile
+			{
+				get
+				{
+					AssetRef<BackgroundAudio>? latestFile = History.Newest;
+					if (latestFile.HasValue)
+					{
+						return latestFile.Value;
+					}
+					else
+					{
+						return AssetRef<BackgroundAudio>.NULL;
+					}
+				}
+			}
+
+			/// <summary>
+			/// Grabs the currently-playing audio file from <see cref="History"/>.
+			/// </summary>
+			public BackgroundAudio.Player CurrentPlayer
+			{
+				get
+				{
+					BackgroundAudio.Player returnPlayer = null;
+
+					// Check if current file is valid
+					AssetRef<BackgroundAudio> currentFile = CurrentFile;
+					if (currentFile.CurrentState != AssetRef.State.Null)
+					{
+						// Grab the currently managed players
+						BackgroundAudio.Player[] fadingPlayers = GroupManager.GetManagedPlayers();
+						foreach (var fadingPlayer in fadingPlayers)
+						{
+							// Check if player data matches the current file
+							if (currentFile.Equals(fadingPlayer.Data))
+							{
+								// Check if the player is already player
+								if (AudioPlayerManager.IsPlayerMatchingState(fadingPlayer, AudioPlayerManager.AudioState.Playing))
+								{
+									// Return this immediately
+									return fadingPlayer;
+								}
+
+								// Otherwise, hold the player in the backlog, to later return
+								returnPlayer = fadingPlayer;
+							}
+						}
+					}
+					return returnPlayer;
+				}
+			}
+
+			/// <summary>
+			/// Grab all the players associated with <see cref="CurrentFile"/>
+			/// </summary>
+			public List<BackgroundAudio.Player> GetCurrentPlayers(AudioPlayerManager.AudioState state = AudioPlayerManager.AudioState.All)
+			{
+				// Grab the currently managed players
+				BackgroundAudio.Player[] fadingPlayers = GroupManager.GetManagedPlayers();
+				List<BackgroundAudio.Player> returnPlayers = new(fadingPlayers.Length);
+
+				// Check if current file is valid
+				AssetRef<BackgroundAudio> currentFile = CurrentFile;
+				if (currentFile.CurrentState != AssetRef.State.Null)
+				{
+					foreach (var fadingPlayer in fadingPlayers)
+					{
+						if (currentFile.Equals(fadingPlayer.Data) && AudioPlayerManager.IsPlayerMatchingState(fadingPlayer, state))
+						{
+							returnPlayers.Add(fadingPlayer);
+						}
+					}
+				}
+				return returnPlayers;
+			}
+
+			/// <summary>
+			/// Grab the first player associated with <see cref="CurrentFile"/>
+			/// </summary>
+			public BackgroundAudio.Player GetCurrentPlayer(AudioPlayerManager.AudioState state = AudioPlayerManager.AudioState.All)
+			{
+				// Check if current file is valid
+				AssetRef<BackgroundAudio> currentFile = CurrentFile;
+				if (currentFile.CurrentState != AssetRef.State.Null)
+				{
+					// Grab the currently managed players
+					BackgroundAudio.Player[] fadingPlayers = GroupManager.GetManagedPlayers();
+					foreach (var fadingPlayer in fadingPlayers)
+					{
+						if (currentFile.Equals(fadingPlayer.Data) && AudioPlayerManager.IsPlayerMatchingState(fadingPlayer, state))
+						{
+							return fadingPlayer;
+						}
+					}
+				}
+				return null;
+			}
+
+			/// <summary>
+			/// Coroutine to fade in the next background audio. Also adds
+			/// <paramref name="audioClip"/> into the history if played.
+			/// </summary>
+			/// <param name="audioClip"></param>
+			/// <param name="fadeInArgs"></param>
+			/// <param name="fadeOutArgs"></param>
+			/// <param name="onFinish">
+			/// Triggers as soon as this coroutine finishes, with a reference
+			/// to the player that will be faded in. The parameter will be null
+			/// if <paramref name="audioClip"/> isn't played (e.g. when it's
+			/// already playing in the background.)
+			/// </param>
+			/// <returns></returns>
+			/// <exception cref="System.ArgumentNullException"></exception>
+			public IEnumerator PlayNextCoroutine(AssetRef<BackgroundAudio> audioClip,
+				FadeInArgs fadeInArgs = null, FadeOutArgs fadeOutArgs = null,
+				System.Action<BackgroundAudio.Player> onFinish = null)
+			{
+				// Null-check first
+				if (audioClip.CurrentState == AssetRef.State.Null)
+				{
+					throw new System.ArgumentNullException(nameof(audioClip));
+				}
+
+				// Attempt to grab an existing player
+				List<BackgroundAudio.Player> allPlayers = PlayerManager.GetPlayers(audioClip);
+				BackgroundAudio.Player newPlayer = null;
+				if (allPlayers != null)
+				{
+					// Search through all players
+					foreach (var player in allPlayers)
+					{
+						// Check if the player is already playing
+						if (player.State == BackgroundAudio.PlayState.Playing)
+						{
+							// Check if we want to force a restart
+							if ((fadeInArgs != null) && fadeInArgs.ForceRestart)
+							{
+								// Skip this player, then
+								continue;
+							}
+
+							// If not, and there's a player that's already playing,
+							// don't bother playing this clip.
+							onFinish?.Invoke(null);
+							yield break;
+						}
+						else
+						{
+							if (player.State == BackgroundAudio.PlayState.Scheduled)
+							{
+								// Stop the scheduled player
+								player.Stop();
+							}
+
+							// Grab the last stopped player
+							newPlayer = player;
+						}
+					}
+				}
+
+				// If we couldn't find an existing player, create a new one
+				if (newPlayer == null)
+				{
+					// Create a new player, and retrieve the new one
+					yield return PlayerManager.CreatePlayerCoroutine(audioClip, player => newPlayer = player);
+				}
+
+				// Fade the currently playing players out
+				FadeOutCurrentPlaying(fadeOutArgs);
+
+				// Fade the players in
+				GroupManager.FadeIn(newPlayer, fadeInArgs);
+
+				// Add to history
+				History.Add(audioClip);
+
+				// Invoke end event
+				onFinish?.Invoke(newPlayer);
+			}
+
+			/// <summary>
+			/// Coroutine to fade in the previous background audio in <see cref="History"/>,
+			/// if any.  Also removes the newest clip from the history, if played.
+			/// </summary>
+			/// <param name="fadeInArgs"></param>
+			/// <param name="fadeOutArgs"></param>
+			/// <param name="onFinish"></param>
+			/// <returns></returns>
+			public IEnumerator PlayPreviousCoroutine(FadeInArgs fadeInArgs = null, FadeOutArgs fadeOutArgs = null,
+				System.Action<BackgroundAudio.Player> onFinish = null)
+			{
+				// Check the size of history
+				if (History.Count < 2)
+				{
+					// There's no clip to go back to, finish immediately
+					onFinish?.Invoke(null);
+					yield break;
+				}
+
+				// Pop the latest music off from the history
+				history.RemoveNewest();
+
+				// Make sure the next music is not null
+				AssetRef<BackgroundAudio> poppedMusic = history.Newest;
+				if (poppedMusic.CurrentState == AssetRef.State.Null)
+				{
+					// Clip is null, finish immediately
+					onFinish?.Invoke(null);
+					yield break;
+				}
+
+				// Fade in the next newest music
+				yield return PlayNextCoroutine(poppedMusic, fadeInArgs, fadeOutArgs, onFinish);
+			}
+
+			/// <summary>
+			/// Fades out the currently-playing audio in this layer.
+			/// </summary>
+			/// <param name="fadeOutArgs">
+			/// Arguments for fade-out, e.g. duration.
+			/// </param>
+			public void FadeOutCurrentPlaying(FadeOutArgs fadeOutArgs = null)
+			{
+				// Fade the current players out
+				BackgroundAudio.Player[] fadingPlayers = GroupManager.GetManagedPlayers();
+				foreach (var fadingPlayer in fadingPlayers)
+				{
+					if (fadingPlayer.State == BackgroundAudio.PlayState.Playing)
+					{
+						GroupManager.FadeOut(fadingPlayer, fadeOutArgs);
+					}
+					else if (fadingPlayer.State == BackgroundAudio.PlayState.Scheduled)
+					{
+						fadingPlayer.Stop();
+					}
 				}
 			}
 		}

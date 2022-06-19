@@ -93,6 +93,12 @@ namespace OmiyaGames.Audio
 				set;
 			} = null;
 
+			public Action<BackgroundAudio.Player> BeforePlayerDestroy
+			{
+				get;
+				set;
+			} = null;
+
 			public double StartTime
 			{
 				get;
@@ -305,12 +311,15 @@ namespace OmiyaGames.Audio
 
 			void EndFadeOut()
 			{
-				// Pause or stop the player
-				playerInfo.Player.Stop();
+				if (playerInfo.Player != null)
+				{
+					// Pause or stop the player
+					playerInfo.Player.Stop();
 
-				// Reset the info
-				playerInfo.Player = null;
-				playerInfo.FadeRoutine = null;
+					// Reset the info
+					CleanFadeInfoPlayer(playerInfo);
+					playerInfo.FadeRoutine = null;
+				}
 			}
 		}
 
@@ -370,7 +379,8 @@ namespace OmiyaGames.Audio
 				if (fadeInfo.Player == null)
 				{
 					// If so, return that
-					return ConfigureFadeInfo(fadeInfo, player);
+					ConfigureFadeInfo(fadeInfo, player);
+					return fadeInfo;
 				}
 
 				// Check if there's an info with a stopped or paused player
@@ -379,7 +389,8 @@ namespace OmiyaGames.Audio
 					case BackgroundAudio.PlayState.Stopped:
 
 						// If so, return that
-						return ConfigureFadeInfo(fadeInfo, player);
+						ConfigureFadeInfo(fadeInfo, player);
+						return fadeInfo;
 				}
 
 				// Otherwise, check how far the fader has progressed
@@ -394,11 +405,28 @@ namespace OmiyaGames.Audio
 			}
 			return returnInfo;
 
-			FadeSet ConfigureFadeInfo(FadeSet setupInfo, BackgroundAudio.Player player)
+			void ConfigureFadeInfo(FadeSet setupInfo, BackgroundAudio.Player player)
 			{
-				setupInfo.Player = player;
-				player.MixerGroup = setupInfo.Layer.Group;
-				return setupInfo;
+				if (player != null)
+				{
+					// Check if setupInfo needs to be cleaned
+					CleanFadeInfoPlayer(setupInfo);
+
+					// Setup the setupInfo
+					setupInfo.Player = player;
+					setupInfo.BeforePlayerDestroy = new Action<BackgroundAudio.Player>(player =>
+					{
+						// Make sure the stored player is the same one being destroyed
+						if (setupInfo.Player == player)
+						{
+							CleanFadeInfoPlayer(setupInfo);
+						}
+					});
+
+					// Setup the player
+					player.MixerGroup = setupInfo.Layer.Group;
+					player.OnBeforeDestroy += setupInfo.BeforePlayerDestroy;
+				}
 			}
 
 			float PercentProgression(FadeSet returnInfo)
@@ -420,6 +448,19 @@ namespace OmiyaGames.Audio
 					progressionPercent = 1;
 				}
 				return (float)progressionPercent;
+			}
+		}
+
+		void CleanFadeInfoPlayer(FadeSet cleanInfo)
+		{
+			if (cleanInfo.Player != null)
+			{
+				// Clean the events
+				cleanInfo.Player.OnBeforeDestroy -= cleanInfo.BeforePlayerDestroy;
+				cleanInfo.BeforePlayerDestroy = null;
+
+				// Set player to null
+				cleanInfo.Player = null;
 			}
 		}
 

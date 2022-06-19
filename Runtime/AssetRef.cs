@@ -55,6 +55,8 @@ namespace OmiyaGames.Audio
 	/// </summary>
 	public struct AssetRef<TObject> : IEquatable<TObject>, IEquatable<AssetRef<TObject>>, IEquatable<AssetReferenceT<TObject>> where TObject : UnityEngine.Object
 	{
+		public static readonly AssetRef<TObject> NULL = new AssetRef<TObject>();
+
 		bool isLoading;
 
 		/// <summary>
@@ -78,6 +80,16 @@ namespace OmiyaGames.Audio
 			Asset = null;
 			Reference = reference;
 		}
+
+		/// <summary>
+		/// Converts <see cref="TObject"/> to <see cref="AssetRef{TObject}"/>.
+		/// </summary>
+		public static implicit operator AssetRef<TObject>(TObject convert) => new AssetRef<TObject>(convert);
+
+		/// <summary>
+		/// Converts <see cref="AssetReferenceT{TObject}"/> to <see cref="AssetRef{TObject}"/>.
+		/// </summary>
+		public static implicit operator AssetRef<TObject>(AssetReferenceT<TObject> convert) => new AssetRef<TObject>(convert);
 
 		/// <summary>
 		/// TODO

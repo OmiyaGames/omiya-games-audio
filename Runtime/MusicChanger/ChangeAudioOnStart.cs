@@ -128,17 +128,35 @@ namespace OmiyaGames.Audio
 			};
 
 			// Switch the music and ambience
-			yield return StartCoroutine(AudioManager.PlayMusicAndAmbience(playMusic, playAmbience, fadeInArgs, fadeOutArgs));
+			Coroutine musicCoroutine = null, ambienceCoroutine = null;
+			if (playMusic.HasValue)
+			{
+				musicCoroutine = StartCoroutine(AudioManager.Music.PlayNextCoroutine(playMusic, fadeInArgs, fadeOutArgs));
+			}
+			if (playAmbience.HasValue)
+			{
+				ambienceCoroutine = StartCoroutine(AudioManager.Ambience.PlayNextCoroutine(playAmbience, fadeInArgs, fadeOutArgs));
+			}
+
+			// Delay the yielding so loading both music and ambience can happen at around the same time
+			yield return musicCoroutine;
+			yield return ambienceCoroutine;
 
 			// Clean-up the currently loaded music
 			GarbageCollect(AudioManager.Music);
 			GarbageCollect(AudioManager.Ambience);
 
-			// Clear history
+			// Clear all but one audio file in each layer's history
 			if (historyBehavior == Behavior.ClearHistory)
 			{
-				PruneHistory(AudioManager.Music.History, playMusic);
-				PruneHistory(AudioManager.Ambience.History, playAmbience);
+				while (AudioManager.Music.History.Count > 1)
+				{
+					AudioManager.Music.History.RemoveOldest();
+				}
+				while (AudioManager.Ambience.History.Count > 1)
+				{
+					AudioManager.Ambience.History.RemoveOldest();
+				}
 			}
 
 			// Invoke event
@@ -150,26 +168,11 @@ namespace OmiyaGames.Audio
 			var cleanUp = AudioPlayerManager.AudioState.Stopped;
 			if (historyBehavior == Behavior.ClearHistory)
 			{
-				cleanUp |= AudioPlayerManager.AudioState.NotPlaying | AudioPlayerManager.AudioState.Scheduled;
+				cleanUp |= AudioPlayerManager.AudioState.Scheduled;
 			}
 
 			// Clean up music manager
 			backgroundAudio.PlayerManager.GarbageCollect(cleanUp);
-		}
-
-		void PruneHistory(AudioHistory history, AssetRefSerialized<BackgroundAudio> playMusic)
-		{
-			if (playMusic.HasValue)
-			{
-				while (history.Count > 1)
-				{
-					history.RemoveOldest();
-				}
-			}
-			else
-			{
-				history.Clear();
-			}
 		}
 	}
 }

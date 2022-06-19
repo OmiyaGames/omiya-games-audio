@@ -80,10 +80,6 @@ namespace OmiyaGames.Audio
 			/// <summary>
 			/// TODO
 			/// </summary>
-			NotPlaying = Stopped/* | Paused*/,
-			/// <summary>
-			/// TODO
-			/// </summary>
 			All = Playing | Stopped | Scheduled/* | Paused*/,
 		}
 
@@ -113,7 +109,7 @@ namespace OmiyaGames.Audio
 		/// </summary>
 		/// <param name="gameObjectName"></param>
 		/// <returns></returns>
-		public static AudioPlayerManager Create(Transform parent, string gameObjectName)
+		public static AudioPlayerManager CreateManager(Transform parent, string gameObjectName)
 		{
 			// Create the GameObject
 			GameObject gameObject = new GameObject(gameObjectName);
@@ -125,6 +121,33 @@ namespace OmiyaGames.Audio
 
 			// Create the manager script
 			return gameObject.AddComponent<AudioPlayerManager>();
+		}
+
+		/// <summary>
+		/// TODO
+		/// </summary>
+		/// <param name="player"></param>
+		/// <param name="state"></param>
+		/// <returns></returns>
+		public static bool IsPlayerMatchingState(BackgroundAudio.Player player, AudioState state)
+		{
+			AudioState compareState = AudioState.None;
+			switch (player.State)
+			{
+				case BackgroundAudio.PlayState.Playing:
+					compareState = AudioState.Playing;
+					break;
+				//case BackgroundAudio.PlayState.Paused:
+				//	compareState = AudioState.Paused;
+				//	break;
+				case BackgroundAudio.PlayState.Stopped:
+					compareState = AudioState.Stopped;
+					break;
+				case BackgroundAudio.PlayState.Scheduled:
+					compareState = AudioState.Scheduled;
+					break;
+			}
+			return (state & compareState) != 0;
 		}
 
 		/// <summary>
@@ -166,7 +189,7 @@ namespace OmiyaGames.Audio
 		/// <param name="audio"></param>
 		/// <param name="playerState"></param>
 		/// <returns></returns>
-		public IEnumerator CreatePlayer(AssetRef<BackgroundAudio> audio)
+		public IEnumerator CreatePlayerCoroutine(AssetRef<BackgroundAudio> audio, System.Action<BackgroundAudio.Player> onPlayerCreated = null)
 		{
 			// Null-check
 			if (audio.CurrentState == AssetRef.State.Null)
@@ -213,6 +236,9 @@ namespace OmiyaGames.Audio
 
 			// Add all that into the map
 			playerMap.Add(newPlayer, newMetaData);
+
+			// Invoke action
+			onPlayerCreated?.Invoke(newPlayer);
 
 			void OnAfterChangeState(BackgroundAudio.PlayState _, BackgroundAudio.PlayState newState)
 			{
@@ -270,7 +296,7 @@ namespace OmiyaGames.Audio
 		/// TODO
 		/// </summary>
 		/// <param name="removePlayersWithStates"></param>
-		public void GarbageCollect(AudioState removePlayersWithStates = AudioState.NotPlaying, bool removeBackgroundAudio = true)
+		public void GarbageCollect(AudioState removePlayersWithStates = AudioState.Stopped)
 		{
 			// Check if there's a map of players available for the audio
 			List<AssetRef<BackgroundAudio>> audioToDelete = new(generatedPlayers.Count);
@@ -303,13 +329,10 @@ namespace OmiyaGames.Audio
 			}
 
 			// Check if we want to delete audio files
-			if (removeBackgroundAudio)
+			foreach (var audioFiles in audioToDelete)
 			{
-				foreach (var audioFiles in audioToDelete)
-				{
-					generatedPlayers.Remove(audioFiles);
-					audioFiles.ReleaseAsset();
-				}
+				generatedPlayers.Remove(audioFiles);
+				audioFiles.ReleaseAsset();
 			}
 		}
 
@@ -361,28 +384,5 @@ namespace OmiyaGames.Audio
 		{
 			StopAllCoroutines();
 		}
-
-		#region Helper Methods
-		static bool IsPlayerMatchingState(BackgroundAudio.Player player, AudioState state)
-		{
-			AudioState compareState = AudioState.None;
-			switch (player.State)
-			{
-				case BackgroundAudio.PlayState.Playing:
-					compareState = AudioState.Playing;
-					break;
-				//case BackgroundAudio.PlayState.Paused:
-				//	compareState = AudioState.Paused;
-				//	break;
-				case BackgroundAudio.PlayState.Stopped:
-					compareState = AudioState.Stopped;
-					break;
-				case BackgroundAudio.PlayState.Scheduled:
-					compareState = AudioState.Scheduled;
-					break;
-			}
-			return (state & compareState) != 0;
-		}
-		#endregion
 	}
 }

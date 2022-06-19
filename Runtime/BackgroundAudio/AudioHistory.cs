@@ -139,12 +139,39 @@ namespace OmiyaGames.Audio
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public AssetRef<BackgroundAudio>? Oldest => history.First?.Value;
+		public AssetRef<BackgroundAudio> Oldest
+		{
+			get
+			{
+				LinkedListNode<AssetRef<BackgroundAudio>> node = history.First;
+				if(node != null)
+				{
+					return node.Value;
+				}
+				else
+				{
+					return AssetRef<BackgroundAudio>.NULL;
+				}
+			}
+		}
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public AssetRef<BackgroundAudio>? Latest => history.Last?.Value;
-
+		public AssetRef<BackgroundAudio> Newest
+		{
+			get
+			{
+				LinkedListNode<AssetRef<BackgroundAudio>> node = history.Last;
+				if(node != null)
+				{
+					return node.Value;
+				}
+				else
+				{
+					return AssetRef<BackgroundAudio>.NULL;
+				}
+			}
+		}
 		/// <summary>
 		/// Returns an iterator enumerating in either chronological or reverse order.
 		/// </summary>
@@ -195,7 +222,7 @@ namespace OmiyaGames.Audio
 		/// <summary>
 		/// TODO
 		/// </summary>
-		public void RemoveLatest() => history.RemoveLast();
+		public void RemoveNewest() => history.RemoveLast();
 
 		/// <summary>
 		/// Empties the history.
