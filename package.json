@@ -52,13 +52,18 @@
     },
     {
       "displayName": "Volume Sliders Demo",
-      "description": "Collection of files to setup custom settings.",
+      "description": "Project demonstrating volume sliders and time-based pitch-shifting effects.",
       "path": "Samples~/Volume Sliders"
     },
     {
       "displayName": "Sound Effects Demo",
-      "description": "Collection of files to setup custom settings.",
+      "description": "Project demonstrating sound effects component.",
       "path": "Samples~/Sound Effects"
+    },
+    {
+      "displayName": "Background Audio Demo",
+      "description": "Project demonstrating fading in and out background music.",
+      "path": "Samples~/Background Audio"
     }
   ]
 }

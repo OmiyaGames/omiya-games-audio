@@ -1,0 +1,20 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" oge="OmiyaGames.Common.Editor" editor-extension-mode="True">
+    <Style src="project://database/Packages/com.omiyagames.global.settings/Editor/default-style.uss?fileID=7433441132597879392&amp;guid=3ae46e517b369d0478dabad92787dd4f&amp;type=3#default-style" />
+    <uie:ObjectField label="Generate Prefab" name="mainAudioSourcePrefab" binding-path="mainAudioSourcePrefab" allow-scene-objects="false" type="UnityEngine.AudioSource, UnityEngine" tooltip="Prefab used to generate the audio sources that plays the clips below." />
+    <OmiyaGames.Common.Editor.Spacer />
+    <ui:Label text="Audio Clips" display-tooltip-when-elided="true" class="header" />
+    <uie:ObjectField label="Main Loop" name="mainLoop" binding-path="loop" allow-scene-objects="false" type="UnityEngine.AudioClip, UnityEngine.AudioModule" tooltip="The looping music." tabindex="10" />
+    <uie:ObjectField label="Intro Stinger" name="introSting" binding-path="introSting" allow-scene-objects="false" type="UnityEngine.AudioClip, UnityEngine.AudioModule" tooltip="The optional stinger that plays before the looping music (above.)" tabindex="11" />
+    <uie:DoubleField label="Play Loop After (seconds)" value="0" tabindex="12" binding-path="playLoopAfterSeconds" name="playLoopAfterSeconds" tooltip="How many seconds to wait while the intro stinger is playing before playing the main looping music. Typically set to how long the intro&apos;s stinger is.">
+        <ui:Button text="Reset" display-tooltip-when-elided="true" name="resetPlayLoopAfterButton" tabindex="13" tooltip="Resets this field to the duration of intro stinger." />
+    </uie:DoubleField>
+    <OmiyaGames.Common.Editor.Spacer />
+    <ui:Label text="Preview" display-tooltip-when-elided="true" class="header" />
+    <ui:VisualElement style="flex-direction: row;">
+        <ui:VisualElement style="flex-direction: row; flex-grow: 1; margin-left: 3px; margin-right: 3px; margin-top: 1px; margin-bottom: 1px;">
+            <ui:ProgressBar name="introProgress" title=" " tabindex="20" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; width: 50%;" />
+            <ui:ProgressBar name="loopProgress" title=" " tabindex="21" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; width: 50%;" />
+        </ui:VisualElement>
+        <ui:Button text="Play" display-tooltip-when-elided="true" name="previewButton" tabindex="22" />
+    </ui:VisualElement>
+</ui:UXML>

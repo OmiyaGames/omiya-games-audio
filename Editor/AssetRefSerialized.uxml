@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" oge="OmiyaGames.Common.Editor" editor-extension-mode="True">
+    <Style src="project://database/Packages/com.omiyagames.global.settings/Editor/default-style.uss?fileID=7433441132597879392&amp;guid=3ae46e517b369d0478dabad92787dd4f&amp;type=3#default-style" />
+    <ui:VisualElement style="flex-direction: row;">
+        <uie:ObjectField binding-path="asset" name="asset" tabindex="0" tooltip="The project asset." style="flex-grow: 1;" />
+        <uie:ObjectField binding-path="assetRef" name="assetRef" tabindex="0" tooltip="The Addressable asset." style="flex-grow: 1; display: none;" />
+        <ui:Toggle text="Use Addressable" binding-path="useAddressable" name="useAddressable" tabindex="1" tooltip="Check to switch to using Addressable Asset" style="max-width: 112px;" />
+    </ui:VisualElement>
+</ui:UXML>

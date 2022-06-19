@@ -2,6 +2,8 @@
     "name": "OmiyaGames.Audio",
     "rootNamespace": "OmiyaGames.Audio",
     "references": [
+        "GUID:9e24947de15b9834991c9d8411ea37cf",
+        "GUID:84651a3751eca9349aac36a66bba901b",
         "GUID:cdda17712c724478898665290e9a02cc",
         "GUID:1423d14cb49c2df4bbd0d62190b654ab",
         "GUID:73e76bd60959c3f41a9067c3fbf22b24",

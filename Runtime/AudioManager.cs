@@ -1,6 +1,8 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.AddressableAssets;
 using OmiyaGames.Managers;
 using OmiyaGames.Global;
 using OmiyaGames.Global.Settings;
@@ -9,6 +11,7 @@ using OmiyaGames.Saves;
 namespace OmiyaGames.Audio
 {
 	///-----------------------------------------------------------------------
+	/// <remarks>
 	/// <copyright file="AudioManager.cs" company="Omiya Games">
 	/// The MIT License (MIT)
 	/// 
@@ -44,7 +47,6 @@ namespace OmiyaGames.Audio
 	/// <strong>Author:</strong> Taro Omiya
 	/// </term>
 	/// <description>Initial verison.</description>
-	/// </description>
 	/// </item>
 	/// </list>
 	/// </remarks>
@@ -126,6 +128,47 @@ namespace OmiyaGames.Audio
 		public static float ConvertPercentToVolumeDb(float percent) =>
 			AudioSettingsManager.GetDataOrThrow().PercentToDbCurve.Evaluate(percent);
 
+		/// <summary>
+		/// TODO
+		/// </summary>
+		/// <param name="clip"></param>
+		/// <returns></returns>
+		/// <exception cref="System.ArgumentNullException">
+		/// If <paramref name="clip"/> is <c>null</c>.
+		/// </exception>
+		public static double CalculateClipLengthSeconds(AudioClip clip)
+		{
+			if (clip == null)
+			{
+				throw new System.ArgumentNullException(nameof(clip));
+			}
+
+			double returnSeconds = clip.samples;
+			returnSeconds /= clip.frequency;
+			return returnSeconds;
+		}
+
+		/// <summary>
+		/// TODO
+		/// </summary>
+		/// <param name="clip"></param>
+		/// <param name="timeStamp"></param>
+		/// <returns></returns>
+		/// <exception cref="System.ArgumentNullException"></exception>
+		public static int CalculateTimeSample(AudioClip clip, double timeStamp)
+		{
+			if (clip == null)
+			{
+				throw new System.ArgumentNullException(nameof(clip));
+			}
+			else if (timeStamp < 0)
+			{
+				throw new System.ArgumentOutOfRangeException(nameof(timeStamp), "Timestamp can't be negative.");
+			}
+
+			return (int)System.Math.Round(clip.frequency * timeStamp);
+		}
+
 		class AudioSettingsManager : BaseSettingsManager<AudioSettingsManager, AudioSettings>
 		{
 			enum SnapshotType
@@ -180,6 +223,13 @@ namespace OmiyaGames.Audio
 				Data.Voices.Setup();
 				Data.Ambience.Setup();
 
+				// Setup music stacks
+				SetupBackgroundLayer(Data.Music, "Music Stack");
+				SetupBackgroundLayer(Data.Ambience, "Ambience Stack");
+
+				// Force this game object to be active
+				gameObject.SetActive(true);
+
 				// Update snapshots and AudioListener
 				UpdateSnapshots(TimeManager.TimeScale, TimeManager.IsManuallyPaused);
 				AudioListener.pause = TimeManager.IsManuallyPaused;
@@ -187,6 +237,12 @@ namespace OmiyaGames.Audio
 				// Listen to the TimeManager event
 				TimeManager.OnAfterTimeScaleChanged += OnTimeScaleChanged;
 				TimeManager.OnAfterIsManuallyPausedChanged += OnPauseChanged;
+
+				void SetupBackgroundLayer(AudioLayer.Background layer, string gameObjectName)
+				{
+					layer.PlayerManager = AudioPlayerManager.CreateManager(transform, gameObjectName);
+					layer.GroupManager = new MixerGroupManager(layer.PlayerManager, Data.PercentToDbCurve, layer.FadeLayers);
+				}
 			}
 
 			protected override void OnDestroy()
@@ -364,7 +420,7 @@ namespace OmiyaGames.Audio
 
 						// Compute where the timescale is in this range
 						float time = Mathf.InverseLerp(settings.SlowTimeRange.x, settings.SlowTimeRange.y, currentTimeScale);
-						
+
 						// Compute the pitch
 						return Mathf.Lerp(settings.SlowPitchRange.x, settings.SlowPitchRange.y, time);
 					}
