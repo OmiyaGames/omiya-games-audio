@@ -37,6 +37,7 @@ namespace OmiyaGames.Audio.Editor
 	/// </listheader>
 	/// <item>
 	/// <term>
+	/// <strong>Version:</strong> 0.1.0-exp.1<br/>
 	/// <strong>Date:</strong> 3/14/2022<br/>
 	/// <strong>Author:</strong> Taro Omiya
 	/// </term>
