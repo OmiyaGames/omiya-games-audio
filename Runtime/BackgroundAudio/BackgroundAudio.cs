@@ -35,7 +35,7 @@ namespace OmiyaGames.Audio
 	/// </listheader>
 	/// <item>
 	/// <term>
-	/// <strong>Version:</strong> 1.1.0-pre.1<br/>
+	/// <strong>Version:</strong> 1.0.0<br/>
 	/// <strong>Date:</strong> 4/12/2022<br/>
 	/// <strong>Author:</strong> Taro Omiya
 	/// </term>
@@ -51,7 +51,7 @@ namespace OmiyaGames.Audio
 	public abstract class BackgroundAudio : ScriptableObject
 	{
 		/// <summary>
-		/// TODO
+		/// The state
 		/// </summary>
 		public enum PlayState
 		{
@@ -80,7 +80,8 @@ namespace OmiyaGames.Audio
 		AudioSource mainAudioSourcePrefab;
 
 		/// <summary>
-		/// TODO
+		/// A prefab reference to use as basis for constructing
+		/// a new <see cref="Player"/>.
 		/// </summary>
 		public AudioSource MainAudioSourcePrefab => mainAudioSourcePrefab;
 
@@ -92,8 +93,6 @@ namespace OmiyaGames.Audio
 		/// The script generated <see cref="AudioSource"/>s will be attached
 		/// or be child of.
 		/// </param>
-		/// 
-		/// 
 		public abstract Player GeneratePlayer(GameObject attach);
 
 		/// <inheritdoc/>
@@ -157,12 +156,12 @@ namespace OmiyaGames.Audio
 			public abstract void Stop();
 
 			/// <summary>
-			/// TODO
+			/// TODO: Implement soon
 			/// </summary>
 			//public abstract void Pause();
 
 			/// <summary>
-			/// TODO
+			/// TODO: Implement soon
 			/// </summary>
 			//public virtual void Resume()
 			//{

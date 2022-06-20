@@ -39,7 +39,7 @@ namespace OmiyaGames.Audio
 	/// </listheader>
 	/// <item>
 	/// <term>
-	/// <strong>Version:</strong> 1.1.0-pre.1<br/>
+	/// <strong>Version:</strong> 1.0.0<br/>
 	/// <strong>Date:</strong> 6/3/2022<br/>
 	/// <strong>Author:</strong> Taro Omiya
 	/// </term>
@@ -84,12 +84,12 @@ namespace OmiyaGames.Audio
 		/// <summary>
 		/// Converts <see cref="TObject"/> to <see cref="AssetRef{TObject}"/>.
 		/// </summary>
-		public static implicit operator AssetRef<TObject>(TObject convert) => new AssetRef<TObject>(convert);
+		public static explicit operator AssetRef<TObject>(TObject convert) => new AssetRef<TObject>(convert);
 
 		/// <summary>
 		/// Converts <see cref="AssetReferenceT{TObject}"/> to <see cref="AssetRef{TObject}"/>.
 		/// </summary>
-		public static implicit operator AssetRef<TObject>(AssetReferenceT<TObject> convert) => new AssetRef<TObject>(convert);
+		public static explicit operator AssetRef<TObject>(AssetReferenceT<TObject> convert) => new AssetRef<TObject>(convert);
 
 		/// <summary>
 		/// TODO
