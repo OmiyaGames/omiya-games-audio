@@ -241,7 +241,7 @@ namespace OmiyaGames.Audio
 				void SetupBackgroundLayer(AudioLayer.Background layer, string gameObjectName)
 				{
 					layer.PlayerManager = AudioPlayerManager.CreateManager(transform, gameObjectName);
-					layer.GroupManager = new MixerGroupManager(layer.PlayerManager, Data.PercentToDbCurve, layer.FadeLayers);
+					layer.MixerGroupManager = new MixerGroupManager(layer.PlayerManager, Data.PercentToDbCurve, layer.FadeLayers);
 				}
 			}
 

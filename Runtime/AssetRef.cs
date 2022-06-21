@@ -60,9 +60,13 @@ namespace OmiyaGames.Audio
 		bool isLoading;
 
 		/// <summary>
-		/// TODO
+		/// Creates a wrapper for a project asset.
+		/// Should <em>not</em> be used for addressable assets.
 		/// </summary>
-		/// <param name="asset"></param>
+		/// <seealso cref="AssetRef(AssetReferenceT{TObject})"/>
+		/// <param name="asset">
+		/// The project asset.
+		/// </param>
 		public AssetRef(TObject asset)
 		{
 			isLoading = false;
@@ -71,9 +75,11 @@ namespace OmiyaGames.Audio
 		}
 
 		/// <summary>
-		/// TODO
+		/// Creates a wrapper for an addressable asset.
 		/// </summary>
-		/// <param name="reference"></param>
+		/// <param name="reference">
+		/// The addressable asset.
+		/// </param>
 		public AssetRef(AssetReferenceT<TObject> reference)
 		{
 			isLoading = false;
@@ -84,15 +90,23 @@ namespace OmiyaGames.Audio
 		/// <summary>
 		/// Converts <see cref="TObject"/> to <see cref="AssetRef{TObject}"/>.
 		/// </summary>
-		public static explicit operator AssetRef<TObject>(TObject convert) => new AssetRef<TObject>(convert);
+		public static implicit operator AssetRef<TObject>(TObject convert) => new AssetRef<TObject>(convert);
 
 		/// <summary>
 		/// Converts <see cref="AssetReferenceT{TObject}"/> to <see cref="AssetRef{TObject}"/>.
 		/// </summary>
-		public static explicit operator AssetRef<TObject>(AssetReferenceT<TObject> convert) => new AssetRef<TObject>(convert);
+		public static implicit operator AssetRef<TObject>(AssetReferenceT<TObject> convert) => new AssetRef<TObject>(convert);
 
 		/// <summary>
-		/// TODO
+		/// <para>
+		/// If <seealso cref="Reference"/> is <see langword="null"/>,
+		/// gets the referenced project asset.
+		/// </para><para>
+		/// If not, and <seealso cref="CurrentState"/> is <see cref="AssetRef.State.Ready"/>,
+		/// gets the loaded addressable asset from <seealso cref="Reference"/>.
+		/// </para><para>
+		/// Otherwise, returns <see langword="null"/>.
+		/// </para>
 		/// </summary>
 		public TObject Asset
 		{
@@ -101,7 +115,8 @@ namespace OmiyaGames.Audio
 		}
 
 		/// <summary>
-		/// TODO
+		/// Gets the addressable asset's reference, if constructed
+		/// by <seealso cref="AssetRef.ctor(AssetReferenceT{TObject})"/>
 		/// </summary>
 		public AssetReferenceT<TObject> Reference
 		{
@@ -109,7 +124,8 @@ namespace OmiyaGames.Audio
 		}
 
 		/// <summary>
-		/// TODO
+		/// Indicates whether this object is null, project asset (<see cref="AssetRef.State.ProjectAsset"/>),
+		/// or whether <seealso cref="Reference"/> has loaded or unloaded an asset.
 		/// </summary>
 		public AssetRef.State CurrentState
 		{
@@ -119,7 +135,7 @@ namespace OmiyaGames.Audio
 				{
 					if (Asset != null)
 					{
-						return AssetRef.State.DirectAsset;
+						return AssetRef.State.ProjectAsset;
 					}
 
 					return AssetRef.State.Null;
@@ -144,19 +160,21 @@ namespace OmiyaGames.Audio
 			}
 		}
 
-		/// <inheritdoc/>
+		/// <summary>
+		/// Gets the name of the asset, or <see langword="null"/>
+		/// if there isn't any.
+		/// </summary>
 		public string Name
 		{
 			get
 			{
-				if (Asset != null)
-				{
-					return Asset.name;
-				}
-
 				if (Reference != null)
 				{
 					return Reference.SubObjectName;
+				}
+				else if (Asset != null)
+				{
+					return Asset.name;
 				}
 
 				return null;
@@ -196,9 +214,11 @@ namespace OmiyaGames.Audio
 		}
 
 		/// <summary>
-		/// TODO
+		/// Starts loading the addressable from <seealso cref="Reference"/>.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>
+		/// A coroutine loading the addressable asset.
+		/// </returns>
 		public IEnumerator LoadAssetAsync()
 		{
 			if (CurrentState == AssetRef.State.Unloaded)
@@ -214,7 +234,7 @@ namespace OmiyaGames.Audio
 		}
 
 		/// <summary>
-		/// TODO
+		/// Unloads the addressable from <seealso cref="Reference"/>.
 		/// </summary>
 		public void ReleaseAsset()
 		{
@@ -257,33 +277,39 @@ namespace OmiyaGames.Audio
 	}
 
 	/// <summary>
-	/// TODO
+	/// Contains helper enums for <seealso cref="AssetRef{TObject}"/>.
 	/// </summary>
 	public static class AssetRef
 	{
 		/// <summary>
-		/// TODO
+		/// Provides the state of <seealso cref="AssetRef{TObject}"/>,
+		/// and whether it's referencing a project asset or addressable asset.
 		/// </summary>
 		public enum State
 		{
 			/// <summary>
-			/// 
+			/// Indicates <seealso cref="AssetRef{TObject}"/> is <see langword="null"/>,
+			/// and doesn't reference anything.
 			/// </summary>
 			Null,
 			/// <summary>
-			/// 
+			/// Indicates <seealso cref="AssetRef{TObject}"/> references an asset
+			/// in the Unity project.
 			/// </summary>
-			DirectAsset,
+			ProjectAsset,
 			/// <summary>
-			/// 
+			/// Indicates <seealso cref="AssetRef{TObject}"/> references an addresable
+			/// asset, and is currently unloaded.
 			/// </summary>
 			Unloaded,
 			/// <summary>
-			/// 
+			/// Indicates <seealso cref="AssetRef{TObject}"/> references an addresable
+			/// asset, and is in the middle of loading the asset.
 			/// </summary>
 			Loading,
 			/// <summary>
-			/// 
+			/// Indicates <seealso cref="AssetRef{TObject}"/> references an addresable
+			/// asset, and has the asset loaded and ready to use.
 			/// </summary>
 			Ready
 		}
