@@ -42,6 +42,13 @@ namespace OmiyaGames.Audio
 	/// <strong>Author:</strong> Taro Omiya
 	/// </term>
 	/// <description>Initial draft.</description>
+	/// </item><item>
+	/// <term>
+	/// <strong>Version:</strong> 1.0.0<br/>
+	/// <strong>Date:</strong> 6/21/2022<br/>
+	/// <strong>Author:</strong> Taro Omiya
+	/// </term>
+	/// <description>Adding documentation.</description>
 	/// </item>
 	/// </list>
 	/// </remarks>
@@ -75,8 +82,12 @@ namespace OmiyaGames.Audio
 			AudioMixerGroup defaultGroup;
 
 			/// <summary>
-			/// TODO
+			/// The default mixer group to apply to a new instance
+			/// of an audio script created in a scene.
 			/// </summary>
+			/// <remarks>
+			/// This value is changed in Unity's Project Settings dialog.
+			/// </remarks>
 			public AudioMixerGroup DefaultGroup
 			{
 				get => defaultGroup;
@@ -85,32 +96,48 @@ namespace OmiyaGames.Audio
 		}
 
 		/// <summary>
-		/// TODO
+		/// The parameter name to change
+		/// <seealso cref="DefaultGroup"/>'s volume.
 		/// </summary>
+		/// <remarks>
+		/// This value is changed in Unity's Project Settings dialog.
+		/// </remarks>
 		public string VolumeParam
 		{
 			get => volumeParam;
 			internal set => volumeParam = value;
 		}
 		/// <summary>
-		/// TODO
+		/// The parameter name to change
+		/// <seealso cref="DefaultGroup"/>'s pitch.
 		/// </summary>
+		/// <remarks>
+		/// This value is changed in Unity's Project Settings dialog.
+		/// </remarks>
 		public string PitchParam
 		{
 			get => pitchParam;
 			internal set => pitchParam = value;
 		}
 		/// <summary>
-		/// TODO
+		/// The settings to store user's volume preferences.
 		/// </summary>
+		/// <remarks>
+		/// This value is changed in Unity's Project Settings dialog.
+		/// </remarks>
+		/// <seealso cref="VolumePercent"/>
 		public SaveFloat VolumeSaver
 		{
 			get => volumeSaver;
 			internal set => volumeSaver = value;
 		}
 		/// <summary>
-		/// TODO
+		/// The settings to store user's mute preferences.
 		/// </summary>
+		/// <remarks>
+		/// This value is changed in Unity's Project Settings dialog.
+		/// </remarks>
+		/// <seealso cref="IsMuted"/>
 		public SaveBool IsMutedSaver
 		{
 			get => isMutedSaver;
@@ -118,19 +145,22 @@ namespace OmiyaGames.Audio
 		}
 
 		/// <summary>
-		/// TODO
+		/// Gets the volume of this layer, in decibels.
 		/// </summary>
+		/// <seealso cref="VolumePercent"/>
 		public float VolumeDb => GetMixerFloat(VolumeParam, AudioManager.MuteVolumeDb);
 		/// <summary>
-		/// TODO
+		/// Gets or sets the volume of this layer as a
+		/// fraction between <c>0</c> and <c>1</c>.
 		/// </summary>
+		/// <seealso cref="VolumeDb"/>
 		public float VolumePercent
 		{
 			get => VolumeSaver.Value;
-			set => VolumeSaver.Value = value;
+			set => VolumeSaver.Value = Mathf.Clamp01(value);
 		}
 		/// <summary>
-		/// TODO
+		/// Gets or sets the pitch of this layer.
 		/// </summary>
 		public float Pitch
 		{
@@ -138,7 +168,7 @@ namespace OmiyaGames.Audio
 			set => SetMixerFloat(PitchParam, value);
 		}
 		/// <summary>
-		/// TODO
+		/// Gets or sets whether this layer is muted.
 		/// </summary>
 		public bool IsMuted
 		{
@@ -147,11 +177,11 @@ namespace OmiyaGames.Audio
 		}
 
 		/// <summary>
-		/// TODO
+		/// Syncs this object to user settings,
+		/// and listens to its events.
 		/// </summary>
-		/// <param name="settings">
-		/// TODO
-		/// </param>
+		/// <seealso cref="VolumeSaver"/>
+		/// <seealso cref="IsMutedSaver"/>
 		internal void Setup()
 		{
 			// Setup the volume DB
@@ -163,7 +193,7 @@ namespace OmiyaGames.Audio
 		}
 
 		/// <summary>
-		/// TODO
+		/// Cleans-up any events this object was listening to.
 		/// </summary>
 		public void Dispose()
 		{
