@@ -45,8 +45,10 @@ namespace OmiyaGames.Audio
 	/// </remarks>
 	///-----------------------------------------------------------------------
 	/// <summary>
-	/// TODO
+	/// Retains a history of <seealso cref="BackgroundAudio"/>, capped by
+	/// <see cref="MaxCapacity"/>.
 	/// </summary>
+	/// <seealso cref="AssetRef{TObject}"/>
 	public class AudioHistory : IReadOnlyList<AssetRef<BackgroundAudio>>
 	{
 		/// <summary>
@@ -61,16 +63,18 @@ namespace OmiyaGames.Audio
 		int maxCapacity;
 
 		/// <summary>
-		/// TODO
+		/// Constructs a new history with a specified capacity.
 		/// </summary>
-		/// <param name="maxCapacity"></param>
+		/// <param name="maxCapacity">
+		/// The maximum capacity of the history.
+		/// </param>
 		public AudioHistory(int maxCapacity = DEFAULT_HISTORY_SIZE)
 		{
 			MaxCapacity = maxCapacity;
 		}
 
 		/// <summary>
-		/// TODO
+		/// Gets or sets the maximum capacity of this history.
 		/// </summary>
 		public int MaxCapacity
 		{
@@ -94,15 +98,28 @@ namespace OmiyaGames.Audio
 			}
 		}
 		/// <summary>
-		/// TODO
+		/// How many entries are currently in the history.
 		/// </summary>
 		public int Count => history.Count;
 		/// <summary>
-		/// TODO
+		/// Gets a specific audio clip, <paramref name="index"/> place
+		/// from oldest entry in the history.
 		/// </summary>
-		/// <param name="index"></param>
-		/// <returns></returns>
-		/// <exception cref="System.IndexOutOfRangeException"></exception>
+		/// <param name="index">
+		/// Placement from oldest entry, up.
+		/// </param>
+		/// <returns>
+		/// The <see cref="BackgroundAudio"/>, <paramref name="index"/>
+		/// place from oldest entry.
+		/// </returns>
+		/// <exception cref="System.IndexOutOfRangeException">
+		/// If <paramref name="index"/> is negative or greater or equal to <see cref="Count"/>
+		/// </exception>
+		/// <remarks>
+		/// This property's performance is O(n).  It does attempt to iterate either
+		/// in chronological or reverse order, whichever is faster.  This does make
+		/// getting the newest or oldest entries a O(1) operation.
+		/// </remarks>
 		public AssetRef<BackgroundAudio> this[int index]
 		{
 			get
@@ -137,7 +154,7 @@ namespace OmiyaGames.Audio
 			}
 		}
 		/// <summary>
-		/// TODO
+		/// Grabs the oldest entry in the history.
 		/// </summary>
 		public AssetRef<BackgroundAudio> Oldest
 		{
@@ -155,7 +172,7 @@ namespace OmiyaGames.Audio
 			}
 		}
 		/// <summary>
-		/// TODO
+		/// Grabs the newest entry in the history.
 		/// </summary>
 		public AssetRef<BackgroundAudio> Newest
 		{
@@ -173,10 +190,15 @@ namespace OmiyaGames.Audio
 			}
 		}
 		/// <summary>
-		/// Returns an iterator enumerating in either chronological or reverse order.
+		/// Gets an iterator in either chronological or reverse history order.
 		/// </summary>
-		/// <param name="newestToOldest"></param>
-		/// <returns></returns>
+		/// <param name="newestToOldest">
+		/// If <see langword="true"/>, enumerates the history in reverse order.
+		/// Otherwise, iteraates in the chronological order.
+		/// </param>
+		/// <returns>
+		/// Iterator through the whole history.
+		/// </returns>
 		public IEnumerator<AssetRef<BackgroundAudio>> GetEnumerator(bool newestToOldest)
 		{
 			if (newestToOldest)
@@ -201,9 +223,11 @@ namespace OmiyaGames.Audio
 		}
 
 		/// <summary>
-		/// Adds an asset to the history.
+		/// Adds an asset to the history as the newest entry.
 		/// </summary>
-		/// <param name="asset">Asset to add.</param>
+		/// <param name="asset">
+		/// Newest asset to add to the history.
+		/// </param>
 		public void Add(in AssetRef<BackgroundAudio> asset)
 		{
 			// Prune the history until it's below the max size
@@ -215,13 +239,19 @@ namespace OmiyaGames.Audio
 		}
 
 		/// <summary>
-		/// TODO
+		/// Removes the oldest entry in the history.
 		/// </summary>
+		/// <remarks>
+		/// Does nothing if history is empty.
+		/// </remarks>
 		public void RemoveOldest() => history.RemoveFirst();
 
 		/// <summary>
-		/// TODO
+		/// Removes the newest entry in the history.
 		/// </summary>
+		/// <remarks>
+		/// Does nothing if history is empty.
+		/// </remarks>
 		public void RemoveNewest() => history.RemoveLast();
 
 		/// <summary>
@@ -230,10 +260,15 @@ namespace OmiyaGames.Audio
 		public void Clear() => history.Clear();
 
 		/// <summary>
-		/// TODO
+		/// Indicates if a specific asset is already in the history.
 		/// </summary>
-		/// <param name="asset"></param>
-		/// <returns></returns>
+		/// <param name="asset">
+		/// The audio clip to search in the history.
+		/// </param>
+		/// <returns>
+		/// <see langword="true"/> if asset is in the history;
+		/// <see langword="false"/>, otherwise.
+		/// </returns>
 		public bool Contains(in AssetRef<BackgroundAudio> asset) => history.Contains(asset);
 
 		/// <inheritdoc/>
