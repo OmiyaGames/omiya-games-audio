@@ -39,16 +39,14 @@ namespace OmiyaGames.Audio
 	/// <strong>Date:</strong> 4/18/2022<br/>
 	/// <strong>Author:</strong> Taro Omiya
 	/// </term>
-	/// <description>
-	/// Initial draft.
-	/// </description>
+	/// <description>Initial draft.</description>
 	/// </item>
 	/// </list>
 	/// </remarks>
 	///-----------------------------------------------------------------------
 	/// <summary>
-	/// TODO
-	/// <seealso cref="UnityEngine.AudioSettings.dspTime"/>
+	/// Provides configuration details to <seealso cref="MixerGroupManager"/>
+	/// on how to fade out a <see cref="BackgroundAudio"/>.
 	/// </summary>
 	[Serializable]
 	public class FadeOutArgs : EventArgs

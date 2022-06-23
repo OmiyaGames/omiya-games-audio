@@ -41,16 +41,14 @@ namespace OmiyaGames.Audio
 	/// <strong>Date:</strong> 4/18/2022<br/>
 	/// <strong>Author:</strong> Taro Omiya
 	/// </term>
-	/// <description>
-	/// Initial draft.
-	/// </description>
+	/// <description>Initial draft.</description>
 	/// </item>
 	/// </list>
 	/// </remarks>
 	///-----------------------------------------------------------------------
 	/// <summary>
-	/// TODO
-	/// <seealso cref="UnityEngine.AudioSettings.dspTime"/>
+	/// Provides configuration details to <seealso cref="BackgroundAudio.Player"/>
+	/// on how to play a <see cref="BackgroundAudio"/>.
 	/// </summary>
 	public class PlaybackArgs : EventArgs
 	{

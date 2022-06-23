@@ -51,7 +51,7 @@ namespace OmiyaGames.Audio
 	public abstract class BackgroundAudio : ScriptableObject
 	{
 		/// <summary>
-		/// The state
+		/// The state of <see cref="Player"/>.
 		/// </summary>
 		public enum PlayState
 		{
@@ -105,54 +105,76 @@ namespace OmiyaGames.Audio
 		}
 
 		/// <summary>
-		/// TODO
+		/// The <see cref="MonoBehaviour"/> that plays a
+		/// <seealso cref="BackgroundAudio"/>.
 		/// </summary>
 		public abstract class Player : MonoBehaviour
 		{
 			/// <summary>
-			/// TODO
+			/// Event that triggers when this script is destroyed.
 			/// </summary>
 			public event System.Action<Player> OnBeforeDestroy;
 			/// <summary>
-			/// TODO
+			/// Event that triggers before <seealso cref="State"/> changes.
 			/// </summary>
 			public abstract event ITrackable<PlayState>.ChangeEvent OnBeforeChangeState;
 			/// <summary>
-			/// TODO
+			/// Event that triggers after <seealso cref="State"/> changes.
 			/// </summary>
 			public abstract event ITrackable<PlayState>.ChangeEvent OnAfterChangeState;
 
 			/// <summary>
-			/// TODO
+			/// The <seealso cref="BackgroundAudio"/> that generated
+			/// this instance.  Also holds the <seealso cref="AudioClip"/>s
+			/// that this instance plays.
 			/// </summary>
 			public abstract BackgroundAudio Data
 			{
 				get;
 			}
 			/// <summary>
-			/// TODO
+			/// Gets the state of this player.
 			/// </summary>
 			public abstract PlayState State
 			{
 				get;
 			}
 			/// <summary>
-			/// TODO
+			/// Sets the mixer group this player streams its audio through.
 			/// </summary>
+			/// <remarks>
+			/// Primarily used by <seealso cref="MixerGroupManager"/> to
+			/// handle fade-ins and fade-outs.
+			/// </remarks>
 			public abstract AudioMixerGroup MixerGroup
 			{
 				set;
 			}
 
 			/// <summary>
-			/// TODO
+			/// Plays the audio from <seealso cref="Data"/>.
 			/// </summary>
-			/// <param name="args"></param>
+			/// <param name="args">
+			/// Adds additional configuration details, such as
+			/// delaying when the player starts playing.  This
+			/// argument can be null, in which case the player
+			/// starts immediately.
+			/// </param>
+			/// <remarks>
+			/// If <see cref="State"/> is already set to
+			/// <see cref="PlayState.Playing"/>, this method
+			/// does nothing.
+			/// </remarks>
 			public abstract void Play(PlaybackArgs args);
 
 			/// <summary>
-			/// TODO
+			/// Stops playing the audio.
 			/// </summary>
+			/// <remarks>
+			/// If <see cref="State"/> is already set to
+			/// <see cref="PlayState.Stopped"/>, this method
+			/// does nothing.
+			/// </remarks>
 			public abstract void Stop();
 
 			/// <summary>
