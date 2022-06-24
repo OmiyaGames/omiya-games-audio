@@ -51,18 +51,19 @@ namespace OmiyaGames.Audio
 	public class ChangeAudioOnStart : MonoBehaviour
 	{
 		/// <summary>
-		/// TODO
+		/// The behavior at the end of <seealso cref="ChangeAudioOnStart"/>.
 		/// </summary>
 		public enum Behavior
 		{
 			/// <summary>
-			/// TODO
+			/// Clears <seealso cref="AudioHistory"/>.
 			/// </summary>
 			ClearHistory,
 			/// <summary>
-			/// TODO
+			/// Just stop playing the audio
+			/// that was playing prior to this.
 			/// </summary>
-			StopPriorMusic
+			StopPriorAudio
 		}
 
 		class AudioFilePlayerPair
@@ -83,22 +84,17 @@ namespace OmiyaGames.Audio
 		public event System.Action<ChangeAudioOnStart> OnAfterAudioChange;
 
 		[SerializeField]
-		AssetRefSerialized<BackgroundAudio> playMusic;
+		PlaybackBehavior musicBehavior = new(PlaybackBehavior.FadeBehavior.FadeInNewAudio);
 		[SerializeField]
-		AssetRefSerialized<BackgroundAudio> playAmbience;
-
-		[Header("Play Behavior")]
+		PlaybackBehavior ambienceBehavior = new(PlaybackBehavior.FadeBehavior.FadeToSilence);
 		[SerializeField]
-		double fadeInSeconds = 0.5f;
-		[SerializeField]
-		[Tooltip("If true, restarts the music even if it's already playing in the background.")]
-		bool alwaysRestart = false;
-		[SerializeField]
-		[Tooltip("The behavior to apply to music playing prior to Start. Clear History unloads it from memory.")]
+		[Tooltip("The behavior to apply to background audio playing prior to Start. Clear History removes them from history.")]
 		Behavior historyBehavior = Behavior.ClearHistory;
 
 		/// <summary>
-		/// Sets up the <seealso cref="BackgroundAudio"/> and <seealso cref="AudioManager"/>.
+		/// Sets up the <seealso cref="AudioManager"/> to play
+		/// <seealso cref="BackgroundAudio"/>s for both music and
+		/// ambience to whatever is set in the Unity inspector.
 		/// </summary>
 		/// <returns>The coroutine for loading everything.</returns>
 		public virtual IEnumerator Start()
@@ -116,35 +112,22 @@ namespace OmiyaGames.Audio
 			// Start the event
 			OnBeforeAudioChange?.Invoke(this);
 
-			// Setup args
-			FadeInArgs fadeInArgs = new()
-			{
-				DurationSeconds = fadeInSeconds,
-				ForceRestart = alwaysRestart,
-			};
-			FadeOutArgs fadeOutArgs = new()
-			{
-				DurationSeconds = fadeInSeconds,
-			};
-
 			// Switch the music and ambience
-			Coroutine musicCoroutine = null, ambienceCoroutine = null;
-			if (playMusic.HasValue)
-			{
-				musicCoroutine = StartCoroutine(AudioManager.Music.PlayNextCoroutine(playMusic, fadeInArgs, fadeOutArgs));
-			}
-			if (playAmbience.HasValue)
-			{
-				ambienceCoroutine = StartCoroutine(AudioManager.Ambience.PlayNextCoroutine(playAmbience, fadeInArgs, fadeOutArgs));
-			}
+			Coroutine musicCoroutine = musicBehavior.StartCoroutine(this, AudioManager.Music);
+			Coroutine ambienceCoroutine = ambienceBehavior.StartCoroutine(this, AudioManager.Ambience);
 
 			// Delay the yielding so loading both music and ambience can happen at around the same time
 			yield return musicCoroutine;
 			yield return ambienceCoroutine;
 
 			// Clean-up the currently loaded music
-			GarbageCollect(AudioManager.Music);
-			GarbageCollect(AudioManager.Ambience);
+			var cleanUp = AudioPlayerManager.AudioState.Stopped;
+			if (historyBehavior == Behavior.ClearHistory)
+			{
+				cleanUp |= AudioPlayerManager.AudioState.Scheduled;
+			}
+			AudioManager.Music.PlayerManager.GarbageCollect(cleanUp);
+			AudioManager.Ambience.PlayerManager.GarbageCollect(cleanUp);
 
 			// Clear all but one audio file in each layer's history
 			if (historyBehavior == Behavior.ClearHistory)
@@ -161,18 +144,6 @@ namespace OmiyaGames.Audio
 
 			// Invoke event
 			OnAfterAudioChange?.Invoke(this);
-		}
-
-		void GarbageCollect(AudioLayer.Background backgroundAudio)
-		{
-			var cleanUp = AudioPlayerManager.AudioState.Stopped;
-			if (historyBehavior == Behavior.ClearHistory)
-			{
-				cleanUp |= AudioPlayerManager.AudioState.Scheduled;
-			}
-
-			// Clean up music manager
-			backgroundAudio.PlayerManager.GarbageCollect(cleanUp);
 		}
 	}
 }

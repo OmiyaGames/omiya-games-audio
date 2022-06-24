@@ -133,21 +133,7 @@ namespace OmiyaGames.Audio
 			/// <summary>
 			/// Grabs the currently-playing audio file from <see cref="History"/>.
 			/// </summary>
-			public AssetRef<BackgroundAudio> CurrentFile
-			{
-				get
-				{
-					AssetRef<BackgroundAudio>? latestFile = History.Newest;
-					if (latestFile.HasValue)
-					{
-						return latestFile.Value;
-					}
-					else
-					{
-						return AssetRef<BackgroundAudio>.NULL;
-					}
-				}
-			}
+			public AssetRef<BackgroundAudio> CurrentFile => History.Newest;
 
 			/// <summary>
 			/// Grabs the currently-playing audio file from <see cref="History"/>.
@@ -286,61 +272,22 @@ namespace OmiyaGames.Audio
 					throw new System.ArgumentNullException(nameof(audioClip));
 				}
 
-				// Attempt to grab an existing player
-				List<BackgroundAudio.Player> allPlayers = PlayerManager.GetPlayers(audioClip);
-				BackgroundAudio.Player newPlayer = null;
-				if (allPlayers != null)
+				// Fade in the new clip
+				BackgroundAudio.Player audioPlayer = null;
+				yield return FadeInCoroutine(audioClip, fadeInArgs, player => audioPlayer = player);
+
+				// Check if a player was provided
+				if (audioPlayer)
 				{
-					// Search through all players
-					foreach (var player in allPlayers)
-					{
-						// Check if the player is already playing
-						if (player.State == BackgroundAudio.PlayState.Playing)
-						{
-							// Check if we want to force a restart
-							if ((fadeInArgs != null) && fadeInArgs.ForceRestart)
-							{
-								// Skip this player, then
-								continue;
-							}
+					// Fade out the current players except the new one just started playing
+					FadeOutCurrentPlaying(fadeOutArgs, audioPlayer);
 
-							// If not, and there's a player that's already playing,
-							// don't bother playing this clip.
-							onFinish?.Invoke(null);
-							yield break;
-						}
-						else
-						{
-							if (player.State == BackgroundAudio.PlayState.Scheduled)
-							{
-								// Stop the scheduled player
-								player.Stop();
-							}
-
-							// Grab the last stopped player
-							newPlayer = player;
-						}
-					}
+					// Add clip into the history
+					History.Add(audioClip);
 				}
-
-				// If we couldn't find an existing player, create a new one
-				if (newPlayer == null)
-				{
-					// Create a new player, and retrieve the new one
-					yield return PlayerManager.CreatePlayerCoroutine(audioClip, player => newPlayer = player);
-				}
-
-				// Fade the currently playing players out
-				FadeOutCurrentPlaying(fadeOutArgs);
-
-				// Fade the players in
-				MixerGroupManager.FadeIn(newPlayer, fadeInArgs);
-
-				// Add to history
-				History.Add(audioClip);
 
 				// Invoke end event
-				onFinish?.Invoke(newPlayer);
+				onFinish?.Invoke(audioPlayer);
 			}
 
 			/// <summary>
@@ -381,17 +328,11 @@ namespace OmiyaGames.Audio
 				// Pop the latest music off from the history
 				history.RemoveNewest();
 
-				// Make sure the next music is not null
-				AssetRef<BackgroundAudio> poppedMusic = history.Newest;
-				if (poppedMusic.CurrentState == AssetRef.State.Null)
-				{
-					// Clip is null, finish immediately
-					onFinish?.Invoke(null);
-					yield break;
-				}
+				// Fade out the current players
+				FadeOutCurrentPlaying(fadeOutArgs);
 
 				// Fade in the next newest music
-				yield return PlayNextCoroutine(poppedMusic, fadeInArgs, fadeOutArgs, onFinish);
+				yield return FadeInCurrentPlayingCoroutine(fadeInArgs, onFinish);
 			}
 
 			/// <summary>
@@ -400,12 +341,30 @@ namespace OmiyaGames.Audio
 			/// <param name="fadeOutArgs">
 			/// Details on how to fade-out, e.g. how long it should last.
 			/// </param>
-			public void FadeOutCurrentPlaying(FadeOutArgs fadeOutArgs = null)
+			/// <param name="except">
+			/// Players <em>not</em> to fade out.
+			/// </param>
+			public void FadeOutCurrentPlaying(FadeOutArgs fadeOutArgs = null, params BackgroundAudio.Player[] except)
 			{
+				// Create a filter
+				HashSet<BackgroundAudio.Player> ignorePlayers = null;
+				if ((except != null) && (except.Length > 0))
+				{
+					ignorePlayers = new(except);
+				}
+
 				// Fade the current players out
 				BackgroundAudio.Player[] fadingPlayers = MixerGroupManager.GetManagedPlayers();
 				foreach (var fadingPlayer in fadingPlayers)
 				{
+					// Check if we should ignore this player
+					if ((ignorePlayers != null) && (ignorePlayers.Contains(fadingPlayer)))
+					{
+						// If so, skip
+						continue;
+					}
+
+					// Otherwise, check state
 					if (fadingPlayer.State == BackgroundAudio.PlayState.Playing)
 					{
 						MixerGroupManager.FadeOut(fadingPlayer, fadeOutArgs);
@@ -416,6 +375,88 @@ namespace OmiyaGames.Audio
 					}
 				}
 			}
+
+			/// <summary>
+			/// Fades in the currently-playing audio in this layer.
+			/// </summary>
+			/// <param name="fadeOutArgs">
+			/// Details on how to fade-in, e.g. how long it should last.
+			/// </param>
+			public IEnumerator FadeInCurrentPlayingCoroutine(FadeInArgs fadeInArgs = null, System.Action<BackgroundAudio.Player> onFinish = null)
+			{
+				// Make sure there's a file in the history to play
+				AssetRef<BackgroundAudio> audioFile = CurrentFile;
+				if (audioFile.CurrentState == AssetRef.State.Null)
+				{
+					// There's no clip to play, finish immediately
+					onFinish?.Invoke(null);
+					yield break;
+				}
+
+				// Fade in the newest file in the history
+				yield return FadeInCoroutine(audioFile, fadeInArgs, onFinish);
+			}
+
+			#region Helper Methods
+			IEnumerator FadeInCoroutine(AssetRef<BackgroundAudio> audioClip, FadeInArgs fadeInArgs = null,
+				System.Action<BackgroundAudio.Player> onFinish = null)
+			{
+				// TODO: there seems to be a bug with this on rapid-replay of the same clip before fading finishes: the two fading clips gets reverted to max volume.
+
+				// Attempt to grab an existing player
+				BackgroundAudio.Player audioPlayer = null;
+				List<BackgroundAudio.Player> allPlayers = PlayerManager.GetPlayers(audioClip);
+				if (allPlayers != null)
+				{
+					// Search through all players
+					foreach (var player in allPlayers)
+					{
+						// Check if the player is already playing
+						if (player.State == BackgroundAudio.PlayState.Playing)
+						{
+							// Check if we want to force a restart
+							if ((fadeInArgs != null) && fadeInArgs.ForceRestart)
+							{
+								// Skip this player, then
+								continue;
+							}
+
+							// If not, and there's a player that's already playing,
+							// fade the players in to max volume (if it isn't already.)
+							MixerGroupManager.FadeIn(player, fadeInArgs);
+
+							// Halt early, don't return this player
+							onFinish?.Invoke(null);
+							yield break;
+						}
+						else
+						{
+							if (player.State == BackgroundAudio.PlayState.Scheduled)
+							{
+								// Stop the scheduled player
+								player.Stop();
+							}
+
+							// Grab the last stopped player
+							audioPlayer = player;
+						}
+					}
+				}
+
+				// If we couldn't find an existing player, create a new one
+				if (audioPlayer == null)
+				{
+					// Create a new player, and retrieve the new one
+					yield return PlayerManager.CreatePlayerCoroutine(audioClip, player => audioPlayer = player);
+				}
+
+				// Fade the players in
+				MixerGroupManager.FadeIn(audioPlayer, fadeInArgs);
+
+				// Invoke end event
+				onFinish?.Invoke(audioPlayer);
+			}
+			#endregion
 		}
 	}
 }

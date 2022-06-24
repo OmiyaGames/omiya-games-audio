@@ -45,14 +45,17 @@ namespace OmiyaGames.Audio
 	/// </remarks>
 	///-----------------------------------------------------------------------
 	/// <summary>
-	/// Changes the background music on trigger enter.
+	/// Changes the background music on collision trigger enter.
 	/// </summary>
 	public class ChangeAudioOnTrigger : MonoBehaviour
 	{
+		public event System.Action<ChangeAudioOnStart> OnBeforeAudioChange;
+		public event System.Action<ChangeAudioOnStart> OnAfterAudioChange;
+
 		[SerializeField]
-		AssetRefSerialized<BackgroundAudio> playMusic;
+		PlaybackBehavior musicBehavior = new(PlaybackBehavior.FadeBehavior.DoNothing);
 		[SerializeField]
-		AssetRefSerialized<BackgroundAudio> playAmbience;
+		PlaybackBehavior ambienceBehavior = new(PlaybackBehavior.FadeBehavior.DoNothing);
 
 		[Header("Trigger Behavior")]
 		[SerializeField]
@@ -61,13 +64,6 @@ namespace OmiyaGames.Audio
 		[SerializeField]
 		[Tooltip("If checked, reverts the music to the one last played")]
 		bool revertOnExit = true;
-
-		[Header("Play Behavior")]
-		[SerializeField]
-		float fadeInSeconds = 0.5f;
-		[SerializeField]
-		[Tooltip("If true, restarts the music even if it's already playing in the background.")]
-		bool alwaysRestart = false;
 
 		int numCollidersEntered = 0;
 		Coroutine lastCoroutine = null;
@@ -93,33 +89,17 @@ namespace OmiyaGames.Audio
 				}
 
 				// Play the background audio
-				lastCoroutine = StartCoroutine(PlayBackgroundAudio(new()
-				{
-					DurationSeconds = fadeInSeconds,
-					ForceRestart = alwaysRestart,
-				}, new()
-				{
-					DurationSeconds = fadeInSeconds
-				}));
+				lastCoroutine = StartCoroutine(PlayBackgroundAudio());
 
-				IEnumerator PlayBackgroundAudio(FadeInArgs fadeInArgs, FadeOutArgs fadeOutArgs)
+				IEnumerator PlayBackgroundAudio()
 				{
 					// Reset flags
 					isMusicAdded = false;
 					isAmbienceAdded = false;
 
 					// Start the coroutines
-					Coroutine musicCoroutine = null, ambienceCoroutine = null;
-					if (playMusic.HasValue)
-					{
-						musicCoroutine = StartCoroutine(AudioManager.Music.PlayNextCoroutine(
-							playMusic, fadeInArgs, fadeOutArgs, player => isMusicAdded = (player != null)));
-					}
-					if (playAmbience.HasValue)
-					{
-						ambienceCoroutine = StartCoroutine(AudioManager.Ambience.PlayNextCoroutine(
-							playAmbience, fadeInArgs, fadeOutArgs, player => isAmbienceAdded = (player != null)));
-					}
+					Coroutine musicCoroutine = musicBehavior.StartCoroutine(this, AudioManager.Music, player => isMusicAdded = (player != null));
+					Coroutine ambienceCoroutine = ambienceBehavior.StartCoroutine(this, AudioManager.Ambience, player => isMusicAdded = (player != null));
 
 					// Delay the yielding so loading both music and ambience can happen at around the same time
 					yield return musicCoroutine;
@@ -151,31 +131,16 @@ namespace OmiyaGames.Audio
 				}
 
 				// Play the background audio
-				lastCoroutine = StartCoroutine(RevertBackgroundAudio(new()
-				{
-					DurationSeconds = fadeInSeconds,
-					ForceRestart = alwaysRestart,
-				}, new()
-				{
-					DurationSeconds = fadeInSeconds
-				}));
+				lastCoroutine = StartCoroutine(RevertBackgroundAudio());
 
-				IEnumerator RevertBackgroundAudio(FadeInArgs fadeInArgs, FadeOutArgs fadeOutArgs)
+				IEnumerator RevertBackgroundAudio()
 				{
 					// Start the coroutines
 					Coroutine musicCoroutine = null, ambienceCoroutine = null;
 
 					// Check if music has been added OnTriggerEnter
-					if (isMusicAdded)
-					{
-						musicCoroutine = StartCoroutine(AudioManager.Music.PlayPreviousCoroutine(
-							fadeInArgs, fadeOutArgs, player => isMusicAdded = (player != null)));
-					}
-					if (isAmbienceAdded)
-					{
-						ambienceCoroutine = StartCoroutine(AudioManager.Ambience.PlayPreviousCoroutine(
-							fadeInArgs, fadeOutArgs, player => isAmbienceAdded = (player != null)));
-					}
+					musicCoroutine = FadeInPrevious(AudioManager.Music, musicBehavior, isMusicAdded);
+					ambienceCoroutine = FadeInPrevious(AudioManager.Ambience, ambienceBehavior, isAmbienceAdded);
 
 					// Delay the yielding so loading both music and ambience can happen at around the same time
 					yield return musicCoroutine;
@@ -183,6 +148,20 @@ namespace OmiyaGames.Audio
 
 					// Indicate the coroutine has finished
 					lastCoroutine = null;
+
+				}
+
+				Coroutine FadeInPrevious(AudioLayer.Background layer, PlaybackBehavior behavior, bool isAdded)
+				{
+					if (isAdded)
+					{
+						return StartCoroutine(layer.PlayPreviousCoroutine(behavior.GetFadeInArgs(), behavior.GetFadeOutArgs()));
+					}
+					else if (behavior.Behavior == PlaybackBehavior.FadeBehavior.FadeToSilence)
+					{
+						return StartCoroutine(layer.FadeInCurrentPlayingCoroutine(behavior.GetFadeInArgs()));
+					}
+					return null;
 				}
 			}
 		}
