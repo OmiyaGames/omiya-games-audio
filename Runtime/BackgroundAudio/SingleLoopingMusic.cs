@@ -45,7 +45,8 @@ namespace OmiyaGames.Audio
 	/// </remarks>
 	///-----------------------------------------------------------------------
 	/// <summary>
-	/// Sets up the background audio to a single looping music
+	/// A <see cref="BackgroundAudio"/> representing a looping music and
+	/// optionally an intro stinger.
 	/// </summary>
 	[CreateAssetMenu(menuName = "Omiya Games/Audio/Looping Music", fileName = "Looping Music", order = (MENU_ORDER))]
 	public class SingleLoopingMusic : BackgroundAudio
@@ -60,16 +61,29 @@ namespace OmiyaGames.Audio
 		double playLoopAfterSeconds;
 
 		/// <summary>
-		/// TODO
+		/// Gets how many seconds playing <seealso cref="Loop"/>
+		/// will be delayed if <seealso cref="IntroSting"/>
+		/// is not <see langword="null"/>.
 		/// </summary>
+		/// <remarks>
+		/// This variable is set in the Unity Inspector.
+		/// </remarks>
 		public double PlayLoopAfterSeconds => playLoopAfterSeconds;
 		/// <summary>
-		/// TODO
+		/// Gets the clip that plays once before
+		/// <seealso cref="Loop"/>.
 		/// </summary>
+		/// <remarks>
+		/// This variable is set in the Unity Inspector.
+		/// </remarks>
 		public AudioClip IntroSting => introSting;
 		/// <summary>
-		/// TODO
+		/// Gets the clip that loops until
+		/// <seealso cref="BackgroundAudio.Player.Stop"/>.
 		/// </summary>
+		/// <remarks>
+		/// This variable is set in the Unity Inspector.
+		/// </remarks>
 		public AudioClip Loop => loop;
 
 		/// <inheritdoc/>
@@ -105,7 +119,7 @@ namespace OmiyaGames.Audio
 		}
 
 		/// <summary>
-		/// TODO
+		/// Plays the clips in <seealso cref="SingleLoopingMusic"/>.
 		/// </summary>
 		class SingleLoopingMusicPlayer : Player
 		{
@@ -244,11 +258,21 @@ namespace OmiyaGames.Audio
 			//	}
 			//}
 
-			/// <inheritdoc/>
+			/// <summary>
+			/// Sets up new components to this script, using
+			/// clips from <paramref name="data"/>.
+			/// </summary>
+			/// <param name="data">
+			/// The data with clips and prefabs to use as reference.
+			/// </param>
 			internal void Setup(SingleLoopingMusic data)
 			{
-				// Make sure audio prefab is not null
-				if (data.MainAudioSourcePrefab == null)
+				// Make sure argument is not null
+				if (data == null)
+				{
+					throw new System.ArgumentNullException(nameof(data));
+				}
+				else if (data.MainAudioSourcePrefab == null)
 				{
 					throw new System.ArgumentNullException(nameof(data), "Cannot create a new audio source without a prefab.");
 				}

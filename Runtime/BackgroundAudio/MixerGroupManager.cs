@@ -38,7 +38,7 @@ namespace OmiyaGames.Audio
 	/// </listheader>
 	/// <item>
 	/// <term>
-	/// <strong>Version:</strong> 0.1.0-exp.1<br/>
+	/// <strong>Version:</strong> 1.0.0<br/>
 	/// <strong>Date:</strong> 5/23/2022<br/>
 	/// <strong>Author:</strong> Taro Omiya
 	/// </term>
@@ -48,12 +48,15 @@ namespace OmiyaGames.Audio
 	/// </remarks>
 	///-----------------------------------------------------------------------
 	/// <summary>
-	/// TODO.
+	/// Manager for <seealso cref="AudioMixerGroup"/>, used to fade in and out
+	/// various <seealso cref="BackgroundAudio.Player"/>s.
 	/// </summary>
 	public class MixerGroupManager
 	{
 		/// <summary>
-		/// TODO
+		/// Unity inspector class for pairing a
+		/// <seealso cref="AudioMixerGroup"/> with a parameter name
+		/// for changing its volume.
 		/// </summary>
 		[Serializable]
 		public struct Layer
@@ -66,15 +69,20 @@ namespace OmiyaGames.Audio
 			string paramName;
 
 			/// <summary>
-			/// TODO
+			/// Gets this layer's <see cref="AudioMixerGroup"/>.
 			/// </summary>
 			public AudioMixerGroup Group => group;
 			/// <summary>
-			/// TODO
+			/// Gets the <seealso cref="Group"/>'s parameter name
+			/// to adjust its volume.
 			/// </summary>
 			public string ParamName => paramName;
 		}
 
+		/// <summary>
+		/// Helper class retaining runtime metadata information
+		/// on <seealso cref="Layer"/>.
+		/// </summary>
 		class FadeSet
 		{
 			public FadeSet(in Layer layer)
@@ -86,37 +94,31 @@ namespace OmiyaGames.Audio
 			{
 				get;
 			}
-
 			public BackgroundAudio.Player Player
 			{
 				get;
 				set;
 			} = null;
-
 			public Action<BackgroundAudio.Player> BeforePlayerDestroy
 			{
 				get;
 				set;
 			} = null;
-
 			public double StartTime
 			{
 				get;
 				set;
 			} = 0;
-
 			public double FadeDuration
 			{
 				get;
 				set;
 			} = 0;
-
 			public float VolumePercent
 			{
 				get;
 				set;
 			} = 0;
-
 			public Coroutine FadeRoutine
 			{
 				get;
@@ -129,11 +131,18 @@ namespace OmiyaGames.Audio
 		readonly FadeSet[] fader;
 
 		/// <summary>
-		/// TODO
+		/// Constructs a new manager.
 		/// </summary>
-		/// <param name="manager"></param>
-		/// <param name="percentToDbCurve"></param>
-		/// <param name="fadeLayers"></param>
+		/// <param name="manager">
+		/// The manager for <seealso cref="BackgroundAudio.Player"/>s.
+		/// </param>
+		/// <param name="percentToDbCurve">
+		/// Curve used to convert a fraction from <c>0</c> to <c>1</c>
+		/// to decibels.
+		/// </param>
+		/// <param name="fadeLayers">
+		/// Pairs of <see cref="AudioMixerGroup"/> and parameter name for the group's volume.
+		/// </param>
 		public MixerGroupManager(AudioPlayerManager manager, AnimationCurve percentToDbCurve, params Layer[] fadeLayers)
 		{
 			// Null check
@@ -177,36 +186,72 @@ namespace OmiyaGames.Audio
 		}
 
 		/// <summary>
-		/// TODO
+		/// Gets the <see cref="AudioMixerGroup"/> at a specified index.
 		/// </summary>
-		/// <param name="index"></param>
-		/// <returns></returns>
-		public AudioMixerGroup GetMixerGroup(int index) => fader[index].Layer.Group;
+		/// <param name="layerIndex">
+		/// Index corresponding to the list in Unity Project Settings
+		/// dialog (starting at <c>0</c>.)
+		/// </param>
+		/// <returns>
+		/// The corresponding <see cref="AudioMixerGroup"/>.
+		/// </returns>
+		public AudioMixerGroup GetMixerGroup(int layerIndex) => fader[layerIndex].Layer.Group;
 
 		/// <summary>
-		/// TODO
+		/// Sets the volume for a <see cref="AudioMixerGroup"/>.
 		/// </summary>
-		/// <param name="layerIndex"></param>
-		/// <param name="volumePercent"></param>
+		/// <param name="layerIndex">
+		/// Index corresponding to the list in Unity Project Settings
+		/// dialog (starting at <c>0</c>.)
+		/// </param>
+		/// <param name="volumePercent">
+		/// The volume, as a fraction between <c>0</c> and <c>1</c>.
+		/// </param>
 		public void SetVolume(int layerIndex, float volumePercent) => SetVolume(fader[layerIndex].Layer, volumePercent);
 
 		/// <summary>
-		/// 
+		/// Starts playing the <paramref name="player"/>, and fading
+		/// it in to full volume.
 		/// </summary>
-		/// <param name="attach"></param>
-		/// <param name="args"></param>
+		/// <param name="player">
+		/// The <see cref="BackgroundAudio.Player"/> to start playing,
+		/// and/or fading in.
+		/// </param>
+		/// <param name="args">
+		/// Details on how to fade, e.g. how long it should last, etc.
+		/// </param>
+		/// <returns>
+		/// <see langword="true"/> if fading has been performed; false otherwise.
+		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// If <paramref name="player"/> is <see langword="null"/>.
+		/// </exception>
 		public bool FadeIn(BackgroundAudio.Player player, FadeInArgs args) => FadeTo(player, args, 1);
 
 		/// <summary>
-		/// 
+		/// Starts playing the <paramref name="player"/>, and fading
+		/// it in to the specified volume.
 		/// </summary>
-		/// <param name="player"></param>
-		/// <param name="args"></param>
-		/// <param name="finalVolumePercent"></param>
-		/// <returns></returns>
-		/// <exception cref="ArgumentNullException"></exception>
+		/// <param name="player">
+		/// The <see cref="BackgroundAudio.Player"/> to start playing,
+		/// and/or fading in.
+		/// </param>
+		/// <param name="args">
+		/// Details on how to fade, e.g. how long it should last, etc.
+		/// </param>
+		/// <param name="finalVolumePercent">
+		/// The final volume at the end of the fade, as a fraction
+		/// between <c>0</c> and <c>1</c>.
+		/// </param>
+		/// <returns>
+		/// <see langword="true"/> if fading has been performed; false otherwise.
+		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// If <paramref name="player"/> is <see langword="null"/>.
+		/// </exception>
 		public bool FadeTo(BackgroundAudio.Player player, FadeInArgs args, float finalVolumePercent)
 		{
+			// TODO: there seems to be a bug with this on rapid-replay of the same clip before fading finishes: the two fading clips gets reverted to max volume.
 			if (player == null)
 			{
 				throw new ArgumentNullException(nameof(player));
@@ -270,10 +315,21 @@ namespace OmiyaGames.Audio
 		}
 
 		/// <summary>
-		/// 
+		/// Fades out a <paramref name="player"/>, and optinally stop playing
+		/// once it's silent.
 		/// </summary>
-		/// <param name="player"></param>
-		/// <param name="args"></param>
+		/// <param name="player">
+		/// The <see cref="BackgroundAudio.Player"/> to fade out, and/or stop.
+		/// </param>
+		/// <param name="args">
+		/// Details on how to fade out, e.g. how long it should last, etc.
+		/// </param>
+		/// <returns>
+		/// <see langword="true"/> if fading has been performed; false otherwise.
+		/// </returns>
+		/// <exception cref="ArgumentNullException">
+		/// If <paramref name="player"/> is <see langword="null"/>.
+		/// </exception>
 		public bool FadeOut(BackgroundAudio.Player player, FadeOutArgs args)
 		{
 			if (player == null)
@@ -324,9 +380,13 @@ namespace OmiyaGames.Audio
 		}
 
 		/// <summary>
-		/// TODO
+		/// Gets a list of <see cref="BackgroundAudio.Player"/>s that's
+		/// playing on a <see cref="AudioMixerGroup"/> managed by this manager.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>
+		/// The list of <see cref="BackgroundAudio.Player"/>s managed by
+		/// this instance.
+		/// </returns>
 		public BackgroundAudio.Player[] GetManagedPlayers()
 		{
 			List<BackgroundAudio.Player> managedPlayers = new(fader.Length);

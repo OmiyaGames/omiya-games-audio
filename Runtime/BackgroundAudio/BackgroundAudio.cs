@@ -95,7 +95,9 @@ namespace OmiyaGames.Audio
 		/// </param>
 		public abstract Player GeneratePlayer(GameObject attach);
 
-		/// <inheritdoc/>
+		/// <summary>
+		/// Resets this file. Primarily used in the Unity Inspector.
+		/// </summary>
 		public virtual void Reset()
 		{
 #if UNITY_EDITOR
