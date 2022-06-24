@@ -56,31 +56,44 @@ namespace OmiyaGames.Audio.Editor
 		/// <inheritdoc/>
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
-			// Draw label first
-			position = EditorGUI.PrefixLabel(position, label);
-
-			// Determine position of object field
-			position.width -= CHECKBOX_WIDTH + Common.Editor.EditorHelpers.VerticalMargin;
-
-			// Draw object field
-			SerializedProperty useAddressable = property.FindPropertyRelative("useAddressable");
-			if (useAddressable.boolValue)
+			using (new EditorGUI.PropertyScope(position, label, property))
 			{
-				SerializedProperty test = property.FindPropertyRelative("assetRef");
-				EditorGUI.PropertyField(position, test, GUIContent.none);
-			}
-			else
-			{
-				SerializedProperty asset = property.FindPropertyRelative("asset");
-				EditorGUI.ObjectField(position, asset, GUIContent.none);
-			}
+				// Draw label first
+				position = EditorGUI.PrefixLabel(position, label);
 
-			// Determine position of checkbox
-			position.x += position.width + Common.Editor.EditorHelpers.VerticalMargin;
-			position.width = CHECKBOX_WIDTH;
+				// Disregard indentation
+				int lastIndent = EditorGUI.indentLevel;
+				EditorGUI.indentLevel = 0;
 
-			// Draw checkbox
-			useAddressable.boolValue = EditorGUI.ToggleLeft(position, useAddressable.displayName, useAddressable.boolValue);
+				// Determine position of object field
+				position.width -= CHECKBOX_WIDTH + Common.Editor.EditorHelpers.VerticalMargin;
+
+				// Draw object field
+				SerializedProperty useAddressable = property.FindPropertyRelative("useAddressable");
+				if (useAddressable.boolValue)
+				{
+					SerializedProperty test = property.FindPropertyRelative("assetRef");
+					EditorGUI.PropertyField(position, test, GUIContent.none);
+				}
+				else
+				{
+					SerializedProperty asset = property.FindPropertyRelative("asset");
+					EditorGUI.ObjectField(position, asset, GUIContent.none);
+				}
+
+				// Determine position of checkbox
+				position.x += position.width + Common.Editor.EditorHelpers.VerticalMargin;
+				position.width = CHECKBOX_WIDTH;
+
+				// Draw checkbox
+				useAddressable.boolValue = EditorGUI.ToggleLeft(position, useAddressable.displayName, useAddressable.boolValue);
+
+				// Revert indentation
+				EditorGUI.indentLevel = lastIndent;
+			}
 		}
+
+		/// <inheritdoc/>
+		public override float GetPropertyHeight(SerializedProperty property, GUIContent label) => EditorGUIUtility.singleLineHeight;
 	}
 }
