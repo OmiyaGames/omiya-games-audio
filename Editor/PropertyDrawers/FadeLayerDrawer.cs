@@ -55,7 +55,7 @@ namespace OmiyaGames.Audio.Editor
 		public override VisualElement CreatePropertyGUI(SerializedProperty property)
 		{
 			// Create container from UXML
-			VisualTreeAsset originalTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.omiyagames.audio/Editor/FadeLayer.uxml");
+			VisualTreeAsset originalTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.omiyagames.audio/Editor/PropertyDrawers/FadeLayer.uxml");
 			return originalTree.CloneTree(property.propertyPath);
 		}
 	}

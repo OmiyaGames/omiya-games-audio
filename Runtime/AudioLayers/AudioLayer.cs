@@ -66,10 +66,10 @@ namespace OmiyaGames.Audio
 		[Tooltip("The SaveObject storing whether this layer is muted or not.")]
 		SaveBool isMutedSaver;
 		[SerializeField]
-		[Tooltip("The mixer's paramer name to adjust volume.")]
+		[Tooltip("The mixer's parameter name to adjust volume.")]
 		string volumeParam;
 		[SerializeField]
-		[Tooltip("The mixer's paramer name to adjust pitch.")]
+		[Tooltip("The mixer's parameter name to adjust pitch.")]
 		string pitchParam;
 
 		/// <summary>

@@ -57,7 +57,7 @@ namespace OmiyaGames.Audio.Editor
 		public override VisualElement CreatePropertyGUI(SerializedProperty property)
 		{
 			// Create container from UXML
-			VisualTreeAsset originalTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.omiyagames.audio/Editor/TimeScaleAudioModifiers.uxml");
+			VisualTreeAsset originalTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.omiyagames.audio/Editor/PropertyDrawers/TimeScaleAudioModifiers.uxml");
 			VisualElement container = originalTree.CloneTree(property.propertyPath);
 
 			// Grab some controls
