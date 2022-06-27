@@ -52,14 +52,14 @@ namespace OmiyaGames.Audio.Editor
 		static GameObject playerObject = null;
 
 		/// <summary>
-		/// TODO
+		/// Indicates if the preview is playing.
 		/// </summary>
 		public bool IsPlaying => (PlayStartTime >= 0);
 
 		/// <summary>
-		/// TODO
+		/// The <seealso cref="UnityEngine.AudioSettings.dspTime"/>
+		/// this preview started playing
 		/// </summary>
-		/// <seealso cref="UnityEngine.AudioSettings.dspTime"/>
 		public double PlayStartTime
 		{
 			get;
@@ -67,8 +67,13 @@ namespace OmiyaGames.Audio.Editor
 		} = -1;
 
 		/// <summary>
-		/// TODO
+		/// Stops and disposes this preview player
+		/// from the currently-opened Unity scene.
 		/// </summary>
+		/// <remarks>
+		/// Does nothing if <seealso cref="IsPlaying"/>
+		/// is <see langword="false"/>.
+		/// </remarks>
 		public void Dispose()
 		{
 			if (playerObject != null)
@@ -81,8 +86,14 @@ namespace OmiyaGames.Audio.Editor
 		}
 
 		/// <summary>
-		/// TODO
+		/// Creates and starts playing an invisible
+		/// <seealso cref="BackgroundAudio.Player"/> in the
+		/// currently-opened Unity scene.
 		/// </summary>
+		/// <remarks>
+		/// Does nothing if <seealso cref="IsPlaying"/>
+		/// is <see langword="true"/>.
+		/// </remarks>
 		public void Play(BackgroundAudio audioFile)
 		{
 			if (IsPlaying == false)
