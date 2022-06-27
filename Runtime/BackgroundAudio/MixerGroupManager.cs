@@ -53,82 +53,9 @@ namespace OmiyaGames.Audio
 	/// </summary>
 	public class MixerGroupManager
 	{
-		/// <summary>
-		/// Unity inspector class for pairing a
-		/// <seealso cref="AudioMixerGroup"/> with a parameter name
-		/// for changing its volume.
-		/// </summary>
-		[Serializable]
-		public struct Layer
-		{
-			[SerializeField]
-			[Tooltip("The group to pipe the Audio Source for this layer.")]
-			AudioMixerGroup group;
-			[SerializeField]
-			[Tooltip("The parameter name that adjusts the group's volume.")]
-			string paramName;
-
-			/// <summary>
-			/// Gets this layer's <see cref="AudioMixerGroup"/>.
-			/// </summary>
-			public AudioMixerGroup Group => group;
-			/// <summary>
-			/// Gets the <seealso cref="Group"/>'s parameter name
-			/// to adjust its volume.
-			/// </summary>
-			public string ParamName => paramName;
-		}
-
-		/// <summary>
-		/// Helper class retaining runtime metadata information
-		/// on <seealso cref="Layer"/>.
-		/// </summary>
-		class FadeSet
-		{
-			public FadeSet(in Layer layer)
-			{
-				Layer = layer;
-			}
-
-			public Layer Layer
-			{
-				get;
-			}
-			public BackgroundAudio.Player Player
-			{
-				get;
-				set;
-			} = null;
-			public Action<BackgroundAudio.Player> BeforePlayerDestroy
-			{
-				get;
-				set;
-			} = null;
-			public double StartTime
-			{
-				get;
-				set;
-			} = 0;
-			public double FadeDuration
-			{
-				get;
-				set;
-			} = 0;
-			public float VolumePercent
-			{
-				get;
-				set;
-			} = 0;
-			public Coroutine FadeRoutine
-			{
-				get;
-				set;
-			} = null;
-		}
-
 		readonly AudioPlayerManager manager;
 		readonly AnimationCurve percentToDbCurve;
-		readonly FadeSet[] fader;
+		readonly MixerGroupFader[] fadeLayers;
 
 		/// <summary>
 		/// Constructs a new manager.
@@ -143,7 +70,7 @@ namespace OmiyaGames.Audio
 		/// <param name="fadeLayers">
 		/// Pairs of <see cref="AudioMixerGroup"/> and parameter name for the group's volume.
 		/// </param>
-		public MixerGroupManager(AudioPlayerManager manager, AnimationCurve percentToDbCurve, params Layer[] fadeLayers)
+		public MixerGroupManager(AudioPlayerManager manager, AnimationCurve percentToDbCurve, MixerGroupFader[] fadeLayers)
 		{
 			// Null check
 			if (manager == null)
@@ -177,12 +104,7 @@ namespace OmiyaGames.Audio
 
 			this.manager = manager;
 			this.percentToDbCurve = percentToDbCurve;
-
-			fader = new FadeSet[fadeLayers.Length];
-			for (int i = 0; i < fadeLayers.Length; i++)
-			{
-				fader[i] = new FadeSet(in fadeLayers[i]);
-			}
+			this.fadeLayers = fadeLayers;
 		}
 
 		/// <summary>
@@ -195,7 +117,7 @@ namespace OmiyaGames.Audio
 		/// <returns>
 		/// The corresponding <see cref="AudioMixerGroup"/>.
 		/// </returns>
-		public AudioMixerGroup GetMixerGroup(int layerIndex) => fader[layerIndex].Layer.Group;
+		public AudioMixerGroup GetMixerGroup(int layerIndex) => fadeLayers[layerIndex].Group;
 
 		/// <summary>
 		/// Sets the volume for a <see cref="AudioMixerGroup"/>.
@@ -207,7 +129,7 @@ namespace OmiyaGames.Audio
 		/// <param name="volumePercent">
 		/// The volume, as a fraction between <c>0</c> and <c>1</c>.
 		/// </param>
-		public void SetVolume(int layerIndex, float volumePercent) => SetVolume(fader[layerIndex].Layer, volumePercent);
+		public void SetVolume(int layerIndex, float volumePercent) => SetVolume(fadeLayers[layerIndex], volumePercent);
 
 		/// <summary>
 		/// Starts playing the <paramref name="player"/>, and fading
@@ -269,7 +191,7 @@ namespace OmiyaGames.Audio
 			}
 
 			// Get or create a new player metadata
-			FadeSet playerInfo = GetPlayerFadeInfo(player);
+			MixerGroupFader playerInfo = GetPlayerFadeInfo(player);
 			if (playerInfo == null)
 			{
 				playerInfo = CreatePlayerFadeInfo(player);
@@ -338,7 +260,7 @@ namespace OmiyaGames.Audio
 			}
 
 			// Check if the current music is assigned
-			FadeSet playerInfo = GetPlayerFadeInfo(player);
+			MixerGroupFader playerInfo = GetPlayerFadeInfo(player);
 			if (playerInfo == null)
 			{
 				return false;
@@ -389,8 +311,8 @@ namespace OmiyaGames.Audio
 		/// </returns>
 		public BackgroundAudio.Player[] GetManagedPlayers()
 		{
-			List<BackgroundAudio.Player> managedPlayers = new(fader.Length);
-			foreach (var fadeLayer in fader)
+			List<BackgroundAudio.Player> managedPlayers = new(fadeLayers.Length);
+			foreach (var fadeLayer in fadeLayers)
 			{
 				if (fadeLayer.Player != null)
 				{
@@ -401,7 +323,7 @@ namespace OmiyaGames.Audio
 		}
 
 		#region Helper Methods
-		void SetVolume(Layer layer, float volumePercent)
+		void SetVolume(MixerGroupFader layer, float volumePercent)
 		{
 			// Grab all the necessary parameters
 			AudioMixer mixer = layer.Group.audioMixer;
@@ -414,10 +336,10 @@ namespace OmiyaGames.Audio
 			mixer.SetFloat(paramName, volumeDb);
 		}
 
-		FadeSet GetPlayerFadeInfo(BackgroundAudio.Player player)
+		MixerGroupFader GetPlayerFadeInfo(BackgroundAudio.Player player)
 		{
 			// Go through each fader
-			foreach (var fadeInfo in fader)
+			foreach (var fadeInfo in fadeLayers)
 			{
 				// Check if this fader has the same player as the argument
 				if (fadeInfo.Player == player)
@@ -428,12 +350,12 @@ namespace OmiyaGames.Audio
 			return null;
 		}
 
-		FadeSet CreatePlayerFadeInfo(BackgroundAudio.Player player)
+		MixerGroupFader CreatePlayerFadeInfo(BackgroundAudio.Player player)
 		{
 			// By default, return the first layer
-			FadeSet returnInfo = fader[0];
+			MixerGroupFader returnInfo = fadeLayers[0];
 			float largestProgressionPercent = PercentProgression(returnInfo);
-			foreach (var fadeInfo in fader)
+			foreach (var fadeInfo in fadeLayers)
 			{
 				// Check if there's an info without player
 				if (fadeInfo.Player == null)
@@ -465,7 +387,7 @@ namespace OmiyaGames.Audio
 			}
 			return returnInfo;
 
-			void ConfigureFadeInfo(FadeSet setupInfo, BackgroundAudio.Player player)
+			void ConfigureFadeInfo(MixerGroupFader setupInfo, BackgroundAudio.Player player)
 			{
 				if (player != null)
 				{
@@ -484,12 +406,12 @@ namespace OmiyaGames.Audio
 					});
 
 					// Setup the player
-					player.MixerGroup = setupInfo.Layer.Group;
+					player.MixerGroup = setupInfo.Group;
 					player.OnBeforeDestroy += setupInfo.BeforePlayerDestroy;
 				}
 			}
 
-			float PercentProgression(FadeSet returnInfo)
+			float PercentProgression(MixerGroupFader returnInfo)
 			{
 				// Check if fade has actually started
 				if (returnInfo.StartTime > UnityEngine.AudioSettings.dspTime)
@@ -511,7 +433,7 @@ namespace OmiyaGames.Audio
 			}
 		}
 
-		void CleanFadeInfoPlayer(FadeSet cleanInfo)
+		void CleanFadeInfoPlayer(MixerGroupFader cleanInfo)
 		{
 			if (cleanInfo.Player != null)
 			{
@@ -524,7 +446,7 @@ namespace OmiyaGames.Audio
 			}
 		}
 
-		IEnumerator FadeRoutine(FadeSet metaData, float finalVolumePercent, Action afterFadeFinished = null)
+		IEnumerator FadeRoutine(MixerGroupFader metaData, float finalVolumePercent, Action afterFadeFinished = null)
 		{
 			// See if the final volume is different from starting volume
 			float startingVolumePercent = metaData.VolumePercent;
@@ -536,7 +458,7 @@ namespace OmiyaGames.Audio
 			}
 
 			// Set starting volume
-			SetVolume(metaData.Layer, startingVolumePercent);
+			SetVolume(metaData, startingVolumePercent);
 
 			// Wait until start time is met
 			if (metaData.StartTime > UnityEngine.AudioSettings.dspTime)
@@ -551,7 +473,7 @@ namespace OmiyaGames.Audio
 				// Set the volume
 				float timeProgressionPercent = (float)(currentDuration / metaData.FadeDuration);
 				metaData.VolumePercent = Mathf.Lerp(startingVolumePercent, finalVolumePercent, timeProgressionPercent);
-				SetVolume(metaData.Layer, metaData.VolumePercent);
+				SetVolume(metaData, metaData.VolumePercent);
 
 				// Wait for a frame
 				yield return null;
@@ -562,7 +484,7 @@ namespace OmiyaGames.Audio
 
 			// Set ending volume
 			metaData.VolumePercent = finalVolumePercent;
-			SetVolume(metaData.Layer, metaData.VolumePercent);
+			SetVolume(metaData, metaData.VolumePercent);
 
 			// Run the action indicating fade has completed
 			afterFadeFinished?.Invoke();

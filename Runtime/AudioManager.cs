@@ -275,13 +275,11 @@ namespace OmiyaGames.Audio
 				// Setup volume to current settings
 				Data.Main.Setup();
 				Data.Music.Setup();
+				Data.Music.CreateManagers(transform, "Music Stack", Data.PercentToDbCurve);
 				Data.SoundEffects.Setup();
 				Data.Voices.Setup();
 				Data.Ambience.Setup();
-
-				// Setup music stacks
-				SetupBackgroundLayer(Data.Music, "Music Stack");
-				SetupBackgroundLayer(Data.Ambience, "Ambience Stack");
+				Data.Ambience.CreateManagers(transform, "Ambience Stack", Data.PercentToDbCurve);
 
 				// Force this game object to be active
 				gameObject.SetActive(true);
@@ -293,12 +291,6 @@ namespace OmiyaGames.Audio
 				// Listen to the TimeManager event
 				TimeManager.OnAfterTimeScaleChanged += OnTimeScaleChanged;
 				TimeManager.OnAfterIsManuallyPausedChanged += OnPauseChanged;
-
-				void SetupBackgroundLayer(AudioLayer.Background layer, string gameObjectName)
-				{
-					layer.PlayerManager = AudioPlayerManager.CreateManager(transform, gameObjectName);
-					layer.MixerGroupManager = new MixerGroupManager(layer.PlayerManager, Data.PercentToDbCurve, layer.FadeLayers);
-				}
 			}
 
 			/// <inheritdoc/>

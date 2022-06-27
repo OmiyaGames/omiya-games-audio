@@ -72,20 +72,9 @@ namespace OmiyaGames.Audio
 			int maxHistoryCapacity = AudioHistory.DEFAULT_HISTORY_SIZE;
 			[SerializeField]
 			[Tooltip("List of Audio Mixer Groups and parameters changing the volumes of the group.")]
-			MixerGroupManager.Layer[] fadeLayers;
+			MixerGroupFader[] fadeLayers;
 
 			AudioHistory history = null;
-
-			/// <summary>
-			/// Gets the <seealso cref="MixerGroupManager.Layer"/> used to setup
-			/// <seealso cref="MixerGroupManager"/>.  These values are set in the
-			/// Unity Project Settings dialog.
-			/// </summary>
-			public MixerGroupManager.Layer[] FadeLayers
-			{
-				get => fadeLayers;
-				internal set => fadeLayers = value;
-			}
 
 			/// <summary>
 			/// Gets the manager of <seealso cref="BackgroundAudio"/> and the
@@ -169,6 +158,26 @@ namespace OmiyaGames.Audio
 					}
 					return returnPlayer;
 				}
+			}
+
+			/// <summary>
+			/// Sets up <seealso cref="PlayerManager"/> and <seealso cref="MixerGroupManager"/>.
+			/// Required to be called with <seealso cref="Setup()"/>.
+			/// </summary>
+			/// <param name="parentTransform">
+			/// The transform to create a new <see cref="GameObject"/> under.
+			/// </param>
+			/// <param name="gameObjectName">
+			/// The name of the newly created <see cref="GameObject"/>.
+			/// </param>
+			/// <param name="percentToDbCurve">
+			/// The curve used to convert a fraction from <c>0</c> to <c>1</c>,
+			/// to decibels.
+			/// </param>
+			public void CreateManagers(Transform parentTransform, string gameObjectName, AnimationCurve percentToDbCurve)
+			{
+				PlayerManager = AudioPlayerManager.CreateManager(parentTransform, gameObjectName);
+				MixerGroupManager = new MixerGroupManager(PlayerManager, percentToDbCurve, fadeLayers);
 			}
 
 			/// <summary>

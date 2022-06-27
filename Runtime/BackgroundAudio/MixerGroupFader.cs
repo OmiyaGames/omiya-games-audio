@@ -1,11 +1,14 @@
-using UnityEngine.UIElements;
-using UnityEditor;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Audio;
 
-namespace OmiyaGames.Audio.Editor
+namespace OmiyaGames.Audio
 {
 	///-----------------------------------------------------------------------
 	/// <remarks>
-	/// <copyright file="FadeLayerDrawer.cs" company="Omiya Games">
+	/// <copyright file="MixerGroupFader.cs" company="Omiya Games">
 	/// The MIT License (MIT)
 	/// 
 	/// Copyright (c) 2022 Omiya Games
@@ -36,27 +39,67 @@ namespace OmiyaGames.Audio.Editor
 	/// <item>
 	/// <term>
 	/// <strong>Version:</strong> 1.0.0<br/>
-	/// <strong>Date:</strong> 4/17/2022<br/>
+	/// <strong>Date:</strong> 6/26/2022<br/>
 	/// <strong>Author:</strong> Taro Omiya
 	/// </term>
-	/// <description>Initial version.</description>
+	/// <description>Initial draft.</description>
 	/// </item>
 	/// </list>
 	/// </remarks>
 	///-----------------------------------------------------------------------
 	/// <summary>
-	/// An editor to make it easier to edit <see cref="MusicDataStack.FadeLayer"/> scripts.
+	/// Unity inspector class for pairing a
+	/// <seealso cref="AudioMixerGroup"/> with a parameter name
+	/// for changing its volume.
 	/// </summary>
-	/// <seealso cref="MusicDataStack.FadeLayer"/>
-	[CustomPropertyDrawer(typeof(MixerGroupFader))]
-	public class FadeLayerDrawer : PropertyDrawer
+	[Serializable]
+	public class MixerGroupFader
 	{
-		/// <inheritdoc/>
-		public override VisualElement CreatePropertyGUI(SerializedProperty property)
+		[SerializeField]
+		[Tooltip("The group to pipe the Audio Source for this layer.")]
+		AudioMixerGroup group;
+		[SerializeField]
+		[Tooltip("The parameter name that adjusts the group's volume.")]
+		string paramName;
+
+		/// <summary>
+		/// Gets this layer's <see cref="AudioMixerGroup"/>.
+		/// </summary>
+		public AudioMixerGroup Group => group;
+		/// <summary>
+		/// Gets the <seealso cref="Group"/>'s parameter name
+		/// to adjust its volume.
+		/// </summary>
+		public string ParamName => paramName;
+		public BackgroundAudio.Player Player
 		{
-			// Create container from UXML
-			VisualTreeAsset originalTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.omiyagames.audio/Editor/PropertyDrawers/FadeLayer.uxml");
-			return originalTree.CloneTree(property.propertyPath);
-		}
+			get;
+			set;
+		} = null;
+		public Action<BackgroundAudio.Player> BeforePlayerDestroy
+		{
+			get;
+			set;
+		} = null;
+		public double StartTime
+		{
+			get;
+			set;
+		} = 0;
+		public double FadeDuration
+		{
+			get;
+			set;
+		} = 0;
+		public float VolumePercent
+		{
+			get;
+			set;
+		} = 0;
+		public Coroutine FadeRoutine
+		{
+			get;
+			set;
+		} = null;
 	}
 }
