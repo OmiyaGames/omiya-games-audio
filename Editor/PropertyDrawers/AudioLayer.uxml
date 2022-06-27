@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" oge="OmiyaGames.Common.Editor" editor-extension-mode="True">
+    <Style src="project://database/Packages/com.omiyagames.global.settings/Editor/default-style.uss?fileID=7433441132597879392&amp;guid=3ae46e517b369d0478dabad92787dd4f&amp;type=3#default-style" />
+    <ui:Foldout text="Layer" name="audioLayer" value="true" tabindex="1">
+        <uie:PropertyField tabindex="10" binding-path="volumeSaver" label="Volume Saver" name="volumeSaver" tooltip="The SaveObject storing volume settings for this layer." />
+        <uie:PropertyField tabindex="20" binding-path="isMutedSaver" label="Is Muted Saver" name="isMutedSaver" tooltip="The SaveObject storing whether this layer is muted or not." />
+        <ui:TextField label="Volume Param" value="Volume" text="Volume" binding-path="volumeParam" name="volumeParam" tabindex="30" tooltip="The mixer&apos;s parameter name to adjust volume." />
+        <ui:TextField label="Pitch Param" value="Pitch" text="Pitch" binding-path="pitchParam" name="pitchParam" tabindex="40" tooltip="The mixer&apos;s parameter name to adjust pitch." />
+        <OmiyaGames.Common.Editor.Spacer />
+    </ui:Foldout>
+</ui:UXML>
