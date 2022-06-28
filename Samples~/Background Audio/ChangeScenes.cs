@@ -45,7 +45,7 @@ using UnityEngine.SceneManagement;
 /// </remarks>
 ///-----------------------------------------------------------------------
 /// <summary>
-/// TODO
+/// Changes the scene upon entering a collision trigger.
 /// </summary>
 [RequireComponent(typeof(BoxCollider))]
 public class ChangeScenes : MonoBehaviour
