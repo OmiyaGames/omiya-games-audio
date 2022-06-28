@@ -155,7 +155,7 @@ namespace OmiyaGames.Audio
 		/// <param name="script"></param>
 		/// <param name="audioLayer"></param>
 		/// <returns></returns>
-		public Coroutine StartCoroutine(MonoBehaviour script, AudioLayer.Background audioLayer, System.Action<BackgroundAudio.Player> onFinish = null)
+		public Coroutine StartCoroutine(MonoBehaviour script, AudioLayer.Background audioLayer, System.Action<AudioLayer.PlayerArgs> onFinish = null)
 		{
 			switch (Behavior)
 			{
