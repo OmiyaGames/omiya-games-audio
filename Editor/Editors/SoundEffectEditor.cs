@@ -64,7 +64,7 @@ namespace OmiyaGames.Audio.Editor
 		{
 			// Create a tree from the UXML file.
 			VisualElement returnTree = new VisualElement();
-			VisualTreeAsset originalTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.omiyagames.audio/Editor/SoundEffect.uxml");
+			VisualTreeAsset originalTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.omiyagames.audio/Editor/Editors/SoundEffect.uxml");
 			originalTree.CloneTree(returnTree);
 
 			// Make sure toggles disable their respective sliders
