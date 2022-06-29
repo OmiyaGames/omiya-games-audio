@@ -66,6 +66,19 @@ namespace OmiyaGames.Audio
 		[System.Serializable]
 		public class Background : SubLayer
 		{
+			/// <summary>
+			/// Called at the end of <see cref="Coroutine"/>s
+			/// called by <seealso cref="Background"/>.
+			/// </summary>
+			/// <param name="source">
+			/// Source of where the coroutine was started.
+			/// </param>
+			/// <param name="args">
+			/// The <seealso cref="BackgroundAudio.Player"/> selected
+			/// for the <see cref="Coroutine"/>, if any.
+			/// </param>
+			public delegate void OnCoroutineFinished(Background source, PlayerArgs args);
+
 			[SerializeField]
 			[Range(2, AudioHistory.DEFAULT_HISTORY_SIZE)]
 			[Tooltip("Max capacity of audio history.")]
@@ -252,9 +265,7 @@ namespace OmiyaGames.Audio
 			/// </param>
 			/// <param name="onFinish">
 			/// Triggers as soon as this coroutine finishes, with a reference
-			/// to the player that will be faded in. The parameter will be
-			/// <see langword="null"/> if <paramref name="audioClip"/> isn't
-			/// played (e.g. when it's already playing in the background.)
+			/// to the player that will be faded in.
 			/// </param>
 			/// <returns>
 			/// A coroutine for <em>loading</em> <paramref name="audioClip"/>.
@@ -269,7 +280,7 @@ namespace OmiyaGames.Audio
 			/// </remarks>
 			public IEnumerator PlayNextCoroutine(AssetRef<BackgroundAudio> audioClip,
 				FadeInArgs fadeInArgs = null, FadeOutArgs fadeOutArgs = null,
-				System.Action<PlayerArgs> onFinish = null)
+				OnCoroutineFinished onFinish = null)
 			{
 				// Null-check first
 				if (audioClip.CurrentState == AssetRef.State.Null)
@@ -279,7 +290,7 @@ namespace OmiyaGames.Audio
 
 				// Fade in the new clip
 				PlayerArgs results = null;
-				yield return FadeInCoroutine(audioClip, fadeInArgs, endResults => results = endResults);
+				yield return FadeInCoroutine(audioClip, fadeInArgs, (source, args) => results = args);
 
 				// Check if a player was provided
 				if (results.Player)
@@ -292,7 +303,7 @@ namespace OmiyaGames.Audio
 				}
 
 				// Invoke end event
-				onFinish?.Invoke(results);
+				onFinish?.Invoke(this, results);
 			}
 
 			/// <summary>
@@ -309,7 +320,7 @@ namespace OmiyaGames.Audio
 			/// Triggers as soon as this coroutine finishes, with a reference
 			/// to the player that will be faded in. The parameter will be
 			/// <see langword="null"/> if <paramref name="audioClip"/> isn't
-			/// played (e.g. when it's already playing in the background.)
+			/// played (e.g. there isn't an audio clip in the history.)
 			/// </param>
 			/// <returns>
 			/// A coroutine for <em>loading</em> the previous
@@ -320,13 +331,13 @@ namespace OmiyaGames.Audio
 			/// the previous clip points to an addressable or not.
 			/// </remarks>
 			public IEnumerator PlayPreviousCoroutine(FadeInArgs fadeInArgs = null, FadeOutArgs fadeOutArgs = null,
-				System.Action<PlayerArgs> onFinish = null)
+				OnCoroutineFinished onFinish = null)
 			{
 				// Check the size of history
 				if (History.Count < 2)
 				{
 					// There's no clip to go back to, finish immediately
-					onFinish?.Invoke(null);
+					onFinish?.Invoke(this, new PlayerArgs());
 					yield break;
 				}
 
@@ -387,14 +398,14 @@ namespace OmiyaGames.Audio
 			/// <param name="fadeOutArgs">
 			/// Details on how to fade-in, e.g. how long it should last.
 			/// </param>
-			public IEnumerator FadeInCurrentPlayingCoroutine(FadeInArgs fadeInArgs = null, System.Action<PlayerArgs> onFinish = null)
+			public IEnumerator FadeInCurrentPlayingCoroutine(FadeInArgs fadeInArgs = null, OnCoroutineFinished onFinish = null)
 			{
 				// Make sure there's a file in the history to play
 				AssetRef<BackgroundAudio> audioFile = CurrentFile;
 				if (audioFile.CurrentState == AssetRef.State.Null)
 				{
 					// There's no clip to play, finish immediately
-					onFinish?.Invoke(null);
+					onFinish?.Invoke(this, new PlayerArgs());
 					yield break;
 				}
 
@@ -404,7 +415,7 @@ namespace OmiyaGames.Audio
 
 			#region Helper Methods
 			IEnumerator FadeInCoroutine(AssetRef<BackgroundAudio> audioClip, FadeInArgs fadeInArgs = null,
-				System.Action<PlayerArgs> onFinish = null)
+				OnCoroutineFinished onFinish = null)
 			{
 				// Attempt to grab an existing player
 				BackgroundAudio.Player audioPlayer = null;
@@ -430,7 +441,7 @@ namespace OmiyaGames.Audio
 							MixerGroupManager.FadeIn(audioPlayer, fadeInArgs);
 
 							// Halt early
-							onFinish?.Invoke(new(audioPlayer, PlayerArgs.PlayerState.AlreadyPlayingClip));
+							onFinish?.Invoke(this, new PlayerArgs(audioPlayer, PlayerArgs.PlayerState.AlreadyPlayingClip));
 							yield break;
 						}
 						else
@@ -460,40 +471,57 @@ namespace OmiyaGames.Audio
 				MixerGroupManager.FadeIn(audioPlayer, fadeInArgs);
 
 				// Invoke end event
-				onFinish?.Invoke(new(audioPlayer, playerState));
+				onFinish?.Invoke(this, new PlayerArgs(audioPlayer, playerState));
 			}
 			#endregion
 		}
 
 		/// <summary>
-		/// Event arguments for fading in a player
+		/// Event arguments for fading in a
+		/// <seealso cref="BackgroundAudio.Player"/>
 		/// </summary>
 		public class PlayerArgs : System.EventArgs
 		{
 			/// <summary>
-			/// TODO
+			/// Indicates how the
+			/// <seealso cref="BackgroundAudio.Player"/>
+			/// was selected.
 			/// </summary>
 			public enum PlayerState
 			{
 				/// <summary>
-				/// TODO
+				/// <seealso cref="BackgroundAudio.Player"/>
+				/// is <see langword="null"/>.
 				/// </summary>
-				NewPlayer,
+				Null = -1,
 				/// <summary>
-				/// TODO
+				/// <seealso cref="BackgroundAudio.Player"/>
+				/// was newly created.
+				/// </summary>
+				NewPlayer = 0,
+				/// <summary>
+				/// Selected a
+				/// <seealso cref="BackgroundAudio.Player"/>
+				/// that was already playing the same clip.
 				/// </summary>
 				AlreadyPlayingClip,
 				/// <summary>
-				/// TODO
+				/// Selected a
+				/// <seealso cref="BackgroundAudio.Player"/>
+				/// that was stopped.
 				/// </summary>
 				StoppedPlayer,
 			}
 
 			/// <summary>
-			/// TODO
+			/// Constructs a new argument instance.
 			/// </summary>
-			/// <param name="player"></param>
-			/// <param name="state"></param>
+			/// <param name="player">
+			/// Sets <seealso cref="Player"/> property.
+			/// </param>
+			/// <param name="state">
+			/// Sets <seealso cref="State"/> property.
+			/// </param>
 			public PlayerArgs(BackgroundAudio.Player player, PlayerState state)
 			{
 				Player = player;
@@ -501,14 +529,20 @@ namespace OmiyaGames.Audio
 			}
 
 			/// <summary>
-			/// TODO
+			/// Constructs a null argument.
+			/// </summary>
+			public PlayerArgs() : this(null, PlayerState.Null) { }
+
+			/// <summary>
+			/// Gets the selected <seealso cref="BackgroundAudio.Player"/>.
 			/// </summary>
 			public BackgroundAudio.Player Player
 			{
 				get;
 			}
 			/// <summary>
-			/// TODO
+			/// Gets the reason <seealso cref="Player"/>
+			/// was selected.
 			/// </summary>
 			public PlayerState State
 			{

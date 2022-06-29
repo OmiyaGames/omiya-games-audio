@@ -150,12 +150,20 @@ namespace OmiyaGames.Audio
 		public bool AlwaysRestart => alwaysRestart;
 
 		/// <summary>
-		/// 
+		/// Starts the <see cref="Coroutine"/> for this behavior.
 		/// </summary>
-		/// <param name="script"></param>
-		/// <param name="audioLayer"></param>
-		/// <returns></returns>
-		public Coroutine StartCoroutine(MonoBehaviour script, AudioLayer.Background audioLayer, System.Action<AudioLayer.PlayerArgs> onFinish = null)
+		/// <param name="script">
+		/// The script to run this <see cref="Coroutine"/> on.
+		/// </param>
+		/// <param name="audioLayer">
+		/// </param>
+		/// <param name="onFinish">
+		/// Invoked at the end of the <see cref="Coroutine"/>.
+		/// </param>
+		/// <returns>
+		/// The <see cref="Coroutine"/> running this behavior.
+		/// </returns>
+		public Coroutine StartCoroutine(MonoBehaviour script, AudioLayer.Background audioLayer, AudioLayer.Background.OnCoroutineFinished onFinish = null)
 		{
 			switch (Behavior)
 			{
@@ -169,7 +177,7 @@ namespace OmiyaGames.Audio
 			}
 
 			// By default, return null
-			onFinish?.Invoke(null);
+			onFinish?.Invoke(audioLayer, new AudioLayer.PlayerArgs());
 			return null;
 		}
 

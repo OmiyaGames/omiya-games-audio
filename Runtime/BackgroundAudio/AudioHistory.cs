@@ -53,45 +53,70 @@ namespace OmiyaGames.Audio
 	{
 		#region EventArgs
 		/// <summary>
-		/// TODO
+		/// The event argument when calling
+		/// <seealso cref="Add(in AssetRef{BackgroundAudio})"/>.
 		/// </summary>
 		public class AddArgs : System.EventArgs
 		{
 			/// <summary>
-			/// TODO
+			/// Constructs a new event argument.
 			/// </summary>
-			/// <param name="newAsset"></param>
+			/// <param name="newAsset">
+			/// Sets <seealso cref="Asset"/>.
+			/// </param>
 			public AddArgs(AssetRef<BackgroundAudio> newAsset)
 			{
-				NewAsset = newAsset;
+				Asset = newAsset;
 			}
 
 			/// <summary>
-			/// TODO
+			/// Gets the asset added to the history.
 			/// </summary>
-			public AssetRef<BackgroundAudio> NewAsset
+			public AssetRef<BackgroundAudio> Asset
 			{
 				get;
 			}
 		}
 
 		/// <summary>
-		/// TODO
+		/// The event argument when calling
+		/// <seealso cref="RemoveOldest()"/> or
+		/// <seealso cref="RemoveNewest()"/>.
 		/// </summary>
-		public class RemoveArgs : AddArgs
+		public class RemoveArgs : System.EventArgs
 		{
 			/// <summary>
-			/// TODO
+			/// Constructs a new event argument.
 			/// </summary>
-			/// <param name="newAsset"></param>
-			/// <param name="isOldestRemoved"></param>
-			public RemoveArgs(AssetRef<BackgroundAudio> newAsset, bool isOldestRemoved) : base(newAsset)
+			/// <param name="removedAsset">
+			/// Sets <seealso cref="Asset"/>.
+			/// </param>
+			/// <param name="isOldestRemoved">
+			/// Sets <seealso cref="IsOldestRemoved"/>.
+			/// </param>
+			public RemoveArgs(AssetRef<BackgroundAudio> removedAsset, bool isOldestRemoved)
 			{
+				Asset = removedAsset;
 				IsOldestRemoved = isOldestRemoved;
 			}
 
 			/// <summary>
-			/// TODO
+			/// Gets the asset removed from the history.
+			/// </summary>
+			public AssetRef<BackgroundAudio> Asset
+			{
+				get;
+			}
+
+			/// <summary>
+			/// <para>
+			/// Returns <see langword="true"/> if event
+			/// was called by <seealso cref="RemoveOldest()"/>.
+			/// </para><para>
+			/// If the event was called by
+			/// <seealso cref="RemoveNewest()"/> instead,
+			/// returns <see langword="false"/>.
+			/// </para>
 			/// </summary>
 			public bool IsOldestRemoved
 			{
@@ -106,40 +131,73 @@ namespace OmiyaGames.Audio
 		public const int DEFAULT_HISTORY_SIZE = 100;
 
 		/// <summary>
-		/// TODO
+		/// Standard format for events called by
+		/// <seealso cref="Add(in AssetRef{BackgroundAudio})"/>.
 		/// </summary>
-		/// <param name="source"></param>
-		/// <param name="args"></param>
+		/// <param name="source">
+		/// The caller of this event.
+		/// </param>
+		/// <param name="args">
+		/// Arguments for this event.
+		/// </param>
 		public delegate void OnAdd(AudioHistory source, AddArgs args);
 		/// <summary>
-		/// TODO
+		/// Standard format for events called by
+		/// <seealso cref="RemoveOldest()"/> and
+		/// <seealso cref="RemoveNewest()"/>.
 		/// </summary>
-		/// <param name="source"></param>
-		/// <param name="args"></param>
+		/// <param name="source">
+		/// The caller of this event.
+		/// </param>
+		/// <param name="args">
+		/// Arguments for this event.
+		/// </param>
 		public delegate void OnRemove(AudioHistory source, RemoveArgs args);
 
 		/// <summary>
-		/// TODO
+		/// Event called by
+		/// <seealso cref="Add(in AssetRef{BackgroundAudio})"/>,
+		/// before a new asset is added to the history.
 		/// </summary>
 		public event OnAdd OnBeforeAdd;
 		/// <summary>
-		/// TODO
+		/// Event called by
+		/// <seealso cref="Add(in AssetRef{BackgroundAudio})"/>,
+		/// after a new asset has been added to the history.
 		/// </summary>
 		public event OnAdd OnAfterAdd;
 		/// <summary>
-		/// TODO
+		/// Event called by
+		/// <seealso cref="RemoveOldest()"/> and
+		/// <seealso cref="RemoveNewest()"/>,
+		/// before an asset is removed from the history.
 		/// </summary>
+		/// <remarks>
+		/// This event does <em>not</em> get called
+		/// by <seealso cref="Clear()"/>.
+		/// Use <seealso cref="OnBeforeClear"/> to listen to that event.
+		/// </remarks>
 		public event OnRemove OnBeforeRemove;
 		/// <summary>
-		/// TODO
+		/// Event called by
+		/// <seealso cref="RemoveOldest()"/> and
+		/// <seealso cref="RemoveNewest()"/>,
+		/// after an asset has been removed from the history.
 		/// </summary>
+		/// <remarks>
+		/// This event does <em>not</em> get called
+		/// by <seealso cref="Clear()"/>.
+		/// Use <seealso cref="OnAfterClear"/> to listen to that event.
+		/// </remarks>
 		public event OnRemove OnAfterRemove;
 		/// <summary>
-		/// TODO
+		/// Event called by <seealso cref="Clear()"/>,
+		/// before the history is cleared.
 		/// </summary>
 		public event System.Action<AudioHistory> OnBeforeClear;
 		/// <summary>
-		/// TODO
+		/// Event called by <seealso cref="Clear()"/>,
+		/// after the history has been cleared.
 		/// </summary>
 		public event System.Action<AudioHistory> OnAfterClear;
 
