@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class AudioLayer
    | Omiya Games - Audio documentation ">
-    <meta name="generator" content="docfx 2.59.0.0">
+    <meta name="generator" content="docfx 2.59.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -119,10 +119,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 </copyright>
 <table><thead><tr><th>Revision</th><th>Description</th></tr></thead><tbody><tr><td>
-<strong>Version:</strong> 1.0.0-pre.1<br>
+<strong>Version:</strong> 0.1.0-exp.1<br>
 <strong>Date:</strong> 2/27/2022<br>
 <strong>Author:</strong> Taro Omiya
-</td><td>Initial draft.</td></tr></tbody></table></p>
+</td><td>Initial draft.</td></tr><tr><td>
+<strong>Version:</strong> 1.0.0<br>
+<strong>Date:</strong> 6/21/2022<br>
+<strong>Author:</strong> Taro Omiya
+</td><td>Adding documentation.</td></tr></tbody></table></p>
 </div>
   <h3 id="properties">Properties
   </h3>
@@ -130,7 +134,7 @@ THE SOFTWARE.
   
   <a id="OmiyaGames_Audio_AudioLayer_IsMuted_" data-uid="OmiyaGames.Audio.AudioLayer.IsMuted*"></a>
   <h4 id="OmiyaGames_Audio_AudioLayer_IsMuted" data-uid="OmiyaGames.Audio.AudioLayer.IsMuted">IsMuted</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>Gets or sets whether this layer is muted.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -156,7 +160,7 @@ THE SOFTWARE.
   
   <a id="OmiyaGames_Audio_AudioLayer_IsMutedSaver_" data-uid="OmiyaGames.Audio.AudioLayer.IsMutedSaver*"></a>
   <h4 id="OmiyaGames_Audio_AudioLayer_IsMutedSaver" data-uid="OmiyaGames.Audio.AudioLayer.IsMutedSaver">IsMutedSaver</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>The settings to store user&apos;s mute preferences.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -178,11 +182,18 @@ THE SOFTWARE.
       </tr>
     </tbody>
   </table>
+  <h5 id="OmiyaGames_Audio_AudioLayer_IsMutedSaver_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This value is changed in Unity&apos;s Project Settings dialog.</p>
+</div>
+  <h5 id="OmiyaGames_Audio_AudioLayer_IsMutedSaver_seealso">See Also</h5>
+  <div class="seealso">
+      <div><a class="xref" href="OmiyaGames.Audio.AudioLayer.html#OmiyaGames_Audio_AudioLayer_IsMuted">IsMuted</a></div>
+  </div>
   
   
   <a id="OmiyaGames_Audio_AudioLayer_Pitch_" data-uid="OmiyaGames.Audio.AudioLayer.Pitch*"></a>
   <h4 id="OmiyaGames_Audio_AudioLayer_Pitch" data-uid="OmiyaGames.Audio.AudioLayer.Pitch">Pitch</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>Gets or sets the pitch of this layer.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -208,7 +219,8 @@ THE SOFTWARE.
   
   <a id="OmiyaGames_Audio_AudioLayer_PitchParam_" data-uid="OmiyaGames.Audio.AudioLayer.PitchParam*"></a>
   <h4 id="OmiyaGames_Audio_AudioLayer_PitchParam" data-uid="OmiyaGames.Audio.AudioLayer.PitchParam">PitchParam</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>The parameter name to change
+<seealso cref="!:DefaultGroup"></seealso>&apos;s pitch.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -230,11 +242,14 @@ THE SOFTWARE.
       </tr>
     </tbody>
   </table>
+  <h5 id="OmiyaGames_Audio_AudioLayer_PitchParam_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This value is changed in Unity&apos;s Project Settings dialog.</p>
+</div>
   
   
   <a id="OmiyaGames_Audio_AudioLayer_VolumeDb_" data-uid="OmiyaGames.Audio.AudioLayer.VolumeDb*"></a>
   <h4 id="OmiyaGames_Audio_AudioLayer_VolumeDb" data-uid="OmiyaGames.Audio.AudioLayer.VolumeDb">VolumeDb</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>Gets the volume of this layer, in decibels.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -256,11 +271,16 @@ THE SOFTWARE.
       </tr>
     </tbody>
   </table>
+  <h5 id="OmiyaGames_Audio_AudioLayer_VolumeDb_seealso">See Also</h5>
+  <div class="seealso">
+      <div><a class="xref" href="OmiyaGames.Audio.AudioLayer.html#OmiyaGames_Audio_AudioLayer_VolumePercent">VolumePercent</a></div>
+  </div>
   
   
   <a id="OmiyaGames_Audio_AudioLayer_VolumeParam_" data-uid="OmiyaGames.Audio.AudioLayer.VolumeParam*"></a>
   <h4 id="OmiyaGames_Audio_AudioLayer_VolumeParam" data-uid="OmiyaGames.Audio.AudioLayer.VolumeParam">VolumeParam</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>The parameter name to change
+<seealso cref="!:DefaultGroup"></seealso>&apos;s volume.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -282,11 +302,15 @@ THE SOFTWARE.
       </tr>
     </tbody>
   </table>
+  <h5 id="OmiyaGames_Audio_AudioLayer_VolumeParam_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This value is changed in Unity&apos;s Project Settings dialog.</p>
+</div>
   
   
   <a id="OmiyaGames_Audio_AudioLayer_VolumePercent_" data-uid="OmiyaGames.Audio.AudioLayer.VolumePercent*"></a>
   <h4 id="OmiyaGames_Audio_AudioLayer_VolumePercent" data-uid="OmiyaGames.Audio.AudioLayer.VolumePercent">VolumePercent</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>Gets or sets the volume of this layer as a
+fraction between <code>0</code> and <code>1</code>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -308,11 +332,15 @@ THE SOFTWARE.
       </tr>
     </tbody>
   </table>
+  <h5 id="OmiyaGames_Audio_AudioLayer_VolumePercent_seealso">See Also</h5>
+  <div class="seealso">
+      <div><a class="xref" href="OmiyaGames.Audio.AudioLayer.html#OmiyaGames_Audio_AudioLayer_VolumeDb">VolumeDb</a></div>
+  </div>
   
   
   <a id="OmiyaGames_Audio_AudioLayer_VolumeSaver_" data-uid="OmiyaGames.Audio.AudioLayer.VolumeSaver*"></a>
   <h4 id="OmiyaGames_Audio_AudioLayer_VolumeSaver" data-uid="OmiyaGames.Audio.AudioLayer.VolumeSaver">VolumeSaver</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>The settings to store user&apos;s volume preferences.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -334,13 +362,20 @@ THE SOFTWARE.
       </tr>
     </tbody>
   </table>
+  <h5 id="OmiyaGames_Audio_AudioLayer_VolumeSaver_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This value is changed in Unity&apos;s Project Settings dialog.</p>
+</div>
+  <h5 id="OmiyaGames_Audio_AudioLayer_VolumeSaver_seealso">See Also</h5>
+  <div class="seealso">
+      <div><a class="xref" href="OmiyaGames.Audio.AudioLayer.html#OmiyaGames_Audio_AudioLayer_VolumePercent">VolumePercent</a></div>
+  </div>
   <h3 id="methods">Methods
   </h3>
   
   
   <a id="OmiyaGames_Audio_AudioLayer_Dispose_" data-uid="OmiyaGames.Audio.AudioLayer.Dispose*"></a>
   <h4 id="OmiyaGames_Audio_AudioLayer_Dispose" data-uid="OmiyaGames.Audio.AudioLayer.Dispose">Dispose()</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>Cleans-up any events this object was listening to.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>

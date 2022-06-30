@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class AudioLayer.Background
    | Omiya Games - Audio documentation ">
-    <meta name="generator" content="docfx 2.59.0.0">
+    <meta name="generator" content="docfx 2.59.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -155,10 +155,540 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 </copyright>
 <table><thead><tr><th>Revision</th><th>Description</th></tr></thead><tbody><tr><td>
-<strong>Version:</strong> 1.0.0-pre.1<br>
+<strong>Version:</strong> 0.1.0-exp.1<br>
 <strong>Date:</strong> 2/27/2022<br>
 <strong>Author:</strong> Taro Omiya
-</td><td>Initial draft.</td></tr></tbody></table></p>
+</td><td>Initial draft.</td></tr><tr><td>
+<strong>Version:</strong> 1.0.0<br>
+<strong>Date:</strong> 6/3/2022<br>
+<strong>Author:</strong> Taro Omiya
+</td><td>
+Adding properties and methods that utilizes
+<see cref="!:UnityEngine.Audio.AudioMixerGroup"></see> to fade in and out
+<a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a>s.  Also added a <a class="xref" href="OmiyaGames.Audio.AudioLayer.Background.html#OmiyaGames_Audio_AudioLayer_Background_History">History</a>
+tracker.
+</td></tr></tbody></table></p>
+</div>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="OmiyaGames_Audio_AudioLayer_Background_CurrentFile_" data-uid="OmiyaGames.Audio.AudioLayer.Background.CurrentFile*"></a>
+  <h4 id="OmiyaGames_Audio_AudioLayer_Background_CurrentFile" data-uid="OmiyaGames.Audio.AudioLayer.Background.CurrentFile">CurrentFile</h4>
+  <div class="markdown level1 summary"><p>Grabs the currently-playing audio file from <a class="xref" href="OmiyaGames.Audio.AudioLayer.Background.html#OmiyaGames_Audio_AudioLayer_Background_History">History</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public AssetRef&lt;BackgroundAudio&gt; CurrentFile { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.AssetRef-1.html">AssetRef</a>&lt;<a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OmiyaGames_Audio_AudioLayer_Background_CurrentPlayer_" data-uid="OmiyaGames.Audio.AudioLayer.Background.CurrentPlayer*"></a>
+  <h4 id="OmiyaGames_Audio_AudioLayer_Background_CurrentPlayer" data-uid="OmiyaGames.Audio.AudioLayer.Background.CurrentPlayer">CurrentPlayer</h4>
+  <div class="markdown level1 summary"><p>Grabs the currently-playing audio file from <a class="xref" href="OmiyaGames.Audio.AudioLayer.Background.html#OmiyaGames_Audio_AudioLayer_Background_History">History</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public BackgroundAudio.Player CurrentPlayer { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.BackgroundAudio.Player.html">BackgroundAudio.Player</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OmiyaGames_Audio_AudioLayer_Background_History_" data-uid="OmiyaGames.Audio.AudioLayer.Background.History*"></a>
+  <h4 id="OmiyaGames_Audio_AudioLayer_Background_History" data-uid="OmiyaGames.Audio.AudioLayer.Background.History">History</h4>
+  <div class="markdown level1 summary"><p>Gets the history of <a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a> played.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public AudioHistory History { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.AudioHistory.html">AudioHistory</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="OmiyaGames_Audio_AudioLayer_Background_History_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>No properties adds <a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a>
+to this history tracker automatically.  As such, if you&apos;re
+<em>not</em> using the helper methods within this class (e.g.
+<see cref="!:PlayNextCoroutine(AssetRef&lt;BackgroundAudio>, FadeInArgs, FadeOutArgs, System.Action&lt;BackgroundAudio.Player>)"></see>),
+don&apos;t forget to update this property as well.</p>
+</div>
+  
+  
+  <a id="OmiyaGames_Audio_AudioLayer_Background_MixerGroupManager_" data-uid="OmiyaGames.Audio.AudioLayer.Background.MixerGroupManager*"></a>
+  <h4 id="OmiyaGames_Audio_AudioLayer_Background_MixerGroupManager" data-uid="OmiyaGames.Audio.AudioLayer.Background.MixerGroupManager">MixerGroupManager</h4>
+  <div class="markdown level1 summary"><p>Gets the manager of <see cref="!:UnityEngine.Audio.AudioMixerGroup"></see>s
+and handles which group <a class="xref" href="OmiyaGames.Audio.BackgroundAudio.Player.html">BackgroundAudio.Player</a>
+should play on.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MixerGroupManager MixerGroupManager { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.MixerGroupManager.html">MixerGroupManager</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OmiyaGames_Audio_AudioLayer_Background_PlayerManager_" data-uid="OmiyaGames.Audio.AudioLayer.Background.PlayerManager*"></a>
+  <h4 id="OmiyaGames_Audio_AudioLayer_Background_PlayerManager" data-uid="OmiyaGames.Audio.AudioLayer.Background.PlayerManager">PlayerManager</h4>
+  <div class="markdown level1 summary"><p>Gets the manager of <a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a> and the
+<a class="xref" href="OmiyaGames.Audio.BackgroundAudio.Player.html">BackgroundAudio.Player</a>s generated by them.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public AudioPlayerManager PlayerManager { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.AudioPlayerManager.html">AudioPlayerManager</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="OmiyaGames_Audio_AudioLayer_Background_CreateManagers_" data-uid="OmiyaGames.Audio.AudioLayer.Background.CreateManagers*"></a>
+  <h4 id="OmiyaGames_Audio_AudioLayer_Background_CreateManagers_Transform_System_String_AnimationCurve_" data-uid="OmiyaGames.Audio.AudioLayer.Background.CreateManagers(Transform,System.String,AnimationCurve)">CreateManagers(Transform, String, AnimationCurve)</h4>
+  <div class="markdown level1 summary"><p>Sets up <a class="xref" href="OmiyaGames.Audio.AudioLayer.Background.html#OmiyaGames_Audio_AudioLayer_Background_PlayerManager">PlayerManager</a> and <a class="xref" href="OmiyaGames.Audio.AudioLayer.Background.html#OmiyaGames_Audio_AudioLayer_Background_MixerGroupManager">MixerGroupManager</a>.
+Required to be called with <span class="xref">OmiyaGames.Audio.AudioLayer.Setup</span>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void CreateManagers(Transform parentTransform, string gameObjectName, AnimationCurve percentToDbCurve)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Transform</span></td>
+        <td><span class="parametername">parentTransform</span></td>
+        <td><p>The transform to create a new <see cref="!:GameObject"></see> under.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td><span class="parametername">gameObjectName</span></td>
+        <td><p>The name of the newly created <see cref="!:GameObject"></see>.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">AnimationCurve</span></td>
+        <td><span class="parametername">percentToDbCurve</span></td>
+        <td><p>The curve used to convert a fraction from <code>0</code> to <code>1</code>,
+to decibels.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OmiyaGames_Audio_AudioLayer_Background_FadeInCurrentPlayingCoroutine_" data-uid="OmiyaGames.Audio.AudioLayer.Background.FadeInCurrentPlayingCoroutine*"></a>
+  <h4 id="OmiyaGames_Audio_AudioLayer_Background_FadeInCurrentPlayingCoroutine_OmiyaGames_Audio_FadeInArgs_System_Action_OmiyaGames_Audio_AudioLayer_PlayerArgs__" data-uid="OmiyaGames.Audio.AudioLayer.Background.FadeInCurrentPlayingCoroutine(OmiyaGames.Audio.FadeInArgs,System.Action{OmiyaGames.Audio.AudioLayer.PlayerArgs})">FadeInCurrentPlayingCoroutine(FadeInArgs, Action&lt;AudioLayer.PlayerArgs&gt;)</h4>
+  <div class="markdown level1 summary"><p>Fades in the currently-playing audio in this layer.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IEnumerator FadeInCurrentPlayingCoroutine(FadeInArgs fadeInArgs = null, Action&lt;AudioLayer.PlayerArgs&gt; onFinish = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.FadeInArgs.html">FadeInArgs</a></td>
+        <td><span class="parametername">fadeInArgs</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;<a class="xref" href="OmiyaGames.Audio.AudioLayer.PlayerArgs.html">AudioLayer.PlayerArgs</a>&gt;</td>
+        <td><span class="parametername">onFinish</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IEnumerator</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OmiyaGames_Audio_AudioLayer_Background_FadeOutCurrentPlaying_" data-uid="OmiyaGames.Audio.AudioLayer.Background.FadeOutCurrentPlaying*"></a>
+  <h4 id="OmiyaGames_Audio_AudioLayer_Background_FadeOutCurrentPlaying_OmiyaGames_Audio_FadeOutArgs_OmiyaGames_Audio_BackgroundAudio_Player___" data-uid="OmiyaGames.Audio.AudioLayer.Background.FadeOutCurrentPlaying(OmiyaGames.Audio.FadeOutArgs,OmiyaGames.Audio.BackgroundAudio.Player[])">FadeOutCurrentPlaying(FadeOutArgs, BackgroundAudio.Player[])</h4>
+  <div class="markdown level1 summary"><p>Fades out the currently-playing audio in this layer.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void FadeOutCurrentPlaying(FadeOutArgs fadeOutArgs = null, params BackgroundAudio.Player[] except)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.FadeOutArgs.html">FadeOutArgs</a></td>
+        <td><span class="parametername">fadeOutArgs</span></td>
+        <td><p>Details on how to fade-out, e.g. how long it should last.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.BackgroundAudio.Player.html">BackgroundAudio.Player</a>[]</td>
+        <td><span class="parametername">except</span></td>
+        <td><p>Players <em>not</em> to fade out.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OmiyaGames_Audio_AudioLayer_Background_GetCurrentPlayer_" data-uid="OmiyaGames.Audio.AudioLayer.Background.GetCurrentPlayer*"></a>
+  <h4 id="OmiyaGames_Audio_AudioLayer_Background_GetCurrentPlayer_OmiyaGames_Audio_AudioPlayerManager_AudioState_" data-uid="OmiyaGames.Audio.AudioLayer.Background.GetCurrentPlayer(OmiyaGames.Audio.AudioPlayerManager.AudioState)">GetCurrentPlayer(AudioPlayerManager.AudioState)</h4>
+  <div class="markdown level1 summary"><p>Grab the first player associated with <a class="xref" href="OmiyaGames.Audio.AudioLayer.Background.html#OmiyaGames_Audio_AudioLayer_Background_CurrentFile">CurrentFile</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public BackgroundAudio.Player GetCurrentPlayer(AudioPlayerManager.AudioState state = AudioPlayerManager.AudioState.All)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.AudioPlayerManager.AudioState.html">AudioPlayerManager.AudioState</a></td>
+        <td><span class="parametername">state</span></td>
+        <td><p>The state to filter players by.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.BackgroundAudio.Player.html">BackgroundAudio.Player</a></td>
+        <td><p>The first <a class="xref" href="OmiyaGames.Audio.BackgroundAudio.Player.html">BackgroundAudio.Player</a>s with the same state
+as <code data-dev-comment-type="paramref" class="paramref">state</code>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="OmiyaGames_Audio_AudioLayer_Background_GetCurrentPlayer_OmiyaGames_Audio_AudioPlayerManager_AudioState__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Order (and thus, what&apos;s determined as &quot;the first player&quot;) is
+dependent upon <seealso cref="!:FadeLayers"></seealso>, and which player
+is running on which layer.</p>
+</div>
+  
+  
+  <a id="OmiyaGames_Audio_AudioLayer_Background_GetCurrentPlayers_" data-uid="OmiyaGames.Audio.AudioLayer.Background.GetCurrentPlayers*"></a>
+  <h4 id="OmiyaGames_Audio_AudioLayer_Background_GetCurrentPlayers_OmiyaGames_Audio_AudioPlayerManager_AudioState_" data-uid="OmiyaGames.Audio.AudioLayer.Background.GetCurrentPlayers(OmiyaGames.Audio.AudioPlayerManager.AudioState)">GetCurrentPlayers(AudioPlayerManager.AudioState)</h4>
+  <div class="markdown level1 summary"><p>Grab all the players associated with <a class="xref" href="OmiyaGames.Audio.AudioLayer.Background.html#OmiyaGames_Audio_AudioLayer_Background_CurrentFile">CurrentFile</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;BackgroundAudio.Player&gt; GetCurrentPlayers(AudioPlayerManager.AudioState state = AudioPlayerManager.AudioState.All)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.AudioPlayerManager.AudioState.html">AudioPlayerManager.AudioState</a></td>
+        <td><span class="parametername">state</span></td>
+        <td><p>The state to filter players by.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">List</span>&lt;<a class="xref" href="OmiyaGames.Audio.BackgroundAudio.Player.html">BackgroundAudio.Player</a>&gt;</td>
+        <td><p>All the currently active <a class="xref" href="OmiyaGames.Audio.BackgroundAudio.Player.html">BackgroundAudio.Player</a>s
+with the same state as <code data-dev-comment-type="paramref" class="paramref">state</code>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OmiyaGames_Audio_AudioLayer_Background_PlayNextCoroutine_" data-uid="OmiyaGames.Audio.AudioLayer.Background.PlayNextCoroutine*"></a>
+  <h4 id="OmiyaGames_Audio_AudioLayer_Background_PlayNextCoroutine_OmiyaGames_Audio_AssetRef_OmiyaGames_Audio_BackgroundAudio__OmiyaGames_Audio_FadeInArgs_OmiyaGames_Audio_FadeOutArgs_System_Action_OmiyaGames_Audio_AudioLayer_PlayerArgs__" data-uid="OmiyaGames.Audio.AudioLayer.Background.PlayNextCoroutine(OmiyaGames.Audio.AssetRef{OmiyaGames.Audio.BackgroundAudio},OmiyaGames.Audio.FadeInArgs,OmiyaGames.Audio.FadeOutArgs,System.Action{OmiyaGames.Audio.AudioLayer.PlayerArgs})">PlayNextCoroutine(AssetRef&lt;BackgroundAudio&gt;, FadeInArgs, FadeOutArgs, Action&lt;AudioLayer.PlayerArgs&gt;)</h4>
+  <div class="markdown level1 summary"><p>Coroutine to fade in the next background audio. Also adds
+<code data-dev-comment-type="paramref" class="paramref">audioClip</code> into the history if played.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IEnumerator PlayNextCoroutine(AssetRef&lt;BackgroundAudio&gt; audioClip, FadeInArgs fadeInArgs = null, FadeOutArgs fadeOutArgs = null, Action&lt;AudioLayer.PlayerArgs&gt; onFinish = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.AssetRef-1.html">AssetRef</a>&lt;<a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a>&gt;</td>
+        <td><span class="parametername">audioClip</span></td>
+        <td><p>The clip to play</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.FadeInArgs.html">FadeInArgs</a></td>
+        <td><span class="parametername">fadeInArgs</span></td>
+        <td><p>Details on how to fade-in, e.g. how long it should last.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.FadeOutArgs.html">FadeOutArgs</a></td>
+        <td><span class="parametername">fadeOutArgs</span></td>
+        <td><p>Details on how to fade-out, e.g. how long it should last.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;<a class="xref" href="OmiyaGames.Audio.AudioLayer.PlayerArgs.html">AudioLayer.PlayerArgs</a>&gt;</td>
+        <td><span class="parametername">onFinish</span></td>
+        <td><p>Triggers as soon as this coroutine finishes, with a reference
+to the player that will be faded in. The parameter will be
+<span class="xref">null</span> if <code data-dev-comment-type="paramref" class="paramref">audioClip</code> isn&apos;t
+played (e.g. when it&apos;s already playing in the background.)</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IEnumerator</span></td>
+        <td><p>A coroutine for <em>loading</em> <code data-dev-comment-type="paramref" class="paramref">audioClip</code>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="OmiyaGames_Audio_AudioLayer_Background_PlayNextCoroutine_OmiyaGames_Audio_AssetRef_OmiyaGames_Audio_BackgroundAudio__OmiyaGames_Audio_FadeInArgs_OmiyaGames_Audio_FadeOutArgs_System_Action_OmiyaGames_Audio_AudioLayer_PlayerArgs___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This coroutine needs to be yielded on regardless of whether
+<code data-dev-comment-type="paramref" class="paramref">audioClip</code> points to an addressable or not.</p>
+</div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.argumentnullexception">ArgumentNullException</a></td>
+        <td><p>If <code data-dev-comment-type="paramref" class="paramref">audioClip</code>&apos;s <a class="xref" href="OmiyaGames.Audio.AssetRef-1.html#OmiyaGames_Audio_AssetRef_1_CurrentState">CurrentState</a>
+is <a class="xref" href="OmiyaGames.Audio.AssetRef.State.html#OmiyaGames_Audio_AssetRef_State_Null">Null</a>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OmiyaGames_Audio_AudioLayer_Background_PlayPreviousCoroutine_" data-uid="OmiyaGames.Audio.AudioLayer.Background.PlayPreviousCoroutine*"></a>
+  <h4 id="OmiyaGames_Audio_AudioLayer_Background_PlayPreviousCoroutine_OmiyaGames_Audio_FadeInArgs_OmiyaGames_Audio_FadeOutArgs_System_Action_OmiyaGames_Audio_AudioLayer_PlayerArgs__" data-uid="OmiyaGames.Audio.AudioLayer.Background.PlayPreviousCoroutine(OmiyaGames.Audio.FadeInArgs,OmiyaGames.Audio.FadeOutArgs,System.Action{OmiyaGames.Audio.AudioLayer.PlayerArgs})">PlayPreviousCoroutine(FadeInArgs, FadeOutArgs, Action&lt;AudioLayer.PlayerArgs&gt;)</h4>
+  <div class="markdown level1 summary"><p>Coroutine to fade in the previous background audio in <a class="xref" href="OmiyaGames.Audio.AudioLayer.Background.html#OmiyaGames_Audio_AudioLayer_Background_History">History</a>,
+if any.  Also removes the newest clip from the history, if played.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IEnumerator PlayPreviousCoroutine(FadeInArgs fadeInArgs = null, FadeOutArgs fadeOutArgs = null, Action&lt;AudioLayer.PlayerArgs&gt; onFinish = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.FadeInArgs.html">FadeInArgs</a></td>
+        <td><span class="parametername">fadeInArgs</span></td>
+        <td><p>Details on how to fade-in, e.g. how long it should last.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.FadeOutArgs.html">FadeOutArgs</a></td>
+        <td><span class="parametername">fadeOutArgs</span></td>
+        <td><p>Details on how to fade-out, e.g. how long it should last.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;<a class="xref" href="OmiyaGames.Audio.AudioLayer.PlayerArgs.html">AudioLayer.PlayerArgs</a>&gt;</td>
+        <td><span class="parametername">onFinish</span></td>
+        <td><p>Triggers as soon as this coroutine finishes, with a reference
+to the player that will be faded in. The parameter will be
+<span class="xref">null</span> if <code data-dev-comment-type="paramref" class="paramref">audioClip</code> isn&apos;t
+played (e.g. when it&apos;s already playing in the background.)</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IEnumerator</span></td>
+        <td><p>A coroutine for <em>loading</em> the previous
+<a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="OmiyaGames_Audio_AudioLayer_Background_PlayPreviousCoroutine_OmiyaGames_Audio_FadeInArgs_OmiyaGames_Audio_FadeOutArgs_System_Action_OmiyaGames_Audio_AudioLayer_PlayerArgs___remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This coroutine needs to be yielded on regardless of whether
+the previous clip points to an addressable or not.</p>
 </div>
 </article>
           </div>

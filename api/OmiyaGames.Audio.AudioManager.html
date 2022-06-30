@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class AudioManager
    | Omiya Games - Audio documentation ">
-    <meta name="generator" content="docfx 2.59.0.0">
+    <meta name="generator" content="docfx 2.59.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -83,7 +83,9 @@
   
   <h1 id="OmiyaGames_Audio_AudioManager" data-uid="OmiyaGames.Audio.AudioManager" class="text-break">Class AudioManager
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>A manager file that allows adjusting an <see cref="!:AudioMixer"></see>
+from settings.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
@@ -96,6 +98,38 @@
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public static class AudioManager</code></pre>
   </div>
+  <h5 id="OmiyaGames_Audio_AudioManager_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p><copyright file="AudioManager.cs" company="Omiya Games">
+The MIT License (MIT)<p>
+<p>Copyright (c) 2022 Omiya Games</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &quot;Software&quot;), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+</copyright>
+<table><thead><tr><th>Revision</th><th>Description</th></tr></thead><tbody><tr><td>
+<strong>Version:</strong> 0.1.0-exp.1<br>
+<strong>Date:</strong> 2/12/2022<br>
+<strong>Author:</strong> Taro Omiya
+</td><td>Initial verison.</td></tr><tr><td>
+<strong>Version:</strong> 1.0.0-exp.1<br>
+<strong>Date:</strong> 6/21/2022<br>
+<strong>Author:</strong> Taro Omiya
+</td><td>
+Adding more helper methods and documentation.
+</td></tr></tbody></table></p>
+</div>
   <h3 id="fields">Fields
   </h3>
   
@@ -205,7 +239,8 @@ Project Setting&apos;s left-sidebar.</p>
   
   <a id="OmiyaGames_Audio_AudioManager_Ambience_" data-uid="OmiyaGames.Audio.AudioManager.Ambience*"></a>
   <h4 id="OmiyaGames_Audio_AudioManager_Ambience" data-uid="OmiyaGames.Audio.AudioManager.Ambience">Ambience</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>The background ambience layer.  Allows playing and managing
+<a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a> clips.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -231,7 +266,8 @@ Project Setting&apos;s left-sidebar.</p>
   
   <a id="OmiyaGames_Audio_AudioManager_Main_" data-uid="OmiyaGames.Audio.AudioManager.Main*"></a>
   <h4 id="OmiyaGames_Audio_AudioManager_Main" data-uid="OmiyaGames.Audio.AudioManager.Main">Main</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>The main layer of audio.  This affects the volume and pitch of
+all audio sources wired to any layer in this manager.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -257,7 +293,7 @@ Project Setting&apos;s left-sidebar.</p>
   
   <a id="OmiyaGames_Audio_AudioManager_Mixer_" data-uid="OmiyaGames.Audio.AudioManager.Mixer*"></a>
   <h4 id="OmiyaGames_Audio_AudioManager_Mixer" data-uid="OmiyaGames.Audio.AudioManager.Mixer">Mixer</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>The main mixer of this game.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -283,7 +319,8 @@ Project Setting&apos;s left-sidebar.</p>
   
   <a id="OmiyaGames_Audio_AudioManager_Music_" data-uid="OmiyaGames.Audio.AudioManager.Music*"></a>
   <h4 id="OmiyaGames_Audio_AudioManager_Music" data-uid="OmiyaGames.Audio.AudioManager.Music">Music</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>The background music layer.  Allows playing and managing
+<a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a> clips.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -309,7 +346,7 @@ Project Setting&apos;s left-sidebar.</p>
   
   <a id="OmiyaGames_Audio_AudioManager_MuteVolumeDb_" data-uid="OmiyaGames.Audio.AudioManager.MuteVolumeDb*"></a>
   <h4 id="OmiyaGames_Audio_AudioManager_MuteVolumeDb" data-uid="OmiyaGames.Audio.AudioManager.MuteVolumeDb">MuteVolumeDb</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>The volume considered low enough to be &quot;mute&quot; according to <a class="xref" href="OmiyaGames.Audio.AudioManager.html#OmiyaGames_Audio_AudioManager_Mixer">Mixer</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -335,7 +372,9 @@ Project Setting&apos;s left-sidebar.</p>
   
   <a id="OmiyaGames_Audio_AudioManager_SoundEffects_" data-uid="OmiyaGames.Audio.AudioManager.SoundEffects*"></a>
   <h4 id="OmiyaGames_Audio_AudioManager_SoundEffects" data-uid="OmiyaGames.Audio.AudioManager.SoundEffects">SoundEffects</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>The layer dedicated to sound effects.  This affects the volume and pitch of
+any audio sources wired to <a class="xref" href="OmiyaGames.Audio.AudioLayer.Spatial.html#OmiyaGames_Audio_AudioLayer_Spatial_DefaultUiGroup">DefaultUiGroup</a>
+or <a class="xref" href="OmiyaGames.Audio.AudioLayer.SubLayer.html#OmiyaGames_Audio_AudioLayer_SubLayer_DefaultGroup">DefaultGroup</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -388,7 +427,9 @@ in the middle of setting up, or is already setup.</p>
   
   <a id="OmiyaGames_Audio_AudioManager_Voices_" data-uid="OmiyaGames.Audio.AudioManager.Voices*"></a>
   <h4 id="OmiyaGames_Audio_AudioManager_Voices" data-uid="OmiyaGames.Audio.AudioManager.Voices">Voices</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>The layer dedicated to voices.  This affects the volume and pitch of
+any audio sources wired to <a class="xref" href="OmiyaGames.Audio.AudioLayer.Spatial.html#OmiyaGames_Audio_AudioLayer_Spatial_DefaultUiGroup">DefaultUiGroup</a>
+or <a class="xref" href="OmiyaGames.Audio.AudioLayer.SubLayer.html#OmiyaGames_Audio_AudioLayer_SubLayer_DefaultGroup">DefaultGroup</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -414,9 +455,147 @@ in the middle of setting up, or is already setup.</p>
   </h3>
   
   
+  <a id="OmiyaGames_Audio_AudioManager_CalculateClipLengthSeconds_" data-uid="OmiyaGames.Audio.AudioManager.CalculateClipLengthSeconds*"></a>
+  <h4 id="OmiyaGames_Audio_AudioManager_CalculateClipLengthSeconds_AudioClip_" data-uid="OmiyaGames.Audio.AudioManager.CalculateClipLengthSeconds(AudioClip)">CalculateClipLengthSeconds(AudioClip)</h4>
+  <div class="markdown level1 summary"><p>Calculates how long an <see cref="!:AudioClip"></see> is,
+in seconds.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double CalculateClipLengthSeconds(AudioClip clip)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">AudioClip</span></td>
+        <td><span class="parametername">clip</span></td>
+        <td><p>Clip to calculate the duration of.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.double">Double</a></td>
+        <td><p>How long <code data-dev-comment-type="paramref" class="paramref">clip</code> is, in seconds.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.argumentnullexception">ArgumentNullException</a></td>
+        <td><p>If <code data-dev-comment-type="paramref" class="paramref">clip</code> is <span class="xref">null</span>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OmiyaGames_Audio_AudioManager_CalculateTimeSample_" data-uid="OmiyaGames.Audio.AudioManager.CalculateTimeSample*"></a>
+  <h4 id="OmiyaGames_Audio_AudioManager_CalculateTimeSample_AudioClip_System_Double_" data-uid="OmiyaGames.Audio.AudioManager.CalculateTimeSample(AudioClip,System.Double)">CalculateTimeSample(AudioClip, Double)</h4>
+  <div class="markdown level1 summary"><p>Calculates which <seealso cref="!:AudioSource.timeSamples"></seealso>
+a time stamp falls on <see cref="!:AudioClip"></see>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int CalculateTimeSample(AudioClip clip, double timeStamp)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">AudioClip</span></td>
+        <td><span class="parametername">clip</span></td>
+        <td><p>Clip to process.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.double">Double</a></td>
+        <td><span class="parametername">timeStamp</span></td>
+        <td><p>The timestamp on the <code data-dev-comment-type="paramref" class="paramref">clip</code>,
+in seconds.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><p>The time sample <code data-dev-comment-type="paramref" class="paramref">timeStamp</code> falls in.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.argumentnullexception">ArgumentNullException</a></td>
+        <td><p>If <code data-dev-comment-type="paramref" class="paramref">clip</code> is <span class="xref">null</span></p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.argumentoutofrangeexception">ArgumentOutOfRangeException</a></td>
+        <td><p>If <code data-dev-comment-type="paramref" class="paramref">timeStamp</code> is negative or larger
+than the length of <code data-dev-comment-type="paramref" class="paramref">clip</code>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
   <a id="OmiyaGames_Audio_AudioManager_ConvertPercentToVolumeDb_" data-uid="OmiyaGames.Audio.AudioManager.ConvertPercentToVolumeDb*"></a>
   <h4 id="OmiyaGames_Audio_AudioManager_ConvertPercentToVolumeDb_System_Single_" data-uid="OmiyaGames.Audio.AudioManager.ConvertPercentToVolumeDb(System.Single)">ConvertPercentToVolumeDb(Single)</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>Converts a fraction between <code>0</code> and <code>1</code>
+to decibels.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -436,7 +615,8 @@ in the middle of setting up, or is already setup.</p>
       <tr>
         <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.single">Single</a></td>
         <td><span class="parametername">percent</span></td>
-        <td></td>
+        <td><p>The fraction between <code>0</code> and <code>1</code>.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -451,7 +631,8 @@ in the middle of setting up, or is already setup.</p>
     <tbody>
       <tr>
         <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.single">Single</a></td>
-        <td></td>
+        <td><p>Equivalent decibel value.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -459,7 +640,7 @@ in the middle of setting up, or is already setup.</p>
   
   <a id="OmiyaGames_Audio_AudioManager_Setup_" data-uid="OmiyaGames.Audio.AudioManager.Setup*"></a>
   <h4 id="OmiyaGames_Audio_AudioManager_Setup_System_Boolean_" data-uid="OmiyaGames.Audio.AudioManager.Setup(System.Boolean)">Setup(Boolean)</h4>
-  <div class="markdown level1 summary"><p>A coroutine to setup this manager.</p>
+  <div class="markdown level1 summary"><p>Sets up this manager as a coroutine.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -479,7 +660,10 @@ in the middle of setting up, or is already setup.</p>
       <tr>
         <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
         <td><span class="parametername">forceSetup</span></td>
-        <td></td>
+        <td><p>If set to <span class="xref">true</span>, forces setting up this
+manager from scratch.  Otherwise, checks whether the manager
+has been setup or not; if not, runs the setup process.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -494,10 +678,15 @@ in the middle of setting up, or is already setup.</p>
     <tbody>
       <tr>
         <td><span class="xref">IEnumerator</span></td>
-        <td></td>
+        <td><p>Coroutine to setup this manager.</p>
+</td>
       </tr>
     </tbody>
   </table>
+  <h5 id="OmiyaGames_Audio_AudioManager_Setup_System_Boolean__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Always, <em>always</em> call this method first before using
+this manager.  It is OK to call this method multiple time.</p>
+</div>
 </article>
           </div>
           

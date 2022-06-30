@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class AudioSettingsProvider
+    <title>Class PlaybackBehavior
    | Omiya Games - Audio documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class AudioSettingsProvider
+    <meta name="title" content="Class PlaybackBehavior
    | Omiya Games - Audio documentation ">
     <meta name="generator" content="docfx 2.59.2.0">
     
@@ -78,28 +78,29 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="OmiyaGames.Audio.Editor.AudioSettingsProvider">
+            <article class="content wrap" id="_content" data-uid="OmiyaGames.Audio.PlaybackBehavior">
   
   
-  <h1 id="OmiyaGames_Audio_Editor_AudioSettingsProvider" data-uid="OmiyaGames.Audio.Editor.AudioSettingsProvider" class="text-break">Class AudioSettingsProvider
+  <h1 id="OmiyaGames_Audio_PlaybackBehavior" data-uid="OmiyaGames.Audio.PlaybackBehavior" class="text-break">Class PlaybackBehavior
   </h1>
-  <div class="markdown level0 summary"><p>Editor for <a class="xref" href="OmiyaGames.Audio.AudioSettings.html">AudioSettings</a>.
-Appears under the Project Settings window.</p>
+  <div class="markdown level0 summary"><p>Helper serialized class to display in Unity inspector. Generates
+details for fade-ins and fade-outs.</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
-    <div class="level1"><span class="xref">AudioSettingsProvider</span></div>
+    <div class="level1"><span class="xref">PlaybackBehavior</span></div>
   </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="OmiyaGames.Audio.Editor.html">OmiyaGames.Audio.Editor</a></h6>
+  <h6><strong>Namespace</strong>: <a class="xref" href="OmiyaGames.Audio.html">OmiyaGames.Audio</a></h6>
   <h6><strong>Assembly</strong>: cs.temp.dll.dll</h6>
-  <h5 id="OmiyaGames_Audio_Editor_AudioSettingsProvider_syntax">Syntax</h5>
+  <h5 id="OmiyaGames_Audio_PlaybackBehavior_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class AudioSettingsProvider : BaseSettingsEditor&lt;AudioSettings&gt;</code></pre>
+    <pre><code class="lang-csharp hljs">[Serializable]
+public class PlaybackBehavior</code></pre>
   </div>
-  <h5 id="OmiyaGames_Audio_Editor_AudioSettingsProvider_remarks"><strong>Remarks</strong></h5>
-  <div class="markdown level0 remarks"><p><copyright file="AudioSettingsProvider.cs" company="Omiya Games">
+  <h5 id="OmiyaGames_Audio_PlaybackBehavior_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p><copyright file="PlaybackBehavior.cs" company="Omiya Games">
 The MIT License (MIT)<p>
 <p>Copyright (c) 2022 Omiya Games</p>
 <p>Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -119,23 +120,23 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 </copyright>
 <table><thead><tr><th>Revision</th><th>Description</th></tr></thead><tbody><tr><td>
-<strong>Version:</strong> 0.1.0-exp.1<br>
-<strong>Date:</strong> 2/16/2022<br>
+<strong>Version:</strong> 1.0.0<br>
+<strong>Date:</strong> 6/23/2022<br>
 <strong>Author:</strong> Taro Omiya
-</td><td>Initial verison.</td></tr></tbody></table></p>
+</td><td>Initial draft.</td></tr></tbody></table></p>
 </div>
   <h3 id="constructors">Constructors
   </h3>
   
   
-  <a id="OmiyaGames_Audio_Editor_AudioSettingsProvider__ctor_" data-uid="OmiyaGames.Audio.Editor.AudioSettingsProvider.#ctor*"></a>
-  <h4 id="OmiyaGames_Audio_Editor_AudioSettingsProvider__ctor_System_String_IEnumerable_System_String__" data-uid="OmiyaGames.Audio.Editor.AudioSettingsProvider.#ctor(System.String,IEnumerable{System.String})">AudioSettingsProvider(String, IEnumerable&lt;String&gt;)</h4>
-  <div class="markdown level1 summary"><p>Constructs a project-scoped <see cref="!:SettingsProvider"></see>.</p>
+  <a id="OmiyaGames_Audio_PlaybackBehavior__ctor_" data-uid="OmiyaGames.Audio.PlaybackBehavior.#ctor*"></a>
+  <h4 id="OmiyaGames_Audio_PlaybackBehavior__ctor_OmiyaGames_Audio_PlaybackBehavior_FadeBehavior_System_Double_System_Boolean_" data-uid="OmiyaGames.Audio.PlaybackBehavior.#ctor(OmiyaGames.Audio.PlaybackBehavior.FadeBehavior,System.Double,System.Boolean)">PlaybackBehavior(PlaybackBehavior.FadeBehavior, Double, Boolean)</h4>
+  <div class="markdown level1 summary"><p>Constructs a new instance with default arguments.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public AudioSettingsProvider(string path, IEnumerable&lt;string&gt; keywords)</code></pre>
+    <pre><code class="lang-csharp hljs">public PlaybackBehavior(PlaybackBehavior.FadeBehavior behavior = PlaybackBehavior.FadeBehavior.DoNothing, double fadeDurationSeconds = 0.5, bool alwaysRestart = false)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -148,13 +149,47 @@ THE SOFTWARE.
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
-        <td><span class="parametername">path</span></td>
-        <td></td>
+        <td><a class="xref" href="OmiyaGames.Audio.PlaybackBehavior.FadeBehavior.html">PlaybackBehavior.FadeBehavior</a></td>
+        <td><span class="parametername">behavior</span></td>
+        <td><p>Sets default <a class="xref" href="OmiyaGames.Audio.PlaybackBehavior.html#OmiyaGames_Audio_PlaybackBehavior_Behavior">Behavior</a>.</p>
+</td>
       </tr>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a>&gt;</td>
-        <td><span class="parametername">keywords</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.double">Double</a></td>
+        <td><span class="parametername">fadeDurationSeconds</span></td>
+        <td><p>Sets default <a class="xref" href="OmiyaGames.Audio.PlaybackBehavior.html#OmiyaGames_Audio_PlaybackBehavior_FadeDurationSeconds">FadeDurationSeconds</a>.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><span class="parametername">alwaysRestart</span></td>
+        <td><p>Sets default <a class="xref" href="OmiyaGames.Audio.PlaybackBehavior.html#OmiyaGames_Audio_PlaybackBehavior_AlwaysRestart">AlwaysRestart</a>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="fields">Fields
+  </h3>
+  
+  
+  <h4 id="OmiyaGames_Audio_PlaybackBehavior_DEFAULT_FADE_DURATION" data-uid="OmiyaGames.Audio.PlaybackBehavior.DEFAULT_FADE_DURATION">DEFAULT_FADE_DURATION</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public const float DEFAULT_FADE_DURATION = 0.5F</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.single">Single</a></td>
         <td></td>
       </tr>
     </tbody>
@@ -163,191 +198,136 @@ THE SOFTWARE.
   </h3>
   
   
-  <a id="OmiyaGames_Audio_Editor_AudioSettingsProvider_AddressableGroupName_" data-uid="OmiyaGames.Audio.Editor.AudioSettingsProvider.AddressableGroupName*"></a>
-  <h4 id="OmiyaGames_Audio_Editor_AudioSettingsProvider_AddressableGroupName" data-uid="OmiyaGames.Audio.Editor.AudioSettingsProvider.AddressableGroupName">AddressableGroupName</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public override string AddressableGroupName { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <a id="OmiyaGames_Audio_Editor_AudioSettingsProvider_AddressableName_" data-uid="OmiyaGames.Audio.Editor.AudioSettingsProvider.AddressableName*"></a>
-  <h4 id="OmiyaGames_Audio_Editor_AudioSettingsProvider_AddressableName" data-uid="OmiyaGames.Audio.Editor.AudioSettingsProvider.AddressableName">AddressableName</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public override string AddressableName { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <a id="OmiyaGames_Audio_Editor_AudioSettingsProvider_ConfigName_" data-uid="OmiyaGames.Audio.Editor.AudioSettingsProvider.ConfigName*"></a>
-  <h4 id="OmiyaGames_Audio_Editor_AudioSettingsProvider_ConfigName" data-uid="OmiyaGames.Audio.Editor.AudioSettingsProvider.ConfigName">ConfigName</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public override string ConfigName { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <a id="OmiyaGames_Audio_Editor_AudioSettingsProvider_DefaultSettingsFileName_" data-uid="OmiyaGames.Audio.Editor.AudioSettingsProvider.DefaultSettingsFileName*"></a>
-  <h4 id="OmiyaGames_Audio_Editor_AudioSettingsProvider_DefaultSettingsFileName" data-uid="OmiyaGames.Audio.Editor.AudioSettingsProvider.DefaultSettingsFileName">DefaultSettingsFileName</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public override string DefaultSettingsFileName { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <a id="OmiyaGames_Audio_Editor_AudioSettingsProvider_HeaderText_" data-uid="OmiyaGames.Audio.Editor.AudioSettingsProvider.HeaderText*"></a>
-  <h4 id="OmiyaGames_Audio_Editor_AudioSettingsProvider_HeaderText" data-uid="OmiyaGames.Audio.Editor.AudioSettingsProvider.HeaderText">HeaderText</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public override string HeaderText { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <a id="OmiyaGames_Audio_Editor_AudioSettingsProvider_HelpUrl_" data-uid="OmiyaGames.Audio.Editor.AudioSettingsProvider.HelpUrl*"></a>
-  <h4 id="OmiyaGames_Audio_Editor_AudioSettingsProvider_HelpUrl" data-uid="OmiyaGames.Audio.Editor.AudioSettingsProvider.HelpUrl">HelpUrl</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public override string HelpUrl { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <a id="OmiyaGames_Audio_Editor_AudioSettingsProvider_UxmlPath_" data-uid="OmiyaGames.Audio.Editor.AudioSettingsProvider.UxmlPath*"></a>
-  <h4 id="OmiyaGames_Audio_Editor_AudioSettingsProvider_UxmlPath" data-uid="OmiyaGames.Audio.Editor.AudioSettingsProvider.UxmlPath">UxmlPath</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public override string UxmlPath { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="methods">Methods
-  </h3>
-  
-  
-  <a id="OmiyaGames_Audio_Editor_AudioSettingsProvider_CreateSettingsProvider_" data-uid="OmiyaGames.Audio.Editor.AudioSettingsProvider.CreateSettingsProvider*"></a>
-  <h4 id="OmiyaGames_Audio_Editor_AudioSettingsProvider_CreateSettingsProvider" data-uid="OmiyaGames.Audio.Editor.AudioSettingsProvider.CreateSettingsProvider">CreateSettingsProvider()</h4>
-  <div class="markdown level1 summary"><p>Registers this <see cref="!:SettingsProvider"></see>.</p>
+  <a id="OmiyaGames_Audio_PlaybackBehavior_AlwaysRestart_" data-uid="OmiyaGames.Audio.PlaybackBehavior.AlwaysRestart*"></a>
+  <h4 id="OmiyaGames_Audio_PlaybackBehavior_AlwaysRestart" data-uid="OmiyaGames.Audio.PlaybackBehavior.AlwaysRestart">AlwaysRestart</h4>
+  <div class="markdown level1 summary"><p>If <span class="xref">true</span>, restarts playing
+<a class="xref" href="OmiyaGames.Audio.PlaybackBehavior.html#OmiyaGames_Audio_PlaybackBehavior_AudioFile">AudioFile</a> even if it&apos;s already
+playing in the background.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static SettingsProvider CreateSettingsProvider()</code></pre>
+    <pre><code class="lang-csharp hljs">public bool AlwaysRestart { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="OmiyaGames_Audio_PlaybackBehavior_AlwaysRestart_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This property is set in the Unity Inspector.</p>
+</div>
+  
+  
+  <a id="OmiyaGames_Audio_PlaybackBehavior_AudioFile_" data-uid="OmiyaGames.Audio.PlaybackBehavior.AudioFile*"></a>
+  <h4 id="OmiyaGames_Audio_PlaybackBehavior_AudioFile" data-uid="OmiyaGames.Audio.PlaybackBehavior.AudioFile">AudioFile</h4>
+  <div class="markdown level1 summary"><p>Gets the audio to fade in.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public AssetRefSerialized&lt;BackgroundAudio&gt; AudioFile { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.AssetRefSerialized-1.html">AssetRefSerialized</a>&lt;<a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="OmiyaGames_Audio_PlaybackBehavior_AudioFile_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This property is set in the Unity Inspector.</p>
+</div>
+  
+  
+  <a id="OmiyaGames_Audio_PlaybackBehavior_Behavior_" data-uid="OmiyaGames.Audio.PlaybackBehavior.Behavior*"></a>
+  <h4 id="OmiyaGames_Audio_PlaybackBehavior_Behavior" data-uid="OmiyaGames.Audio.PlaybackBehavior.Behavior">Behavior</h4>
+  <div class="markdown level1 summary"><p>Gets the action to take.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PlaybackBehavior.FadeBehavior Behavior { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.PlaybackBehavior.FadeBehavior.html">PlaybackBehavior.FadeBehavior</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="OmiyaGames_Audio_PlaybackBehavior_Behavior_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This property is set in the Unity Inspector.</p>
+</div>
+  
+  
+  <a id="OmiyaGames_Audio_PlaybackBehavior_FadeDurationSeconds_" data-uid="OmiyaGames.Audio.PlaybackBehavior.FadeDurationSeconds*"></a>
+  <h4 id="OmiyaGames_Audio_PlaybackBehavior_FadeDurationSeconds" data-uid="OmiyaGames.Audio.PlaybackBehavior.FadeDurationSeconds">FadeDurationSeconds</h4>
+  <div class="markdown level1 summary"><p>Gets how long to perform the fade-in or fade-out, in seconds.
+Normalized by <seealso cref="!:UnityEngine.AudioSettings.dspTime"></seealso>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double FadeDurationSeconds { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.double">Double</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="OmiyaGames_Audio_PlaybackBehavior_FadeDurationSeconds_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This property is set in the Unity Inspector.</p>
+</div>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="OmiyaGames_Audio_PlaybackBehavior_GetFadeInArgs_" data-uid="OmiyaGames.Audio.PlaybackBehavior.GetFadeInArgs*"></a>
+  <h4 id="OmiyaGames_Audio_PlaybackBehavior_GetFadeInArgs" data-uid="OmiyaGames.Audio.PlaybackBehavior.GetFadeInArgs">GetFadeInArgs()</h4>
+  <div class="markdown level1 summary"><p>Generates a fade-in arguments based on this instance&apos;s
+properties.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public FadeInArgs GetFadeInArgs()</code></pre>
   </div>
   <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -359,20 +339,52 @@ THE SOFTWARE.
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">SettingsProvider</span></td>
-        <td></td>
+        <td><a class="xref" href="OmiyaGames.Audio.FadeInArgs.html">FadeInArgs</a></td>
+        <td><p>The fade-in arguments using
+<a class="xref" href="OmiyaGames.Audio.PlaybackBehavior.html#OmiyaGames_Audio_PlaybackBehavior_FadeDurationSeconds">FadeDurationSeconds</a> and
+<a class="xref" href="OmiyaGames.Audio.PlaybackBehavior.html#OmiyaGames_Audio_PlaybackBehavior_AlwaysRestart">AlwaysRestart</a>.</p>
+</td>
       </tr>
     </tbody>
   </table>
   
   
-  <a id="OmiyaGames_Audio_Editor_AudioSettingsProvider_CustomizeEditSettingsTree_" data-uid="OmiyaGames.Audio.Editor.AudioSettingsProvider.CustomizeEditSettingsTree*"></a>
-  <h4 id="OmiyaGames_Audio_Editor_AudioSettingsProvider_CustomizeEditSettingsTree_VisualElement_SerializedObject_" data-uid="OmiyaGames.Audio.Editor.AudioSettingsProvider.CustomizeEditSettingsTree(VisualElement,SerializedObject)">CustomizeEditSettingsTree(VisualElement, SerializedObject)</h4>
+  <a id="OmiyaGames_Audio_PlaybackBehavior_GetFadeOutArgs_" data-uid="OmiyaGames.Audio.PlaybackBehavior.GetFadeOutArgs*"></a>
+  <h4 id="OmiyaGames_Audio_PlaybackBehavior_GetFadeOutArgs" data-uid="OmiyaGames.Audio.PlaybackBehavior.GetFadeOutArgs">GetFadeOutArgs()</h4>
+  <div class="markdown level1 summary"><p>Generates a fade-out arguments based on this instance&apos;s
+properties.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public FadeOutArgs GetFadeOutArgs()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.FadeOutArgs.html">FadeOutArgs</a></td>
+        <td><p>The fade-in arguments using
+<a class="xref" href="OmiyaGames.Audio.PlaybackBehavior.html#OmiyaGames_Audio_PlaybackBehavior_FadeDurationSeconds">FadeDurationSeconds</a>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OmiyaGames_Audio_PlaybackBehavior_StartCoroutine_" data-uid="OmiyaGames.Audio.PlaybackBehavior.StartCoroutine*"></a>
+  <h4 id="OmiyaGames_Audio_PlaybackBehavior_StartCoroutine_MonoBehaviour_OmiyaGames_Audio_AudioLayer_Background_System_Action_OmiyaGames_Audio_AudioLayer_PlayerArgs__" data-uid="OmiyaGames.Audio.PlaybackBehavior.StartCoroutine(MonoBehaviour,OmiyaGames.Audio.AudioLayer.Background,System.Action{OmiyaGames.Audio.AudioLayer.PlayerArgs})">StartCoroutine(MonoBehaviour, AudioLayer.Background, Action&lt;AudioLayer.PlayerArgs&gt;)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected override VisualElement CustomizeEditSettingsTree(VisualElement returnTree, SerializedObject serializedSettings)</code></pre>
+    <pre><code class="lang-csharp hljs">public Coroutine StartCoroutine(MonoBehaviour script, AudioLayer.Background audioLayer, Action&lt;AudioLayer.PlayerArgs&gt; onFinish = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -385,13 +397,18 @@ THE SOFTWARE.
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">VisualElement</span></td>
-        <td><span class="parametername">returnTree</span></td>
+        <td><span class="xref">MonoBehaviour</span></td>
+        <td><span class="parametername">script</span></td>
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">SerializedObject</span></td>
-        <td><span class="parametername">serializedSettings</span></td>
+        <td><a class="xref" href="OmiyaGames.Audio.AudioLayer.Background.html">AudioLayer.Background</a></td>
+        <td><span class="parametername">audioLayer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;<a class="xref" href="OmiyaGames.Audio.AudioLayer.PlayerArgs.html">AudioLayer.PlayerArgs</a>&gt;</td>
+        <td><span class="parametername">onFinish</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -406,7 +423,7 @@ THE SOFTWARE.
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">VisualElement</span></td>
+        <td><span class="xref">Coroutine</span></td>
         <td></td>
       </tr>
     </tbody>

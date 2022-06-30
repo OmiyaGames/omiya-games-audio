@@ -24,11 +24,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/Global.AudioLayerControls.yml",
+      "source_relative_path": "api/OmiyaGames.Audio.AssetRef-1.yml",
       "output": {
         ".html": {
-          "relative_path": "api/Global.AudioLayerControls.html",
-          "hash": "2ojqArGLA9WZZwZm1zHSkWBTelInu3L6Hip6dRE0rJI="
+          "relative_path": "api/OmiyaGames.Audio.AssetRef-1.html",
+          "hash": "MXUdEy/ZTYhlqbl2FkBkt/fMPwEBS/o0ZBs3xvvwNuc="
         }
       },
       "is_incremental": false,
@@ -36,11 +36,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/Global.EffectsControls.yml",
+      "source_relative_path": "api/OmiyaGames.Audio.AssetRef.State.yml",
       "output": {
         ".html": {
-          "relative_path": "api/Global.EffectsControls.html",
-          "hash": "vSPqnw0HJvQdwbm8K9P6R8iGWjlxz1jeGmuMLf8RW5I="
+          "relative_path": "api/OmiyaGames.Audio.AssetRef.State.html",
+          "hash": "X3UD+/fn6iZ09r8k/YsIH/WzY2jQGXcx+ZJMj6CWgH4="
         }
       },
       "is_incremental": false,
@@ -48,11 +48,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/Global.PlayAudioControl.yml",
+      "source_relative_path": "api/OmiyaGames.Audio.AssetRef.yml",
       "output": {
         ".html": {
-          "relative_path": "api/Global.PlayAudioControl.html",
-          "hash": "Kbc/iQ/abqNw1s295bh7BQ0OV444+suMwP7289HY79k="
+          "relative_path": "api/OmiyaGames.Audio.AssetRef.html",
+          "hash": "WdTMHoRAOuZEvTdSPZShZXzGOGoWnvLEr9IPYKhovqM="
         }
       },
       "is_incremental": false,
@@ -60,11 +60,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/Global.PlaySoundEffect.yml",
+      "source_relative_path": "api/OmiyaGames.Audio.AssetRefSerialized-1.yml",
       "output": {
         ".html": {
-          "relative_path": "api/Global.PlaySoundEffect.html",
-          "hash": "Q/bZnYk+QZIYGLvJYb4ESRjc1tGBM7CazcHjdGkwEiY="
+          "relative_path": "api/OmiyaGames.Audio.AssetRefSerialized-1.html",
+          "hash": "Q/PAuGHlAf5vQEkkhQ4e9ulW1Y1VqJUHLQc0bHfYw+A="
         }
       },
       "is_incremental": false,
@@ -72,35 +72,11 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/Global.Toolbar.yml",
+      "source_relative_path": "api/OmiyaGames.Audio.AudioHistory.yml",
       "output": {
         ".html": {
-          "relative_path": "api/Global.Toolbar.html",
-          "hash": "vsVNLdAI690o9twr1g5jM4N9rfi6d+4CQS5aMvhidAM="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Global.VolumeMenu.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Global.VolumeMenu.html",
-          "hash": "ELdcTGfCa1yIT5f/AoHbAOtJMjhCHki2QjJNELuvscw="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/Global.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/Global.html",
-          "hash": "GKXdR+qR9npWBtS77h8aATJMkXd7eZtcDoRSuI1s3Vg="
+          "relative_path": "api/OmiyaGames.Audio.AudioHistory.html",
+          "hash": "OpIfq9mE5l3cm79+zEtzdw85qLxYdyxgAIpZkZV/oQk="
         }
       },
       "is_incremental": false,
@@ -112,7 +88,31 @@
       "output": {
         ".html": {
           "relative_path": "api/OmiyaGames.Audio.AudioLayer.Background.html",
-          "hash": "ZsTcBUZqkJ5Nemol48xyRrmKHLsOjmH52YDUMLzXyFY="
+          "hash": "1YB/uCACfB4pSekIsE0maU2IX53vvVk74y1RfexCVww="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/OmiyaGames.Audio.AudioLayer.PlayerArgs.PlayerState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/OmiyaGames.Audio.AudioLayer.PlayerArgs.PlayerState.html",
+          "hash": "9JG4SUTyXiyoDcQHDjZq2Pk6LCI+J0Gx9hpLjuZuouU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/OmiyaGames.Audio.AudioLayer.PlayerArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/OmiyaGames.Audio.AudioLayer.PlayerArgs.html",
+          "hash": "HfhwcOP61BS0tnOIuefdvHGCnxiGiky0UKTWjJL/OdY="
         }
       },
       "is_incremental": false,
@@ -124,7 +124,7 @@
       "output": {
         ".html": {
           "relative_path": "api/OmiyaGames.Audio.AudioLayer.Spatial.html",
-          "hash": "pU2JkuF95CTkeKiEuBACGH12wAPW+Sl7q6jZvEUnDJw="
+          "hash": "2LT5+L+atPrpMYkKGCo9roSgKORCbyTBUbBq3J9XG5I="
         }
       },
       "is_incremental": false,
@@ -136,7 +136,7 @@
       "output": {
         ".html": {
           "relative_path": "api/OmiyaGames.Audio.AudioLayer.SubLayer.html",
-          "hash": "3eYDbPdgGvAC6zPxT94cBa6kTEhwu/lKHDjHBsqN9Hg="
+          "hash": "1iC8q1RwmleYwHjmzw69UWNp0V8qWzDxSqsGbKWdEzU="
         }
       },
       "is_incremental": false,
@@ -148,7 +148,7 @@
       "output": {
         ".html": {
           "relative_path": "api/OmiyaGames.Audio.AudioLayer.html",
-          "hash": "zUlFWZx7XyZv4oqE+VdmmaAlh1WWF530/0zODuKKyso="
+          "hash": "+yXXoltOuoQ2vKXr5bdcDqQBYxsK2OuNIE4/BEKdp+k="
         }
       },
       "is_incremental": false,
@@ -160,7 +160,31 @@
       "output": {
         ".html": {
           "relative_path": "api/OmiyaGames.Audio.AudioManager.html",
-          "hash": "PdSh7mxcjAYFNtAhM1tcbvaM0yAhW/sgCLD4wboK+mI="
+          "hash": "GWyunoy7R0vueUZitU7i5mu2BHvAPMm6vxxV9pCzcsA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/OmiyaGames.Audio.AudioPlayerManager.AudioState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/OmiyaGames.Audio.AudioPlayerManager.AudioState.html",
+          "hash": "NNb1zkVLIeUmdcqNG79HkVpRu03rHPSMgKERPeIxadw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/OmiyaGames.Audio.AudioPlayerManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/OmiyaGames.Audio.AudioPlayerManager.html",
+          "hash": "G9U3Mpi2nuVc8y0YLWGf5MHAh8zUr2uv7zF6v9xDxzU="
         }
       },
       "is_incremental": false,
@@ -172,7 +196,91 @@
       "output": {
         ".html": {
           "relative_path": "api/OmiyaGames.Audio.AudioSettings.html",
-          "hash": "gHJC7b2Jjlv5ngEW7Uaj12bq8o1gDR2++Z0pK9DwDnY="
+          "hash": "CnQQlGT/OmnPsbFoQnQ7ZqvUuW1JWyD0rxtHqtL8QPw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/OmiyaGames.Audio.BackgroundAudio.PlayState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/OmiyaGames.Audio.BackgroundAudio.PlayState.html",
+          "hash": "4tYXSqO6frXOypJN08ZzDhQM0vwqPGsP7mi0qT0769k="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/OmiyaGames.Audio.BackgroundAudio.Player.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/OmiyaGames.Audio.BackgroundAudio.Player.html",
+          "hash": "iKTZt4j+vWPBtvUZKSbCOmR69pDkzEpnLBs1dLcKMhs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/OmiyaGames.Audio.BackgroundAudio.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/OmiyaGames.Audio.BackgroundAudio.html",
+          "hash": "ETCeAlRhm3W8uE5EEIrQh/4cVHFhA9VbsPJnM+VJopg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/OmiyaGames.Audio.ChangeAudioOnStart.Behavior.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/OmiyaGames.Audio.ChangeAudioOnStart.Behavior.html",
+          "hash": "r+zeGRi7khHO7OBDqO+YdGsFqpc3OIqAPjvcY04+4/Y="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/OmiyaGames.Audio.ChangeAudioOnStart.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/OmiyaGames.Audio.ChangeAudioOnStart.html",
+          "hash": "MGv8HDcb0fI+OIlK0qXTO/IzaChRWruDMCHADl7NZKw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/OmiyaGames.Audio.ChangeAudioOnTrigger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/OmiyaGames.Audio.ChangeAudioOnTrigger.html",
+          "hash": "Rt30eIoDqVnGVSeTtVJ2r0FqgQAytROZg2gPqhkoF38="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/OmiyaGames.Audio.Editor.AssetRefSerializedDrawer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/OmiyaGames.Audio.Editor.AssetRefSerializedDrawer.html",
+          "hash": "WqP5cx0O16XEBCspUfOR8NuiVUz4quk3HltTkCtXUkU="
         }
       },
       "is_incremental": false,
@@ -184,7 +292,7 @@
       "output": {
         ".html": {
           "relative_path": "api/OmiyaGames.Audio.Editor.AudioMenuItems.html",
-          "hash": "u7GKM+stCBqQJMch828Rckjh2FmdgRz/aGp8VCSA624="
+          "hash": "T6kIv8JntYAX3GFW7hhsG68lpRblKr1UP5G53LtB2v4="
         }
       },
       "is_incremental": false,
@@ -196,7 +304,7 @@
       "output": {
         ".html": {
           "relative_path": "api/OmiyaGames.Audio.Editor.AudioSettingsBuilder.html",
-          "hash": "A5qapOYeJlZWHzMcDnkYr4DwWxvR0zV/fPJzWm5A1Dg="
+          "hash": "02Ek0pMsVX65EWqSbbOIS2KkZRnfzikFBknBhYoIUN0="
         }
       },
       "is_incremental": false,
@@ -208,7 +316,7 @@
       "output": {
         ".html": {
           "relative_path": "api/OmiyaGames.Audio.Editor.AudioSettingsEditor.html",
-          "hash": "gvvpvJKxn8WtdkfhzNm280zUr1GGUKd/U9yAnuefRjA="
+          "hash": "r/xmcet86llcPEVd9lBMW2eJYBuTiW+DASATsAGqrVY="
         }
       },
       "is_incremental": false,
@@ -220,7 +328,55 @@
       "output": {
         ".html": {
           "relative_path": "api/OmiyaGames.Audio.Editor.AudioSettingsProvider.html",
-          "hash": "t53ebdWJ4xib5W6f29593tAQQBDdqiEMOZFu5TrHyU8="
+          "hash": "lftX4Kd7HcERHQKOYhBk3CijZqYTBMPqZS74homC8rk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/OmiyaGames.Audio.Editor.BackgroundAudioPreview.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/OmiyaGames.Audio.Editor.BackgroundAudioPreview.html",
+          "hash": "X1Qyfi6diW7aXOhItv5bHH5AQ6VXB7xzzSohK/TuY7Y="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/OmiyaGames.Audio.Editor.FadeLayerDrawer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/OmiyaGames.Audio.Editor.FadeLayerDrawer.html",
+          "hash": "s8x3UR5+7od5i8vGcdtrbU1XjO7xciHnBGz1cX1lp2k="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/OmiyaGames.Audio.Editor.PlaybackBehaviorDrawer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/OmiyaGames.Audio.Editor.PlaybackBehaviorDrawer.html",
+          "hash": "7pLUMh7xS6AnblGsW03Rv5ILmqKg5SIa7iVY0jMnmLc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/OmiyaGames.Audio.Editor.SingleLoopingMusicEditor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/OmiyaGames.Audio.Editor.SingleLoopingMusicEditor.html",
+          "hash": "Lv1O/+n20RyoCZ4BI88XLj8A16cnmkBPJFtl0PjCZ4E="
         }
       },
       "is_incremental": false,
@@ -232,7 +388,7 @@
       "output": {
         ".html": {
           "relative_path": "api/OmiyaGames.Audio.Editor.SoundEffectEditor.html",
-          "hash": "BOVv75RJzEmmB+5cx6sE7reNUaxIbUG92CsuBn1RIsM="
+          "hash": "ldSOIlhuUdnbc/WykQKiyu1kZdvas88wt+cKNBzMTRI="
         }
       },
       "is_incremental": false,
@@ -244,7 +400,7 @@
       "output": {
         ".html": {
           "relative_path": "api/OmiyaGames.Audio.Editor.TimeScaleAudioModifiersDrawer.html",
-          "hash": "FgkWeBGOuq9ApJxZJiFTXRhqwJyWPwxEVO/JSeIUJcI="
+          "hash": "v+HRp6AYJc1eXsgFXTkd9P1wGuCDwsqpDydRHrGCBq8="
         }
       },
       "is_incremental": false,
@@ -256,7 +412,103 @@
       "output": {
         ".html": {
           "relative_path": "api/OmiyaGames.Audio.Editor.html",
-          "hash": "qpGSxMypUuHtTefI+cEkg9zfGJ4XobtfmtUEQlo9rJ4="
+          "hash": "gepQCwfVYzte0OasfcNTO/l97b11+Qrldi5Lj9gyYtU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/OmiyaGames.Audio.FadeInArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/OmiyaGames.Audio.FadeInArgs.html",
+          "hash": "qTpbef5vXFgD6kTuIFU7wXndGOiA6LrGnDDm6QePUDA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/OmiyaGames.Audio.FadeOutArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/OmiyaGames.Audio.FadeOutArgs.html",
+          "hash": "H1FBP3pEJqjFqUUlDBQu9R9LC42Rk/qJ8+GukezMDLc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/OmiyaGames.Audio.MixerGroupFader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/OmiyaGames.Audio.MixerGroupFader.html",
+          "hash": "R2yRaA6uM3mLfLwhcQ7B/q2ChB24qSq99q5QBlozpXw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/OmiyaGames.Audio.MixerGroupManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/OmiyaGames.Audio.MixerGroupManager.html",
+          "hash": "NBBoGgp/Dyhvu5S1DCWSdg5ClCo9lOKLBFs4wWDdgQ0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/OmiyaGames.Audio.PlaybackArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/OmiyaGames.Audio.PlaybackArgs.html",
+          "hash": "4Dx6zYpDlCFN6uDAgJjqdsJTJKC4lRZiiLtZE8bCReQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/OmiyaGames.Audio.PlaybackBehavior.FadeBehavior.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/OmiyaGames.Audio.PlaybackBehavior.FadeBehavior.html",
+          "hash": "B7HoE2R1ADrg5vbXmrxVERp+8ac/uN70Gxd1ZOIvqxk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/OmiyaGames.Audio.PlaybackBehavior.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/OmiyaGames.Audio.PlaybackBehavior.html",
+          "hash": "WUfdDp04EENcEnePnGUL/JYDcWghHONYRIWZVjpyc1g="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/OmiyaGames.Audio.SingleLoopingMusic.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/OmiyaGames.Audio.SingleLoopingMusic.html",
+          "hash": "PYMlBWzF3i06ZaPbGFE1Wv0LVhIeJq4KajE0cbz9ka0="
         }
       },
       "is_incremental": false,
@@ -268,7 +520,7 @@
       "output": {
         ".html": {
           "relative_path": "api/OmiyaGames.Audio.SoundEffect.Layer.html",
-          "hash": "1d1sssOwi3BdFbzi5bhiNQsgsRFh9WVU60Of4msnLsI="
+          "hash": "GlDkwT9gnNOHgr2gT3tNl63DLRClGRLyTcRW6x3SSbY="
         }
       },
       "is_incremental": false,
@@ -280,7 +532,7 @@
       "output": {
         ".html": {
           "relative_path": "api/OmiyaGames.Audio.SoundEffect.html",
-          "hash": "I7dNCr2Svyehl4ujM5orVgiKb2QCRLOb0/MsyQUALVA="
+          "hash": "fMVrvqDy4Wx79ZoqooWF3VpSwpuomgxkPWCC3L0BzZY="
         }
       },
       "is_incremental": false,
@@ -292,7 +544,7 @@
       "output": {
         ".html": {
           "relative_path": "api/OmiyaGames.Audio.TimeScaleAudioModifiers.html",
-          "hash": "NKcU0vjPnIsYQD5NyYZor0TeD5mknrLWAHoK1aj5X9g="
+          "hash": "X5F/B4oAn876523HJd6fRhmYV88z7y9NL0ocoM0gmJs="
         }
       },
       "is_incremental": false,
@@ -304,7 +556,7 @@
       "output": {
         ".html": {
           "relative_path": "api/OmiyaGames.Audio.html",
-          "hash": "Rbfb8MnK2b19x7UZhnwAcDG2oujL8/kG0OD0proThEo="
+          "hash": "ufYegkaUAXzwc67O+qKZZ/jcHyK9kcDBYATlnLhyZIQ="
         }
       },
       "is_incremental": false,
@@ -316,7 +568,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "wv/LNYrA9ELx87Qx8qdLOhFFcstyRlM9gK2sacwA4UY="
+          "hash": "ntGTho01OaNX6PlpzvEdJOEN9LUVWvr7Ug6u6itB+AM="
         }
       },
       "is_incremental": false,
@@ -328,7 +580,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "b1ccF9+CaZJSwGpM+pw/UBQh+cZrlYUDTipo5eGqO8U="
+          "hash": "u+NO4So9zywtFNYQSg7p3jeh0ze8eoXWfizYprlm2yM="
         }
       },
       "is_incremental": false,
@@ -340,7 +592,7 @@
       "output": {
         ".html": {
           "relative_path": "manual/audioManager.html",
-          "hash": "/fyd7gTWpcF+a/zgwXKk7mf4/iKIurT0DKk3ijqzU6Q="
+          "hash": "7KJTUS7XGfYa+PPEyEmZ/gRniULXeFNnriSEbt50Fls="
         }
       },
       "is_incremental": false,
@@ -352,7 +604,19 @@
       "output": {
         ".html": {
           "relative_path": "manual/changelog.html",
-          "hash": "LfnnFGXG9cGahoArex1F+LnvrEutYdVj4CGsw77Uzos="
+          "hash": "hT26KJ7LOQFIWhNbDgL1o/XK46aYYzFcYkqCm/wRekE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "manual/loopingMusic.md",
+      "output": {
+        ".html": {
+          "relative_path": "manual/loopingMusic.html",
+          "hash": "bGEv0xWGMw6GCjuEkoXRfEaYbWIluRb/OvGYqW+Z1as="
         }
       },
       "is_incremental": false,
@@ -364,7 +628,7 @@
       "output": {
         ".html": {
           "relative_path": "manual/soundEffect.html",
-          "hash": "ORhle9ThF3JRMah1ZNE2ktroeTXcIQ+esn0Wh1HOZ+I="
+          "hash": "Hp4Y7EJKiQlENfpKVlVSPfpuuiFC5iRSBq2NK1NOJnc="
         }
       },
       "is_incremental": false,
@@ -376,7 +640,7 @@
       "output": {
         ".html": {
           "relative_path": "manual/toc.html",
-          "hash": "U9RIf5Pk3Fa5a1WDzKDJ9StLo5JZDfvSDB/ZE9Bda4k="
+          "hash": "dN+3Bo7VN8yHHxJANlOErtszBMmWdGyUpGFL7k/6iJg="
         }
       },
       "is_incremental": false,
@@ -439,10 +703,32 @@
     },
     {
       "type": "Resource",
+      "source_relative_path": "resources/CreateLoopingMusic.png",
+      "output": {
+        "resource": {
+          "relative_path": "resources/CreateLoopingMusic.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
       "source_relative_path": "resources/CreateSoundEffect.png",
       "output": {
         "resource": {
           "relative_path": "resources/CreateSoundEffect.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "resources/LoopingMusicInspector.png",
+      "output": {
+        "resource": {
+          "relative_path": "resources/LoopingMusicInspector.png"
         }
       },
       "is_incremental": false,
@@ -564,7 +850,7 @@
       "output": {
         ".html": {
           "relative_path": "toc.html",
-          "hash": "R9SMxd4H/rRnoHb+U6m/mm2XjgeMRTgCePiRtZFbC+I="
+          "hash": "VpSjnIq3Qfwk0knekT9Zhs5co987JRlQnImN+vbJv/8="
         }
       },
       "is_incremental": false,
@@ -585,13 +871,13 @@
         "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 4,
+          "total_file_count": 5,
           "skipped_file_count": 0
         },
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 24,
+          "total_file_count": 45,
           "skipped_file_count": 0
         },
         "ResourceDocumentProcessor": {

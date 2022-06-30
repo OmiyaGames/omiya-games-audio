@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class AudioSettings
    | Omiya Games - Audio documentation ">
-    <meta name="generator" content="docfx 2.59.0.0">
+    <meta name="generator" content="docfx 2.59.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -118,20 +118,49 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 </copyright>
 <table><thead><tr><th>Revision</th><th>Description</th></tr></thead><tbody><tr><td>
-<strong>Version:</strong> 1.0.0-pre.1<br>
+<strong>Version:</strong> 0.1.0-exp.1<br>
 <strong>Date:</strong> 2/13/2022<br>
 <strong>Author:</strong> Taro Omiya
-</td><td>
-Initial draft.
-</td></tr></tbody></table></p>
+</td><td>Initial draft.</td></tr><tr><td>
+<strong>Version:</strong> 1.0.0<br>
+<strong>Date:</strong> 6/21/2022<br>
+<strong>Author:</strong> Taro Omiya
+</td><td>Adding documentation.</td></tr></tbody></table></p>
 </div>
+  <h3 id="fields">Fields
+  </h3>
+  
+  
+  <h4 id="OmiyaGames_Audio_AudioSettings_DATA_DIRECTORY" data-uid="OmiyaGames.Audio.AudioSettings.DATA_DIRECTORY">DATA_DIRECTORY</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public const string DATA_DIRECTORY = &quot;Packages/com.omiyagames.audio/Runtime/Data/&quot;</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <h3 id="properties">Properties
   </h3>
   
   
   <a id="OmiyaGames_Audio_AudioSettings_Ambience_" data-uid="OmiyaGames.Audio.AudioSettings.Ambience*"></a>
   <h4 id="OmiyaGames_Audio_AudioSettings_Ambience" data-uid="OmiyaGames.Audio.AudioSettings.Ambience">Ambience</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>The background ambience layer.  Allows playing and managing
+<a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a> clips.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -182,7 +211,8 @@ Initial draft.
   
   <a id="OmiyaGames_Audio_AudioSettings_Main_" data-uid="OmiyaGames.Audio.AudioSettings.Main*"></a>
   <h4 id="OmiyaGames_Audio_AudioSettings_Main" data-uid="OmiyaGames.Audio.AudioSettings.Main">Main</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>The main layer of audio.  This affects the volume and pitch of
+all audio sources wired to any layer in this manager.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -234,7 +264,8 @@ Initial draft.
   
   <a id="OmiyaGames_Audio_AudioSettings_Music_" data-uid="OmiyaGames.Audio.AudioSettings.Music*"></a>
   <h4 id="OmiyaGames_Audio_AudioSettings_Music" data-uid="OmiyaGames.Audio.AudioSettings.Music">Music</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>The background music layer.  Allows playing and managing
+<a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a> clips.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -287,7 +318,8 @@ interprets as mute.</p>
   
   <a id="OmiyaGames_Audio_AudioSettings_PercentToDbCurve_" data-uid="OmiyaGames.Audio.AudioSettings.PercentToDbCurve*"></a>
   <h4 id="OmiyaGames_Audio_AudioSettings_PercentToDbCurve" data-uid="OmiyaGames.Audio.AudioSettings.PercentToDbCurve">PercentToDbCurve</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>The curve used to convert a fraction between <code>0</code> and <code>1</code>
+to decibels.  Used to make it easier to set the mixer volume.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -313,7 +345,9 @@ interprets as mute.</p>
   
   <a id="OmiyaGames_Audio_AudioSettings_SoundEffects_" data-uid="OmiyaGames.Audio.AudioSettings.SoundEffects*"></a>
   <h4 id="OmiyaGames_Audio_AudioSettings_SoundEffects" data-uid="OmiyaGames.Audio.AudioSettings.SoundEffects">SoundEffects</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>The layer dedicated to sound effects.  This affects the volume and pitch of
+any audio sources wired to <a class="xref" href="OmiyaGames.Audio.AudioLayer.Spatial.html#OmiyaGames_Audio_AudioLayer_Spatial_DefaultUiGroup">DefaultUiGroup</a>
+or <a class="xref" href="OmiyaGames.Audio.AudioLayer.SubLayer.html#OmiyaGames_Audio_AudioLayer_SubLayer_DefaultGroup">DefaultGroup</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -339,7 +373,8 @@ interprets as mute.</p>
   
   <a id="OmiyaGames_Audio_AudioSettings_TimeScaleSnapshots_" data-uid="OmiyaGames.Audio.AudioSettings.TimeScaleSnapshots*"></a>
   <h4 id="OmiyaGames_Audio_AudioSettings_TimeScaleSnapshots" data-uid="OmiyaGames.Audio.AudioSettings.TimeScaleSnapshots">TimeScaleSnapshots</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>Settings to map <seealso cref="!:Time.timeScale"></seealso> to
+pitch range and other distortion effects.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -365,7 +400,9 @@ interprets as mute.</p>
   
   <a id="OmiyaGames_Audio_AudioSettings_Voices_" data-uid="OmiyaGames.Audio.AudioSettings.Voices*"></a>
   <h4 id="OmiyaGames_Audio_AudioSettings_Voices" data-uid="OmiyaGames.Audio.AudioSettings.Voices">Voices</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>The layer dedicated to voices.  This affects the volume and pitch of
+any audio sources wired to <a class="xref" href="OmiyaGames.Audio.AudioLayer.Spatial.html#OmiyaGames_Audio_AudioLayer_Spatial_DefaultUiGroup">DefaultUiGroup</a>
+or <a class="xref" href="OmiyaGames.Audio.AudioLayer.SubLayer.html#OmiyaGames_Audio_AudioLayer_SubLayer_DefaultGroup">DefaultGroup</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>

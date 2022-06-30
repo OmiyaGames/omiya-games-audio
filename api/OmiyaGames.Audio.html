@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Namespace OmiyaGames.Audio
    | Omiya Games - Audio documentation ">
-    <meta name="generator" content="docfx 2.59.0.0">
+    <meta name="generator" content="docfx 2.59.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -87,12 +87,26 @@
   <div class="markdown level0 remarks"></div>
     <h3 id="classes">Classes
   </h3>
+      <h4><a class="xref" href="OmiyaGames.Audio.AssetRef.html">AssetRef</a></h4>
+      <section><p>Contains helper enums for <a class="xref" href="OmiyaGames.Audio.AssetRef-1.html">AssetRef&lt;TObject&gt;</a>.</p>
+</section>
+      <h4><a class="xref" href="OmiyaGames.Audio.AssetRefSerialized-1.html">AssetRefSerialized&lt;TObject&gt;</a></h4>
+      <section><p>Helper serialized class to display in Unity inspector. Generates an
+<a class="xref" href="OmiyaGames.Audio.AssetRef-1.html">AssetRef&lt;TObject&gt;</a>.</p>
+</section>
+      <h4><a class="xref" href="OmiyaGames.Audio.AudioHistory.html">AudioHistory</a></h4>
+      <section><p>Retains a history of <a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a>, capped by
+<a class="xref" href="OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_MaxCapacity">MaxCapacity</a>.</p>
+</section>
       <h4><a class="xref" href="OmiyaGames.Audio.AudioLayer.html">AudioLayer</a></h4>
       <section><p>Base info on each audio category.</p>
 </section>
       <h4><a class="xref" href="OmiyaGames.Audio.AudioLayer.Background.html">AudioLayer.Background</a></h4>
       <section><p>Audio category applicable to ones predominately used in the background,
 i.e. music and ambience.</p>
+</section>
+      <h4><a class="xref" href="OmiyaGames.Audio.AudioLayer.PlayerArgs.html">AudioLayer.PlayerArgs</a></h4>
+      <section><p>Event arguments for fading in a player</p>
 </section>
       <h4><a class="xref" href="OmiyaGames.Audio.AudioLayer.Spatial.html">AudioLayer.Spatial</a></h4>
       <section><p>Audio category applicable to ones predominately used in spatial context,
@@ -102,9 +116,61 @@ i.e. sound effects and voices.</p>
       <section><p>A sublayer to <a class="xref" href="OmiyaGames.Audio.AudioLayer.html">AudioLayer</a></p>
 </section>
       <h4><a class="xref" href="OmiyaGames.Audio.AudioManager.html">AudioManager</a></h4>
-      <section></section>
+      <section><p>A manager file that allows adjusting an <see cref="!:AudioMixer"></see>
+from settings.</p>
+</section>
+      <h4><a class="xref" href="OmiyaGames.Audio.AudioPlayerManager.html">AudioPlayerManager</a></h4>
+      <section><p>Handles managing <a class="xref" href="OmiyaGames.Audio.BackgroundAudio.Player.html">BackgroundAudio.Player</a>s, including
+generating and auto-removing unused players.  Generally used like
+a <see cref="!:Dictionary&lt;TKey, TValue>"></see>, where
+<a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a> is mapped to a list of
+<a class="xref" href="OmiyaGames.Audio.BackgroundAudio.Player.html">BackgroundAudio.Player</a>s.</p>
+</section>
       <h4><a class="xref" href="OmiyaGames.Audio.AudioSettings.html">AudioSettings</a></h4>
       <section><p>Scriptable object with settings info.</p>
+</section>
+      <h4><a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a></h4>
+      <section><p>An interface for music, used to generate <seealso cref="!:AudioSource"></seealso>
+playing a clip.</p>
+</section>
+      <h4><a class="xref" href="OmiyaGames.Audio.BackgroundAudio.Player.html">BackgroundAudio.Player</a></h4>
+      <section><p>The <see cref="!:MonoBehaviour"></see> that plays a
+<a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a>.</p>
+</section>
+      <h4><a class="xref" href="OmiyaGames.Audio.ChangeAudioOnStart.html">ChangeAudioOnStart</a></h4>
+      <section><p>Changes the background music on scene start.</p>
+</section>
+      <h4><a class="xref" href="OmiyaGames.Audio.ChangeAudioOnTrigger.html">ChangeAudioOnTrigger</a></h4>
+      <section><p>Changes the background music on collision trigger enter.</p>
+</section>
+      <h4><a class="xref" href="OmiyaGames.Audio.FadeInArgs.html">FadeInArgs</a></h4>
+      <section><p>Provides configuration details to <a class="xref" href="OmiyaGames.Audio.MixerGroupManager.html">MixerGroupManager</a>
+on how to fade in a <a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a>.</p>
+</section>
+      <h4><a class="xref" href="OmiyaGames.Audio.FadeOutArgs.html">FadeOutArgs</a></h4>
+      <section><p>Provides configuration details to <a class="xref" href="OmiyaGames.Audio.MixerGroupManager.html">MixerGroupManager</a>
+on how to fade out a <a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a>.</p>
+</section>
+      <h4><a class="xref" href="OmiyaGames.Audio.MixerGroupFader.html">MixerGroupFader</a></h4>
+      <section><p>Unity inspector class for pairing a
+<seealso cref="!:AudioMixerGroup"></seealso> with a parameter name
+for changing its volume.</p>
+</section>
+      <h4><a class="xref" href="OmiyaGames.Audio.MixerGroupManager.html">MixerGroupManager</a></h4>
+      <section><p>Manager for <seealso cref="!:AudioMixerGroup"></seealso>, used to fade in and out
+various <a class="xref" href="OmiyaGames.Audio.BackgroundAudio.Player.html">BackgroundAudio.Player</a>s.</p>
+</section>
+      <h4><a class="xref" href="OmiyaGames.Audio.PlaybackArgs.html">PlaybackArgs</a></h4>
+      <section><p>Provides configuration details to <a class="xref" href="OmiyaGames.Audio.BackgroundAudio.Player.html">BackgroundAudio.Player</a>
+on how to play a <a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a>.</p>
+</section>
+      <h4><a class="xref" href="OmiyaGames.Audio.PlaybackBehavior.html">PlaybackBehavior</a></h4>
+      <section><p>Helper serialized class to display in Unity inspector. Generates
+details for fade-ins and fade-outs.</p>
+</section>
+      <h4><a class="xref" href="OmiyaGames.Audio.SingleLoopingMusic.html">SingleLoopingMusic</a></h4>
+      <section><p>A <a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a> representing a looping music and
+optionally an intro stinger.</p>
 </section>
       <h4><a class="xref" href="OmiyaGames.Audio.SoundEffect.html">SoundEffect</a></h4>
       <section><p>A script for playing sound effects, with extra options such as clip, pitch,
@@ -113,8 +179,35 @@ and volume mutation. Also allows configuring sound effects&apos; volume.</p>
       <h4><a class="xref" href="OmiyaGames.Audio.TimeScaleAudioModifiers.html">TimeScaleAudioModifiers</a></h4>
       <section><p>Helper struct for params in <a class="xref" href="OmiyaGames.Audio.AudioSettings.html">AudioSettings</a>.</p>
 </section>
+    <h3 id="structs">Structs
+  </h3>
+      <h4><a class="xref" href="OmiyaGames.Audio.AssetRef-1.html">AssetRef&lt;TObject&gt;</a></h4>
+      <section><p>A common wrapper to an asset.  Use this to represent Assets that could
+<em>either</em> be a direct reference to a project asset, or an
+addressable reference.</p>
+</section>
     <h3 id="enums">Enums
   </h3>
+      <h4><a class="xref" href="OmiyaGames.Audio.AssetRef.State.html">AssetRef.State</a></h4>
+      <section><p>Provides the state of <a class="xref" href="OmiyaGames.Audio.AssetRef-1.html">AssetRef&lt;TObject&gt;</a>,
+and whether it&apos;s referencing a project asset or addressable asset.</p>
+</section>
+      <h4><a class="xref" href="OmiyaGames.Audio.AudioLayer.PlayerArgs.PlayerState.html">AudioLayer.PlayerArgs.PlayerState</a></h4>
+      <section><p>TODO</p>
+</section>
+      <h4><a class="xref" href="OmiyaGames.Audio.AudioPlayerManager.AudioState.html">AudioPlayerManager.AudioState</a></h4>
+      <section><p>An equivalent of <a class="xref" href="OmiyaGames.Audio.BackgroundAudio.PlayState.html">BackgroundAudio.PlayState</a>,
+where multiple values can be combined like a flag.</p>
+</section>
+      <h4><a class="xref" href="OmiyaGames.Audio.BackgroundAudio.PlayState.html">BackgroundAudio.PlayState</a></h4>
+      <section><p>The state of <a class="xref" href="OmiyaGames.Audio.BackgroundAudio.Player.html">BackgroundAudio.Player</a>.</p>
+</section>
+      <h4><a class="xref" href="OmiyaGames.Audio.ChangeAudioOnStart.Behavior.html">ChangeAudioOnStart.Behavior</a></h4>
+      <section><p>The behavior at the end of <a class="xref" href="OmiyaGames.Audio.ChangeAudioOnStart.html">ChangeAudioOnStart</a>.</p>
+</section>
+      <h4><a class="xref" href="OmiyaGames.Audio.PlaybackBehavior.FadeBehavior.html">PlaybackBehavior.FadeBehavior</a></h4>
+      <section><p>The action to take.</p>
+</section>
       <h4><a class="xref" href="OmiyaGames.Audio.SoundEffect.Layer.html">SoundEffect.Layer</a></h4>
       <section></section>
 </article>

@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class AudioSettingsEditor
+    <title>Class BackgroundAudioPreview
    | Omiya Games - Audio documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class AudioSettingsEditor
+    <meta name="title" content="Class BackgroundAudioPreview
    | Omiya Games - Audio documentation ">
     <meta name="generator" content="docfx 2.59.2.0">
     
@@ -78,30 +78,29 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="OmiyaGames.Audio.Editor.AudioSettingsEditor">
+            <article class="content wrap" id="_content" data-uid="OmiyaGames.Audio.Editor.BackgroundAudioPreview">
   
   
-  <h1 id="OmiyaGames_Audio_Editor_AudioSettingsEditor" data-uid="OmiyaGames.Audio.Editor.AudioSettingsEditor" class="text-break">Class AudioSettingsEditor
+  <h1 id="OmiyaGames_Audio_Editor_BackgroundAudioPreview" data-uid="OmiyaGames.Audio.Editor.BackgroundAudioPreview" class="text-break">Class BackgroundAudioPreview
   </h1>
-  <div class="markdown level0 summary"><p>Editor for <a class="xref" href="OmiyaGames.Audio.AudioSettings.html">AudioSettings</a>.
-Appears under inspector when selecting the asset.</p>
+  <div class="markdown level0 summary"><p>Helper class to create an audio preview of a player.</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
-    <div class="level1"><span class="xref">AudioSettingsEditor</span></div>
+    <div class="level1"><span class="xref">BackgroundAudioPreview</span></div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="OmiyaGames.Audio.Editor.html">OmiyaGames.Audio.Editor</a></h6>
   <h6><strong>Assembly</strong>: cs.temp.dll.dll</h6>
-  <h5 id="OmiyaGames_Audio_Editor_AudioSettingsEditor_syntax">Syntax</h5>
+  <h5 id="OmiyaGames_Audio_Editor_BackgroundAudioPreview_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class AudioSettingsEditor : SettingsEditor</code></pre>
+    <pre><code class="lang-csharp hljs">public class BackgroundAudioPreview : IDisposable</code></pre>
   </div>
-  <h5 id="OmiyaGames_Audio_Editor_AudioSettingsEditor_remarks"><strong>Remarks</strong></h5>
-  <div class="markdown level0 remarks"><p><copyright file="AudioSettingsEditor.cs" company="Omiya Games">
+  <h5 id="OmiyaGames_Audio_Editor_BackgroundAudioPreview_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p><copyright file="BackgroundAudioPreview.cs" company="Omiya Games">
 The MIT License (MIT)<p>
-<p>Copyright (c) 2022 Omiya Games</p>
+<p>Copyright (c) 2014-2022 Omiya Games</p>
 <p>Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the &quot;Software&quot;), to deal
 in the Software without restriction, including without limitation the rights
@@ -119,22 +118,23 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 </copyright>
 <table><thead><tr><th>Revision</th><th>Description</th></tr></thead><tbody><tr><td>
-<strong>Version:</strong> 0.1.0-exp.1<br>
-<strong>Date:</strong> 2/16/2022<br>
+<strong>Version:</strong> 1.0.0<br>
+<strong>Date:</strong> 6/19/2022<br>
 <strong>Author:</strong> Taro Omiya
-</td><td>Initial version</td></tr></tbody></table></p>
+</td><td>Initial version.</td></tr></tbody></table></p>
 </div>
   <h3 id="properties">Properties
   </h3>
   
   
-  <a id="OmiyaGames_Audio_Editor_AudioSettingsEditor_SidebarDisplayPath_" data-uid="OmiyaGames.Audio.Editor.AudioSettingsEditor.SidebarDisplayPath*"></a>
-  <h4 id="OmiyaGames_Audio_Editor_AudioSettingsEditor_SidebarDisplayPath" data-uid="OmiyaGames.Audio.Editor.AudioSettingsEditor.SidebarDisplayPath">SidebarDisplayPath</h4>
-  <div class="markdown level1 summary"></div>
+  <a id="OmiyaGames_Audio_Editor_BackgroundAudioPreview_IsPlaying_" data-uid="OmiyaGames.Audio.Editor.BackgroundAudioPreview.IsPlaying*"></a>
+  <h4 id="OmiyaGames_Audio_Editor_BackgroundAudioPreview_IsPlaying" data-uid="OmiyaGames.Audio.Editor.BackgroundAudioPreview.IsPlaying">IsPlaying</h4>
+  <div class="markdown level1 summary"><p>Indicates if the preview is playing.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public override string SidebarDisplayPath { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public bool IsPlaying { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -146,20 +146,22 @@ THE SOFTWARE.
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   
   
-  <a id="OmiyaGames_Audio_Editor_AudioSettingsEditor_UxmlPath_" data-uid="OmiyaGames.Audio.Editor.AudioSettingsEditor.UxmlPath*"></a>
-  <h4 id="OmiyaGames_Audio_Editor_AudioSettingsEditor_UxmlPath" data-uid="OmiyaGames.Audio.Editor.AudioSettingsEditor.UxmlPath">UxmlPath</h4>
-  <div class="markdown level1 summary"></div>
+  <a id="OmiyaGames_Audio_Editor_BackgroundAudioPreview_PlayStartTime_" data-uid="OmiyaGames.Audio.Editor.BackgroundAudioPreview.PlayStartTime*"></a>
+  <h4 id="OmiyaGames_Audio_Editor_BackgroundAudioPreview_PlayStartTime" data-uid="OmiyaGames.Audio.Editor.BackgroundAudioPreview.PlayStartTime">PlayStartTime</h4>
+  <div class="markdown level1 summary"><p>The <seealso cref="!:UnityEngine.AudioSettings.dspTime"></seealso>
+this preview started playing</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public override string UxmlPath { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public double PlayStartTime { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -171,11 +173,67 @@ THE SOFTWARE.
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.double">Double</a></td>
         <td></td>
       </tr>
     </tbody>
   </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="OmiyaGames_Audio_Editor_BackgroundAudioPreview_Dispose_" data-uid="OmiyaGames.Audio.Editor.BackgroundAudioPreview.Dispose*"></a>
+  <h4 id="OmiyaGames_Audio_Editor_BackgroundAudioPreview_Dispose" data-uid="OmiyaGames.Audio.Editor.BackgroundAudioPreview.Dispose">Dispose()</h4>
+  <div class="markdown level1 summary"><p>Stops and disposes this preview player
+from the currently-opened Unity scene.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+  </div>
+  <h5 id="OmiyaGames_Audio_Editor_BackgroundAudioPreview_Dispose_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Does nothing if <a class="xref" href="OmiyaGames.Audio.Editor.BackgroundAudioPreview.html#OmiyaGames_Audio_Editor_BackgroundAudioPreview_IsPlaying">IsPlaying</a>
+is <span class="xref">false</span>.</p>
+</div>
+  
+  
+  <a id="OmiyaGames_Audio_Editor_BackgroundAudioPreview_Play_" data-uid="OmiyaGames.Audio.Editor.BackgroundAudioPreview.Play*"></a>
+  <h4 id="OmiyaGames_Audio_Editor_BackgroundAudioPreview_Play_OmiyaGames_Audio_BackgroundAudio_" data-uid="OmiyaGames.Audio.Editor.BackgroundAudioPreview.Play(OmiyaGames.Audio.BackgroundAudio)">Play(BackgroundAudio)</h4>
+  <div class="markdown level1 summary"><p>Creates and starts playing an invisible
+<a class="xref" href="OmiyaGames.Audio.BackgroundAudio.Player.html">BackgroundAudio.Player</a> in the
+currently-opened Unity scene.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Play(BackgroundAudio audioFile)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a></td>
+        <td><span class="parametername">audioFile</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="OmiyaGames_Audio_Editor_BackgroundAudioPreview_Play_OmiyaGames_Audio_BackgroundAudio__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Does nothing if <a class="xref" href="OmiyaGames.Audio.Editor.BackgroundAudioPreview.html#OmiyaGames_Audio_Editor_BackgroundAudioPreview_IsPlaying">IsPlaying</a>
+is <span class="xref">true</span>.</p>
+</div>
+  <h3 id="seealso">See Also</h3>
+  <div class="seealso">
+      <div><a class="xref" href="OmiyaGames.Audio.SingleLoopingMusic.html">SingleLoopingMusic</a></div>
+  </div>
 </article>
           </div>
           

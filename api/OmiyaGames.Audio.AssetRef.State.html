@@ -5,12 +5,12 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class Toolbar
+    <title>Enum AssetRef.State
    | Omiya Games - Audio documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class Toolbar
+    <meta name="title" content="Enum AssetRef.State
    | Omiya Games - Audio documentation ">
-    <meta name="generator" content="docfx 2.59.0.0">
+    <meta name="generator" content="docfx 2.59.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -78,24 +78,63 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="Global.Toolbar">
+            <article class="content wrap" id="_content" data-uid="OmiyaGames.Audio.AssetRef.State">
   
   
-  <h1 id="Global_Toolbar" data-uid="Global.Toolbar" class="text-break">Class Toolbar
+  <h1 id="OmiyaGames_Audio_AssetRef_State" data-uid="OmiyaGames.Audio.AssetRef.State" class="text-break">Enum AssetRef.State
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Provides the state of <a class="xref" href="OmiyaGames.Audio.AssetRef-1.html">AssetRef&lt;TObject&gt;</a>,
+and whether it&apos;s referencing a project asset or addressable asset.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
-  <div class="inheritance">
-    <h5>Inheritance</h5>
-    <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
-    <div class="level1"><span class="xref">Toolbar</span></div>
-  </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="Global.html">Global</a></h6>
+  <h6><strong>Namespace</strong>: <a class="xref" href="OmiyaGames.Audio.html">OmiyaGames.Audio</a></h6>
   <h6><strong>Assembly</strong>: cs.temp.dll.dll</h6>
-  <h5 id="Global_Toolbar_syntax">Syntax</h5>
+  <h5 id="OmiyaGames_Audio_AssetRef_State_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class Toolbar : MonoBehaviour</code></pre>
+    <pre><code class="lang-csharp hljs">public enum State</code></pre>
   </div>
+  <h3 id="fields">Fields
+  </h3>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    <thead>
+    <tbody>
+      <tr>
+        <td id="OmiyaGames_Audio_AssetRef_State_Loading">Loading</td>
+        <td><p>Indicates <a class="xref" href="OmiyaGames.Audio.AssetRef-1.html">AssetRef&lt;TObject&gt;</a> references an addresable
+asset, and is in the middle of loading the asset.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="OmiyaGames_Audio_AssetRef_State_Null">Null</td>
+        <td><p>Indicates <a class="xref" href="OmiyaGames.Audio.AssetRef-1.html">AssetRef&lt;TObject&gt;</a> is <span class="xref">null</span>,
+and doesn&apos;t reference anything.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="OmiyaGames_Audio_AssetRef_State_ProjectAsset">ProjectAsset</td>
+        <td><p>Indicates <a class="xref" href="OmiyaGames.Audio.AssetRef-1.html">AssetRef&lt;TObject&gt;</a> references an asset
+in the Unity project.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="OmiyaGames_Audio_AssetRef_State_Ready">Ready</td>
+        <td><p>Indicates <a class="xref" href="OmiyaGames.Audio.AssetRef-1.html">AssetRef&lt;TObject&gt;</a> references an addresable
+asset, and has the asset loaded and ready to use.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="OmiyaGames_Audio_AssetRef_State_Unloaded">Unloaded</td>
+        <td><p>Indicates <a class="xref" href="OmiyaGames.Audio.AssetRef-1.html">AssetRef&lt;TObject&gt;</a> references an addresable
+asset, and is currently unloaded.</p>
+</td>
+      </tr>
+    </tbody>
+  </thead></thead></table>
 </article>
           </div>
           

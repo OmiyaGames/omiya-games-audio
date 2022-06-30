@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class SoundEffectEditor
+    <title>Class AssetRefSerializedDrawer
    | Omiya Games - Audio documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class SoundEffectEditor
+    <meta name="title" content="Class AssetRefSerializedDrawer
    | Omiya Games - Audio documentation ">
     <meta name="generator" content="docfx 2.59.2.0">
     
@@ -78,36 +78,85 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="OmiyaGames.Audio.Editor.SoundEffectEditor">
+            <article class="content wrap" id="_content" data-uid="OmiyaGames.Audio.Editor.AssetRefSerializedDrawer">
   
   
-  <h1 id="OmiyaGames_Audio_Editor_SoundEffectEditor" data-uid="OmiyaGames.Audio.Editor.SoundEffectEditor" class="text-break">Class SoundEffectEditor
+  <h1 id="OmiyaGames_Audio_Editor_AssetRefSerializedDrawer" data-uid="OmiyaGames.Audio.Editor.AssetRefSerializedDrawer" class="text-break">Class AssetRefSerializedDrawer
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>An editor to make it easier to edit <see cref="!:AssetRefSerialized"></see> fields.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
-    <div class="level1"><span class="xref">SoundEffectEditor</span></div>
+    <div class="level1"><span class="xref">AssetRefSerializedDrawer</span></div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="OmiyaGames.Audio.Editor.html">OmiyaGames.Audio.Editor</a></h6>
   <h6><strong>Assembly</strong>: cs.temp.dll.dll</h6>
-  <h5 id="OmiyaGames_Audio_Editor_SoundEffectEditor_syntax">Syntax</h5>
+  <h5 id="OmiyaGames_Audio_Editor_AssetRefSerializedDrawer_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class SoundEffectEditor : UnityEditor.Editor</code></pre>
+    <pre><code class="lang-csharp hljs">public class AssetRefSerializedDrawer : PropertyDrawer</code></pre>
   </div>
+  <h5 id="OmiyaGames_Audio_Editor_AssetRefSerializedDrawer_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p><copyright file="FadeLayerDrawer.cs" company="Omiya Games">
+The MIT License (MIT)<p>
+<p>Copyright (c) 2022 Omiya Games</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &quot;Software&quot;), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+</copyright>
+<table><thead><tr><th>Revision</th><th>Description</th></tr></thead><tbody><tr><td>
+<strong>Version:</strong> 1.0.0<br>
+<strong>Date:</strong> 6/18/2022<br>
+<strong>Author:</strong> Taro Omiya
+</td><td>Initial version.</td></tr></tbody></table></p>
+</div>
   <h3 id="methods">Methods
   </h3>
   
   
-  <a id="OmiyaGames_Audio_Editor_SoundEffectEditor_CreateInspectorGUI_" data-uid="OmiyaGames.Audio.Editor.SoundEffectEditor.CreateInspectorGUI*"></a>
-  <h4 id="OmiyaGames_Audio_Editor_SoundEffectEditor_CreateInspectorGUI" data-uid="OmiyaGames.Audio.Editor.SoundEffectEditor.CreateInspectorGUI">CreateInspectorGUI()</h4>
+  <a id="OmiyaGames_Audio_Editor_AssetRefSerializedDrawer_GetPropertyHeight_" data-uid="OmiyaGames.Audio.Editor.AssetRefSerializedDrawer.GetPropertyHeight*"></a>
+  <h4 id="OmiyaGames_Audio_Editor_AssetRefSerializedDrawer_GetPropertyHeight_SerializedProperty_GUIContent_" data-uid="OmiyaGames.Audio.Editor.AssetRefSerializedDrawer.GetPropertyHeight(SerializedProperty,GUIContent)">GetPropertyHeight(SerializedProperty, GUIContent)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public override VisualElement CreateInspectorGUI()</code></pre>
+    <pre><code class="lang-csharp hljs">public override float GetPropertyHeight(SerializedProperty property, GUIContent label)</code></pre>
   </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">SerializedProperty</span></td>
+        <td><span class="parametername">property</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">GUIContent</span></td>
+        <td><span class="parametername">label</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
@@ -118,7 +167,44 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">VisualElement</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.single">Single</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OmiyaGames_Audio_Editor_AssetRefSerializedDrawer_OnGUI_" data-uid="OmiyaGames.Audio.Editor.AssetRefSerializedDrawer.OnGUI*"></a>
+  <h4 id="OmiyaGames_Audio_Editor_AssetRefSerializedDrawer_OnGUI_Rect_SerializedProperty_GUIContent_" data-uid="OmiyaGames.Audio.Editor.AssetRefSerializedDrawer.OnGUI(Rect,SerializedProperty,GUIContent)">OnGUI(Rect, SerializedProperty, GUIContent)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Rect</span></td>
+        <td><span class="parametername">position</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">SerializedProperty</span></td>
+        <td><span class="parametername">property</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">GUIContent</span></td>
+        <td><span class="parametername">label</span></td>
         <td></td>
       </tr>
     </tbody>

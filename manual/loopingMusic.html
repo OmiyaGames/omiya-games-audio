@@ -5,12 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Namespace Global
-   | Omiya Games - Audio documentation </title>
+    <title>Looping Music | Omiya Games - Audio documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Namespace Global
-   | Omiya Games - Audio documentation ">
-    <meta name="generator" content="docfx 2.59.0.0">
+    <meta name="title" content="Looping Music | Omiya Games - Audio documentation ">
+    <meta name="generator" content="docfx 2.59.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -78,27 +76,41 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="Global">
-  
-  <h1 id="Global" data-uid="Global" class="text-break">Namespace Global
-  </h1>
-  <div class="markdown level0 summary"></div>
-  <div class="markdown level0 conceptual"></div>
-  <div class="markdown level0 remarks"></div>
-    <h3 id="classes">Classes
-  </h3>
-      <h4><a class="xref" href="Global.AudioLayerControls.html">AudioLayerControls</a></h4>
-      <section></section>
-      <h4><a class="xref" href="Global.EffectsControls.html">EffectsControls</a></h4>
-      <section></section>
-      <h4><a class="xref" href="Global.PlayAudioControl.html">PlayAudioControl</a></h4>
-      <section></section>
-      <h4><a class="xref" href="Global.PlaySoundEffect.html">PlaySoundEffect</a></h4>
-      <section></section>
-      <h4><a class="xref" href="Global.Toolbar.html">Toolbar</a></h4>
-      <section></section>
-      <h4><a class="xref" href="Global.VolumeMenu.html">VolumeMenu</a></h4>
-      <section></section>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="looping-music">Looping Music</h1>
+
+<p>The <code>SingleLoopingMusic</code> asset allows defining a looping music with some extra goodies.  It&#39;s created in the Project dialog through the usual &quot;Create&quot; context menu:</p>
+<p><img src="https://omiyagames.github.io/omiya-games-audio/resources/CreateLoopingMusic.png" alt="Create Looping Music context menu"></p>
+<p>The asset also allows adding an optional intro stinger that&#39;s played before the loop starts, and how long to delay the loop while the intro is playing (by default, set to how long the stinger is:)</p>
+<p><img src="https://omiyagames.github.io/omiya-games-audio/resources/LoopingMusicInspector.png" alt="Looping Music Unity inspector"></p>
+<p>For starters, helper scripts <code>ChangeAudioOnStart.cs</code> and <code>ChangeAudioOnTrigger.cs</code> has been added to this package.  The former allows one to change the background music and/or ambience when the scene first loads in; the latter does the same thing when an object with a specific tag (usually the &quot;Player&quot;) enters a trigger collider.  Both scripts support loading Addressables as well as project files directly.</p>
+<p>For a more custom behavior, one can play the asset on the <code>Music</code> or <code>Ambience</code> layer in the <a href="https://omiyagames.github.io/omiya-games-audio/manual/audioManager.html"><code>AudioManager</code></a>:</p>
+<pre><code class="lang-csharp">using System.Collections;
+using UnityEngine;
+using OmiyaGames.Audio;
+
+public class MusicExample : MonoBehaviour
+{
+    [SerializeField]
+    SingleLoopingMusic testMusic;
+
+    IEnumerator Start()
+    {
+        // Setting up audio manager so the music will play at the right volume
+        yield return AudioManager.Setup();
+
+        // Play the music on music mixer layer
+        yield return StartCoroutine AudioManager.Music.PlayNextCoroutine(testMusic,
+            // The optional FadeInArgs can be added to fade this music in, and the prior music out. 
+            new FadeInArgs()
+            {
+                // Setting the fade duration for half-a-second
+                DurationSeconds = 0.5f
+            }
+        );
+    }
+}
+</code></pre><p>Note that <code>SingleLoopingMusic</code> is an instance of <a href="https://omiyagames.github.io/omiya-games-audio/api/OmiyaGames.Audio.BackgroundAudio.html"><code>BackgroundAudio</code></a>.  To create other similar assets that can be played on <a href="https://omiyagames.github.io/omiya-games-audio/manual/audioManager.html"><code>AudioManager</code></a>, consider extending <a href="https://omiyagames.github.io/omiya-games-audio/api/OmiyaGames.Audio.BackgroundAudio.html"><code>BackgroundAudio</code></a> and <a href="https://omiyagames.github.io/omiya-games-audio/api/OmiyaGames.Audio.BackgroundAudio.Player.html"><code>BackgroundAudio.Player</code></a>.</p>
 </article>
           </div>
           
@@ -106,6 +118,9 @@
             <div class="sideaffix">
               <div class="contribution">
                 <ul class="nav">
+                  <li>
+                    <a href="https://github.com/OmiyaGames/omiya-games-audio/blob/main/Documentation~/manual/loopingMusic.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">

@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class TimeScaleAudioModifiers
    | Omiya Games - Audio documentation ">
-    <meta name="generator" content="docfx 2.59.0.0">
+    <meta name="generator" content="docfx 2.59.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -119,12 +119,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 </copyright>
 <table><thead><tr><th>Revision</th><th>Description</th></tr></thead><tbody><tr><td>
-<strong>Version:</strong> 1.0.0-pre.1<br>
+<strong>Version:</strong> 0.1.0-exp.1<br>
 <strong>Date:</strong> 3/7/2022<br>
 <strong>Author:</strong> Taro Omiya
-</td><td>
-Initial draft.
-</td></tr></tbody></table></p>
+</td><td>Initial draft.</td></tr></tbody></table></p>
 </div>
   <h3 id="properties">Properties
   </h3>
@@ -132,7 +130,8 @@ Initial draft.
   
   <a id="OmiyaGames_Audio_TimeScaleAudioModifiers_DefaultSnapshot_" data-uid="OmiyaGames.Audio.TimeScaleAudioModifiers.DefaultSnapshot*"></a>
   <h4 id="OmiyaGames_Audio_TimeScaleAudioModifiers_DefaultSnapshot" data-uid="OmiyaGames.Audio.TimeScaleAudioModifiers.DefaultSnapshot">DefaultSnapshot</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>The snapshot to <a class="xref" href="OmiyaGames.Audio.TimeScaleAudioModifiers.html#OmiyaGames_Audio_TimeScaleAudioModifiers_Mixer">Mixer</a> that reverts mixer to
+a no-effects, default state.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -154,11 +153,14 @@ Initial draft.
       </tr>
     </tbody>
   </table>
+  <h5 id="OmiyaGames_Audio_TimeScaleAudioModifiers_DefaultSnapshot_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This variable is set in the Unity Project Settings dialog.</p>
+</div>
   
   
   <a id="OmiyaGames_Audio_TimeScaleAudioModifiers_EnableFast_" data-uid="OmiyaGames.Audio.TimeScaleAudioModifiers.EnableFast*"></a>
   <h4 id="OmiyaGames_Audio_TimeScaleAudioModifiers_EnableFast" data-uid="OmiyaGames.Audio.TimeScaleAudioModifiers.EnableFast">EnableFast</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>Enable effects expressed in <a class="xref" href="OmiyaGames.Audio.TimeScaleAudioModifiers.html#OmiyaGames_Audio_TimeScaleAudioModifiers_FastTimeSnapshot">FastTimeSnapshot</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -180,11 +182,14 @@ Initial draft.
       </tr>
     </tbody>
   </table>
+  <h5 id="OmiyaGames_Audio_TimeScaleAudioModifiers_EnableFast_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This variable is set in the Unity Project Settings dialog.</p>
+</div>
   
   
   <a id="OmiyaGames_Audio_TimeScaleAudioModifiers_EnablePause_" data-uid="OmiyaGames.Audio.TimeScaleAudioModifiers.EnablePause*"></a>
   <h4 id="OmiyaGames_Audio_TimeScaleAudioModifiers_EnablePause" data-uid="OmiyaGames.Audio.TimeScaleAudioModifiers.EnablePause">EnablePause</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>Enable effects expressed in <a class="xref" href="OmiyaGames.Audio.TimeScaleAudioModifiers.html#OmiyaGames_Audio_TimeScaleAudioModifiers_PausedSnapshot">PausedSnapshot</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -206,11 +211,14 @@ Initial draft.
       </tr>
     </tbody>
   </table>
+  <h5 id="OmiyaGames_Audio_TimeScaleAudioModifiers_EnablePause_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This variable is set in the Unity Project Settings dialog.</p>
+</div>
   
   
   <a id="OmiyaGames_Audio_TimeScaleAudioModifiers_EnableSlow_" data-uid="OmiyaGames.Audio.TimeScaleAudioModifiers.EnableSlow*"></a>
   <h4 id="OmiyaGames_Audio_TimeScaleAudioModifiers_EnableSlow" data-uid="OmiyaGames.Audio.TimeScaleAudioModifiers.EnableSlow">EnableSlow</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>Enable effects expressed in <a class="xref" href="OmiyaGames.Audio.TimeScaleAudioModifiers.html#OmiyaGames_Audio_TimeScaleAudioModifiers_SlowTimeSnapshot">SlowTimeSnapshot</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -232,11 +240,15 @@ Initial draft.
       </tr>
     </tbody>
   </table>
+  <h5 id="OmiyaGames_Audio_TimeScaleAudioModifiers_EnableSlow_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This variable is set in the Unity Project Settings dialog.</p>
+</div>
   
   
   <a id="OmiyaGames_Audio_TimeScaleAudioModifiers_FastPitchRange_" data-uid="OmiyaGames.Audio.TimeScaleAudioModifiers.FastPitchRange*"></a>
   <h4 id="OmiyaGames_Audio_TimeScaleAudioModifiers_FastPitchRange" data-uid="OmiyaGames.Audio.TimeScaleAudioModifiers.FastPitchRange">FastPitchRange</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>The pitch <a class="xref" href="OmiyaGames.Audio.TimeScaleAudioModifiers.html#OmiyaGames_Audio_TimeScaleAudioModifiers_Mixer">Mixer</a> will be set to based on where
+<see cref="!:Time.timeScale"></see> falls in <a class="xref" href="OmiyaGames.Audio.TimeScaleAudioModifiers.html#OmiyaGames_Audio_TimeScaleAudioModifiers_FastTimeRange">FastTimeRange</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -258,11 +270,21 @@ Initial draft.
       </tr>
     </tbody>
   </table>
+  <h5 id="OmiyaGames_Audio_TimeScaleAudioModifiers_FastPitchRange_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This variable is set in the Unity Project Settings dialog.</p>
+</div>
   
   
   <a id="OmiyaGames_Audio_TimeScaleAudioModifiers_FastTimeRange_" data-uid="OmiyaGames.Audio.TimeScaleAudioModifiers.FastTimeRange*"></a>
   <h4 id="OmiyaGames_Audio_TimeScaleAudioModifiers_FastTimeRange" data-uid="OmiyaGames.Audio.TimeScaleAudioModifiers.FastTimeRange">FastTimeRange</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>
+The range <see cref="!:Time.timeScale"></see> needs to be set to
+cause mixing of <a class="xref" href="OmiyaGames.Audio.TimeScaleAudioModifiers.html#OmiyaGames_Audio_TimeScaleAudioModifiers_DefaultSnapshot">DefaultSnapshot</a> and
+<a class="xref" href="OmiyaGames.Audio.TimeScaleAudioModifiers.html#OmiyaGames_Audio_TimeScaleAudioModifiers_FastTimeSnapshot">FastTimeSnapshot</a>.
+</p><p>
+The <see cref="!:Vector2.x"></see> and <see cref="!:Vector2.y"></see>
+represents minimum and maximum range, respectively.
+</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -284,11 +306,17 @@ Initial draft.
       </tr>
     </tbody>
   </table>
+  <h5 id="OmiyaGames_Audio_TimeScaleAudioModifiers_FastTimeRange_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This variable is set in the Unity Project Settings dialog.</p>
+</div>
   
   
   <a id="OmiyaGames_Audio_TimeScaleAudioModifiers_FastTimeSnapshot_" data-uid="OmiyaGames.Audio.TimeScaleAudioModifiers.FastTimeSnapshot*"></a>
   <h4 id="OmiyaGames_Audio_TimeScaleAudioModifiers_FastTimeSnapshot" data-uid="OmiyaGames.Audio.TimeScaleAudioModifiers.FastTimeSnapshot">FastTimeSnapshot</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>The snapshot to <a class="xref" href="OmiyaGames.Audio.TimeScaleAudioModifiers.html#OmiyaGames_Audio_TimeScaleAudioModifiers_Mixer">Mixer</a> that kicks in when time
+quickens.  This snapshot is mixed with
+<a class="xref" href="OmiyaGames.Audio.TimeScaleAudioModifiers.html#OmiyaGames_Audio_TimeScaleAudioModifiers_DefaultSnapshot">DefaultSnapshot</a> depending on
+<see cref="!:Time.timeScale"></see>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -310,11 +338,14 @@ Initial draft.
       </tr>
     </tbody>
   </table>
+  <h5 id="OmiyaGames_Audio_TimeScaleAudioModifiers_FastTimeSnapshot_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This variable is set in the Unity Project Settings dialog.</p>
+</div>
   
   
   <a id="OmiyaGames_Audio_TimeScaleAudioModifiers_Mixer_" data-uid="OmiyaGames.Audio.TimeScaleAudioModifiers.Mixer*"></a>
   <h4 id="OmiyaGames_Audio_TimeScaleAudioModifiers_Mixer" data-uid="OmiyaGames.Audio.TimeScaleAudioModifiers.Mixer">Mixer</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>The audio mixer that plays the effect.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -336,11 +367,14 @@ Initial draft.
       </tr>
     </tbody>
   </table>
+  <h5 id="OmiyaGames_Audio_TimeScaleAudioModifiers_Mixer_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This variable is set in the Unity Project Settings dialog.</p>
+</div>
   
   
   <a id="OmiyaGames_Audio_TimeScaleAudioModifiers_PausedSnapshot_" data-uid="OmiyaGames.Audio.TimeScaleAudioModifiers.PausedSnapshot*"></a>
   <h4 id="OmiyaGames_Audio_TimeScaleAudioModifiers_PausedSnapshot" data-uid="OmiyaGames.Audio.TimeScaleAudioModifiers.PausedSnapshot">PausedSnapshot</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>The snapshot to <a class="xref" href="OmiyaGames.Audio.TimeScaleAudioModifiers.html#OmiyaGames_Audio_TimeScaleAudioModifiers_Mixer">Mixer</a> that kicks in when user pauses.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -362,11 +396,14 @@ Initial draft.
       </tr>
     </tbody>
   </table>
+  <h5 id="OmiyaGames_Audio_TimeScaleAudioModifiers_PausedSnapshot_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This variable is set in the Unity Project Settings dialog.</p>
+</div>
   
   
   <a id="OmiyaGames_Audio_TimeScaleAudioModifiers_PitchParam_" data-uid="OmiyaGames.Audio.TimeScaleAudioModifiers.PitchParam*"></a>
   <h4 id="OmiyaGames_Audio_TimeScaleAudioModifiers_PitchParam" data-uid="OmiyaGames.Audio.TimeScaleAudioModifiers.PitchParam">PitchParam</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>The parameter name to <a class="xref" href="OmiyaGames.Audio.TimeScaleAudioModifiers.html#OmiyaGames_Audio_TimeScaleAudioModifiers_Mixer">Mixer</a> that changes the pitch.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -388,11 +425,15 @@ Initial draft.
       </tr>
     </tbody>
   </table>
+  <h5 id="OmiyaGames_Audio_TimeScaleAudioModifiers_PitchParam_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This variable is set in the Unity Project Settings dialog.</p>
+</div>
   
   
   <a id="OmiyaGames_Audio_TimeScaleAudioModifiers_SlowPitchRange_" data-uid="OmiyaGames.Audio.TimeScaleAudioModifiers.SlowPitchRange*"></a>
   <h4 id="OmiyaGames_Audio_TimeScaleAudioModifiers_SlowPitchRange" data-uid="OmiyaGames.Audio.TimeScaleAudioModifiers.SlowPitchRange">SlowPitchRange</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>The pitch <a class="xref" href="OmiyaGames.Audio.TimeScaleAudioModifiers.html#OmiyaGames_Audio_TimeScaleAudioModifiers_Mixer">Mixer</a> will be set to based on where
+<see cref="!:Time.timeScale"></see> falls in <a class="xref" href="OmiyaGames.Audio.TimeScaleAudioModifiers.html#OmiyaGames_Audio_TimeScaleAudioModifiers_SlowTimeRange">SlowTimeRange</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -414,11 +455,21 @@ Initial draft.
       </tr>
     </tbody>
   </table>
+  <h5 id="OmiyaGames_Audio_TimeScaleAudioModifiers_SlowPitchRange_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This variable is set in the Unity Project Settings dialog.</p>
+</div>
   
   
   <a id="OmiyaGames_Audio_TimeScaleAudioModifiers_SlowTimeRange_" data-uid="OmiyaGames.Audio.TimeScaleAudioModifiers.SlowTimeRange*"></a>
   <h4 id="OmiyaGames_Audio_TimeScaleAudioModifiers_SlowTimeRange" data-uid="OmiyaGames.Audio.TimeScaleAudioModifiers.SlowTimeRange">SlowTimeRange</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>
+The range <see cref="!:Time.timeScale"></see> needs to be set to
+cause mixing of <a class="xref" href="OmiyaGames.Audio.TimeScaleAudioModifiers.html#OmiyaGames_Audio_TimeScaleAudioModifiers_DefaultSnapshot">DefaultSnapshot</a> and
+<a class="xref" href="OmiyaGames.Audio.TimeScaleAudioModifiers.html#OmiyaGames_Audio_TimeScaleAudioModifiers_SlowTimeSnapshot">SlowTimeSnapshot</a>.
+</p><p>
+The <see cref="!:Vector2.x"></see> and <see cref="!:Vector2.y"></see>
+represents minimum and maximum range, respectively.
+</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -440,11 +491,17 @@ Initial draft.
       </tr>
     </tbody>
   </table>
+  <h5 id="OmiyaGames_Audio_TimeScaleAudioModifiers_SlowTimeRange_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This variable is set in the Unity Project Settings dialog.</p>
+</div>
   
   
   <a id="OmiyaGames_Audio_TimeScaleAudioModifiers_SlowTimeSnapshot_" data-uid="OmiyaGames.Audio.TimeScaleAudioModifiers.SlowTimeSnapshot*"></a>
   <h4 id="OmiyaGames_Audio_TimeScaleAudioModifiers_SlowTimeSnapshot" data-uid="OmiyaGames.Audio.TimeScaleAudioModifiers.SlowTimeSnapshot">SlowTimeSnapshot</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>The snapshot to <a class="xref" href="OmiyaGames.Audio.TimeScaleAudioModifiers.html#OmiyaGames_Audio_TimeScaleAudioModifiers_Mixer">Mixer</a> that kicks in when time
+slows.  This snapshot is mixed with
+<a class="xref" href="OmiyaGames.Audio.TimeScaleAudioModifiers.html#OmiyaGames_Audio_TimeScaleAudioModifiers_DefaultSnapshot">DefaultSnapshot</a> depending on
+<see cref="!:Time.timeScale"></see>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -466,6 +523,9 @@ Initial draft.
       </tr>
     </tbody>
   </table>
+  <h5 id="OmiyaGames_Audio_TimeScaleAudioModifiers_SlowTimeSnapshot_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This variable is set in the Unity Project Settings dialog.</p>
+</div>
 </article>
           </div>
           

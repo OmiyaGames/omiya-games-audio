@@ -8,7 +8,7 @@
     <title>Omiya Games - Audio | Omiya Games - Audio documentation </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Omiya Games - Audio | Omiya Games - Audio documentation ">
-    <meta name="generator" content="docfx 2.59.0.0">
+    <meta name="generator" content="docfx 2.59.2.0">
     
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="stylesheet" href="styles/docfx.vendor.css">
@@ -73,7 +73,7 @@
 <h1 id="omiya-gameshttpswwwomiyagamescom---audio"><a href="https://www.omiyagames.com/">Omiya Games</a> - Audio</h1>
 
 <p><a href="https://openupm.com/packages/com.omiyagames.audio/"><img src="https://img.shields.io/npm/v/com.omiyagames.audio?label=openupm&amp;registry_uri=https://package.openupm.com" alt="openupm"></a> <a href="https://omiyagames.github.io/omiya-games-audio/"><img src="https://github.com/OmiyaGames/omiya-games-audio/workflows/Host%20DocFX%20Documentation/badge.svg" alt="Audio documentation"></a> <a href="https://ko-fi.com/I3I51KS8F"><img src="https://img.shields.io/badge/donate-ko--fi-29abe0.svg?logo=ko-fi" alt="Ko-fi Badge"></a> <a href="/LICENSE.md"><img src="https://img.shields.io/github/license/OmiyaGames/omiya-games-audio" alt="License Badge"></a></p>
-<p><strong>Audio</strong> is an experimental tools package by <a href="https://www.omiyagames.com/">Omiya Games</a>, to eventually provide a number of audio-related tools useful for game development.  As of this writing, this package provides the following tools:</p>
+<p><strong>Audio</strong> is an auditory tools package by <a href="https://www.omiyagames.com/">Omiya Games</a> to provide a number of helper scripts and assets useful for game development.  As of this writing, this package provides the following tools:</p>
 <h2 id="audio-manager">Audio Manager</h2>
 <p>The <code>AudioManager</code> is a script that interfaces with the project&#39;s Audio Mixer.  Its settings are visible in the Project Settings window, like so:</p>
 <p><img src="https://omiyagames.github.io/omiya-games-audio/resources/AudioProjectSettings.png" alt="Project Settings"></p>
@@ -85,101 +85,20 @@
 <li><strong>Ambience</strong> - Affects any ambient sound effects, usually playing in the background.</li>
 <li><strong>Sound Effects</strong> - Affects any other sound effects not covered by above groups.</li>
 </ul>
-<p>An example code will look something like below:</p>
-<pre><code class="lang-csharp">using System.Collections;
-using UnityEngine;
-using OmiyaGames.Audio;
-
-public class VolumeExample : MonoBehaviour
-{
-    // This tool adds a Sound Effect script
-    [SerializeField]
-    SoundEffect testSound;
-
-    IEnumerator Start()
-    {
-        // IMPORTANT! Setting up audio manager is required for adjusting volume and pitch control.
-        // This only needs to be called once throughout the entire game.
-        // It is also safe, though not recommended, to call this function multiple times.
-        yield return AudioManager.Setup();
-
-        // Adjust the volume like so, between 0f and 1f.
-        // Note that this value *does* get saved in PlayerPrefs.
-        // This means the next time user loads the game, and this script calls AudioManager.Setup(),
-        // the VolumePercent will be updated to the value it was set to last time the game was open.
-        AudioManager.Main.VolumePercent = 0.5f;
-
-        // Playing sound is fairly simple
-        testSound.Play();
-        yield return new WaitForSeconds(2f);
-
-        // Adjusting for a different audio grou.
-        // These values are also saved in PlayerPrefs.
-        AudioManager.SoundEffects.VolumePercent = 0.5f;
-        testSound.Play();
-    }
-}
-</code></pre><p>Audio manager also supports pitch-shifting and distortion effects in response to changes made to <code>TimeManager</code>.  These effects utilizes the mixer&#39;s snapshots:</p>
-<p><img src="https://omiyagames.github.io/omiya-games-audio/resources/TimeRelatedEffectsSettings.png" alt="Time-Related Effects Settings"></p>
-<p>A script utilizing these effects will look something like:</p>
-<pre><code class="lang-csharp">using System.Collections;
-using UnityEngine;
-using OmiyaGames.Audio;
-using OmiyaGames.Managers;
-
-public class TimeEffectsExample : MonoBehaviour
-{
-    [SerializeField]
-    SoundEffect testSound;
-
-    IEnumerator Start()
-    {
-        // IMPORTANT! Setting up audio manager is also required for time-related audio effects.
-        yield return AudioManager.Setup();
-
-        // Pause the game to trigger the pause snapshots.
-        TimeManager.IsManuallyPaused = true;
-
-        testSound.Play();
-        yield return new WaitForSecondsRealtime(2f);
-
-        TimeManager.IsManuallyPaused = false;
-
-        // Changing timescale also changes the audio
-        TimeManager.TimeScale = 0.5f;
-        testSound.Play();
-
-        yield return new WaitForSecondsRealtime(2f);
-
-        TimeManager.TimeScale = 1.5f;
-        testSound.Play();
-    }
-}
-</code></pre><h2 id="sound-effect">Sound Effect</h2>
+<p>For more details, check out the <a href="https://omiyagames.github.io/omiya-games-audio/manual/audioManager.html">dedicated manual page here</a>.</p>
+<h2 id="sound-effect">Sound Effect</h2>
 <p>The <code>SoundEffect</code> script interfaces with an audio source to perform common tricks to create more varied sound effects.  It is designed to add features to Unity&#39;s built-in <code>AudioSource</code> component:</p>
 <p><img src="https://omiyagames.github.io/omiya-games-audio/resources/SoundEffectFields.png" alt="Sound Effect Fields"></p>
-<p>Note that an audio clip doesn&#39;t have to be added into the audio source for <code>SoundEffect</code> to work: the script will automatically choose a random clip from the clip variations list and set the audio source&#39;s clip.  That said, if a clip has been added to the attached audio source, that will be added to the clip variations list on script awake, with a default <code>Frequency</code> of one.  Lastly, most adjustments made to the attached audio source -- besides volume and pitch, if <code>Mutate Volume</code> and <code>Mutate Pitch</code> fields are checked, respectively -- <em>will</em> affect the sound played by <code>SoundEffect</code>, including all the overlapping sound effects generated by this script.</p>
-<p>Using the sound effect script in code is pretty simple:</p>
-<pre><code class="lang-csharp">using System.Collections;
-using UnityEngine;
-using OmiyaGames.Audio;
-
-public class TimeEffectsExample : MonoBehaviour
-{
-    [SerializeField]
-    SoundEffect testSound;
-
-    IEnumerator Start()
-    {
-        // Setting up audio manager so the sound effect will play at the right volume
-        yield return AudioManager.Setup();
-
-        // Play a random clip in the clip variations list
-        testSound.Play();
-    }
-}
-</code></pre><p>Also, sound effect can be directly added into the hierarchy via the <code>Create...</code> menu, both in the hierarchy window, and right-click context menu.  This method has the added benefit of setting the audio source&#39;s output to the mixer group set in the Sound Effects settings under Audio Manager&#39;s Project Settings:</p>
+<p>Also, sound effect can be directly added into the hierarchy via the <code>Create...</code> menu, both in the hierarchy window, and right-click context menu.  This method has the added benefit of setting the audio source&#39;s output to the mixer group set in the Sound Effects settings under Audio Manager&#39;s Project Settings:</p>
 <p><img src="https://omiyagames.github.io/omiya-games-audio/resources/CreateSoundEffect.png" alt="Create Sound Effect"></p>
+<p>For more details, check out the <a href="https://omiyagames.github.io/omiya-games-audio/manual/soundEffect.html">dedicated manual page here</a>.</p>
+<h2 id="looping-music">Looping Music</h2>
+<p>The <code>SingleLoopingMusic</code> asset allows defining a looping music with some extra goodies.  It&#39;s created in the Project dialog through the usual &quot;Create&quot; context menu:</p>
+<p><img src="https://omiyagames.github.io/omiya-games-audio/resources/CreateLoopingMusic.png" alt="Create Looping Music context menu"></p>
+<p>The asset also allows adding an optional intro stinger that&#39;s played before the loop starts, and how long to delay the loop while the intro is playing (by default, set to how long the stinger is:)</p>
+<p><img src="https://omiyagames.github.io/omiya-games-audio/resources/LoopingMusicInspector.png" alt="Looping Music Unity inspector"></p>
+<p>Note that <code>SingleLoopingMusic</code> is an instance of <a href="https://omiyagames.github.io/omiya-games-audio/api/OmiyaGames.Audio.BackgroundAudio.html"><code>BackgroundAudio</code></a>.  To create other similar assets that can be played on <a href="https://omiyagames.github.io/omiya-games-audio/manual/audioManager.html"><code>AudioManager</code></a>, consider extending <a href="https://omiyagames.github.io/omiya-games-audio/api/OmiyaGames.Audio.BackgroundAudio.html"><code>BackgroundAudio</code></a> and <a href="https://omiyagames.github.io/omiya-games-audio/api/OmiyaGames.Audio.BackgroundAudio.Player.html"><code>BackgroundAudio.Player</code></a>.</p>
+<p>For more details, check out the <a href="https://omiyagames.github.io/omiya-games-audio/manual/loopingMusic.html">dedicated manual page here</a>.</p>
 <h2 id="install">Install</h2>
 <p>This (we swear, one-time!) setup is a bit of a doozy.</p>
 <ol>
@@ -231,7 +150,7 @@ public class TimeEffectsExample : MonoBehaviour
 <li><p>With the window content drastically changed, scroll to the bottom of the settings window, and click the <code>Add Savers To Saves Settings</code> button.</p>
 <p><img src="https://omiyagames.github.io/omiya-games-audio/resources/AudioProjectSettingsFilled.png" alt="Audio project settings - Filled"></p>
 </li>
-<li><p>(Optional) In this sample, there are a lot of assets starting with the phrase, &quot;<code>Savers -</code>&quot;.  These files contains the default volume and mute settings for each audio category.  It&#39;s recommended to edit these files&#39; default values to your liking.</p>
+<li><p>(Optional) In this sample, there are a lot of assets under the <code>Savers</code> folder.  These files contains the default volume and mute settings for each audio category.  It&#39;s recommended to edit these files&#39; default values to your liking.</p>
 <p><img src="https://omiyagames.github.io/omiya-games-audio/resources/SaverFiles.png" alt="Saver files"></p>
 </li>
 <li><p>Select <code>File -&gt; Save Project</code> to save all the above settings.</p>

@@ -1,0 +1,586 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class AudioHistory
+   | Omiya Games - Audio documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class AudioHistory
+   | Omiya Games - Audio documentation ">
+    <meta name="generator" content="docfx 2.59.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="OmiyaGames.Audio.AudioHistory">
+  
+  
+  <h1 id="OmiyaGames_Audio_AudioHistory" data-uid="OmiyaGames.Audio.AudioHistory" class="text-break">Class AudioHistory
+  </h1>
+  <div class="markdown level0 summary"><p>Retains a history of <a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a>, capped by
+<a class="xref" href="OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_MaxCapacity">MaxCapacity</a>.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
+    <div class="level1"><span class="xref">AudioHistory</span></div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="OmiyaGames.Audio.html">OmiyaGames.Audio</a></h6>
+  <h6><strong>Assembly</strong>: cs.temp.dll.dll</h6>
+  <h5 id="OmiyaGames_Audio_AudioHistory_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class AudioHistory : IReadOnlyList&lt;AssetRef&lt;BackgroundAudio&gt;&gt;</code></pre>
+  </div>
+  <h5 id="OmiyaGames_Audio_AudioHistory_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p><copyright file="AudioPlayerManager.cs" company="Omiya Games">
+The MIT License (MIT)<p>
+<p>Copyright (c) 2022 Omiya Games</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &quot;Software&quot;), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+</copyright>
+<table><thead><tr><th>Revision</th><th>Description</th></tr></thead><tbody><tr><td>
+<strong>Version:</strong> 1.0.0<br>
+<strong>Date:</strong> 6/17/2022<br>
+<strong>Author:</strong> Taro Omiya
+</td><td>Initial verison.</td></tr></tbody></table></p>
+</div>
+  <h3 id="constructors">Constructors
+  </h3>
+  
+  
+  <a id="OmiyaGames_Audio_AudioHistory__ctor_" data-uid="OmiyaGames.Audio.AudioHistory.#ctor*"></a>
+  <h4 id="OmiyaGames_Audio_AudioHistory__ctor_System_Int32_" data-uid="OmiyaGames.Audio.AudioHistory.#ctor(System.Int32)">AudioHistory(Int32)</h4>
+  <div class="markdown level1 summary"><p>Constructs a new history with a specified capacity.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public AudioHistory(int maxCapacity = 100)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="parametername">maxCapacity</span></td>
+        <td><p>The maximum capacity of the history.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="fields">Fields
+  </h3>
+  
+  
+  <h4 id="OmiyaGames_Audio_AudioHistory_DEFAULT_HISTORY_SIZE" data-uid="OmiyaGames.Audio.AudioHistory.DEFAULT_HISTORY_SIZE">DEFAULT_HISTORY_SIZE</h4>
+  <div class="markdown level1 summary"><p>Default history size.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public const int DEFAULT_HISTORY_SIZE = 100</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  
+  
+  <a id="OmiyaGames_Audio_AudioHistory_Count_" data-uid="OmiyaGames.Audio.AudioHistory.Count*"></a>
+  <h4 id="OmiyaGames_Audio_AudioHistory_Count" data-uid="OmiyaGames.Audio.AudioHistory.Count">Count</h4>
+  <div class="markdown level1 summary"><p>How many entries are currently in the history.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Count { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OmiyaGames_Audio_AudioHistory_Item_" data-uid="OmiyaGames.Audio.AudioHistory.Item*"></a>
+  <h4 id="OmiyaGames_Audio_AudioHistory_Item_System_Int32_" data-uid="OmiyaGames.Audio.AudioHistory.Item(System.Int32)">Item[Int32]</h4>
+  <div class="markdown level1 summary"><p>Gets a specific audio clip, <code data-dev-comment-type="paramref" class="paramref">index</code> place
+from oldest entry in the history.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public AssetRef&lt;BackgroundAudio&gt; this[int index] { get; }</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="parametername">index</span></td>
+        <td><p>Placement from oldest entry, up.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.AssetRef-1.html">AssetRef</a>&lt;<a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a>&gt;</td>
+        <td><p>The <a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a>, <code data-dev-comment-type="paramref" class="paramref">index</code>
+place from oldest entry.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="OmiyaGames_Audio_AudioHistory_Item_System_Int32__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This property&apos;s performance is O(n).  It does attempt to iterate either
+in chronological or reverse order, whichever is faster.  This does make
+getting the newest or oldest entries a O(1) operation.</p>
+</div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.indexoutofrangeexception">IndexOutOfRangeException</a></td>
+        <td><p>If <code data-dev-comment-type="paramref" class="paramref">index</code> is negative or greater or equal to <a class="xref" href="OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_Count">Count</a></p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OmiyaGames_Audio_AudioHistory_MaxCapacity_" data-uid="OmiyaGames.Audio.AudioHistory.MaxCapacity*"></a>
+  <h4 id="OmiyaGames_Audio_AudioHistory_MaxCapacity" data-uid="OmiyaGames.Audio.AudioHistory.MaxCapacity">MaxCapacity</h4>
+  <div class="markdown level1 summary"><p>Gets or sets the maximum capacity of this history.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int MaxCapacity { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OmiyaGames_Audio_AudioHistory_Newest_" data-uid="OmiyaGames.Audio.AudioHistory.Newest*"></a>
+  <h4 id="OmiyaGames_Audio_AudioHistory_Newest" data-uid="OmiyaGames.Audio.AudioHistory.Newest">Newest</h4>
+  <div class="markdown level1 summary"><p>Grabs the newest entry in the history.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public AssetRef&lt;BackgroundAudio&gt; Newest { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.AssetRef-1.html">AssetRef</a>&lt;<a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OmiyaGames_Audio_AudioHistory_Oldest_" data-uid="OmiyaGames.Audio.AudioHistory.Oldest*"></a>
+  <h4 id="OmiyaGames_Audio_AudioHistory_Oldest" data-uid="OmiyaGames.Audio.AudioHistory.Oldest">Oldest</h4>
+  <div class="markdown level1 summary"><p>Grabs the oldest entry in the history.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public AssetRef&lt;BackgroundAudio&gt; Oldest { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.AssetRef-1.html">AssetRef</a>&lt;<a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="OmiyaGames_Audio_AudioHistory_Add_" data-uid="OmiyaGames.Audio.AudioHistory.Add*"></a>
+  <h4 id="OmiyaGames_Audio_AudioHistory_Add_OmiyaGames_Audio_AssetRef_OmiyaGames_Audio_BackgroundAudio___" data-uid="OmiyaGames.Audio.AudioHistory.Add(OmiyaGames.Audio.AssetRef{OmiyaGames.Audio.BackgroundAudio}@)">Add(in AssetRef&lt;BackgroundAudio&gt;)</h4>
+  <div class="markdown level1 summary"><p>Adds an asset to the history as the newest entry.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Add(in AssetRef&lt;BackgroundAudio&gt; asset)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.AssetRef-1.html">AssetRef</a>&lt;<a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a>&gt;</td>
+        <td><span class="parametername">asset</span></td>
+        <td><p>Newest asset to add to the history.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OmiyaGames_Audio_AudioHistory_Clear_" data-uid="OmiyaGames.Audio.AudioHistory.Clear*"></a>
+  <h4 id="OmiyaGames_Audio_AudioHistory_Clear" data-uid="OmiyaGames.Audio.AudioHistory.Clear">Clear()</h4>
+  <div class="markdown level1 summary"><p>Empties the history.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Clear()</code></pre>
+  </div>
+  
+  
+  <a id="OmiyaGames_Audio_AudioHistory_Contains_" data-uid="OmiyaGames.Audio.AudioHistory.Contains*"></a>
+  <h4 id="OmiyaGames_Audio_AudioHistory_Contains_OmiyaGames_Audio_AssetRef_OmiyaGames_Audio_BackgroundAudio___" data-uid="OmiyaGames.Audio.AudioHistory.Contains(OmiyaGames.Audio.AssetRef{OmiyaGames.Audio.BackgroundAudio}@)">Contains(in AssetRef&lt;BackgroundAudio&gt;)</h4>
+  <div class="markdown level1 summary"><p>Indicates if a specific asset is already in the history.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Contains(in AssetRef&lt;BackgroundAudio&gt; asset)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.AssetRef-1.html">AssetRef</a>&lt;<a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a>&gt;</td>
+        <td><span class="parametername">asset</span></td>
+        <td><p>The audio clip to search in the history.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><p><span class="xref">true</span> if asset is in the history;
+<span class="xref">false</span>, otherwise.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OmiyaGames_Audio_AudioHistory_GetEnumerator_" data-uid="OmiyaGames.Audio.AudioHistory.GetEnumerator*"></a>
+  <h4 id="OmiyaGames_Audio_AudioHistory_GetEnumerator" data-uid="OmiyaGames.Audio.AudioHistory.GetEnumerator">GetEnumerator()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IEnumerator&lt;AssetRef&lt;BackgroundAudio&gt;&gt; GetEnumerator()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IEnumerator</span>&lt;<a class="xref" href="OmiyaGames.Audio.AssetRef-1.html">AssetRef</a>&lt;<a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a>&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OmiyaGames_Audio_AudioHistory_GetEnumerator_" data-uid="OmiyaGames.Audio.AudioHistory.GetEnumerator*"></a>
+  <h4 id="OmiyaGames_Audio_AudioHistory_GetEnumerator_System_Boolean_" data-uid="OmiyaGames.Audio.AudioHistory.GetEnumerator(System.Boolean)">GetEnumerator(Boolean)</h4>
+  <div class="markdown level1 summary"><p>Gets an iterator in either chronological or reverse history order.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IEnumerator&lt;AssetRef&lt;BackgroundAudio&gt;&gt; GetEnumerator(bool newestToOldest)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><span class="parametername">newestToOldest</span></td>
+        <td><p>If <span class="xref">true</span>, enumerates the history in reverse order.
+Otherwise, iteraates in the chronological order.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IEnumerator</span>&lt;<a class="xref" href="OmiyaGames.Audio.AssetRef-1.html">AssetRef</a>&lt;<a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a>&gt;&gt;</td>
+        <td><p>Iterator through the whole history.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OmiyaGames_Audio_AudioHistory_RemoveNewest_" data-uid="OmiyaGames.Audio.AudioHistory.RemoveNewest*"></a>
+  <h4 id="OmiyaGames_Audio_AudioHistory_RemoveNewest" data-uid="OmiyaGames.Audio.AudioHistory.RemoveNewest">RemoveNewest()</h4>
+  <div class="markdown level1 summary"><p>Removes the newest entry in the history.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RemoveNewest()</code></pre>
+  </div>
+  <h5 id="OmiyaGames_Audio_AudioHistory_RemoveNewest_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Does nothing if history is empty.</p>
+</div>
+  
+  
+  <a id="OmiyaGames_Audio_AudioHistory_RemoveOldest_" data-uid="OmiyaGames.Audio.AudioHistory.RemoveOldest*"></a>
+  <h4 id="OmiyaGames_Audio_AudioHistory_RemoveOldest" data-uid="OmiyaGames.Audio.AudioHistory.RemoveOldest">RemoveOldest()</h4>
+  <div class="markdown level1 summary"><p>Removes the oldest entry in the history.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RemoveOldest()</code></pre>
+  </div>
+  <h5 id="OmiyaGames_Audio_AudioHistory_RemoveOldest_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Does nothing if history is empty.</p>
+</div>
+  <h3 id="seealso">See Also</h3>
+  <div class="seealso">
+      <div><a class="xref" href="OmiyaGames.Audio.AssetRef-1.html">AssetRef</a>&lt;TObject&gt;</div>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright © 2022 Omiya Games
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

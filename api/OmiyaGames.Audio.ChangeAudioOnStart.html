@@ -5,12 +5,12 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class PlayAudioControl
+    <title>Class ChangeAudioOnStart
    | Omiya Games - Audio documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class PlayAudioControl
+    <meta name="title" content="Class ChangeAudioOnStart
    | Omiya Games - Audio documentation ">
-    <meta name="generator" content="docfx 2.59.0.0">
+    <meta name="generator" content="docfx 2.59.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -78,49 +78,128 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="Global.PlayAudioControl">
+            <article class="content wrap" id="_content" data-uid="OmiyaGames.Audio.ChangeAudioOnStart">
   
   
-  <h1 id="Global_PlayAudioControl" data-uid="Global.PlayAudioControl" class="text-break">Class PlayAudioControl
+  <h1 id="OmiyaGames_Audio_ChangeAudioOnStart" data-uid="OmiyaGames.Audio.ChangeAudioOnStart" class="text-break">Class ChangeAudioOnStart
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Changes the background music on scene start.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
-    <div class="level1"><span class="xref">PlayAudioControl</span></div>
+    <div class="level1"><span class="xref">ChangeAudioOnStart</span></div>
   </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="Global.html">Global</a></h6>
+  <h6><strong>Namespace</strong>: <a class="xref" href="OmiyaGames.Audio.html">OmiyaGames.Audio</a></h6>
   <h6><strong>Assembly</strong>: cs.temp.dll.dll</h6>
-  <h5 id="Global_PlayAudioControl_syntax">Syntax</h5>
+  <h5 id="OmiyaGames_Audio_ChangeAudioOnStart_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class PlayAudioControl : MonoBehaviour</code></pre>
+    <pre><code class="lang-csharp hljs">public class ChangeAudioOnStart : MonoBehaviour</code></pre>
   </div>
+  <h5 id="OmiyaGames_Audio_ChangeAudioOnStart_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p><copyright file="ChangeAudioOnStart.cs" company="Omiya Games">
+The MIT License (MIT)<p>
+<p>Copyright (c) 2022 Omiya Games</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &quot;Software&quot;), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+</copyright>
+<table><thead><tr><th>Revision</th><th>Description</th></tr></thead><tbody><tr><td>
+<strong>Version:</strong> 1.0.0<br>
+<strong>Date:</strong> 4/14/2022<br>
+<strong>Author:</strong> Taro Omiya
+</td><td>Initial verison.</td></tr></tbody></table></p>
+</div>
   <h3 id="methods">Methods
   </h3>
   
   
-  <a id="Global_PlayAudioControl_Setup_" data-uid="Global.PlayAudioControl.Setup*"></a>
-  <h4 id="Global_PlayAudioControl_Setup_AudioLayer_SubLayer_" data-uid="Global.PlayAudioControl.Setup(AudioLayer.SubLayer)">Setup(AudioLayer.SubLayer)</h4>
-  <div class="markdown level1 summary"></div>
+  <a id="OmiyaGames_Audio_ChangeAudioOnStart_Start_" data-uid="OmiyaGames.Audio.ChangeAudioOnStart.Start*"></a>
+  <h4 id="OmiyaGames_Audio_ChangeAudioOnStart_Start" data-uid="OmiyaGames.Audio.ChangeAudioOnStart.Start">Start()</h4>
+  <div class="markdown level1 summary"><p>Sets up the <a class="xref" href="OmiyaGames.Audio.AudioManager.html">AudioManager</a> to play
+<a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a>s for both music and
+ambience to whatever is set in the Unity inspector.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void Setup(AudioLayer.SubLayer layer)</code></pre>
+    <pre><code class="lang-csharp hljs">public virtual IEnumerator Start()</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
+  <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
       <tr>
         <th>Type</th>
-        <th>Name</th>
         <th>Description</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">AudioLayer.SubLayer</span></td>
-        <td><span class="parametername">layer</span></td>
+        <td><span class="xref">IEnumerator</span></td>
+        <td><p>The coroutine for loading everything.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="events">Events
+  </h3>
+  
+  
+  <h4 id="OmiyaGames_Audio_ChangeAudioOnStart_OnAfterAudioChange" data-uid="OmiyaGames.Audio.ChangeAudioOnStart.OnAfterAudioChange">OnAfterAudioChange</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event Action&lt;ChangeAudioOnStart&gt; OnAfterAudioChange</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;<a class="xref" href="OmiyaGames.Audio.ChangeAudioOnStart.html">ChangeAudioOnStart</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="OmiyaGames_Audio_ChangeAudioOnStart_OnBeforeAudioChange" data-uid="OmiyaGames.Audio.ChangeAudioOnStart.OnBeforeAudioChange">OnBeforeAudioChange</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event Action&lt;ChangeAudioOnStart&gt; OnBeforeAudioChange</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;<a class="xref" href="OmiyaGames.Audio.ChangeAudioOnStart.html">ChangeAudioOnStart</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>

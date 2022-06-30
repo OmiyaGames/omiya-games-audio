@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class AudioLayer.SubLayer
+    <title>Class FadeInArgs
    | Omiya Games - Audio documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class AudioLayer.SubLayer
+    <meta name="title" content="Class FadeInArgs
    | Omiya Games - Audio documentation ">
     <meta name="generator" content="docfx 2.59.2.0">
     
@@ -78,71 +78,75 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="OmiyaGames.Audio.AudioLayer.SubLayer">
+            <article class="content wrap" id="_content" data-uid="OmiyaGames.Audio.FadeInArgs">
   
   
-  <h1 id="OmiyaGames_Audio_AudioLayer_SubLayer" data-uid="OmiyaGames.Audio.AudioLayer.SubLayer" class="text-break">Class AudioLayer.SubLayer
+  <h1 id="OmiyaGames_Audio_FadeInArgs" data-uid="OmiyaGames.Audio.FadeInArgs" class="text-break">Class FadeInArgs
   </h1>
-  <div class="markdown level0 summary"><p>A sublayer to <a class="xref" href="OmiyaGames.Audio.AudioLayer.html">AudioLayer</a></p>
+  <div class="markdown level0 summary"><p>Provides configuration details to <a class="xref" href="OmiyaGames.Audio.MixerGroupManager.html">MixerGroupManager</a>
+on how to fade in a <a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a>.</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
-    <div class="level1"><a class="xref" href="OmiyaGames.Audio.AudioLayer.html">AudioLayer</a></div>
-    <div class="level2"><span class="xref">AudioLayer.SubLayer</span></div>
-      <div class="level3"><a class="xref" href="OmiyaGames.Audio.AudioLayer.Background.html">AudioLayer.Background</a></div>
-      <div class="level3"><a class="xref" href="OmiyaGames.Audio.AudioLayer.Spatial.html">AudioLayer.Spatial</a></div>
+    <div class="level1"><a class="xref" href="OmiyaGames.Audio.PlaybackArgs.html">PlaybackArgs</a></div>
+    <div class="level2"><span class="xref">FadeInArgs</span></div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
     <div>
-      <a class="xref" href="OmiyaGames.Audio.AudioLayer.html#OmiyaGames_Audio_AudioLayer_VolumeParam">AudioLayer.VolumeParam</a>
+      <a class="xref" href="OmiyaGames.Audio.PlaybackArgs.html#OmiyaGames_Audio_PlaybackArgs_DelaySeconds">PlaybackArgs.DelaySeconds</a>
     </div>
     <div>
-      <a class="xref" href="OmiyaGames.Audio.AudioLayer.html#OmiyaGames_Audio_AudioLayer_PitchParam">AudioLayer.PitchParam</a>
-    </div>
-    <div>
-      <a class="xref" href="OmiyaGames.Audio.AudioLayer.html#OmiyaGames_Audio_AudioLayer_VolumeSaver">AudioLayer.VolumeSaver</a>
-    </div>
-    <div>
-      <a class="xref" href="OmiyaGames.Audio.AudioLayer.html#OmiyaGames_Audio_AudioLayer_IsMutedSaver">AudioLayer.IsMutedSaver</a>
-    </div>
-    <div>
-      <a class="xref" href="OmiyaGames.Audio.AudioLayer.html#OmiyaGames_Audio_AudioLayer_VolumeDb">AudioLayer.VolumeDb</a>
-    </div>
-    <div>
-      <a class="xref" href="OmiyaGames.Audio.AudioLayer.html#OmiyaGames_Audio_AudioLayer_VolumePercent">AudioLayer.VolumePercent</a>
-    </div>
-    <div>
-      <a class="xref" href="OmiyaGames.Audio.AudioLayer.html#OmiyaGames_Audio_AudioLayer_Pitch">AudioLayer.Pitch</a>
-    </div>
-    <div>
-      <a class="xref" href="OmiyaGames.Audio.AudioLayer.html#OmiyaGames_Audio_AudioLayer_IsMuted">AudioLayer.IsMuted</a>
-    </div>
-    <div>
-      <a class="xref" href="OmiyaGames.Audio.AudioLayer.html#OmiyaGames_Audio_AudioLayer_Dispose">AudioLayer.Dispose()</a>
+      <a class="xref" href="OmiyaGames.Audio.PlaybackArgs.html#OmiyaGames_Audio_PlaybackArgs_SkipForwardToSeconds">PlaybackArgs.SkipForwardToSeconds</a>
     </div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="OmiyaGames.Audio.html">OmiyaGames.Audio</a></h6>
   <h6><strong>Assembly</strong>: cs.temp.dll.dll</h6>
-  <h5 id="OmiyaGames_Audio_AudioLayer_SubLayer_syntax">Syntax</h5>
+  <h5 id="OmiyaGames_Audio_FadeInArgs_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract class SubLayer : AudioLayer</code></pre>
+    <pre><code class="lang-csharp hljs">public class FadeInArgs : PlaybackArgs</code></pre>
   </div>
+  <h5 id="OmiyaGames_Audio_FadeInArgs_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p><copyright file="FadeOutArgs.cs" company="Omiya Games">
+The MIT License (MIT)<p>
+<p>Copyright (c) 2022 Omiya Games</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &quot;Software&quot;), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+</copyright>
+<table><thead><tr><th>Revision</th><th>Description</th></tr></thead><tbody><tr><td>
+<strong>Version:</strong> 1.0.0<br>
+<strong>Date:</strong> 4/18/2022<br>
+<strong>Author:</strong> Taro Omiya
+</td><td>Initial draft.</td></tr></tbody></table></p>
+</div>
   <h3 id="properties">Properties
   </h3>
   
   
-  <a id="OmiyaGames_Audio_AudioLayer_SubLayer_DefaultGroup_" data-uid="OmiyaGames.Audio.AudioLayer.SubLayer.DefaultGroup*"></a>
-  <h4 id="OmiyaGames_Audio_AudioLayer_SubLayer_DefaultGroup" data-uid="OmiyaGames.Audio.AudioLayer.SubLayer.DefaultGroup">DefaultGroup</h4>
-  <div class="markdown level1 summary"><p>The default mixer group to apply to a new instance
-of an audio script created in a scene.</p>
+  <a id="OmiyaGames_Audio_FadeInArgs_DurationSeconds_" data-uid="OmiyaGames.Audio.FadeInArgs.DurationSeconds*"></a>
+  <h4 id="OmiyaGames_Audio_FadeInArgs_DurationSeconds" data-uid="OmiyaGames.Audio.FadeInArgs.DurationSeconds">DurationSeconds</h4>
+  <div class="markdown level1 summary"><p>Duration of fade-in when it begins, in seconds, normalized by DSP scale.
+<seealso cref="!:UnityEngine.AudioSettings.dspTime"></seealso></p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public AudioMixerGroup DefaultGroup { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public double DurationSeconds { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -154,14 +158,54 @@ of an audio script created in a scene.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">AudioMixerGroup</span></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.double">Double</a></td>
         <td></td>
       </tr>
     </tbody>
   </table>
-  <h5 id="OmiyaGames_Audio_AudioLayer_SubLayer_DefaultGroup_remarks">Remarks</h5>
-  <div class="markdown level1 remarks"><p>This value is changed in Unity&apos;s Project Settings dialog.</p>
+  
+  
+  <a id="OmiyaGames_Audio_FadeInArgs_ForceRestart_" data-uid="OmiyaGames.Audio.FadeInArgs.ForceRestart*"></a>
+  <h4 id="OmiyaGames_Audio_FadeInArgs_ForceRestart" data-uid="OmiyaGames.Audio.FadeInArgs.ForceRestart">ForceRestart</h4>
+  <div class="markdown level1 summary"><p>If checked, restart playing this music,
+even if it&apos;s already playing in the background,
+or in the process of fading out.</p>
 </div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool ForceRestart { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="OmiyaGames_Audio_FadeInArgs_FixData_" data-uid="OmiyaGames.Audio.FadeInArgs.FixData*"></a>
+  <h4 id="OmiyaGames_Audio_FadeInArgs_FixData" data-uid="OmiyaGames.Audio.FadeInArgs.FixData">FixData()</h4>
+  <div class="markdown level1 summary"><p>Fixes any invalid property values.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void FixData()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="OmiyaGames.Audio.PlaybackArgs.html#OmiyaGames_Audio_PlaybackArgs_FixData">PlaybackArgs.FixData()</a></div>
 </article>
           </div>
           
