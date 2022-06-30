@@ -18,9 +18,10 @@
             <uie:PropertyField binding-path="ambience" tabindex="18" name="ambience" focusable="true" label="Ambience Layer" />
         </ui:VisualElement>
         <OmiyaGames.Common.Editor.Spacer />
+        <OmiyaGames.Common.Editor.Spacer />
         <ui:VisualElement name="effectsFields">
             <ui:Label text="Audio Effects" display-tooltip-when-elided="false" name="header" enable-rich-text="false" class="header" style="flex-direction: row-reverse;" />
-            <uie:PropertyField binding-path="timeScaleEffects" tabindex="20" name="timeScaleEffects" focusable="true" label="Time-Related Effects" tooltip="Snapshots of AudioMixer for various states related to TimeManager&apos;s state" />
+            <ui:ListView focusable="true" name="timeScaleEffects" tooltip="Snapshots of AudioMixer for various states related to TimeManager&apos;s state" tabindex="30" binding-path="timeScaleEffects" virtualization-method="DynamicHeight" header-title="Time-Related Effects" reorderable="true" show-add-remove-footer="true" reorder-mode="Animated" show-border="true" show-alternating-row-backgrounds="All" show-foldout-header="true" />
         </ui:VisualElement>
         <OmiyaGames.Common.Editor.Spacer />
         <ui:Button text="Add Savers To Saves Settings" display-tooltip-when-elided="true" name="addSaveObjects" tooltip="Adds above saver files into Project Settings." tabindex="19" style="-unity-text-align: middle-center;" />

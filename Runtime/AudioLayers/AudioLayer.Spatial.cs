@@ -37,11 +37,18 @@ namespace OmiyaGames.Audio
 		/// </listheader>
 		/// <item>
 		/// <term>
-		/// <strong>Version:</strong> 1.0.0-pre.1<br/>
+		/// <strong>Version:</strong> 0.1.0-exp.1<br/>
 		/// <strong>Date:</strong> 2/27/2022<br/>
 		/// <strong>Author:</strong> Taro Omiya
 		/// </term>
 		/// <description>Initial draft.</description>
+		/// </item><item>
+		/// <term>
+		/// <strong>Version:</strong> 1.0.0-exp.1<br/>
+		/// <strong>Date:</strong> 6/21/2022<br/>
+		/// <strong>Author:</strong> Taro Omiya
+		/// </term>
+		/// <description>Adding documentation.</description>
 		/// </item>
 		/// </list>
 		/// </remarks>
@@ -57,8 +64,12 @@ namespace OmiyaGames.Audio
 			AudioMixerGroup defaultUiGroup;
 
 			/// <summary>
-			/// TODO
+			/// The default mixer group to apply to a new instance
+			/// of an audio script created on a UI element in a scene.
 			/// </summary>
+			/// <remarks>
+			/// This value is changed in Unity's Project Settings dialog.
+			/// </remarks>
 			public AudioMixerGroup DefaultUiGroup
 			{
 				get => defaultUiGroup;

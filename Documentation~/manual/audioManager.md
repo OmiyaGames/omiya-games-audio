@@ -1,7 +1,5 @@
 # Audio Manager
 
-Note: this manual page is a work-in-progress.
-
 The `AudioManager` is a script that interfaces with the project's Audio Mixer.  Its settings are visible in the Project Settings window, like so:
 
 ![Project Settings](https://omiyagames.github.io/omiya-games-audio/resources/AudioProjectSettings.png)

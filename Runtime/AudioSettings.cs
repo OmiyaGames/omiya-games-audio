@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.Audio;
 using OmiyaGames.Global.Settings;
-using OmiyaGames.Saves;
 
 namespace OmiyaGames.Audio
 {
@@ -37,13 +36,18 @@ namespace OmiyaGames.Audio
 	/// </listheader>
 	/// <item>
 	/// <term>
-	/// <strong>Version:</strong> 1.0.0-pre.1<br/>
+	/// <strong>Version:</strong> 0.1.0-exp.1<br/>
 	/// <strong>Date:</strong> 2/13/2022<br/>
 	/// <strong>Author:</strong> Taro Omiya
 	/// </term>
-	/// <description>
-	/// Initial draft.
-	/// </description>
+	/// <description>Initial draft.</description>
+	/// </item><item>
+	/// <term>
+	/// <strong>Version:</strong> 1.0.0<br/>
+	/// <strong>Date:</strong> 6/21/2022<br/>
+	/// <strong>Author:</strong> Taro Omiya
+	/// </term>
+	/// <description>Adding documentation.</description>
 	/// </item>
 	/// </list>
 	/// </remarks>
@@ -56,6 +60,8 @@ namespace OmiyaGames.Audio
 		// Don't forget to update this property each time there's an upgrade to make!
 		/// <inheritdoc/>
 		public override int CurrentVersion => 0;
+
+		public const string DATA_DIRECTORY = "Packages/com.omiyagames.audio/Runtime/Data/";
 
 		// Note: many of these variable defaults are set in the Reset() method.
 		[SerializeField]
@@ -91,31 +97,40 @@ namespace OmiyaGames.Audio
 		/// </summary>
 		public float MuteVolumeDb => muteVolumeDb;
 		/// <summary>
-		/// TODO
+		/// The curve used to convert a fraction between <c>0</c> and <c>1</c>
+		/// to decibels.  Used to make it easier to set the mixer volume.
 		/// </summary>
 		public AnimationCurve PercentToDbCurve => percentToDbCurve;
 		/// <summary>
-		/// TODO
+		/// The main layer of audio.  This affects the volume and pitch of
+		/// all audio sources wired to any layer in this manager.
 		/// </summary>
 		public AudioLayer Main => main;
 		/// <summary>
-		/// TODO
+		/// The background music layer.  Allows playing and managing
+		/// <see cref="BackgroundAudio"/> clips.
 		/// </summary>
 		public AudioLayer.Background Music => music;
 		/// <summary>
-		/// TODO
+		/// The layer dedicated to sound effects.  This affects the volume and pitch of
+		/// any audio sources wired to <see cref="AudioLayer.Spatial.DefaultUiGroup"/>
+		/// or <see cref="AudioLayer.SubLayer.DefaultGroup"/>.
 		/// </summary>
 		public AudioLayer.Spatial SoundEffects => soundEffects;
 		/// <summary>
-		/// TODO
+		/// The layer dedicated to voices.  This affects the volume and pitch of
+		/// any audio sources wired to <see cref="AudioLayer.Spatial.DefaultUiGroup"/>
+		/// or <see cref="AudioLayer.SubLayer.DefaultGroup"/>.
 		/// </summary>
 		public AudioLayer.Spatial Voices => voices;
 		/// <summary>
-		/// TODO
+		/// The background ambience layer.  Allows playing and managing
+		/// <see cref="BackgroundAudio"/> clips.
 		/// </summary>
 		public AudioLayer.Background Ambience => ambience;
 		/// <summary>
-		/// TODO
+		/// Settings to map <seealso cref="Time.timeScale"/> to
+		/// pitch range and other distortion effects.
 		/// </summary>
 		public TimeScaleAudioModifiers[] TimeScaleSnapshots => timeScaleEffects;
 
@@ -146,7 +161,6 @@ namespace OmiyaGames.Audio
 #if UNITY_EDITOR
 		void Reset()
 		{
-			const string DATA_DIRECTORY = "Packages/com.omiyagames.audio/Runtime/Data/";
 			const string DEFAULT_SETTINGS_PATH = DATA_DIRECTORY + "Audio Settings - Default.asset";
 			const int NUM_KEYFRAMES = 15;
 

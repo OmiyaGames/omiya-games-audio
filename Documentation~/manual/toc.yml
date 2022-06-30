@@ -4,5 +4,7 @@
     href: audioManager.md
   - name: Sound Effect
     href: soundEffect.md
+  - name: Looping Music
+    href: loopingMusic.md
 - name: Change Log
   href: changelog.md

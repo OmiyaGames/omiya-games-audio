@@ -1,6 +1,8 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.AddressableAssets;
 using OmiyaGames.Managers;
 using OmiyaGames.Global;
 using OmiyaGames.Global.Settings;
@@ -9,6 +11,7 @@ using OmiyaGames.Saves;
 namespace OmiyaGames.Audio
 {
 	///-----------------------------------------------------------------------
+	/// <remarks>
 	/// <copyright file="AudioManager.cs" company="Omiya Games">
 	/// The MIT License (MIT)
 	/// 
@@ -39,11 +42,19 @@ namespace OmiyaGames.Audio
 	/// </listheader>
 	/// <item>
 	/// <term>
-	/// <strong>Version:</strong> 1.0.0-pre.1<br/>
+	/// <strong>Version:</strong> 0.1.0-exp.1<br/>
 	/// <strong>Date:</strong> 2/12/2022<br/>
 	/// <strong>Author:</strong> Taro Omiya
 	/// </term>
 	/// <description>Initial verison.</description>
+	/// </item><item>
+	/// <term>
+	/// <strong>Version:</strong> 1.0.0-exp.1<br/>
+	/// <strong>Date:</strong> 6/21/2022<br/>
+	/// <strong>Author:</strong> Taro Omiya
+	/// </term>
+	/// <description>
+	/// Adding more helper methods and documentation.
 	/// </description>
 	/// </item>
 	/// </list>
@@ -80,52 +91,139 @@ namespace OmiyaGames.Audio
 		public static Data.Status Status => AudioSettingsManager.GetDataStatus();
 
 		/// <summary>
-		/// A coroutine to setup this manager.
+		/// Sets up this manager as a coroutine.
 		/// </summary>
-		/// <param name="forceSetup"></param>
-		/// <returns></returns>
+		/// <param name="forceSetup">
+		/// If set to <see langword="true"/>, forces setting up this
+		/// manager from scratch.  Otherwise, checks whether the manager
+		/// has been setup or not; if not, runs the setup process.
+		/// </param>
+		/// <returns>
+		/// Coroutine to setup this manager.
+		/// </returns>
+		/// <remarks>
+		/// Always, <em>always</em> call this method first before using
+		/// this manager.  It is OK to call this method multiple time.
+		/// </remarks>
 		public static IEnumerator Setup(bool forceSetup = false)
 		{
 			yield return Manager.StartCoroutine(AudioSettingsManager.Setup(forceSetup));
 		}
 
 		/// <summary>
-		/// TODO
+		/// The main mixer of this game.
 		/// </summary>
 		public static AudioMixer Mixer => AudioSettingsManager.GetDataOrThrow().Mixer;
 		/// <summary>
-		/// TODO
+		/// The main layer of audio.  This affects the volume and pitch of
+		/// all audio sources wired to any layer in this manager.
 		/// </summary>
 		public static AudioLayer Main => AudioSettingsManager.GetDataOrThrow().Main;
 		/// <summary>
-		/// TODO
+		/// The background music layer.  Allows playing and managing
+		/// <see cref="BackgroundAudio"/> clips.
 		/// </summary>
 		public static AudioLayer.Background Music => AudioSettingsManager.GetDataOrThrow().Music;
 		/// <summary>
-		/// TODO
+		/// The layer dedicated to sound effects.  This affects the volume and pitch of
+		/// any audio sources wired to <see cref="AudioLayer.Spatial.DefaultUiGroup"/>
+		/// or <see cref="AudioLayer.SubLayer.DefaultGroup"/>.
 		/// </summary>
 		public static AudioLayer.Spatial SoundEffects => AudioSettingsManager.GetDataOrThrow().SoundEffects;
 		/// <summary>
-		/// TODO
+		/// The layer dedicated to voices.  This affects the volume and pitch of
+		/// any audio sources wired to <see cref="AudioLayer.Spatial.DefaultUiGroup"/>
+		/// or <see cref="AudioLayer.SubLayer.DefaultGroup"/>.
 		/// </summary>
 		public static AudioLayer.Spatial Voices => AudioSettingsManager.GetDataOrThrow().Voices;
 		/// <summary>
-		/// TODO
+		/// The background ambience layer.  Allows playing and managing
+		/// <see cref="BackgroundAudio"/> clips.
 		/// </summary>
 		public static AudioLayer.Background Ambience => AudioSettingsManager.GetDataOrThrow().Ambience;
 		/// <summary>
-		/// TODO
+		/// The volume considered low enough to be "mute" according to <seealso cref="Mixer"/>.
 		/// </summary>
 		public static float MuteVolumeDb => AudioSettingsManager.GetDataOrThrow().MuteVolumeDb;
 
 		/// <summary>
-		/// TODO
+		/// Converts a fraction between <c>0</c> and <c>1</c>
+		/// to decibels.
 		/// </summary>
-		/// <param name="percent"></param>
-		/// <returns></returns>
+		/// <param name="percent">
+		/// The fraction between <c>0</c> and <c>1</c>.
+		/// </param>
+		/// <returns>
+		/// Equivalent decibel value.
+		/// </returns>
 		public static float ConvertPercentToVolumeDb(float percent) =>
-			AudioSettingsManager.GetDataOrThrow().PercentToDbCurve.Evaluate(percent);
+			AudioSettingsManager.GetDataOrThrow().PercentToDbCurve.Evaluate(Mathf.Clamp01(percent));
 
+		/// <summary>
+		/// Calculates how long an <see cref="AudioClip"/> is,
+		/// in seconds.
+		/// </summary>
+		/// <param name="clip">
+		/// Clip to calculate the duration of.
+		/// </param>
+		/// <returns>
+		/// How long <paramref name="clip"/> is, in seconds.
+		/// </returns>
+		/// <exception cref="System.ArgumentNullException">
+		/// If <paramref name="clip"/> is <see langword="null"/>.
+		/// </exception>
+		public static double CalculateClipLengthSeconds(AudioClip clip)
+		{
+			if (clip == null)
+			{
+				throw new System.ArgumentNullException(nameof(clip));
+			}
+
+			double returnSeconds = clip.samples;
+			returnSeconds /= clip.frequency;
+			return returnSeconds;
+		}
+
+		/// <summary>
+		/// Calculates which <seealso cref="AudioSource.timeSamples"/>
+		/// a time stamp falls on <see cref="AudioClip"/>.
+		/// </summary>
+		/// <param name="clip">Clip to process.</param>
+		/// <param name="timeStamp">
+		/// The timestamp on the <paramref name="clip"/>,
+		/// in seconds.
+		/// </param>
+		/// <returns>
+		/// The time sample <paramref name="timeStamp"/> falls in.
+		/// </returns>
+		/// <exception cref="System.ArgumentNullException">
+		/// If <paramref name="clip"/> is <see langword="null"/>
+		/// </exception>
+		/// <exception cref="System.ArgumentOutOfRangeException">
+		/// If <paramref name="timeStamp"/> is negative or larger
+		/// than the length of <paramref name="clip"/>.
+		/// </exception>
+		public static int CalculateTimeSample(AudioClip clip, double timeStamp)
+		{
+			if (clip == null)
+			{
+				throw new System.ArgumentNullException(nameof(clip));
+			}
+			else if (timeStamp < 0)
+			{
+				throw new System.ArgumentOutOfRangeException(nameof(timeStamp), "Timestamp can't be negative.");
+			}
+			else if (timeStamp > CalculateClipLengthSeconds(clip))
+			{
+				throw new System.ArgumentOutOfRangeException(nameof(timeStamp), "Timestamp can't exceed the length of AudioClip.");
+			}
+
+			return (int)System.Math.Round(clip.frequency * timeStamp);
+		}
+
+		/// <summary>
+		/// The private implementation of this interface.
+		/// </summary>
 		class AudioSettingsManager : BaseSettingsManager<AudioSettingsManager, AudioSettings>
 		{
 			enum SnapshotType
@@ -153,6 +251,7 @@ namespace OmiyaGames.Audio
 			/// <inheritdoc/>
 			public override Data.Status GetStatus() => status;
 
+			/// <inheritdoc/>
 			protected override IEnumerator OnSetup()
 			{
 				// Reset status
@@ -176,9 +275,14 @@ namespace OmiyaGames.Audio
 				// Setup volume to current settings
 				Data.Main.Setup();
 				Data.Music.Setup();
+				Data.Music.CreateManagers(transform, "Music Stack", Data.PercentToDbCurve);
 				Data.SoundEffects.Setup();
 				Data.Voices.Setup();
 				Data.Ambience.Setup();
+				Data.Ambience.CreateManagers(transform, "Ambience Stack", Data.PercentToDbCurve);
+
+				// Force this game object to be active
+				gameObject.SetActive(true);
 
 				// Update snapshots and AudioListener
 				UpdateSnapshots(TimeManager.TimeScale, TimeManager.IsManuallyPaused);
@@ -189,6 +293,7 @@ namespace OmiyaGames.Audio
 				TimeManager.OnAfterIsManuallyPausedChanged += OnPauseChanged;
 			}
 
+			/// <inheritdoc/>
 			protected override void OnDestroy()
 			{
 				// Unsubscribe to events
@@ -364,7 +469,7 @@ namespace OmiyaGames.Audio
 
 						// Compute where the timescale is in this range
 						float time = Mathf.InverseLerp(settings.SlowTimeRange.x, settings.SlowTimeRange.y, currentTimeScale);
-						
+
 						// Compute the pitch
 						return Mathf.Lerp(settings.SlowPitchRange.x, settings.SlowPitchRange.y, time);
 					}

@@ -1,9 +1,9 @@
 {
   "name": "com.omiyagames.audio",
   "displayName": "Omiya Games - Audio",
-  "version": "0.1.0-exp.1",
-  "unity": "2021.2",
-  "unityRelease": "15f1",
+  "version": "1.0.0",
+  "unity": "2022.1",
+  "unityRelease": "5f1",
   "description": "A set of frequently-used audio tools, such as volume control with persistent data, pitch changes based on time scale, and pitch mutation to one-off sound effects.",
   "category": "Tool",
   "type": "tool",
@@ -23,6 +23,9 @@
     "Scripts",
     "Audio",
     "Sound",
+    "Music",
+    "Ambience",
+    "Voice",
     "Effects",
     "Mixer",
     "Manager",
@@ -52,13 +55,18 @@
     },
     {
       "displayName": "Volume Sliders Demo",
-      "description": "Collection of files to setup custom settings.",
+      "description": "Project demonstrating volume sliders and time-based pitch-shifting effects.",
       "path": "Samples~/Volume Sliders"
     },
     {
       "displayName": "Sound Effects Demo",
-      "description": "Collection of files to setup custom settings.",
+      "description": "Project demonstrating sound effects component.",
       "path": "Samples~/Sound Effects"
+    },
+    {
+      "displayName": "Background Audio Demo",
+      "description": "Project demonstrating fading in and out background music.",
+      "path": "Samples~/Background Audio"
     }
   ]
 }

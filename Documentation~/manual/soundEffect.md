@@ -1,7 +1,5 @@
 # Sound Effect
 
-Note: this manual page is a work-in-progress.
-
 The `SoundEffect` script interfaces with an audio source to perform common tricks to create more varied sound effects.  It is designed to add features to Unity's built-in `AudioSource` component:
 
 ![Sound Effect Fields](https://omiyagames.github.io/omiya-games-audio/resources/SoundEffectFields.png)
