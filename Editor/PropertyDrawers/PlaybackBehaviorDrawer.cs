@@ -41,6 +41,16 @@ namespace OmiyaGames.Audio.Editor
 	/// <strong>Author:</strong> Taro Omiya
 	/// </term>
 	/// <description>Initial version.</description>
+	/// </item><item>
+	/// <term>
+	/// <strong>Version:</strong> 1.1.0<br/>
+	/// <strong>Date:</strong> 6/30/2022<br/>
+	/// <strong>Author:</strong> Taro Omiya
+	/// </term>
+	/// <description>
+	/// Supporting drawing new checkbox,
+	/// <see cref="PlaybackBehavior.IsPausedOnTimeStop"/>.
+	/// </description>
 	/// </item>
 	/// </list>
 	/// </remarks>
@@ -55,6 +65,7 @@ namespace OmiyaGames.Audio.Editor
 		const string NAME_BEHAVIOR = "behavior";
 		const string NAME_FADE_DURATION = "fadeDurationSeconds";
 		const string NAME_AUDIO = "audioFile";
+		const string NAME_PAUSE_ON_TIMESTOP = "isPausedOnTimeStop";
 		const string NAME_RESTART = "alwaysRestart";
 
 		/// <inheritdoc/>
@@ -106,7 +117,11 @@ namespace OmiyaGames.Audio.Editor
 					position.y += EditorGUIUtility.singleLineHeight + EditorHelpers.VerticalMargin;
 					EditorGUI.PropertyField(position, property.FindPropertyRelative(NAME_FADE_DURATION), false);
 
-					// Draw the fade duration
+					// Draw the pause-audio-on-pause checkbox
+					position.y += EditorGUIUtility.singleLineHeight + EditorHelpers.VerticalMargin;
+					EditorGUI.PropertyField(position, property.FindPropertyRelative(NAME_PAUSE_ON_TIMESTOP), false);
+
+					// Draw the force restart checkbox
 					position.y += EditorGUIUtility.singleLineHeight + EditorHelpers.VerticalMargin;
 					EditorGUI.PropertyField(position, property.FindPropertyRelative(NAME_RESTART), false);
 				}
@@ -131,7 +146,7 @@ namespace OmiyaGames.Audio.Editor
 						return EditorHelpers.GetHeight(2);
 					case (int)PlaybackBehavior.FadeBehavior.FadeInNewAudio:
 						// Show all properties
-						return EditorHelpers.GetHeight(4);
+						return EditorHelpers.GetHeight(5);
 				}
 			}
 

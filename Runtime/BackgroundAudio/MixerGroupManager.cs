@@ -52,7 +52,6 @@ namespace OmiyaGames.Audio
 	/// </summary>
 	public class MixerGroupManager
 	{
-		readonly AudioPlayerManager manager;
 		readonly MixerGroupFader[] fadeLayers;
 
 		/// <summary>
@@ -100,10 +99,10 @@ namespace OmiyaGames.Audio
 				}
 
 				// Setup all layers
-				layer.Setup(percentToDbCurve);
+				layer.Setup(manager, percentToDbCurve);
 			}
 
-			this.manager = manager;
+			// Set the member variables
 			this.fadeLayers = fadeLayers;
 		}
 
@@ -216,12 +215,6 @@ namespace OmiyaGames.Audio
 				return false;
 			}
 
-			// Stop the fade-in coroutine, if one is running
-			if (playerInfo.FadeRoutine != null)
-			{
-				manager.StopCoroutine(playerInfo.FadeRoutine);
-			}
-
 			// Calculate time
 			double startTime = UnityEngine.AudioSettings.dspTime, fadeDuration = 0;
 			if (args != null)
@@ -234,13 +227,13 @@ namespace OmiyaGames.Audio
 			playerInfo.Player.Play(args);
 
 			// Start the fade-in coroutine
-			playerInfo.FadeRoutine = manager.StartCoroutine(playerInfo.FadeVolumeCoroutine(startTime, fadeDuration, finalVolumePercent, EndFadeOut));
+			playerInfo.StartFadingVolume(startTime, fadeDuration, finalVolumePercent, EndFadeOut);
 			return true;
 
 			void EndFadeOut(MixerGroupFader playerInfo)
 			{
 				// Reset the coroutine only
-				playerInfo.FadeRoutine = null;
+				playerInfo.StopFadingVolume();
 			}
 		}
 
@@ -274,12 +267,6 @@ namespace OmiyaGames.Audio
 				return false;
 			}
 
-			// Stop the fade-in coroutine, if one is running
-			if (playerInfo.FadeRoutine != null)
-			{
-				manager.StopCoroutine(playerInfo.FadeRoutine);
-			}
-
 			// Calculate time
 			double startTime = UnityEngine.AudioSettings.dspTime, fadeDuration = 0;
 			if (args != null)
@@ -289,14 +276,14 @@ namespace OmiyaGames.Audio
 			}
 
 			// Start the fade-out coroutine
-			playerInfo.FadeRoutine = manager.StartCoroutine(playerInfo.FadeVolumeCoroutine(startTime, fadeDuration, 0, EndFadeOut));
+			playerInfo.StartFadingVolume(startTime, fadeDuration, 0, EndFadeOut);
 			return true;
 
 			void EndFadeOut(MixerGroupFader playerInfo)
 			{
 				// Reset the info
 				playerInfo.Player = null;
-				playerInfo.FadeRoutine = null;
+				playerInfo.StopFadingVolume();
 			}
 		}
 

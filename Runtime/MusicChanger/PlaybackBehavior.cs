@@ -39,6 +39,15 @@ namespace OmiyaGames.Audio
 	/// <strong>Author:</strong> Taro Omiya
 	/// </term>
 	/// <description>Initial draft.</description>
+	/// </item><item>
+	/// <term>
+	/// <strong>Version:</strong> 1.1.0<br/>
+	/// <strong>Date:</strong> 6/30/2022<br/>
+	/// <strong>Author:</strong> Taro Omiya
+	/// </term>
+	/// <description>
+	/// Adding new property, <see cref="IsPausedOnTimeStop"/>.
+	/// </description>
 	/// </item>
 	/// </list>
 	/// </remarks>
@@ -81,6 +90,9 @@ namespace OmiyaGames.Audio
 		[Range(0, 30f)]
 		double fadeDurationSeconds = DEFAULT_FADE_DURATION;
 		[SerializeField]
+		[Tooltip("If true, this music will pause when time stops.")]
+		bool isPausedOnTimeStop = false;
+		[SerializeField]
 		[Tooltip("If true, restarts the music even if it's already playing in the background.")]
 		bool alwaysRestart = false;
 
@@ -96,11 +108,15 @@ namespace OmiyaGames.Audio
 		/// <param name="alwaysRestart">
 		/// Sets default <seealso cref="AlwaysRestart"/>.
 		/// </param>
-		public PlaybackBehavior(FadeBehavior behavior = FadeBehavior.DoNothing, double fadeDurationSeconds = DEFAULT_FADE_DURATION, bool alwaysRestart = false)
+		/// <param name="isPausedOnTimeStop">
+		/// Sets default <seealso cref="IsPausedOnTimeStop"/>.
+		/// </param>
+		public PlaybackBehavior(FadeBehavior behavior = FadeBehavior.DoNothing, double fadeDurationSeconds = DEFAULT_FADE_DURATION, bool alwaysRestart = false, bool isPausedOnTimeStop = false)
 		{
 			this.behavior = behavior;
 			this.fadeDurationSeconds = fadeDurationSeconds;
 			this.alwaysRestart = alwaysRestart;
+			this.isPausedOnTimeStop = isPausedOnTimeStop;
 		}
 
 		/// <summary>
@@ -140,6 +156,15 @@ namespace OmiyaGames.Audio
 		/// </remarks>
 		public AssetRefSerialized<BackgroundAudio> AudioFile => audioFile;
 		/// <summary>
+		/// If <see langword="true"/>, pauses the
+		/// <seealso cref="AudioFile"/> when <see cref="Time.timeScale"/>
+		/// is set to zero.
+		/// </summary>
+		/// <remarks>
+		/// This property is set in the Unity Inspector.
+		/// </remarks>
+		public bool IsPausedOnTimeStop => isPausedOnTimeStop;
+		/// <summary>
 		/// If <see langword="true"/>, restarts playing
 		/// <seealso cref="AudioFile"/> even if it's already
 		/// playing in the background.
@@ -150,12 +175,20 @@ namespace OmiyaGames.Audio
 		public bool AlwaysRestart => alwaysRestart;
 
 		/// <summary>
-		/// 
+		/// Starts the <see cref="Coroutine"/> for this behavior.
 		/// </summary>
-		/// <param name="script"></param>
-		/// <param name="audioLayer"></param>
-		/// <returns></returns>
-		public Coroutine StartCoroutine(MonoBehaviour script, AudioLayer.Background audioLayer, System.Action<AudioLayer.PlayerArgs> onFinish = null)
+		/// <param name="script">
+		/// The script to run this <see cref="Coroutine"/> on.
+		/// </param>
+		/// <param name="audioLayer">
+		/// </param>
+		/// <param name="onFinish">
+		/// Invoked at the end of the <see cref="Coroutine"/>.
+		/// </param>
+		/// <returns>
+		/// The <see cref="Coroutine"/> running this behavior.
+		/// </returns>
+		public Coroutine StartCoroutine(MonoBehaviour script, AudioLayer.Background audioLayer, AudioLayer.Background.OnCoroutineFinished onFinish = null)
 		{
 			switch (Behavior)
 			{
@@ -169,7 +202,7 @@ namespace OmiyaGames.Audio
 			}
 
 			// By default, return null
-			onFinish?.Invoke(null);
+			onFinish?.Invoke(audioLayer, new AudioLayer.PlayerArgs());
 			return null;
 		}
 
@@ -186,6 +219,7 @@ namespace OmiyaGames.Audio
 		{
 			DurationSeconds = FadeDurationSeconds,
 			ForceRestart = AlwaysRestart,
+			IsPausedOnTimeStop = IsPausedOnTimeStop,
 		};
 
 		/// <summary>

@@ -1,7 +1,7 @@
 {
   "name": "com.omiyagames.audio",
   "displayName": "Omiya Games - Audio",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "unity": "2022.1",
   "unityRelease": "5f1",
   "description": "A set of frequently-used audio tools, such as volume control with persistent data, pitch changes based on time scale, and pitch mutation to one-off sound effects.",
