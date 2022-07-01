@@ -1,5 +1,9 @@
 # Change Log:
 
+## 1.1.0
+
+- Enhancing [`BackgroundAudio`](/Runtime/BackgroundAudio/BackgroundAudio.cs) - Adding property `BackgroundAudio.Player.IsPausedOnTimeStop` so player can auto-pause when `Time.timeScale` is zero.  Ironically, this was already the default behavior; this property adds the option to disable it.
+
 ## 1.0.0
 
 - Added [`SingleLoopingMusic`](/Runtime/BackgroundAudio/SingleLoopingMusic.cs) - `ScriptableObject` that generates a `MonoBehaviour` script (called [`BackgroundAudio.Player`](/Runtime/BackgroundAudio/BackgroundAudio.cs)), playing an optional intro stinger first, before playing the looping main music.
