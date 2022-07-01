@@ -98,8 +98,10 @@ namespace OmiyaGames.Audio
 					isAmbienceAdded = false;
 
 					// Start the coroutines
-					Coroutine musicCoroutine = musicBehavior.StartCoroutine(this, AudioManager.Music, player => isMusicAdded = (player != null));
-					Coroutine ambienceCoroutine = ambienceBehavior.StartCoroutine(this, AudioManager.Ambience, player => isMusicAdded = (player != null));
+					Coroutine musicCoroutine = musicBehavior.StartCoroutine(this, AudioManager.Music,
+						(source, player) => isMusicAdded = (player.Player != null));
+					Coroutine ambienceCoroutine = ambienceBehavior.StartCoroutine(this, AudioManager.Ambience,
+						(source, player) => isMusicAdded = (player.Player != null));
 
 					// Delay the yielding so loading both music and ambience can happen at around the same time
 					yield return musicCoroutine;

@@ -66,6 +66,8 @@ namespace OmiyaGames.Audio
 		AnimationCurve percentToDbCurve = null;
 		BackgroundAudio.Player player = null;
 		Action<BackgroundAudio.Player> beforePlayerDestroy = null;
+		Coroutine fadeRoutine = null;
+		MonoBehaviour coroutineRunner = null;
 
 		/// <summary>
 		/// Gets this layer's <see cref="AudioMixerGroup"/>.
@@ -96,7 +98,7 @@ namespace OmiyaGames.Audio
 			}
 		}
 		/// <summary>
-		/// TODO
+		/// The audio player currently playing on <seealso cref="Group"/>.
 		/// </summary>
 		public BackgroundAudio.Player Player
 		{
@@ -146,38 +148,100 @@ namespace OmiyaGames.Audio
 				}
 			}
 		}
-		/// <summary>
-		/// TODO
-		/// </summary>
-		public Coroutine FadeRoutine
-		{
-			get;
-			set;
-		} = null;
 
 		/// <summary>
 		/// Setup the member variables of this layer
 		/// </summary>
+		/// <param name="coroutineRunner">
+		/// The script to run coroutines like
+		/// <seealso cref="StartFadingVolume(double, double, float, Action{MixerGroupFader})"/>.
+		/// </param>
 		/// <param name="percentToDbCurve">
 		/// The curve used to convert a fraction from <c>0</c> to <c>1</c>
 		/// to decibels.
 		/// </param>
-		public void Setup(AnimationCurve percentToDbCurve)
+		public void Setup(MonoBehaviour coroutineRunner, AnimationCurve percentToDbCurve)
 		{
+			this.coroutineRunner = coroutineRunner;
 			this.percentToDbCurve = percentToDbCurve;
 		}
 
 		/// <summary>
-		/// TODO
+		/// Calculates how far
+		/// <seealso cref="StartFadingVolume(double, double, float, Action{MixerGroupFader})"/>
+		/// progressed.
 		/// </summary>
-		/// <param name="startTime"></param>
-		/// <param name="fadeDuration"></param>
-		/// <param name="finalVolumePercent"></param>
-		/// <param name="afterFadeFinished"></param>
 		/// <returns>
-		/// The volume fading coroutine
+		/// The progress the fading coroutine hase made,
+		/// as a percentage between <c>0</c> and <c>1</c>.
 		/// </returns>
-		public IEnumerator FadeVolumeCoroutine(double startTime, double fadeDuration, float finalVolumePercent, Action<MixerGroupFader> afterFadeFinished = null)
+		public float GetFadeProgressionPercent()
+		{
+			if (lastStartTime > UnityEngine.AudioSettings.dspTime)
+			{
+				// If fade hasn't actually started yet, return 0 percent
+				return 0;
+			}
+			else if (lastFadeDuration.CompareTo(0) <= 0)
+			{
+				// If fade has started, but duration is 0 or less, return 100 percent
+				return 1;
+			}
+
+			// Check duration passed
+			double progressionPercent = UnityEngine.AudioSettings.dspTime - lastStartTime;
+			progressionPercent /= lastFadeDuration;
+
+			// Clamp percentage to 1
+			if (progressionPercent > 1)
+			{
+				progressionPercent = 1;
+			}
+			return (float)progressionPercent;
+		}
+
+		/// <summary>
+		/// Start the volume fading coroutine.
+		/// </summary>
+		/// <param name="startTime">
+		/// The <seealso cref="UnityEngine.AudioSettings.dspTime"/>
+		/// fading will start playing.
+		/// </param>
+		/// <param name="durationSeconds">
+		/// The duration the fade will last, in seconds, normalised by
+		/// <seealso cref="UnityEngine.AudioSettings.dspTime"/>.
+		/// </param>
+		/// <param name="finalVolumePercent">
+		/// The volume to fade to.
+		/// </param>
+		/// <param name="afterFadeFinished">
+		/// Invoked at the end of the <see cref="Coroutine"/>.
+		/// Argument is set to the source of this fade routine.
+		/// </param>
+		public void StartFadingVolume(double startTime, double durationSeconds, float finalVolumePercent, Action<MixerGroupFader> afterFadeFinished = null)
+		{
+			// Stop any prior coroutine first
+			StopFadingVolume();
+
+			// Start the new coroutine
+			fadeRoutine = coroutineRunner.StartCoroutine(FadeVolumeCoroutine(startTime, durationSeconds, finalVolumePercent, afterFadeFinished));
+		}
+
+		/// <summary>
+		/// Stops the volume fading coroutine.
+		/// </summary>
+		public void StopFadingVolume()
+		{
+			// Stop the fade-in coroutine, if one is running
+			if (fadeRoutine != null)
+			{
+				coroutineRunner.StopCoroutine(fadeRoutine);
+				fadeRoutine = null;
+			}
+		}
+
+		#region Helper Methods
+		IEnumerator FadeVolumeCoroutine(double startTime, double fadeDuration, float finalVolumePercent, Action<MixerGroupFader> afterFadeFinished = null)
 		{
 			// See if the final volume is different from starting volume
 			float startingVolumePercent = VolumePercent;
@@ -219,35 +283,6 @@ namespace OmiyaGames.Audio
 			// Run the action indicating fade has completed
 			afterFadeFinished?.Invoke(this);
 		}
-
-		/// <summary>
-		/// TODO
-		/// </summary>
-		/// <param name="returnInfo"></param>
-		/// <returns></returns>
-		public float GetFadeProgressionPercent()
-		{
-			if (lastStartTime > UnityEngine.AudioSettings.dspTime)
-			{
-				// If fade hasn't actually started yet, return 0 percent
-				return 0;
-			}
-			else if (lastFadeDuration.CompareTo(0) <= 0)
-			{
-				// If fade has started, but duration is 0 or less, return 100 percent
-				return 1;
-			}
-
-			// Check duration passed
-			double progressionPercent = UnityEngine.AudioSettings.dspTime - lastStartTime;
-			progressionPercent /= lastFadeDuration;
-
-			// Clamp percentage to 1
-			if (progressionPercent > 1)
-			{
-				progressionPercent = 1;
-			}
-			return (float)progressionPercent;
-		}
+		#endregion
 	}
 }

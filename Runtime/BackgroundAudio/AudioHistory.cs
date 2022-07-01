@@ -51,10 +51,155 @@ namespace OmiyaGames.Audio
 	/// <seealso cref="AssetRef{TObject}"/>
 	public class AudioHistory : IReadOnlyList<AssetRef<BackgroundAudio>>
 	{
+		#region EventArgs
+		/// <summary>
+		/// The event argument when calling
+		/// <seealso cref="Add(in AssetRef{BackgroundAudio})"/>.
+		/// </summary>
+		public class AddArgs : System.EventArgs
+		{
+			/// <summary>
+			/// Constructs a new event argument.
+			/// </summary>
+			/// <param name="newAsset">
+			/// Sets <seealso cref="Asset"/>.
+			/// </param>
+			public AddArgs(AssetRef<BackgroundAudio> newAsset)
+			{
+				Asset = newAsset;
+			}
+
+			/// <summary>
+			/// Gets the asset added to the history.
+			/// </summary>
+			public AssetRef<BackgroundAudio> Asset
+			{
+				get;
+			}
+		}
+
+		/// <summary>
+		/// The event argument when calling
+		/// <seealso cref="RemoveOldest()"/> or
+		/// <seealso cref="RemoveNewest()"/>.
+		/// </summary>
+		public class RemoveArgs : System.EventArgs
+		{
+			/// <summary>
+			/// Constructs a new event argument.
+			/// </summary>
+			/// <param name="removedAsset">
+			/// Sets <seealso cref="Asset"/>.
+			/// </param>
+			/// <param name="isOldestRemoved">
+			/// Sets <seealso cref="IsOldestRemoved"/>.
+			/// </param>
+			public RemoveArgs(AssetRef<BackgroundAudio> removedAsset, bool isOldestRemoved)
+			{
+				Asset = removedAsset;
+				IsOldestRemoved = isOldestRemoved;
+			}
+
+			/// <summary>
+			/// Gets the asset removed from the history.
+			/// </summary>
+			public AssetRef<BackgroundAudio> Asset
+			{
+				get;
+			}
+
+			/// <summary>
+			/// <para>
+			/// Returns <see langword="true"/> if event
+			/// was called by <seealso cref="RemoveOldest()"/>.
+			/// </para><para>
+			/// If the event was called by
+			/// <seealso cref="RemoveNewest()"/> instead,
+			/// returns <see langword="false"/>.
+			/// </para>
+			/// </summary>
+			public bool IsOldestRemoved
+			{
+				get;
+			}
+		}
+		#endregion
+
 		/// <summary>
 		/// Default history size.
 		/// </summary>
 		public const int DEFAULT_HISTORY_SIZE = 100;
+
+		/// <summary>
+		/// Standard format for events called by
+		/// <seealso cref="Add(in AssetRef{BackgroundAudio})"/>.
+		/// </summary>
+		/// <param name="source">
+		/// The caller of this event.
+		/// </param>
+		/// <param name="args">
+		/// Arguments for this event.
+		/// </param>
+		public delegate void OnAdd(AudioHistory source, AddArgs args);
+		/// <summary>
+		/// Standard format for events called by
+		/// <seealso cref="RemoveOldest()"/> and
+		/// <seealso cref="RemoveNewest()"/>.
+		/// </summary>
+		/// <param name="source">
+		/// The caller of this event.
+		/// </param>
+		/// <param name="args">
+		/// Arguments for this event.
+		/// </param>
+		public delegate void OnRemove(AudioHistory source, RemoveArgs args);
+
+		/// <summary>
+		/// Event called by
+		/// <seealso cref="Add(in AssetRef{BackgroundAudio})"/>,
+		/// before a new asset is added to the history.
+		/// </summary>
+		public event OnAdd OnBeforeAdd;
+		/// <summary>
+		/// Event called by
+		/// <seealso cref="Add(in AssetRef{BackgroundAudio})"/>,
+		/// after a new asset has been added to the history.
+		/// </summary>
+		public event OnAdd OnAfterAdd;
+		/// <summary>
+		/// Event called by
+		/// <seealso cref="RemoveOldest()"/> and
+		/// <seealso cref="RemoveNewest()"/>,
+		/// before an asset is removed from the history.
+		/// </summary>
+		/// <remarks>
+		/// This event does <em>not</em> get called
+		/// by <seealso cref="Clear()"/>.
+		/// Use <seealso cref="OnBeforeClear"/> to listen to that event.
+		/// </remarks>
+		public event OnRemove OnBeforeRemove;
+		/// <summary>
+		/// Event called by
+		/// <seealso cref="RemoveOldest()"/> and
+		/// <seealso cref="RemoveNewest()"/>,
+		/// after an asset has been removed from the history.
+		/// </summary>
+		/// <remarks>
+		/// This event does <em>not</em> get called
+		/// by <seealso cref="Clear()"/>.
+		/// Use <seealso cref="OnAfterClear"/> to listen to that event.
+		/// </remarks>
+		public event OnRemove OnAfterRemove;
+		/// <summary>
+		/// Event called by <seealso cref="Clear()"/>,
+		/// before the history is cleared.
+		/// </summary>
+		public event System.Action<AudioHistory> OnBeforeClear;
+		/// <summary>
+		/// Event called by <seealso cref="Clear()"/>,
+		/// after the history has been cleared.
+		/// </summary>
+		public event System.Action<AudioHistory> OnAfterClear;
 
 		/// <summary>
 		/// Stories history in chronological order.
@@ -230,12 +375,19 @@ namespace OmiyaGames.Audio
 		/// </param>
 		public void Add(in AssetRef<BackgroundAudio> asset)
 		{
+			// Call event
+			AddArgs args = new(asset);
+			OnBeforeAdd?.Invoke(this, args);
+
 			// Prune the history until it's below the max size
 			while (history.Count >= MaxCapacity)
 			{
 				RemoveOldest();
 			}
 			history.AddLast(asset);
+
+			// Call event
+			OnAfterAdd?.Invoke(this, args);
 		}
 
 		/// <summary>
@@ -244,7 +396,24 @@ namespace OmiyaGames.Audio
 		/// <remarks>
 		/// Does nothing if history is empty.
 		/// </remarks>
-		public void RemoveOldest() => history.RemoveFirst();
+		public void RemoveOldest()
+		{
+			// Make sure there's something in the history
+			if (history.Count == 0)
+			{
+				return;
+			}
+
+			// Call event
+			RemoveArgs args = new(history.First.Value, true);
+			OnBeforeRemove?.Invoke(this, args);
+
+			// Remove first element
+			history.RemoveFirst();
+
+			// Call event
+			OnAfterRemove?.Invoke(this, args);
+		}
 
 		/// <summary>
 		/// Removes the newest entry in the history.
@@ -252,12 +421,45 @@ namespace OmiyaGames.Audio
 		/// <remarks>
 		/// Does nothing if history is empty.
 		/// </remarks>
-		public void RemoveNewest() => history.RemoveLast();
+		public void RemoveNewest()
+		{
+			// Make sure there's something in the history
+			if (history.Count == 0)
+			{
+				return;
+			}
+
+			// Call event
+			RemoveArgs args = new(history.Last.Value, true);
+			OnBeforeRemove?.Invoke(this, args);
+
+			// Remove last element
+			history.RemoveLast();
+
+			// Call event
+			OnAfterRemove?.Invoke(this, args);
+		}
 
 		/// <summary>
 		/// Empties the history.
 		/// </summary>
-		public void Clear() => history.Clear();
+		public void Clear()
+		{
+			// Make sure there's something in the history
+			if (history.Count == 0)
+			{
+				return;
+			}
+
+			// Call event
+			OnBeforeClear?.Invoke(this);
+
+			// Clear history
+			history.Clear();
+
+			// Call event
+			OnAfterClear?.Invoke(this);
+		}
 
 		/// <summary>
 		/// Indicates if a specific asset is already in the history.
