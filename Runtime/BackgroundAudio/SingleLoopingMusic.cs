@@ -40,6 +40,15 @@ namespace OmiyaGames.Audio
 	/// <strong>Author:</strong> Taro Omiya
 	/// </term>
 	/// <description>Initial verison.</description>
+	/// </item><item>
+	/// <term>
+	/// <strong>Version:</strong> 1.1.0<br/>
+	/// <strong>Date:</strong> 6/30/2022<br/>
+	/// <strong>Author:</strong> Taro Omiya
+	/// </term>
+	/// <description>
+	/// Adding new property, <see cref="SingleLoopingMusicPlayer.IsPausedOnTimeStop"/>.
+	/// </description>
 	/// </item>
 	/// </list>
 	/// </remarks>
@@ -131,6 +140,8 @@ namespace OmiyaGames.Audio
 			AudioSource loop;
 			[SerializeField]
 			double playTimeStamp = 0;
+			[SerializeField]
+			bool isPausedOnTimeStop = true;
 
 			/// <inheritdoc/>
 			public override event ITrackable<PlayState>.ChangeEvent OnBeforeChangeState;
@@ -171,6 +182,26 @@ namespace OmiyaGames.Audio
 					}
 				}
 			}
+			/// <inheritdoc/>
+			public override bool IsPausedOnTimeStop
+			{
+				get => isPausedOnTimeStop;
+				set
+				{
+					if (isPausedOnTimeStop != value)
+					{
+						isPausedOnTimeStop = value;
+						if (loop != null)
+						{
+							loop.ignoreListenerPause = !isPausedOnTimeStop;
+						}
+						if (intro != null)
+						{
+							intro.ignoreListenerPause = !isPausedOnTimeStop;
+						}
+					}
+				}
+			}
 
 			/// <inheritdoc/>
 			public override void Play(PlaybackArgs args)
@@ -185,6 +216,9 @@ namespace OmiyaGames.Audio
 				if (args != null)
 				{
 					skipForwardToSeconds = args.SkipForwardToSeconds;
+
+					// Also set pause flag
+					IsPausedOnTimeStop = args.IsPausedOnTimeStop;
 
 					if (args.DelaySeconds > 0)
 					{
@@ -288,6 +322,7 @@ namespace OmiyaGames.Audio
 					loop.gameObject.name = "Looping Audio Player";
 					loop.loop = true;
 					loop.clip = data.Loop;
+					loop.ignoreListenerPause = !IsPausedOnTimeStop;
 				}
 
 				// Check if we need to generate the intro sting player
@@ -298,6 +333,7 @@ namespace OmiyaGames.Audio
 					intro.gameObject.name = "Intro Sting Player";
 					intro.loop = false;
 					intro.clip = data.IntroSting;
+					intro.ignoreListenerPause = !IsPausedOnTimeStop;
 				}
 			}
 

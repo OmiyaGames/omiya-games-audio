@@ -39,6 +39,15 @@ namespace OmiyaGames.Audio
 	/// <strong>Author:</strong> Taro Omiya
 	/// </term>
 	/// <description>Initial draft.</description>
+	/// </item><item>
+	/// <term>
+	/// <strong>Version:</strong> 1.1.0<br/>
+	/// <strong>Date:</strong> 6/30/2022<br/>
+	/// <strong>Author:</strong> Taro Omiya
+	/// </term>
+	/// <description>
+	/// Adding new property, <see cref="IsPausedOnTimeStop"/>.
+	/// </description>
 	/// </item>
 	/// </list>
 	/// </remarks>
@@ -83,6 +92,9 @@ namespace OmiyaGames.Audio
 		[SerializeField]
 		[Tooltip("If true, restarts the music even if it's already playing in the background.")]
 		bool alwaysRestart = false;
+		[SerializeField]
+		[Tooltip("If true, this music will pause when time stops.")]
+		bool isPausedOnTimeStop = false;
 
 		/// <summary>
 		/// Constructs a new instance with default arguments.
@@ -96,11 +108,15 @@ namespace OmiyaGames.Audio
 		/// <param name="alwaysRestart">
 		/// Sets default <seealso cref="AlwaysRestart"/>.
 		/// </param>
-		public PlaybackBehavior(FadeBehavior behavior = FadeBehavior.DoNothing, double fadeDurationSeconds = DEFAULT_FADE_DURATION, bool alwaysRestart = false)
+		/// <param name="isPausedOnTimeStop">
+		/// Sets default <seealso cref="IsPausedOnTimeStop"/>.
+		/// </param>
+		public PlaybackBehavior(FadeBehavior behavior = FadeBehavior.DoNothing, double fadeDurationSeconds = DEFAULT_FADE_DURATION, bool alwaysRestart = false, bool isPausedOnTimeStop = false)
 		{
 			this.behavior = behavior;
 			this.fadeDurationSeconds = fadeDurationSeconds;
 			this.alwaysRestart = alwaysRestart;
+			this.isPausedOnTimeStop = isPausedOnTimeStop;
 		}
 
 		/// <summary>
@@ -148,6 +164,15 @@ namespace OmiyaGames.Audio
 		/// This property is set in the Unity Inspector.
 		/// </remarks>
 		public bool AlwaysRestart => alwaysRestart;
+		/// <summary>
+		/// If <see langword="true"/>, pauses the
+		/// <seealso cref="AudioFile"/> when <see cref="Time.timeScale"/>
+		/// is set to zero.
+		/// </summary>
+		/// <remarks>
+		/// This property is set in the Unity Inspector.
+		/// </remarks>
+		public bool IsPausedOnTimeStop => isPausedOnTimeStop;
 
 		/// <summary>
 		/// 

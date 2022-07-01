@@ -40,6 +40,15 @@ namespace OmiyaGames.Audio
 	/// <strong>Author:</strong> Taro Omiya
 	/// </term>
 	/// <description>Initial verison.</description>
+	/// </item><item>
+	/// <term>
+	/// <strong>Version:</strong> 1.1.0<br/>
+	/// <strong>Date:</strong> 6/30/2022<br/>
+	/// <strong>Author:</strong> Taro Omiya
+	/// </term>
+	/// <description>
+	/// Adding new property, <see cref="Player.IsPausedOnTimeStop"/>.
+	/// </description>
 	/// </item>
 	/// </list>
 	/// </remarks>
@@ -150,6 +159,16 @@ namespace OmiyaGames.Audio
 			/// </remarks>
 			public abstract AudioMixerGroup MixerGroup
 			{
+				set;
+			}
+			/// <summary>
+			/// Gets or sets whether this player
+			/// should pause when <see cref="Time.timeScale"/>
+			/// is zero.
+			/// </summary>
+			public abstract bool IsPausedOnTimeStop
+			{
+				get;
 				set;
 			}
 

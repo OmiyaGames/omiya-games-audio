@@ -93,7 +93,11 @@ namespace OmiyaGames.Audio
 
 		LinkedList<AudioSource> allAudioLayers = null;
 
-		/// <inheritdoc/>
+		/// <summary>
+		/// Gets or sets whether this sound effect
+		/// should pause when <see cref="Time.timeScale"/>
+		/// is zero.
+		/// </summary>
 		public bool IsPausedOnTimeStop
 		{
 			get => isPausedOnTimeStop;

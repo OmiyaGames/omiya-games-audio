@@ -42,6 +42,15 @@ namespace OmiyaGames.Audio
 	/// <strong>Author:</strong> Taro Omiya
 	/// </term>
 	/// <description>Initial draft.</description>
+	/// </item><item>
+	/// <term>
+	/// <strong>Version:</strong> 1.1.0<br/>
+	/// <strong>Date:</strong> 6/30/2022<br/>
+	/// <strong>Author:</strong> Taro Omiya
+	/// </term>
+	/// <description>
+	/// Adding new property, <see cref="IsPausedOnTimeStop"/>.
+	/// </description>
 	/// </item>
 	/// </list>
 	/// </remarks>
@@ -56,6 +65,8 @@ namespace OmiyaGames.Audio
 		double delaySeconds = 0;
 		[SerializeField]
 		double skipForwardToSeconds = 0;
+		[SerializeField]
+		bool isPausedOnTimeStop = true;
 
 		/// <summary>
 		/// If <paramref name="time"/> is negative,
@@ -64,24 +75,32 @@ namespace OmiyaGames.Audio
 		internal static double ClampNegative(double time) => time < 0 ? 0 : time;
 
 		/// <summary>
-		/// Delay time in seconds, normalized by DSP scale.
-		/// <seealso cref="UnityEngine.AudioSettings.dspTime"/>
+		/// How long to delay playback (in seconds, normalized by
+		/// <seealso cref="UnityEngine.AudioSettings.dspTime"/>.)
 		/// </summary>
 		public double DelaySeconds
 		{
 			get => delaySeconds;
 			set => delaySeconds = ClampNegative(value);
 		}
-
 		/// <summary>
 		/// Allows playing from the middle of an audio clip by skipping
-		/// forward in time by X seconds, normalized by DSP scale.
-		/// <seealso cref="UnityEngine.AudioSettings.dspTime"/>
+		/// forward in time by X seconds, normalized by
+		/// <seealso cref="UnityEngine.AudioSettings.dspTime"/>.
 		/// </summary>
 		public double SkipForwardToSeconds
 		{
 			get => skipForwardToSeconds;
 			set => skipForwardToSeconds = ClampNegative(value);
+		}
+		/// <summary>
+		/// If <see langword="true"/>, the <seealso cref="BackgroundAudio.Player"/>
+		/// will pause when <see cref="Time.timeScale"/> is set to zero.
+		/// </summary>
+		public bool IsPausedOnTimeStop
+		{
+			get => isPausedOnTimeStop;
+			set => isPausedOnTimeStop = value;
 		}
 
 		/// <summary>
