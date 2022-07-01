@@ -66,7 +66,7 @@ namespace OmiyaGames.Audio.Editor
 		{
 			// Create a tree from the UXML file.
 			VisualElement returnTree = new VisualElement();
-			VisualTreeAsset originalTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.omiyagames.audio/Editor/SingleLoopingMusic.uxml");
+			VisualTreeAsset originalTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.omiyagames.audio/Editor/Editors/SingleLoopingMusic.uxml");
 			originalTree.CloneTree(returnTree);
 
 			// Configure intro stinger to auto-enable the play after loop fields
@@ -106,7 +106,7 @@ namespace OmiyaGames.Audio.Editor
 				// Update preview
 				UpdateLoopPreview(e.newValue as AudioClip);
 				UpdateIntroPreview(TargetAudio.IntroSting != null);
-				UpdatePreviewControls((TargetAudio.IntroSting != null) && (e.newValue != null));
+				UpdatePreviewControls((TargetAudio.IntroSting != null) || (e.newValue != null));
 			});
 			resetplayAfter.RegisterCallback<ClickEvent>(e =>
 			{
