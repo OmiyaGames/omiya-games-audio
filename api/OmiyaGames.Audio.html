@@ -98,6 +98,15 @@
       <section><p>Retains a history of <a class="xref" href="OmiyaGames.Audio.BackgroundAudio.html">BackgroundAudio</a>, capped by
 <a class="xref" href="OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_MaxCapacity">MaxCapacity</a>.</p>
 </section>
+      <h4><a class="xref" href="OmiyaGames.Audio.AudioHistory.AddArgs.html">AudioHistory.AddArgs</a></h4>
+      <section><p>The event argument when calling
+<a class="xref" href="OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_Add_OmiyaGames_Audio_AssetRef_OmiyaGames_Audio_BackgroundAudio___">Add(in AssetRef&lt;BackgroundAudio&gt;)</a>.</p>
+</section>
+      <h4><a class="xref" href="OmiyaGames.Audio.AudioHistory.RemoveArgs.html">AudioHistory.RemoveArgs</a></h4>
+      <section><p>The event argument when calling
+<a class="xref" href="OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_RemoveOldest">RemoveOldest()</a> or
+<a class="xref" href="OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_RemoveNewest">RemoveNewest()</a>.</p>
+</section>
       <h4><a class="xref" href="OmiyaGames.Audio.AudioLayer.html">AudioLayer</a></h4>
       <section><p>Base info on each audio category.</p>
 </section>
@@ -106,7 +115,8 @@
 i.e. music and ambience.</p>
 </section>
       <h4><a class="xref" href="OmiyaGames.Audio.AudioLayer.PlayerArgs.html">AudioLayer.PlayerArgs</a></h4>
-      <section><p>Event arguments for fading in a player</p>
+      <section><p>Event arguments for fading in a
+<a class="xref" href="OmiyaGames.Audio.BackgroundAudio.Player.html">BackgroundAudio.Player</a></p>
 </section>
       <h4><a class="xref" href="OmiyaGames.Audio.AudioLayer.Spatial.html">AudioLayer.Spatial</a></h4>
       <section><p>Audio category applicable to ones predominately used in spatial context,
@@ -193,7 +203,9 @@ addressable reference.</p>
 and whether it&apos;s referencing a project asset or addressable asset.</p>
 </section>
       <h4><a class="xref" href="OmiyaGames.Audio.AudioLayer.PlayerArgs.PlayerState.html">AudioLayer.PlayerArgs.PlayerState</a></h4>
-      <section><p>TODO</p>
+      <section><p>Indicates how the
+<a class="xref" href="OmiyaGames.Audio.BackgroundAudio.Player.html">BackgroundAudio.Player</a>
+was selected.</p>
 </section>
       <h4><a class="xref" href="OmiyaGames.Audio.AudioPlayerManager.AudioState.html">AudioPlayerManager.AudioState</a></h4>
       <section><p>An equivalent of <a class="xref" href="OmiyaGames.Audio.BackgroundAudio.PlayState.html">BackgroundAudio.PlayState</a>,
@@ -210,6 +222,21 @@ where multiple values can be combined like a flag.</p>
 </section>
       <h4><a class="xref" href="OmiyaGames.Audio.SoundEffect.Layer.html">SoundEffect.Layer</a></h4>
       <section></section>
+    <h3 id="delegates">Delegates
+  </h3>
+      <h4><a class="xref" href="OmiyaGames.Audio.AudioHistory.OnAdd.html">AudioHistory.OnAdd</a></h4>
+      <section><p>Standard format for events called by
+<a class="xref" href="OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_Add_OmiyaGames_Audio_AssetRef_OmiyaGames_Audio_BackgroundAudio___">Add(in AssetRef&lt;BackgroundAudio&gt;)</a>.</p>
+</section>
+      <h4><a class="xref" href="OmiyaGames.Audio.AudioHistory.OnRemove.html">AudioHistory.OnRemove</a></h4>
+      <section><p>Standard format for events called by
+<a class="xref" href="OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_RemoveOldest">RemoveOldest()</a> and
+<a class="xref" href="OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_RemoveNewest">RemoveNewest()</a>.</p>
+</section>
+      <h4><a class="xref" href="OmiyaGames.Audio.AudioLayer.Background.OnCoroutineFinished.html">AudioLayer.Background.OnCoroutineFinished</a></h4>
+      <section><p>Called at the end of <see cref="!:Coroutine"></see>s
+called by <a class="xref" href="OmiyaGames.Audio.AudioLayer.Background.html">AudioLayer.Background</a>.</p>
+</section>
 </article>
           </div>
           

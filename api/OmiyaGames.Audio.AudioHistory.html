@@ -543,6 +543,180 @@ Otherwise, iteraates in the chronological order.</p>
   <h5 id="OmiyaGames_Audio_AudioHistory_RemoveOldest_remarks">Remarks</h5>
   <div class="markdown level1 remarks"><p>Does nothing if history is empty.</p>
 </div>
+  <h3 id="events">Events
+  </h3>
+  
+  
+  <h4 id="OmiyaGames_Audio_AudioHistory_OnAfterAdd" data-uid="OmiyaGames.Audio.AudioHistory.OnAfterAdd">OnAfterAdd</h4>
+  <div class="markdown level1 summary"><p>Event called by
+<a class="xref" href="OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_Add_OmiyaGames_Audio_AssetRef_OmiyaGames_Audio_BackgroundAudio___">Add(in AssetRef&lt;BackgroundAudio&gt;)</a>,
+after a new asset has been added to the history.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event AudioHistory.OnAdd OnAfterAdd</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.AudioHistory.OnAdd.html">AudioHistory.OnAdd</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="OmiyaGames_Audio_AudioHistory_OnAfterClear" data-uid="OmiyaGames.Audio.AudioHistory.OnAfterClear">OnAfterClear</h4>
+  <div class="markdown level1 summary"><p>Event called by <a class="xref" href="OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_Clear">Clear()</a>,
+after the history has been cleared.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event Action&lt;AudioHistory&gt; OnAfterClear</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;<a class="xref" href="OmiyaGames.Audio.AudioHistory.html">AudioHistory</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="OmiyaGames_Audio_AudioHistory_OnAfterRemove" data-uid="OmiyaGames.Audio.AudioHistory.OnAfterRemove">OnAfterRemove</h4>
+  <div class="markdown level1 summary"><p>Event called by
+<a class="xref" href="OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_RemoveOldest">RemoveOldest()</a> and
+<a class="xref" href="OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_RemoveNewest">RemoveNewest()</a>,
+after an asset has been removed from the history.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event AudioHistory.OnRemove OnAfterRemove</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.AudioHistory.OnRemove.html">AudioHistory.OnRemove</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="OmiyaGames_Audio_AudioHistory_OnAfterRemove_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This event does <em>not</em> get called
+by <a class="xref" href="OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_Clear">Clear()</a>.
+Use <a class="xref" href="OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_OnAfterClear">OnAfterClear</a> to listen to that event.</p>
+</div>
+  
+  
+  <h4 id="OmiyaGames_Audio_AudioHistory_OnBeforeAdd" data-uid="OmiyaGames.Audio.AudioHistory.OnBeforeAdd">OnBeforeAdd</h4>
+  <div class="markdown level1 summary"><p>Event called by
+<a class="xref" href="OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_Add_OmiyaGames_Audio_AssetRef_OmiyaGames_Audio_BackgroundAudio___">Add(in AssetRef&lt;BackgroundAudio&gt;)</a>,
+before a new asset is added to the history.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event AudioHistory.OnAdd OnBeforeAdd</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.AudioHistory.OnAdd.html">AudioHistory.OnAdd</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="OmiyaGames_Audio_AudioHistory_OnBeforeClear" data-uid="OmiyaGames.Audio.AudioHistory.OnBeforeClear">OnBeforeClear</h4>
+  <div class="markdown level1 summary"><p>Event called by <a class="xref" href="OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_Clear">Clear()</a>,
+before the history is cleared.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event Action&lt;AudioHistory&gt; OnBeforeClear</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;<a class="xref" href="OmiyaGames.Audio.AudioHistory.html">AudioHistory</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <h4 id="OmiyaGames_Audio_AudioHistory_OnBeforeRemove" data-uid="OmiyaGames.Audio.AudioHistory.OnBeforeRemove">OnBeforeRemove</h4>
+  <div class="markdown level1 summary"><p>Event called by
+<a class="xref" href="OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_RemoveOldest">RemoveOldest()</a> and
+<a class="xref" href="OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_RemoveNewest">RemoveNewest()</a>,
+before an asset is removed from the history.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event AudioHistory.OnRemove OnBeforeRemove</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.AudioHistory.OnRemove.html">AudioHistory.OnRemove</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="OmiyaGames_Audio_AudioHistory_OnBeforeRemove_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This event does <em>not</em> get called
+by <a class="xref" href="OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_Clear">Clear()</a>.
+Use <a class="xref" href="OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_OnBeforeClear">OnBeforeClear</a> to listen to that event.</p>
+</div>
   <h3 id="seealso">See Also</h3>
   <div class="seealso">
       <div><a class="xref" href="OmiyaGames.Audio.AssetRef-1.html">AssetRef</a>&lt;TObject&gt;</div>

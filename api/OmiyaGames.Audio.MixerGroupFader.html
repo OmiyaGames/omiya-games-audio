@@ -129,32 +129,6 @@ THE SOFTWARE.
   </h3>
   
   
-  <a id="OmiyaGames_Audio_MixerGroupFader_FadeRoutine_" data-uid="OmiyaGames.Audio.MixerGroupFader.FadeRoutine*"></a>
-  <h4 id="OmiyaGames_Audio_MixerGroupFader_FadeRoutine" data-uid="OmiyaGames.Audio.MixerGroupFader.FadeRoutine">FadeRoutine</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Coroutine FadeRoutine { get; set; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Coroutine</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
   <a id="OmiyaGames_Audio_MixerGroupFader_Group_" data-uid="OmiyaGames.Audio.MixerGroupFader.Group*"></a>
   <h4 id="OmiyaGames_Audio_MixerGroupFader_Group" data-uid="OmiyaGames.Audio.MixerGroupFader.Group">Group</h4>
   <div class="markdown level1 summary"><p>Gets this layer&apos;s <see cref="!:AudioMixerGroup"></see>.</p>
@@ -210,7 +184,7 @@ to adjust its volume.</p>
   
   <a id="OmiyaGames_Audio_MixerGroupFader_Player_" data-uid="OmiyaGames.Audio.MixerGroupFader.Player*"></a>
   <h4 id="OmiyaGames_Audio_MixerGroupFader_Player" data-uid="OmiyaGames.Audio.MixerGroupFader.Player">Player</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>The audio player currently playing on <a class="xref" href="OmiyaGames.Audio.MixerGroupFader.html#OmiyaGames_Audio_MixerGroupFader_Group">Group</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -262,68 +236,11 @@ to adjust its volume.</p>
   </h3>
   
   
-  <a id="OmiyaGames_Audio_MixerGroupFader_FadeVolumeCoroutine_" data-uid="OmiyaGames.Audio.MixerGroupFader.FadeVolumeCoroutine*"></a>
-  <h4 id="OmiyaGames_Audio_MixerGroupFader_FadeVolumeCoroutine_System_Double_System_Double_System_Single_Action_OmiyaGames_Audio_MixerGroupFader__" data-uid="OmiyaGames.Audio.MixerGroupFader.FadeVolumeCoroutine(System.Double,System.Double,System.Single,Action{OmiyaGames.Audio.MixerGroupFader})">FadeVolumeCoroutine(Double, Double, Single, Action&lt;MixerGroupFader&gt;)</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IEnumerator FadeVolumeCoroutine(double startTime, double fadeDuration, float finalVolumePercent, Action&lt;MixerGroupFader&gt; afterFadeFinished = null)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.double">Double</a></td>
-        <td><span class="parametername">startTime</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.double">Double</a></td>
-        <td><span class="parametername">fadeDuration</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.single">Single</a></td>
-        <td><span class="parametername">finalVolumePercent</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">Action</span>&lt;<a class="xref" href="OmiyaGames.Audio.MixerGroupFader.html">MixerGroupFader</a>&gt;</td>
-        <td><span class="parametername">afterFadeFinished</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">IEnumerator</span></td>
-        <td><p>The volume fading coroutine</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
   <a id="OmiyaGames_Audio_MixerGroupFader_GetFadeProgressionPercent_" data-uid="OmiyaGames.Audio.MixerGroupFader.GetFadeProgressionPercent*"></a>
   <h4 id="OmiyaGames_Audio_MixerGroupFader_GetFadeProgressionPercent" data-uid="OmiyaGames.Audio.MixerGroupFader.GetFadeProgressionPercent">GetFadeProgressionPercent()</h4>
-  <div class="markdown level1 summary"><p>TODO</p>
+  <div class="markdown level1 summary"><p>Calculates how far
+<a class="xref" href="OmiyaGames.Audio.MixerGroupFader.html#OmiyaGames_Audio_MixerGroupFader_StartFadingVolume_System_Double_System_Double_System_Single_Action_OmiyaGames_Audio_MixerGroupFader__">StartFadingVolume(Double, Double, Single, Action&lt;MixerGroupFader&gt;)</a>
+progressed.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -341,20 +258,22 @@ to adjust its volume.</p>
     <tbody>
       <tr>
         <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.single">Single</a></td>
-        <td></td>
+        <td><p>The progress the fading coroutine hase made,
+as a percentage between <code>0</code> and <code>1</code>.</p>
+</td>
       </tr>
     </tbody>
   </table>
   
   
   <a id="OmiyaGames_Audio_MixerGroupFader_Setup_" data-uid="OmiyaGames.Audio.MixerGroupFader.Setup*"></a>
-  <h4 id="OmiyaGames_Audio_MixerGroupFader_Setup_AnimationCurve_" data-uid="OmiyaGames.Audio.MixerGroupFader.Setup(AnimationCurve)">Setup(AnimationCurve)</h4>
+  <h4 id="OmiyaGames_Audio_MixerGroupFader_Setup_MonoBehaviour_AnimationCurve_" data-uid="OmiyaGames.Audio.MixerGroupFader.Setup(MonoBehaviour,AnimationCurve)">Setup(MonoBehaviour, AnimationCurve)</h4>
   <div class="markdown level1 summary"><p>Setup the member variables of this layer</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void Setup(AnimationCurve percentToDbCurve)</code></pre>
+    <pre><code class="lang-csharp hljs">public void Setup(MonoBehaviour coroutineRunner, AnimationCurve percentToDbCurve)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -367,6 +286,13 @@ to adjust its volume.</p>
     </thead>
     <tbody>
       <tr>
+        <td><span class="xref">MonoBehaviour</span></td>
+        <td><span class="parametername">coroutineRunner</span></td>
+        <td><p>The script to run coroutines like
+<a class="xref" href="OmiyaGames.Audio.MixerGroupFader.html#OmiyaGames_Audio_MixerGroupFader_StartFadingVolume_System_Double_System_Double_System_Single_Action_OmiyaGames_Audio_MixerGroupFader__">StartFadingVolume(Double, Double, Single, Action&lt;MixerGroupFader&gt;)</a>.</p>
+</td>
+      </tr>
+      <tr>
         <td><span class="xref">AnimationCurve</span></td>
         <td><span class="parametername">percentToDbCurve</span></td>
         <td><p>The curve used to convert a fraction from <code>0</code> to <code>1</code>
@@ -375,6 +301,67 @@ to decibels.</p>
       </tr>
     </tbody>
   </table>
+  
+  
+  <a id="OmiyaGames_Audio_MixerGroupFader_StartFadingVolume_" data-uid="OmiyaGames.Audio.MixerGroupFader.StartFadingVolume*"></a>
+  <h4 id="OmiyaGames_Audio_MixerGroupFader_StartFadingVolume_System_Double_System_Double_System_Single_Action_OmiyaGames_Audio_MixerGroupFader__" data-uid="OmiyaGames.Audio.MixerGroupFader.StartFadingVolume(System.Double,System.Double,System.Single,Action{OmiyaGames.Audio.MixerGroupFader})">StartFadingVolume(Double, Double, Single, Action&lt;MixerGroupFader&gt;)</h4>
+  <div class="markdown level1 summary"><p>Start the volume fading coroutine.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void StartFadingVolume(double startTime, double durationSeconds, float finalVolumePercent, Action&lt;MixerGroupFader&gt; afterFadeFinished = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.double">Double</a></td>
+        <td><span class="parametername">startTime</span></td>
+        <td><p>The <seealso cref="!:UnityEngine.AudioSettings.dspTime"></seealso>
+fading will start playing.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.double">Double</a></td>
+        <td><span class="parametername">durationSeconds</span></td>
+        <td><p>The duration the fade will last, in seconds, normalised by
+<seealso cref="!:UnityEngine.AudioSettings.dspTime"></seealso>.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.single">Single</a></td>
+        <td><span class="parametername">finalVolumePercent</span></td>
+        <td><p>The volume to fade to.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">Action</span>&lt;<a class="xref" href="OmiyaGames.Audio.MixerGroupFader.html">MixerGroupFader</a>&gt;</td>
+        <td><span class="parametername">afterFadeFinished</span></td>
+        <td><p>Invoked at the end of the <see cref="!:Coroutine"></see>.
+Argument is set to the source of this fade routine.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="OmiyaGames_Audio_MixerGroupFader_StopFadingVolume_" data-uid="OmiyaGames.Audio.MixerGroupFader.StopFadingVolume*"></a>
+  <h4 id="OmiyaGames_Audio_MixerGroupFader_StopFadingVolume" data-uid="OmiyaGames.Audio.MixerGroupFader.StopFadingVolume">StopFadingVolume()</h4>
+  <div class="markdown level1 summary"><p>Stops the volume fading coroutine.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void StopFadingVolume()</code></pre>
+  </div>
 </article>
           </div>
           

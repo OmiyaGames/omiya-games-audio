@@ -5,9 +5,11 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Change Log: | Omiya Games - Audio documentation </title>
+    <title>Delegate AudioHistory.OnAdd
+   | Omiya Games - Audio documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Change Log: | Omiya Games - Audio documentation ">
+    <meta name="title" content="Delegate AudioHistory.OnAdd
+   | Omiya Games - Audio documentation ">
     <meta name="generator" content="docfx 2.59.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
@@ -76,27 +78,45 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="">
-<h1 id="change-log">Change Log:</h1>
-
-<h2 id="110">1.1.0</h2>
-<ul>
-<li>Enhancing <a href="/Runtime/BackgroundAudio/BackgroundAudio.cs"><code>BackgroundAudio</code></a> - Adding property <code>BackgroundAudio.Player.IsPausedOnTimeStop</code> so player can auto-pause when <code>Time.timeScale</code> is zero.  Ironically, this was already the default behavior; this property adds the option to disable it.</li>
-</ul>
-<h2 id="100">1.0.0</h2>
-<ul>
-<li>Added <a href="/Runtime/BackgroundAudio/SingleLoopingMusic.cs"><code>SingleLoopingMusic</code></a> - <code>ScriptableObject</code> that generates a <code>MonoBehaviour</code> script (called <a href="/Runtime/BackgroundAudio/BackgroundAudio.cs"><code>BackgroundAudio.Player</code></a>), playing an optional intro stinger first, before playing the looping main music.</li>
-<li>Added abstract <a href="/Runtime/BackgroundAudio/BackgroundAudio.cs"><code>BackgroundAudio</code></a> so one can create more <code>ScriptableObject</code> like <a href="/Runtime/BackgroundAudio/SingleLoopingMusic.cs"><code>SingleLoopingMusic</code></a>.</li>
-<li>Enhancing <a href="/Runtime/AudioLayers/AudioLayer.Background.cs"><code>AudioLayer.Background</code></a> - Adding new method, <code>PlayNextCoroutine()</code> to play a new <a href="/Runtime/BackgroundAudio/BackgroundAudio.cs"><code>BackgroundAudio</code></a>.  Adding property <code>History</code> that tracks what music has been played.  Adding helper methods, <code>PlayPreviousCoroutine</code>, <code>FadeOutCurrnetPlaying</code>, and <code>FadeInCurrentPlayingCoroutine</code> to play music from <code>History</code>.</li>
-</ul>
-<h2 id="010-exp1">0.1.0-exp.1</h2>
-<ul>
-<li>Initial release:<ul>
-<li>Added <a href="/Runtime/AudioManager.cs"><code>AudioManager</code></a> - singleton script that handles adjusting volumes and pitch per audio layer, apply audio effects when <code>TimeManager</code> changes, etc.</li>
-<li>Added <a href="/Runtime/SoundEffect.cs"><code>SoundEffect</code></a> - <code>MonoBehaviour</code> script that handles common audio polishes, such as mutating pitch and volume, before playing a sound effect on the attached <code>AudioSource</code>.</li>
-</ul>
-</li>
-</ul>
+            <article class="content wrap" id="_content" data-uid="OmiyaGames.Audio.AudioHistory.OnAdd">
+  
+  
+  <h1 id="OmiyaGames_Audio_AudioHistory_OnAdd" data-uid="OmiyaGames.Audio.AudioHistory.OnAdd" class="text-break">Delegate AudioHistory.OnAdd
+  </h1>
+  <div class="markdown level0 summary"><p>Standard format for events called by
+<a class="xref" href="OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_Add_OmiyaGames_Audio_AssetRef_OmiyaGames_Audio_BackgroundAudio___">Add(in AssetRef&lt;BackgroundAudio&gt;)</a>.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="OmiyaGames.Audio.html">OmiyaGames.Audio</a></h6>
+  <h6><strong>Assembly</strong>: cs.temp.dll.dll</h6>
+  <h5 id="OmiyaGames_Audio_AudioHistory_OnAdd_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public delegate void OnAdd(AudioHistory source, AudioHistory.AddArgs args);</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.AudioHistory.html">AudioHistory</a></td>
+        <td><span class="parametername">source</span></td>
+        <td><p>The caller of this event.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="OmiyaGames.Audio.AudioHistory.AddArgs.html">AudioHistory.AddArgs</a></td>
+        <td><span class="parametername">args</span></td>
+        <td><p>Arguments for this event.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
 </article>
           </div>
           
@@ -104,9 +124,6 @@
             <div class="sideaffix">
               <div class="contribution">
                 <ul class="nav">
-                  <li>
-                    <a href="https://github.com/OmiyaGames/omiya-games-audio/blob/main/Documentation~/manual/changelog.md/#L1" class="contribution-link">Improve this Doc</a>
-                  </li>
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">

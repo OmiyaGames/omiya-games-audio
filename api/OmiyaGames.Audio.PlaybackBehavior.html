@@ -123,20 +123,26 @@ THE SOFTWARE.
 <strong>Version:</strong> 1.0.0<br>
 <strong>Date:</strong> 6/23/2022<br>
 <strong>Author:</strong> Taro Omiya
-</td><td>Initial draft.</td></tr></tbody></table></p>
+</td><td>Initial draft.</td></tr><tr><td>
+<strong>Version:</strong> 1.1.0<br>
+<strong>Date:</strong> 6/30/2022<br>
+<strong>Author:</strong> Taro Omiya
+</td><td>
+Adding new property, <a class="xref" href="OmiyaGames.Audio.PlaybackBehavior.html#OmiyaGames_Audio_PlaybackBehavior_IsPausedOnTimeStop">IsPausedOnTimeStop</a>.
+</td></tr></tbody></table></p>
 </div>
   <h3 id="constructors">Constructors
   </h3>
   
   
   <a id="OmiyaGames_Audio_PlaybackBehavior__ctor_" data-uid="OmiyaGames.Audio.PlaybackBehavior.#ctor*"></a>
-  <h4 id="OmiyaGames_Audio_PlaybackBehavior__ctor_OmiyaGames_Audio_PlaybackBehavior_FadeBehavior_System_Double_System_Boolean_" data-uid="OmiyaGames.Audio.PlaybackBehavior.#ctor(OmiyaGames.Audio.PlaybackBehavior.FadeBehavior,System.Double,System.Boolean)">PlaybackBehavior(PlaybackBehavior.FadeBehavior, Double, Boolean)</h4>
+  <h4 id="OmiyaGames_Audio_PlaybackBehavior__ctor_OmiyaGames_Audio_PlaybackBehavior_FadeBehavior_System_Double_System_Boolean_System_Boolean_" data-uid="OmiyaGames.Audio.PlaybackBehavior.#ctor(OmiyaGames.Audio.PlaybackBehavior.FadeBehavior,System.Double,System.Boolean,System.Boolean)">PlaybackBehavior(PlaybackBehavior.FadeBehavior, Double, Boolean, Boolean)</h4>
   <div class="markdown level1 summary"><p>Constructs a new instance with default arguments.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public PlaybackBehavior(PlaybackBehavior.FadeBehavior behavior = PlaybackBehavior.FadeBehavior.DoNothing, double fadeDurationSeconds = 0.5, bool alwaysRestart = false)</code></pre>
+    <pre><code class="lang-csharp hljs">public PlaybackBehavior(PlaybackBehavior.FadeBehavior behavior = PlaybackBehavior.FadeBehavior.DoNothing, double fadeDurationSeconds = 0.5, bool alwaysRestart = false, bool isPausedOnTimeStop = false)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -164,6 +170,12 @@ THE SOFTWARE.
         <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
         <td><span class="parametername">alwaysRestart</span></td>
         <td><p>Sets default <a class="xref" href="OmiyaGames.Audio.PlaybackBehavior.html#OmiyaGames_Audio_PlaybackBehavior_AlwaysRestart">AlwaysRestart</a>.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><span class="parametername">isPausedOnTimeStop</span></td>
+        <td><p>Sets default <a class="xref" href="OmiyaGames.Audio.PlaybackBehavior.html#OmiyaGames_Audio_PlaybackBehavior_IsPausedOnTimeStop">IsPausedOnTimeStop</a>.</p>
 </td>
       </tr>
     </tbody>
@@ -315,6 +327,37 @@ Normalized by <seealso cref="!:UnityEngine.AudioSettings.dspTime"></seealso>.</p
   <h5 id="OmiyaGames_Audio_PlaybackBehavior_FadeDurationSeconds_remarks">Remarks</h5>
   <div class="markdown level1 remarks"><p>This property is set in the Unity Inspector.</p>
 </div>
+  
+  
+  <a id="OmiyaGames_Audio_PlaybackBehavior_IsPausedOnTimeStop_" data-uid="OmiyaGames.Audio.PlaybackBehavior.IsPausedOnTimeStop*"></a>
+  <h4 id="OmiyaGames_Audio_PlaybackBehavior_IsPausedOnTimeStop" data-uid="OmiyaGames.Audio.PlaybackBehavior.IsPausedOnTimeStop">IsPausedOnTimeStop</h4>
+  <div class="markdown level1 summary"><p>If <span class="xref">true</span>, pauses the
+<a class="xref" href="OmiyaGames.Audio.PlaybackBehavior.html#OmiyaGames_Audio_PlaybackBehavior_AudioFile">AudioFile</a> when <see cref="!:Time.timeScale"></see>
+is set to zero.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsPausedOnTimeStop { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="OmiyaGames_Audio_PlaybackBehavior_IsPausedOnTimeStop_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This property is set in the Unity Inspector.</p>
+</div>
   <h3 id="methods">Methods
   </h3>
   
@@ -379,12 +422,13 @@ properties.</p>
   
   
   <a id="OmiyaGames_Audio_PlaybackBehavior_StartCoroutine_" data-uid="OmiyaGames.Audio.PlaybackBehavior.StartCoroutine*"></a>
-  <h4 id="OmiyaGames_Audio_PlaybackBehavior_StartCoroutine_MonoBehaviour_OmiyaGames_Audio_AudioLayer_Background_System_Action_OmiyaGames_Audio_AudioLayer_PlayerArgs__" data-uid="OmiyaGames.Audio.PlaybackBehavior.StartCoroutine(MonoBehaviour,OmiyaGames.Audio.AudioLayer.Background,System.Action{OmiyaGames.Audio.AudioLayer.PlayerArgs})">StartCoroutine(MonoBehaviour, AudioLayer.Background, Action&lt;AudioLayer.PlayerArgs&gt;)</h4>
-  <div class="markdown level1 summary"></div>
+  <h4 id="OmiyaGames_Audio_PlaybackBehavior_StartCoroutine_MonoBehaviour_OmiyaGames_Audio_AudioLayer_Background_OmiyaGames_Audio_AudioLayer_Background_OnCoroutineFinished_" data-uid="OmiyaGames.Audio.PlaybackBehavior.StartCoroutine(MonoBehaviour,OmiyaGames.Audio.AudioLayer.Background,OmiyaGames.Audio.AudioLayer.Background.OnCoroutineFinished)">StartCoroutine(MonoBehaviour, AudioLayer.Background, AudioLayer.Background.OnCoroutineFinished)</h4>
+  <div class="markdown level1 summary"><p>Starts the <see cref="!:Coroutine"></see> for this behavior.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Coroutine StartCoroutine(MonoBehaviour script, AudioLayer.Background audioLayer, Action&lt;AudioLayer.PlayerArgs&gt; onFinish = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public Coroutine StartCoroutine(MonoBehaviour script, AudioLayer.Background audioLayer, AudioLayer.Background.OnCoroutineFinished onFinish = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -399,7 +443,8 @@ properties.</p>
       <tr>
         <td><span class="xref">MonoBehaviour</span></td>
         <td><span class="parametername">script</span></td>
-        <td></td>
+        <td><p>The script to run this <see cref="!:Coroutine"></see> on.</p>
+</td>
       </tr>
       <tr>
         <td><a class="xref" href="OmiyaGames.Audio.AudioLayer.Background.html">AudioLayer.Background</a></td>
@@ -407,9 +452,10 @@ properties.</p>
         <td></td>
       </tr>
       <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;<a class="xref" href="OmiyaGames.Audio.AudioLayer.PlayerArgs.html">AudioLayer.PlayerArgs</a>&gt;</td>
+        <td><a class="xref" href="OmiyaGames.Audio.AudioLayer.Background.OnCoroutineFinished.html">AudioLayer.Background.OnCoroutineFinished</a></td>
         <td><span class="parametername">onFinish</span></td>
-        <td></td>
+        <td><p>Invoked at the end of the <see cref="!:Coroutine"></see>.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -424,7 +470,8 @@ properties.</p>
     <tbody>
       <tr>
         <td><span class="xref">Coroutine</span></td>
-        <td></td>
+        <td><p>The <see cref="!:Coroutine"></see> running this behavior.</p>
+</td>
       </tr>
     </tbody>
   </table>

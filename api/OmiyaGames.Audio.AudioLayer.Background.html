@@ -359,13 +359,13 @@ to decibels.</p>
   
   
   <a id="OmiyaGames_Audio_AudioLayer_Background_FadeInCurrentPlayingCoroutine_" data-uid="OmiyaGames.Audio.AudioLayer.Background.FadeInCurrentPlayingCoroutine*"></a>
-  <h4 id="OmiyaGames_Audio_AudioLayer_Background_FadeInCurrentPlayingCoroutine_OmiyaGames_Audio_FadeInArgs_System_Action_OmiyaGames_Audio_AudioLayer_PlayerArgs__" data-uid="OmiyaGames.Audio.AudioLayer.Background.FadeInCurrentPlayingCoroutine(OmiyaGames.Audio.FadeInArgs,System.Action{OmiyaGames.Audio.AudioLayer.PlayerArgs})">FadeInCurrentPlayingCoroutine(FadeInArgs, Action&lt;AudioLayer.PlayerArgs&gt;)</h4>
+  <h4 id="OmiyaGames_Audio_AudioLayer_Background_FadeInCurrentPlayingCoroutine_OmiyaGames_Audio_FadeInArgs_OmiyaGames_Audio_AudioLayer_Background_OnCoroutineFinished_" data-uid="OmiyaGames.Audio.AudioLayer.Background.FadeInCurrentPlayingCoroutine(OmiyaGames.Audio.FadeInArgs,OmiyaGames.Audio.AudioLayer.Background.OnCoroutineFinished)">FadeInCurrentPlayingCoroutine(FadeInArgs, AudioLayer.Background.OnCoroutineFinished)</h4>
   <div class="markdown level1 summary"><p>Fades in the currently-playing audio in this layer.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IEnumerator FadeInCurrentPlayingCoroutine(FadeInArgs fadeInArgs = null, Action&lt;AudioLayer.PlayerArgs&gt; onFinish = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public IEnumerator FadeInCurrentPlayingCoroutine(FadeInArgs fadeInArgs = null, AudioLayer.Background.OnCoroutineFinished onFinish = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -383,7 +383,7 @@ to decibels.</p>
         <td></td>
       </tr>
       <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;<a class="xref" href="OmiyaGames.Audio.AudioLayer.PlayerArgs.html">AudioLayer.PlayerArgs</a>&gt;</td>
+        <td><a class="xref" href="OmiyaGames.Audio.AudioLayer.Background.OnCoroutineFinished.html">AudioLayer.Background.OnCoroutineFinished</a></td>
         <td><span class="parametername">onFinish</span></td>
         <td></td>
       </tr>
@@ -539,14 +539,14 @@ with the same state as <code data-dev-comment-type="paramref" class="paramref">s
   
   
   <a id="OmiyaGames_Audio_AudioLayer_Background_PlayNextCoroutine_" data-uid="OmiyaGames.Audio.AudioLayer.Background.PlayNextCoroutine*"></a>
-  <h4 id="OmiyaGames_Audio_AudioLayer_Background_PlayNextCoroutine_OmiyaGames_Audio_AssetRef_OmiyaGames_Audio_BackgroundAudio__OmiyaGames_Audio_FadeInArgs_OmiyaGames_Audio_FadeOutArgs_System_Action_OmiyaGames_Audio_AudioLayer_PlayerArgs__" data-uid="OmiyaGames.Audio.AudioLayer.Background.PlayNextCoroutine(OmiyaGames.Audio.AssetRef{OmiyaGames.Audio.BackgroundAudio},OmiyaGames.Audio.FadeInArgs,OmiyaGames.Audio.FadeOutArgs,System.Action{OmiyaGames.Audio.AudioLayer.PlayerArgs})">PlayNextCoroutine(AssetRef&lt;BackgroundAudio&gt;, FadeInArgs, FadeOutArgs, Action&lt;AudioLayer.PlayerArgs&gt;)</h4>
+  <h4 id="OmiyaGames_Audio_AudioLayer_Background_PlayNextCoroutine_OmiyaGames_Audio_AssetRef_OmiyaGames_Audio_BackgroundAudio__OmiyaGames_Audio_FadeInArgs_OmiyaGames_Audio_FadeOutArgs_OmiyaGames_Audio_AudioLayer_Background_OnCoroutineFinished_" data-uid="OmiyaGames.Audio.AudioLayer.Background.PlayNextCoroutine(OmiyaGames.Audio.AssetRef{OmiyaGames.Audio.BackgroundAudio},OmiyaGames.Audio.FadeInArgs,OmiyaGames.Audio.FadeOutArgs,OmiyaGames.Audio.AudioLayer.Background.OnCoroutineFinished)">PlayNextCoroutine(AssetRef&lt;BackgroundAudio&gt;, FadeInArgs, FadeOutArgs, AudioLayer.Background.OnCoroutineFinished)</h4>
   <div class="markdown level1 summary"><p>Coroutine to fade in the next background audio. Also adds
 <code data-dev-comment-type="paramref" class="paramref">audioClip</code> into the history if played.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IEnumerator PlayNextCoroutine(AssetRef&lt;BackgroundAudio&gt; audioClip, FadeInArgs fadeInArgs = null, FadeOutArgs fadeOutArgs = null, Action&lt;AudioLayer.PlayerArgs&gt; onFinish = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public IEnumerator PlayNextCoroutine(AssetRef&lt;BackgroundAudio&gt; audioClip, FadeInArgs fadeInArgs = null, FadeOutArgs fadeOutArgs = null, AudioLayer.Background.OnCoroutineFinished onFinish = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -577,12 +577,10 @@ with the same state as <code data-dev-comment-type="paramref" class="paramref">s
 </td>
       </tr>
       <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;<a class="xref" href="OmiyaGames.Audio.AudioLayer.PlayerArgs.html">AudioLayer.PlayerArgs</a>&gt;</td>
+        <td><a class="xref" href="OmiyaGames.Audio.AudioLayer.Background.OnCoroutineFinished.html">AudioLayer.Background.OnCoroutineFinished</a></td>
         <td><span class="parametername">onFinish</span></td>
         <td><p>Triggers as soon as this coroutine finishes, with a reference
-to the player that will be faded in. The parameter will be
-<span class="xref">null</span> if <code data-dev-comment-type="paramref" class="paramref">audioClip</code> isn&apos;t
-played (e.g. when it&apos;s already playing in the background.)</p>
+to the player that will be faded in.</p>
 </td>
       </tr>
     </tbody>
@@ -603,7 +601,7 @@ played (e.g. when it&apos;s already playing in the background.)</p>
       </tr>
     </tbody>
   </table>
-  <h5 id="OmiyaGames_Audio_AudioLayer_Background_PlayNextCoroutine_OmiyaGames_Audio_AssetRef_OmiyaGames_Audio_BackgroundAudio__OmiyaGames_Audio_FadeInArgs_OmiyaGames_Audio_FadeOutArgs_System_Action_OmiyaGames_Audio_AudioLayer_PlayerArgs___remarks">Remarks</h5>
+  <h5 id="OmiyaGames_Audio_AudioLayer_Background_PlayNextCoroutine_OmiyaGames_Audio_AssetRef_OmiyaGames_Audio_BackgroundAudio__OmiyaGames_Audio_FadeInArgs_OmiyaGames_Audio_FadeOutArgs_OmiyaGames_Audio_AudioLayer_Background_OnCoroutineFinished__remarks">Remarks</h5>
   <div class="markdown level1 remarks"><p>This coroutine needs to be yielded on regardless of whether
 <code data-dev-comment-type="paramref" class="paramref">audioClip</code> points to an addressable or not.</p>
 </div>
@@ -627,14 +625,14 @@ is <a class="xref" href="OmiyaGames.Audio.AssetRef.State.html#OmiyaGames_Audio_A
   
   
   <a id="OmiyaGames_Audio_AudioLayer_Background_PlayPreviousCoroutine_" data-uid="OmiyaGames.Audio.AudioLayer.Background.PlayPreviousCoroutine*"></a>
-  <h4 id="OmiyaGames_Audio_AudioLayer_Background_PlayPreviousCoroutine_OmiyaGames_Audio_FadeInArgs_OmiyaGames_Audio_FadeOutArgs_System_Action_OmiyaGames_Audio_AudioLayer_PlayerArgs__" data-uid="OmiyaGames.Audio.AudioLayer.Background.PlayPreviousCoroutine(OmiyaGames.Audio.FadeInArgs,OmiyaGames.Audio.FadeOutArgs,System.Action{OmiyaGames.Audio.AudioLayer.PlayerArgs})">PlayPreviousCoroutine(FadeInArgs, FadeOutArgs, Action&lt;AudioLayer.PlayerArgs&gt;)</h4>
+  <h4 id="OmiyaGames_Audio_AudioLayer_Background_PlayPreviousCoroutine_OmiyaGames_Audio_FadeInArgs_OmiyaGames_Audio_FadeOutArgs_OmiyaGames_Audio_AudioLayer_Background_OnCoroutineFinished_" data-uid="OmiyaGames.Audio.AudioLayer.Background.PlayPreviousCoroutine(OmiyaGames.Audio.FadeInArgs,OmiyaGames.Audio.FadeOutArgs,OmiyaGames.Audio.AudioLayer.Background.OnCoroutineFinished)">PlayPreviousCoroutine(FadeInArgs, FadeOutArgs, AudioLayer.Background.OnCoroutineFinished)</h4>
   <div class="markdown level1 summary"><p>Coroutine to fade in the previous background audio in <a class="xref" href="OmiyaGames.Audio.AudioLayer.Background.html#OmiyaGames_Audio_AudioLayer_Background_History">History</a>,
 if any.  Also removes the newest clip from the history, if played.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IEnumerator PlayPreviousCoroutine(FadeInArgs fadeInArgs = null, FadeOutArgs fadeOutArgs = null, Action&lt;AudioLayer.PlayerArgs&gt; onFinish = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public IEnumerator PlayPreviousCoroutine(FadeInArgs fadeInArgs = null, FadeOutArgs fadeOutArgs = null, AudioLayer.Background.OnCoroutineFinished onFinish = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -659,12 +657,12 @@ if any.  Also removes the newest clip from the history, if played.</p>
 </td>
       </tr>
       <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;<a class="xref" href="OmiyaGames.Audio.AudioLayer.PlayerArgs.html">AudioLayer.PlayerArgs</a>&gt;</td>
+        <td><a class="xref" href="OmiyaGames.Audio.AudioLayer.Background.OnCoroutineFinished.html">AudioLayer.Background.OnCoroutineFinished</a></td>
         <td><span class="parametername">onFinish</span></td>
         <td><p>Triggers as soon as this coroutine finishes, with a reference
 to the player that will be faded in. The parameter will be
 <span class="xref">null</span> if <code data-dev-comment-type="paramref" class="paramref">audioClip</code> isn&apos;t
-played (e.g. when it&apos;s already playing in the background.)</p>
+played (e.g. there isn&apos;t an audio clip in the history.)</p>
 </td>
       </tr>
     </tbody>
@@ -686,7 +684,7 @@ played (e.g. when it&apos;s already playing in the background.)</p>
       </tr>
     </tbody>
   </table>
-  <h5 id="OmiyaGames_Audio_AudioLayer_Background_PlayPreviousCoroutine_OmiyaGames_Audio_FadeInArgs_OmiyaGames_Audio_FadeOutArgs_System_Action_OmiyaGames_Audio_AudioLayer_PlayerArgs___remarks">Remarks</h5>
+  <h5 id="OmiyaGames_Audio_AudioLayer_Background_PlayPreviousCoroutine_OmiyaGames_Audio_FadeInArgs_OmiyaGames_Audio_FadeOutArgs_OmiyaGames_Audio_AudioLayer_Background_OnCoroutineFinished__remarks">Remarks</h5>
   <div class="markdown level1 remarks"><p>This coroutine needs to be yielded on regardless of whether
 the previous clip points to an addressable or not.</p>
 </div>

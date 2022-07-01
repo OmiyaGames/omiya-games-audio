@@ -371,6 +371,41 @@ references:
   isSpec: "True"
   fullName: OmiyaGames.Audio.AudioHistory.Add
   nameWithType: AudioHistory.Add
+- uid: OmiyaGames.Audio.AudioHistory.AddArgs
+  name: AudioHistory.AddArgs
+  href: api/OmiyaGames.Audio.AudioHistory.AddArgs.html
+  commentId: T:OmiyaGames.Audio.AudioHistory.AddArgs
+  fullName: OmiyaGames.Audio.AudioHistory.AddArgs
+  nameWithType: AudioHistory.AddArgs
+- uid: OmiyaGames.Audio.AudioHistory.AddArgs.#ctor(OmiyaGames.Audio.AssetRef{OmiyaGames.Audio.BackgroundAudio})
+  name: AddArgs(AssetRef<BackgroundAudio>)
+  href: api/OmiyaGames.Audio.AudioHistory.AddArgs.html#OmiyaGames_Audio_AudioHistory_AddArgs__ctor_OmiyaGames_Audio_AssetRef_OmiyaGames_Audio_BackgroundAudio__
+  commentId: M:OmiyaGames.Audio.AudioHistory.AddArgs.#ctor(OmiyaGames.Audio.AssetRef{OmiyaGames.Audio.BackgroundAudio})
+  name.vb: AddArgs(AssetRef(Of BackgroundAudio))
+  fullName: OmiyaGames.Audio.AudioHistory.AddArgs.AddArgs(OmiyaGames.Audio.AssetRef<OmiyaGames.Audio.BackgroundAudio>)
+  fullName.vb: OmiyaGames.Audio.AudioHistory.AddArgs.AddArgs(OmiyaGames.Audio.AssetRef(Of OmiyaGames.Audio.BackgroundAudio))
+  nameWithType: AudioHistory.AddArgs.AddArgs(AssetRef<BackgroundAudio>)
+  nameWithType.vb: AudioHistory.AddArgs.AddArgs(AssetRef(Of BackgroundAudio))
+- uid: OmiyaGames.Audio.AudioHistory.AddArgs.#ctor*
+  name: AddArgs
+  href: api/OmiyaGames.Audio.AudioHistory.AddArgs.html#OmiyaGames_Audio_AudioHistory_AddArgs__ctor_
+  commentId: Overload:OmiyaGames.Audio.AudioHistory.AddArgs.#ctor
+  isSpec: "True"
+  fullName: OmiyaGames.Audio.AudioHistory.AddArgs.AddArgs
+  nameWithType: AudioHistory.AddArgs.AddArgs
+- uid: OmiyaGames.Audio.AudioHistory.AddArgs.Asset
+  name: Asset
+  href: api/OmiyaGames.Audio.AudioHistory.AddArgs.html#OmiyaGames_Audio_AudioHistory_AddArgs_Asset
+  commentId: P:OmiyaGames.Audio.AudioHistory.AddArgs.Asset
+  fullName: OmiyaGames.Audio.AudioHistory.AddArgs.Asset
+  nameWithType: AudioHistory.AddArgs.Asset
+- uid: OmiyaGames.Audio.AudioHistory.AddArgs.Asset*
+  name: Asset
+  href: api/OmiyaGames.Audio.AudioHistory.AddArgs.html#OmiyaGames_Audio_AudioHistory_AddArgs_Asset_
+  commentId: Overload:OmiyaGames.Audio.AudioHistory.AddArgs.Asset
+  isSpec: "True"
+  fullName: OmiyaGames.Audio.AudioHistory.AddArgs.Asset
+  nameWithType: AudioHistory.AddArgs.Asset
 - uid: OmiyaGames.Audio.AudioHistory.Clear
   name: Clear()
   href: api/OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_Clear
@@ -493,6 +528,102 @@ references:
   isSpec: "True"
   fullName: OmiyaGames.Audio.AudioHistory.Oldest
   nameWithType: AudioHistory.Oldest
+- uid: OmiyaGames.Audio.AudioHistory.OnAdd
+  name: AudioHistory.OnAdd
+  href: api/OmiyaGames.Audio.AudioHistory.OnAdd.html
+  commentId: T:OmiyaGames.Audio.AudioHistory.OnAdd
+  fullName: OmiyaGames.Audio.AudioHistory.OnAdd
+  nameWithType: AudioHistory.OnAdd
+- uid: OmiyaGames.Audio.AudioHistory.OnAfterAdd
+  name: OnAfterAdd
+  href: api/OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_OnAfterAdd
+  commentId: E:OmiyaGames.Audio.AudioHistory.OnAfterAdd
+  fullName: OmiyaGames.Audio.AudioHistory.OnAfterAdd
+  nameWithType: AudioHistory.OnAfterAdd
+- uid: OmiyaGames.Audio.AudioHistory.OnAfterClear
+  name: OnAfterClear
+  href: api/OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_OnAfterClear
+  commentId: E:OmiyaGames.Audio.AudioHistory.OnAfterClear
+  fullName: OmiyaGames.Audio.AudioHistory.OnAfterClear
+  nameWithType: AudioHistory.OnAfterClear
+- uid: OmiyaGames.Audio.AudioHistory.OnAfterRemove
+  name: OnAfterRemove
+  href: api/OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_OnAfterRemove
+  commentId: E:OmiyaGames.Audio.AudioHistory.OnAfterRemove
+  fullName: OmiyaGames.Audio.AudioHistory.OnAfterRemove
+  nameWithType: AudioHistory.OnAfterRemove
+- uid: OmiyaGames.Audio.AudioHistory.OnBeforeAdd
+  name: OnBeforeAdd
+  href: api/OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_OnBeforeAdd
+  commentId: E:OmiyaGames.Audio.AudioHistory.OnBeforeAdd
+  fullName: OmiyaGames.Audio.AudioHistory.OnBeforeAdd
+  nameWithType: AudioHistory.OnBeforeAdd
+- uid: OmiyaGames.Audio.AudioHistory.OnBeforeClear
+  name: OnBeforeClear
+  href: api/OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_OnBeforeClear
+  commentId: E:OmiyaGames.Audio.AudioHistory.OnBeforeClear
+  fullName: OmiyaGames.Audio.AudioHistory.OnBeforeClear
+  nameWithType: AudioHistory.OnBeforeClear
+- uid: OmiyaGames.Audio.AudioHistory.OnBeforeRemove
+  name: OnBeforeRemove
+  href: api/OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_OnBeforeRemove
+  commentId: E:OmiyaGames.Audio.AudioHistory.OnBeforeRemove
+  fullName: OmiyaGames.Audio.AudioHistory.OnBeforeRemove
+  nameWithType: AudioHistory.OnBeforeRemove
+- uid: OmiyaGames.Audio.AudioHistory.OnRemove
+  name: AudioHistory.OnRemove
+  href: api/OmiyaGames.Audio.AudioHistory.OnRemove.html
+  commentId: T:OmiyaGames.Audio.AudioHistory.OnRemove
+  fullName: OmiyaGames.Audio.AudioHistory.OnRemove
+  nameWithType: AudioHistory.OnRemove
+- uid: OmiyaGames.Audio.AudioHistory.RemoveArgs
+  name: AudioHistory.RemoveArgs
+  href: api/OmiyaGames.Audio.AudioHistory.RemoveArgs.html
+  commentId: T:OmiyaGames.Audio.AudioHistory.RemoveArgs
+  fullName: OmiyaGames.Audio.AudioHistory.RemoveArgs
+  nameWithType: AudioHistory.RemoveArgs
+- uid: OmiyaGames.Audio.AudioHistory.RemoveArgs.#ctor(OmiyaGames.Audio.AssetRef{OmiyaGames.Audio.BackgroundAudio},System.Boolean)
+  name: RemoveArgs(AssetRef<BackgroundAudio>, Boolean)
+  href: api/OmiyaGames.Audio.AudioHistory.RemoveArgs.html#OmiyaGames_Audio_AudioHistory_RemoveArgs__ctor_OmiyaGames_Audio_AssetRef_OmiyaGames_Audio_BackgroundAudio__System_Boolean_
+  commentId: M:OmiyaGames.Audio.AudioHistory.RemoveArgs.#ctor(OmiyaGames.Audio.AssetRef{OmiyaGames.Audio.BackgroundAudio},System.Boolean)
+  name.vb: RemoveArgs(AssetRef(Of BackgroundAudio), Boolean)
+  fullName: OmiyaGames.Audio.AudioHistory.RemoveArgs.RemoveArgs(OmiyaGames.Audio.AssetRef<OmiyaGames.Audio.BackgroundAudio>, System.Boolean)
+  fullName.vb: OmiyaGames.Audio.AudioHistory.RemoveArgs.RemoveArgs(OmiyaGames.Audio.AssetRef(Of OmiyaGames.Audio.BackgroundAudio), System.Boolean)
+  nameWithType: AudioHistory.RemoveArgs.RemoveArgs(AssetRef<BackgroundAudio>, Boolean)
+  nameWithType.vb: AudioHistory.RemoveArgs.RemoveArgs(AssetRef(Of BackgroundAudio), Boolean)
+- uid: OmiyaGames.Audio.AudioHistory.RemoveArgs.#ctor*
+  name: RemoveArgs
+  href: api/OmiyaGames.Audio.AudioHistory.RemoveArgs.html#OmiyaGames_Audio_AudioHistory_RemoveArgs__ctor_
+  commentId: Overload:OmiyaGames.Audio.AudioHistory.RemoveArgs.#ctor
+  isSpec: "True"
+  fullName: OmiyaGames.Audio.AudioHistory.RemoveArgs.RemoveArgs
+  nameWithType: AudioHistory.RemoveArgs.RemoveArgs
+- uid: OmiyaGames.Audio.AudioHistory.RemoveArgs.Asset
+  name: Asset
+  href: api/OmiyaGames.Audio.AudioHistory.RemoveArgs.html#OmiyaGames_Audio_AudioHistory_RemoveArgs_Asset
+  commentId: P:OmiyaGames.Audio.AudioHistory.RemoveArgs.Asset
+  fullName: OmiyaGames.Audio.AudioHistory.RemoveArgs.Asset
+  nameWithType: AudioHistory.RemoveArgs.Asset
+- uid: OmiyaGames.Audio.AudioHistory.RemoveArgs.Asset*
+  name: Asset
+  href: api/OmiyaGames.Audio.AudioHistory.RemoveArgs.html#OmiyaGames_Audio_AudioHistory_RemoveArgs_Asset_
+  commentId: Overload:OmiyaGames.Audio.AudioHistory.RemoveArgs.Asset
+  isSpec: "True"
+  fullName: OmiyaGames.Audio.AudioHistory.RemoveArgs.Asset
+  nameWithType: AudioHistory.RemoveArgs.Asset
+- uid: OmiyaGames.Audio.AudioHistory.RemoveArgs.IsOldestRemoved
+  name: IsOldestRemoved
+  href: api/OmiyaGames.Audio.AudioHistory.RemoveArgs.html#OmiyaGames_Audio_AudioHistory_RemoveArgs_IsOldestRemoved
+  commentId: P:OmiyaGames.Audio.AudioHistory.RemoveArgs.IsOldestRemoved
+  fullName: OmiyaGames.Audio.AudioHistory.RemoveArgs.IsOldestRemoved
+  nameWithType: AudioHistory.RemoveArgs.IsOldestRemoved
+- uid: OmiyaGames.Audio.AudioHistory.RemoveArgs.IsOldestRemoved*
+  name: IsOldestRemoved
+  href: api/OmiyaGames.Audio.AudioHistory.RemoveArgs.html#OmiyaGames_Audio_AudioHistory_RemoveArgs_IsOldestRemoved_
+  commentId: Overload:OmiyaGames.Audio.AudioHistory.RemoveArgs.IsOldestRemoved
+  isSpec: "True"
+  fullName: OmiyaGames.Audio.AudioHistory.RemoveArgs.IsOldestRemoved
+  nameWithType: AudioHistory.RemoveArgs.IsOldestRemoved
 - uid: OmiyaGames.Audio.AudioHistory.RemoveNewest
   name: RemoveNewest()
   href: api/OmiyaGames.Audio.AudioHistory.html#OmiyaGames_Audio_AudioHistory_RemoveNewest
@@ -570,15 +701,12 @@ references:
   isSpec: "True"
   fullName: OmiyaGames.Audio.AudioLayer.Background.CurrentPlayer
   nameWithType: AudioLayer.Background.CurrentPlayer
-- uid: OmiyaGames.Audio.AudioLayer.Background.FadeInCurrentPlayingCoroutine(OmiyaGames.Audio.FadeInArgs,System.Action{OmiyaGames.Audio.AudioLayer.PlayerArgs})
-  name: FadeInCurrentPlayingCoroutine(FadeInArgs, Action<AudioLayer.PlayerArgs>)
-  href: api/OmiyaGames.Audio.AudioLayer.Background.html#OmiyaGames_Audio_AudioLayer_Background_FadeInCurrentPlayingCoroutine_OmiyaGames_Audio_FadeInArgs_System_Action_OmiyaGames_Audio_AudioLayer_PlayerArgs__
-  commentId: M:OmiyaGames.Audio.AudioLayer.Background.FadeInCurrentPlayingCoroutine(OmiyaGames.Audio.FadeInArgs,System.Action{OmiyaGames.Audio.AudioLayer.PlayerArgs})
-  name.vb: FadeInCurrentPlayingCoroutine(FadeInArgs, Action(Of AudioLayer.PlayerArgs))
-  fullName: OmiyaGames.Audio.AudioLayer.Background.FadeInCurrentPlayingCoroutine(OmiyaGames.Audio.FadeInArgs, System.Action<OmiyaGames.Audio.AudioLayer.PlayerArgs>)
-  fullName.vb: OmiyaGames.Audio.AudioLayer.Background.FadeInCurrentPlayingCoroutine(OmiyaGames.Audio.FadeInArgs, System.Action(Of OmiyaGames.Audio.AudioLayer.PlayerArgs))
-  nameWithType: AudioLayer.Background.FadeInCurrentPlayingCoroutine(FadeInArgs, Action<AudioLayer.PlayerArgs>)
-  nameWithType.vb: AudioLayer.Background.FadeInCurrentPlayingCoroutine(FadeInArgs, Action(Of AudioLayer.PlayerArgs))
+- uid: OmiyaGames.Audio.AudioLayer.Background.FadeInCurrentPlayingCoroutine(OmiyaGames.Audio.FadeInArgs,OmiyaGames.Audio.AudioLayer.Background.OnCoroutineFinished)
+  name: FadeInCurrentPlayingCoroutine(FadeInArgs, AudioLayer.Background.OnCoroutineFinished)
+  href: api/OmiyaGames.Audio.AudioLayer.Background.html#OmiyaGames_Audio_AudioLayer_Background_FadeInCurrentPlayingCoroutine_OmiyaGames_Audio_FadeInArgs_OmiyaGames_Audio_AudioLayer_Background_OnCoroutineFinished_
+  commentId: M:OmiyaGames.Audio.AudioLayer.Background.FadeInCurrentPlayingCoroutine(OmiyaGames.Audio.FadeInArgs,OmiyaGames.Audio.AudioLayer.Background.OnCoroutineFinished)
+  fullName: OmiyaGames.Audio.AudioLayer.Background.FadeInCurrentPlayingCoroutine(OmiyaGames.Audio.FadeInArgs, OmiyaGames.Audio.AudioLayer.Background.OnCoroutineFinished)
+  nameWithType: AudioLayer.Background.FadeInCurrentPlayingCoroutine(FadeInArgs, AudioLayer.Background.OnCoroutineFinished)
 - uid: OmiyaGames.Audio.AudioLayer.Background.FadeInCurrentPlayingCoroutine*
   name: FadeInCurrentPlayingCoroutine
   href: api/OmiyaGames.Audio.AudioLayer.Background.html#OmiyaGames_Audio_AudioLayer_Background_FadeInCurrentPlayingCoroutine_
@@ -654,6 +782,12 @@ references:
   isSpec: "True"
   fullName: OmiyaGames.Audio.AudioLayer.Background.MixerGroupManager
   nameWithType: AudioLayer.Background.MixerGroupManager
+- uid: OmiyaGames.Audio.AudioLayer.Background.OnCoroutineFinished
+  name: AudioLayer.Background.OnCoroutineFinished
+  href: api/OmiyaGames.Audio.AudioLayer.Background.OnCoroutineFinished.html
+  commentId: T:OmiyaGames.Audio.AudioLayer.Background.OnCoroutineFinished
+  fullName: OmiyaGames.Audio.AudioLayer.Background.OnCoroutineFinished
+  nameWithType: AudioLayer.Background.OnCoroutineFinished
 - uid: OmiyaGames.Audio.AudioLayer.Background.PlayerManager
   name: PlayerManager
   href: api/OmiyaGames.Audio.AudioLayer.Background.html#OmiyaGames_Audio_AudioLayer_Background_PlayerManager
@@ -667,15 +801,15 @@ references:
   isSpec: "True"
   fullName: OmiyaGames.Audio.AudioLayer.Background.PlayerManager
   nameWithType: AudioLayer.Background.PlayerManager
-- uid: OmiyaGames.Audio.AudioLayer.Background.PlayNextCoroutine(OmiyaGames.Audio.AssetRef{OmiyaGames.Audio.BackgroundAudio},OmiyaGames.Audio.FadeInArgs,OmiyaGames.Audio.FadeOutArgs,System.Action{OmiyaGames.Audio.AudioLayer.PlayerArgs})
-  name: PlayNextCoroutine(AssetRef<BackgroundAudio>, FadeInArgs, FadeOutArgs, Action<AudioLayer.PlayerArgs>)
-  href: api/OmiyaGames.Audio.AudioLayer.Background.html#OmiyaGames_Audio_AudioLayer_Background_PlayNextCoroutine_OmiyaGames_Audio_AssetRef_OmiyaGames_Audio_BackgroundAudio__OmiyaGames_Audio_FadeInArgs_OmiyaGames_Audio_FadeOutArgs_System_Action_OmiyaGames_Audio_AudioLayer_PlayerArgs__
-  commentId: M:OmiyaGames.Audio.AudioLayer.Background.PlayNextCoroutine(OmiyaGames.Audio.AssetRef{OmiyaGames.Audio.BackgroundAudio},OmiyaGames.Audio.FadeInArgs,OmiyaGames.Audio.FadeOutArgs,System.Action{OmiyaGames.Audio.AudioLayer.PlayerArgs})
-  name.vb: PlayNextCoroutine(AssetRef(Of BackgroundAudio), FadeInArgs, FadeOutArgs, Action(Of AudioLayer.PlayerArgs))
-  fullName: OmiyaGames.Audio.AudioLayer.Background.PlayNextCoroutine(OmiyaGames.Audio.AssetRef<OmiyaGames.Audio.BackgroundAudio>, OmiyaGames.Audio.FadeInArgs, OmiyaGames.Audio.FadeOutArgs, System.Action<OmiyaGames.Audio.AudioLayer.PlayerArgs>)
-  fullName.vb: OmiyaGames.Audio.AudioLayer.Background.PlayNextCoroutine(OmiyaGames.Audio.AssetRef(Of OmiyaGames.Audio.BackgroundAudio), OmiyaGames.Audio.FadeInArgs, OmiyaGames.Audio.FadeOutArgs, System.Action(Of OmiyaGames.Audio.AudioLayer.PlayerArgs))
-  nameWithType: AudioLayer.Background.PlayNextCoroutine(AssetRef<BackgroundAudio>, FadeInArgs, FadeOutArgs, Action<AudioLayer.PlayerArgs>)
-  nameWithType.vb: AudioLayer.Background.PlayNextCoroutine(AssetRef(Of BackgroundAudio), FadeInArgs, FadeOutArgs, Action(Of AudioLayer.PlayerArgs))
+- uid: OmiyaGames.Audio.AudioLayer.Background.PlayNextCoroutine(OmiyaGames.Audio.AssetRef{OmiyaGames.Audio.BackgroundAudio},OmiyaGames.Audio.FadeInArgs,OmiyaGames.Audio.FadeOutArgs,OmiyaGames.Audio.AudioLayer.Background.OnCoroutineFinished)
+  name: PlayNextCoroutine(AssetRef<BackgroundAudio>, FadeInArgs, FadeOutArgs, AudioLayer.Background.OnCoroutineFinished)
+  href: api/OmiyaGames.Audio.AudioLayer.Background.html#OmiyaGames_Audio_AudioLayer_Background_PlayNextCoroutine_OmiyaGames_Audio_AssetRef_OmiyaGames_Audio_BackgroundAudio__OmiyaGames_Audio_FadeInArgs_OmiyaGames_Audio_FadeOutArgs_OmiyaGames_Audio_AudioLayer_Background_OnCoroutineFinished_
+  commentId: M:OmiyaGames.Audio.AudioLayer.Background.PlayNextCoroutine(OmiyaGames.Audio.AssetRef{OmiyaGames.Audio.BackgroundAudio},OmiyaGames.Audio.FadeInArgs,OmiyaGames.Audio.FadeOutArgs,OmiyaGames.Audio.AudioLayer.Background.OnCoroutineFinished)
+  name.vb: PlayNextCoroutine(AssetRef(Of BackgroundAudio), FadeInArgs, FadeOutArgs, AudioLayer.Background.OnCoroutineFinished)
+  fullName: OmiyaGames.Audio.AudioLayer.Background.PlayNextCoroutine(OmiyaGames.Audio.AssetRef<OmiyaGames.Audio.BackgroundAudio>, OmiyaGames.Audio.FadeInArgs, OmiyaGames.Audio.FadeOutArgs, OmiyaGames.Audio.AudioLayer.Background.OnCoroutineFinished)
+  fullName.vb: OmiyaGames.Audio.AudioLayer.Background.PlayNextCoroutine(OmiyaGames.Audio.AssetRef(Of OmiyaGames.Audio.BackgroundAudio), OmiyaGames.Audio.FadeInArgs, OmiyaGames.Audio.FadeOutArgs, OmiyaGames.Audio.AudioLayer.Background.OnCoroutineFinished)
+  nameWithType: AudioLayer.Background.PlayNextCoroutine(AssetRef<BackgroundAudio>, FadeInArgs, FadeOutArgs, AudioLayer.Background.OnCoroutineFinished)
+  nameWithType.vb: AudioLayer.Background.PlayNextCoroutine(AssetRef(Of BackgroundAudio), FadeInArgs, FadeOutArgs, AudioLayer.Background.OnCoroutineFinished)
 - uid: OmiyaGames.Audio.AudioLayer.Background.PlayNextCoroutine*
   name: PlayNextCoroutine
   href: api/OmiyaGames.Audio.AudioLayer.Background.html#OmiyaGames_Audio_AudioLayer_Background_PlayNextCoroutine_
@@ -683,15 +817,12 @@ references:
   isSpec: "True"
   fullName: OmiyaGames.Audio.AudioLayer.Background.PlayNextCoroutine
   nameWithType: AudioLayer.Background.PlayNextCoroutine
-- uid: OmiyaGames.Audio.AudioLayer.Background.PlayPreviousCoroutine(OmiyaGames.Audio.FadeInArgs,OmiyaGames.Audio.FadeOutArgs,System.Action{OmiyaGames.Audio.AudioLayer.PlayerArgs})
-  name: PlayPreviousCoroutine(FadeInArgs, FadeOutArgs, Action<AudioLayer.PlayerArgs>)
-  href: api/OmiyaGames.Audio.AudioLayer.Background.html#OmiyaGames_Audio_AudioLayer_Background_PlayPreviousCoroutine_OmiyaGames_Audio_FadeInArgs_OmiyaGames_Audio_FadeOutArgs_System_Action_OmiyaGames_Audio_AudioLayer_PlayerArgs__
-  commentId: M:OmiyaGames.Audio.AudioLayer.Background.PlayPreviousCoroutine(OmiyaGames.Audio.FadeInArgs,OmiyaGames.Audio.FadeOutArgs,System.Action{OmiyaGames.Audio.AudioLayer.PlayerArgs})
-  name.vb: PlayPreviousCoroutine(FadeInArgs, FadeOutArgs, Action(Of AudioLayer.PlayerArgs))
-  fullName: OmiyaGames.Audio.AudioLayer.Background.PlayPreviousCoroutine(OmiyaGames.Audio.FadeInArgs, OmiyaGames.Audio.FadeOutArgs, System.Action<OmiyaGames.Audio.AudioLayer.PlayerArgs>)
-  fullName.vb: OmiyaGames.Audio.AudioLayer.Background.PlayPreviousCoroutine(OmiyaGames.Audio.FadeInArgs, OmiyaGames.Audio.FadeOutArgs, System.Action(Of OmiyaGames.Audio.AudioLayer.PlayerArgs))
-  nameWithType: AudioLayer.Background.PlayPreviousCoroutine(FadeInArgs, FadeOutArgs, Action<AudioLayer.PlayerArgs>)
-  nameWithType.vb: AudioLayer.Background.PlayPreviousCoroutine(FadeInArgs, FadeOutArgs, Action(Of AudioLayer.PlayerArgs))
+- uid: OmiyaGames.Audio.AudioLayer.Background.PlayPreviousCoroutine(OmiyaGames.Audio.FadeInArgs,OmiyaGames.Audio.FadeOutArgs,OmiyaGames.Audio.AudioLayer.Background.OnCoroutineFinished)
+  name: PlayPreviousCoroutine(FadeInArgs, FadeOutArgs, AudioLayer.Background.OnCoroutineFinished)
+  href: api/OmiyaGames.Audio.AudioLayer.Background.html#OmiyaGames_Audio_AudioLayer_Background_PlayPreviousCoroutine_OmiyaGames_Audio_FadeInArgs_OmiyaGames_Audio_FadeOutArgs_OmiyaGames_Audio_AudioLayer_Background_OnCoroutineFinished_
+  commentId: M:OmiyaGames.Audio.AudioLayer.Background.PlayPreviousCoroutine(OmiyaGames.Audio.FadeInArgs,OmiyaGames.Audio.FadeOutArgs,OmiyaGames.Audio.AudioLayer.Background.OnCoroutineFinished)
+  fullName: OmiyaGames.Audio.AudioLayer.Background.PlayPreviousCoroutine(OmiyaGames.Audio.FadeInArgs, OmiyaGames.Audio.FadeOutArgs, OmiyaGames.Audio.AudioLayer.Background.OnCoroutineFinished)
+  nameWithType: AudioLayer.Background.PlayPreviousCoroutine(FadeInArgs, FadeOutArgs, AudioLayer.Background.OnCoroutineFinished)
 - uid: OmiyaGames.Audio.AudioLayer.Background.PlayPreviousCoroutine*
   name: PlayPreviousCoroutine
   href: api/OmiyaGames.Audio.AudioLayer.Background.html#OmiyaGames_Audio_AudioLayer_Background_PlayPreviousCoroutine_
@@ -770,6 +901,12 @@ references:
   commentId: T:OmiyaGames.Audio.AudioLayer.PlayerArgs
   fullName: OmiyaGames.Audio.AudioLayer.PlayerArgs
   nameWithType: AudioLayer.PlayerArgs
+- uid: OmiyaGames.Audio.AudioLayer.PlayerArgs.#ctor
+  name: PlayerArgs()
+  href: api/OmiyaGames.Audio.AudioLayer.PlayerArgs.html#OmiyaGames_Audio_AudioLayer_PlayerArgs__ctor
+  commentId: M:OmiyaGames.Audio.AudioLayer.PlayerArgs.#ctor
+  fullName: OmiyaGames.Audio.AudioLayer.PlayerArgs.PlayerArgs()
+  nameWithType: AudioLayer.PlayerArgs.PlayerArgs()
 - uid: OmiyaGames.Audio.AudioLayer.PlayerArgs.#ctor(OmiyaGames.Audio.BackgroundAudio.Player,OmiyaGames.Audio.AudioLayer.PlayerArgs.PlayerState)
   name: PlayerArgs(BackgroundAudio.Player, AudioLayer.PlayerArgs.PlayerState)
   href: api/OmiyaGames.Audio.AudioLayer.PlayerArgs.html#OmiyaGames_Audio_AudioLayer_PlayerArgs__ctor_OmiyaGames_Audio_BackgroundAudio_Player_OmiyaGames_Audio_AudioLayer_PlayerArgs_PlayerState_
@@ -814,6 +951,12 @@ references:
   commentId: F:OmiyaGames.Audio.AudioLayer.PlayerArgs.PlayerState.NewPlayer
   fullName: OmiyaGames.Audio.AudioLayer.PlayerArgs.PlayerState.NewPlayer
   nameWithType: AudioLayer.PlayerArgs.PlayerState.NewPlayer
+- uid: OmiyaGames.Audio.AudioLayer.PlayerArgs.PlayerState.Null
+  name: "Null"
+  href: api/OmiyaGames.Audio.AudioLayer.PlayerArgs.PlayerState.html#OmiyaGames_Audio_AudioLayer_PlayerArgs_PlayerState_Null
+  commentId: F:OmiyaGames.Audio.AudioLayer.PlayerArgs.PlayerState.Null
+  fullName: OmiyaGames.Audio.AudioLayer.PlayerArgs.PlayerState.Null
+  nameWithType: AudioLayer.PlayerArgs.PlayerState.Null
 - uid: OmiyaGames.Audio.AudioLayer.PlayerArgs.PlayerState.StoppedPlayer
   name: StoppedPlayer
   href: api/OmiyaGames.Audio.AudioLayer.PlayerArgs.PlayerState.html#OmiyaGames_Audio_AudioLayer_PlayerArgs_PlayerState_StoppedPlayer
@@ -1488,6 +1631,19 @@ references:
   isSpec: "True"
   fullName: OmiyaGames.Audio.BackgroundAudio.Player.Data
   nameWithType: BackgroundAudio.Player.Data
+- uid: OmiyaGames.Audio.BackgroundAudio.Player.IsPausedOnTimeStop
+  name: IsPausedOnTimeStop
+  href: api/OmiyaGames.Audio.BackgroundAudio.Player.html#OmiyaGames_Audio_BackgroundAudio_Player_IsPausedOnTimeStop
+  commentId: P:OmiyaGames.Audio.BackgroundAudio.Player.IsPausedOnTimeStop
+  fullName: OmiyaGames.Audio.BackgroundAudio.Player.IsPausedOnTimeStop
+  nameWithType: BackgroundAudio.Player.IsPausedOnTimeStop
+- uid: OmiyaGames.Audio.BackgroundAudio.Player.IsPausedOnTimeStop*
+  name: IsPausedOnTimeStop
+  href: api/OmiyaGames.Audio.BackgroundAudio.Player.html#OmiyaGames_Audio_BackgroundAudio_Player_IsPausedOnTimeStop_
+  commentId: Overload:OmiyaGames.Audio.BackgroundAudio.Player.IsPausedOnTimeStop
+  isSpec: "True"
+  fullName: OmiyaGames.Audio.BackgroundAudio.Player.IsPausedOnTimeStop
+  nameWithType: BackgroundAudio.Player.IsPausedOnTimeStop
 - uid: OmiyaGames.Audio.BackgroundAudio.Player.MixerGroup
   name: MixerGroup
   href: api/OmiyaGames.Audio.BackgroundAudio.Player.html#OmiyaGames_Audio_BackgroundAudio_Player_MixerGroup
@@ -2171,35 +2327,6 @@ references:
   commentId: T:OmiyaGames.Audio.MixerGroupFader
   fullName: OmiyaGames.Audio.MixerGroupFader
   nameWithType: MixerGroupFader
-- uid: OmiyaGames.Audio.MixerGroupFader.FadeRoutine
-  name: FadeRoutine
-  href: api/OmiyaGames.Audio.MixerGroupFader.html#OmiyaGames_Audio_MixerGroupFader_FadeRoutine
-  commentId: P:OmiyaGames.Audio.MixerGroupFader.FadeRoutine
-  fullName: OmiyaGames.Audio.MixerGroupFader.FadeRoutine
-  nameWithType: MixerGroupFader.FadeRoutine
-- uid: OmiyaGames.Audio.MixerGroupFader.FadeRoutine*
-  name: FadeRoutine
-  href: api/OmiyaGames.Audio.MixerGroupFader.html#OmiyaGames_Audio_MixerGroupFader_FadeRoutine_
-  commentId: Overload:OmiyaGames.Audio.MixerGroupFader.FadeRoutine
-  isSpec: "True"
-  fullName: OmiyaGames.Audio.MixerGroupFader.FadeRoutine
-  nameWithType: MixerGroupFader.FadeRoutine
-- uid: OmiyaGames.Audio.MixerGroupFader.FadeVolumeCoroutine(System.Double,System.Double,System.Single,Action{OmiyaGames.Audio.MixerGroupFader})
-  name: FadeVolumeCoroutine(Double, Double, Single, Action<MixerGroupFader>)
-  href: api/OmiyaGames.Audio.MixerGroupFader.html#OmiyaGames_Audio_MixerGroupFader_FadeVolumeCoroutine_System_Double_System_Double_System_Single_Action_OmiyaGames_Audio_MixerGroupFader__
-  commentId: M:OmiyaGames.Audio.MixerGroupFader.FadeVolumeCoroutine(System.Double,System.Double,System.Single,Action{OmiyaGames.Audio.MixerGroupFader})
-  name.vb: FadeVolumeCoroutine(Double, Double, Single, Action(Of MixerGroupFader))
-  fullName: OmiyaGames.Audio.MixerGroupFader.FadeVolumeCoroutine(System.Double, System.Double, System.Single, Action<OmiyaGames.Audio.MixerGroupFader>)
-  fullName.vb: OmiyaGames.Audio.MixerGroupFader.FadeVolumeCoroutine(System.Double, System.Double, System.Single, Action(Of OmiyaGames.Audio.MixerGroupFader))
-  nameWithType: MixerGroupFader.FadeVolumeCoroutine(Double, Double, Single, Action<MixerGroupFader>)
-  nameWithType.vb: MixerGroupFader.FadeVolumeCoroutine(Double, Double, Single, Action(Of MixerGroupFader))
-- uid: OmiyaGames.Audio.MixerGroupFader.FadeVolumeCoroutine*
-  name: FadeVolumeCoroutine
-  href: api/OmiyaGames.Audio.MixerGroupFader.html#OmiyaGames_Audio_MixerGroupFader_FadeVolumeCoroutine_
-  commentId: Overload:OmiyaGames.Audio.MixerGroupFader.FadeVolumeCoroutine
-  isSpec: "True"
-  fullName: OmiyaGames.Audio.MixerGroupFader.FadeVolumeCoroutine
-  nameWithType: MixerGroupFader.FadeVolumeCoroutine
 - uid: OmiyaGames.Audio.MixerGroupFader.GetFadeProgressionPercent
   name: GetFadeProgressionPercent()
   href: api/OmiyaGames.Audio.MixerGroupFader.html#OmiyaGames_Audio_MixerGroupFader_GetFadeProgressionPercent
@@ -2252,12 +2379,12 @@ references:
   isSpec: "True"
   fullName: OmiyaGames.Audio.MixerGroupFader.Player
   nameWithType: MixerGroupFader.Player
-- uid: OmiyaGames.Audio.MixerGroupFader.Setup(AnimationCurve)
-  name: Setup(AnimationCurve)
-  href: api/OmiyaGames.Audio.MixerGroupFader.html#OmiyaGames_Audio_MixerGroupFader_Setup_AnimationCurve_
-  commentId: M:OmiyaGames.Audio.MixerGroupFader.Setup(AnimationCurve)
-  fullName: OmiyaGames.Audio.MixerGroupFader.Setup(AnimationCurve)
-  nameWithType: MixerGroupFader.Setup(AnimationCurve)
+- uid: OmiyaGames.Audio.MixerGroupFader.Setup(MonoBehaviour,AnimationCurve)
+  name: Setup(MonoBehaviour, AnimationCurve)
+  href: api/OmiyaGames.Audio.MixerGroupFader.html#OmiyaGames_Audio_MixerGroupFader_Setup_MonoBehaviour_AnimationCurve_
+  commentId: M:OmiyaGames.Audio.MixerGroupFader.Setup(MonoBehaviour,AnimationCurve)
+  fullName: OmiyaGames.Audio.MixerGroupFader.Setup(MonoBehaviour, AnimationCurve)
+  nameWithType: MixerGroupFader.Setup(MonoBehaviour, AnimationCurve)
 - uid: OmiyaGames.Audio.MixerGroupFader.Setup*
   name: Setup
   href: api/OmiyaGames.Audio.MixerGroupFader.html#OmiyaGames_Audio_MixerGroupFader_Setup_
@@ -2265,6 +2392,35 @@ references:
   isSpec: "True"
   fullName: OmiyaGames.Audio.MixerGroupFader.Setup
   nameWithType: MixerGroupFader.Setup
+- uid: OmiyaGames.Audio.MixerGroupFader.StartFadingVolume(System.Double,System.Double,System.Single,Action{OmiyaGames.Audio.MixerGroupFader})
+  name: StartFadingVolume(Double, Double, Single, Action<MixerGroupFader>)
+  href: api/OmiyaGames.Audio.MixerGroupFader.html#OmiyaGames_Audio_MixerGroupFader_StartFadingVolume_System_Double_System_Double_System_Single_Action_OmiyaGames_Audio_MixerGroupFader__
+  commentId: M:OmiyaGames.Audio.MixerGroupFader.StartFadingVolume(System.Double,System.Double,System.Single,Action{OmiyaGames.Audio.MixerGroupFader})
+  name.vb: StartFadingVolume(Double, Double, Single, Action(Of MixerGroupFader))
+  fullName: OmiyaGames.Audio.MixerGroupFader.StartFadingVolume(System.Double, System.Double, System.Single, Action<OmiyaGames.Audio.MixerGroupFader>)
+  fullName.vb: OmiyaGames.Audio.MixerGroupFader.StartFadingVolume(System.Double, System.Double, System.Single, Action(Of OmiyaGames.Audio.MixerGroupFader))
+  nameWithType: MixerGroupFader.StartFadingVolume(Double, Double, Single, Action<MixerGroupFader>)
+  nameWithType.vb: MixerGroupFader.StartFadingVolume(Double, Double, Single, Action(Of MixerGroupFader))
+- uid: OmiyaGames.Audio.MixerGroupFader.StartFadingVolume*
+  name: StartFadingVolume
+  href: api/OmiyaGames.Audio.MixerGroupFader.html#OmiyaGames_Audio_MixerGroupFader_StartFadingVolume_
+  commentId: Overload:OmiyaGames.Audio.MixerGroupFader.StartFadingVolume
+  isSpec: "True"
+  fullName: OmiyaGames.Audio.MixerGroupFader.StartFadingVolume
+  nameWithType: MixerGroupFader.StartFadingVolume
+- uid: OmiyaGames.Audio.MixerGroupFader.StopFadingVolume
+  name: StopFadingVolume()
+  href: api/OmiyaGames.Audio.MixerGroupFader.html#OmiyaGames_Audio_MixerGroupFader_StopFadingVolume
+  commentId: M:OmiyaGames.Audio.MixerGroupFader.StopFadingVolume
+  fullName: OmiyaGames.Audio.MixerGroupFader.StopFadingVolume()
+  nameWithType: MixerGroupFader.StopFadingVolume()
+- uid: OmiyaGames.Audio.MixerGroupFader.StopFadingVolume*
+  name: StopFadingVolume
+  href: api/OmiyaGames.Audio.MixerGroupFader.html#OmiyaGames_Audio_MixerGroupFader_StopFadingVolume_
+  commentId: Overload:OmiyaGames.Audio.MixerGroupFader.StopFadingVolume
+  isSpec: "True"
+  fullName: OmiyaGames.Audio.MixerGroupFader.StopFadingVolume
+  nameWithType: MixerGroupFader.StopFadingVolume
 - uid: OmiyaGames.Audio.MixerGroupFader.VolumePercent
   name: VolumePercent
   href: api/OmiyaGames.Audio.MixerGroupFader.html#OmiyaGames_Audio_MixerGroupFader_VolumePercent
@@ -2423,6 +2579,19 @@ references:
   isSpec: "True"
   fullName: OmiyaGames.Audio.PlaybackArgs.FixData
   nameWithType: PlaybackArgs.FixData
+- uid: OmiyaGames.Audio.PlaybackArgs.IsPausedOnTimeStop
+  name: IsPausedOnTimeStop
+  href: api/OmiyaGames.Audio.PlaybackArgs.html#OmiyaGames_Audio_PlaybackArgs_IsPausedOnTimeStop
+  commentId: P:OmiyaGames.Audio.PlaybackArgs.IsPausedOnTimeStop
+  fullName: OmiyaGames.Audio.PlaybackArgs.IsPausedOnTimeStop
+  nameWithType: PlaybackArgs.IsPausedOnTimeStop
+- uid: OmiyaGames.Audio.PlaybackArgs.IsPausedOnTimeStop*
+  name: IsPausedOnTimeStop
+  href: api/OmiyaGames.Audio.PlaybackArgs.html#OmiyaGames_Audio_PlaybackArgs_IsPausedOnTimeStop_
+  commentId: Overload:OmiyaGames.Audio.PlaybackArgs.IsPausedOnTimeStop
+  isSpec: "True"
+  fullName: OmiyaGames.Audio.PlaybackArgs.IsPausedOnTimeStop
+  nameWithType: PlaybackArgs.IsPausedOnTimeStop
 - uid: OmiyaGames.Audio.PlaybackArgs.SkipForwardToSeconds
   name: SkipForwardToSeconds
   href: api/OmiyaGames.Audio.PlaybackArgs.html#OmiyaGames_Audio_PlaybackArgs_SkipForwardToSeconds
@@ -2442,12 +2611,12 @@ references:
   commentId: T:OmiyaGames.Audio.PlaybackBehavior
   fullName: OmiyaGames.Audio.PlaybackBehavior
   nameWithType: PlaybackBehavior
-- uid: OmiyaGames.Audio.PlaybackBehavior.#ctor(OmiyaGames.Audio.PlaybackBehavior.FadeBehavior,System.Double,System.Boolean)
-  name: PlaybackBehavior(PlaybackBehavior.FadeBehavior, Double, Boolean)
-  href: api/OmiyaGames.Audio.PlaybackBehavior.html#OmiyaGames_Audio_PlaybackBehavior__ctor_OmiyaGames_Audio_PlaybackBehavior_FadeBehavior_System_Double_System_Boolean_
-  commentId: M:OmiyaGames.Audio.PlaybackBehavior.#ctor(OmiyaGames.Audio.PlaybackBehavior.FadeBehavior,System.Double,System.Boolean)
-  fullName: OmiyaGames.Audio.PlaybackBehavior.PlaybackBehavior(OmiyaGames.Audio.PlaybackBehavior.FadeBehavior, System.Double, System.Boolean)
-  nameWithType: PlaybackBehavior.PlaybackBehavior(PlaybackBehavior.FadeBehavior, Double, Boolean)
+- uid: OmiyaGames.Audio.PlaybackBehavior.#ctor(OmiyaGames.Audio.PlaybackBehavior.FadeBehavior,System.Double,System.Boolean,System.Boolean)
+  name: PlaybackBehavior(PlaybackBehavior.FadeBehavior, Double, Boolean, Boolean)
+  href: api/OmiyaGames.Audio.PlaybackBehavior.html#OmiyaGames_Audio_PlaybackBehavior__ctor_OmiyaGames_Audio_PlaybackBehavior_FadeBehavior_System_Double_System_Boolean_System_Boolean_
+  commentId: M:OmiyaGames.Audio.PlaybackBehavior.#ctor(OmiyaGames.Audio.PlaybackBehavior.FadeBehavior,System.Double,System.Boolean,System.Boolean)
+  fullName: OmiyaGames.Audio.PlaybackBehavior.PlaybackBehavior(OmiyaGames.Audio.PlaybackBehavior.FadeBehavior, System.Double, System.Boolean, System.Boolean)
+  nameWithType: PlaybackBehavior.PlaybackBehavior(PlaybackBehavior.FadeBehavior, Double, Boolean, Boolean)
 - uid: OmiyaGames.Audio.PlaybackBehavior.#ctor*
   name: PlaybackBehavior
   href: api/OmiyaGames.Audio.PlaybackBehavior.html#OmiyaGames_Audio_PlaybackBehavior__ctor_
@@ -2563,15 +2732,25 @@ references:
   isSpec: "True"
   fullName: OmiyaGames.Audio.PlaybackBehavior.GetFadeOutArgs
   nameWithType: PlaybackBehavior.GetFadeOutArgs
-- uid: OmiyaGames.Audio.PlaybackBehavior.StartCoroutine(MonoBehaviour,OmiyaGames.Audio.AudioLayer.Background,System.Action{OmiyaGames.Audio.AudioLayer.PlayerArgs})
-  name: StartCoroutine(MonoBehaviour, AudioLayer.Background, Action<AudioLayer.PlayerArgs>)
-  href: api/OmiyaGames.Audio.PlaybackBehavior.html#OmiyaGames_Audio_PlaybackBehavior_StartCoroutine_MonoBehaviour_OmiyaGames_Audio_AudioLayer_Background_System_Action_OmiyaGames_Audio_AudioLayer_PlayerArgs__
-  commentId: M:OmiyaGames.Audio.PlaybackBehavior.StartCoroutine(MonoBehaviour,OmiyaGames.Audio.AudioLayer.Background,System.Action{OmiyaGames.Audio.AudioLayer.PlayerArgs})
-  name.vb: StartCoroutine(MonoBehaviour, AudioLayer.Background, Action(Of AudioLayer.PlayerArgs))
-  fullName: OmiyaGames.Audio.PlaybackBehavior.StartCoroutine(MonoBehaviour, OmiyaGames.Audio.AudioLayer.Background, System.Action<OmiyaGames.Audio.AudioLayer.PlayerArgs>)
-  fullName.vb: OmiyaGames.Audio.PlaybackBehavior.StartCoroutine(MonoBehaviour, OmiyaGames.Audio.AudioLayer.Background, System.Action(Of OmiyaGames.Audio.AudioLayer.PlayerArgs))
-  nameWithType: PlaybackBehavior.StartCoroutine(MonoBehaviour, AudioLayer.Background, Action<AudioLayer.PlayerArgs>)
-  nameWithType.vb: PlaybackBehavior.StartCoroutine(MonoBehaviour, AudioLayer.Background, Action(Of AudioLayer.PlayerArgs))
+- uid: OmiyaGames.Audio.PlaybackBehavior.IsPausedOnTimeStop
+  name: IsPausedOnTimeStop
+  href: api/OmiyaGames.Audio.PlaybackBehavior.html#OmiyaGames_Audio_PlaybackBehavior_IsPausedOnTimeStop
+  commentId: P:OmiyaGames.Audio.PlaybackBehavior.IsPausedOnTimeStop
+  fullName: OmiyaGames.Audio.PlaybackBehavior.IsPausedOnTimeStop
+  nameWithType: PlaybackBehavior.IsPausedOnTimeStop
+- uid: OmiyaGames.Audio.PlaybackBehavior.IsPausedOnTimeStop*
+  name: IsPausedOnTimeStop
+  href: api/OmiyaGames.Audio.PlaybackBehavior.html#OmiyaGames_Audio_PlaybackBehavior_IsPausedOnTimeStop_
+  commentId: Overload:OmiyaGames.Audio.PlaybackBehavior.IsPausedOnTimeStop
+  isSpec: "True"
+  fullName: OmiyaGames.Audio.PlaybackBehavior.IsPausedOnTimeStop
+  nameWithType: PlaybackBehavior.IsPausedOnTimeStop
+- uid: OmiyaGames.Audio.PlaybackBehavior.StartCoroutine(MonoBehaviour,OmiyaGames.Audio.AudioLayer.Background,OmiyaGames.Audio.AudioLayer.Background.OnCoroutineFinished)
+  name: StartCoroutine(MonoBehaviour, AudioLayer.Background, AudioLayer.Background.OnCoroutineFinished)
+  href: api/OmiyaGames.Audio.PlaybackBehavior.html#OmiyaGames_Audio_PlaybackBehavior_StartCoroutine_MonoBehaviour_OmiyaGames_Audio_AudioLayer_Background_OmiyaGames_Audio_AudioLayer_Background_OnCoroutineFinished_
+  commentId: M:OmiyaGames.Audio.PlaybackBehavior.StartCoroutine(MonoBehaviour,OmiyaGames.Audio.AudioLayer.Background,OmiyaGames.Audio.AudioLayer.Background.OnCoroutineFinished)
+  fullName: OmiyaGames.Audio.PlaybackBehavior.StartCoroutine(MonoBehaviour, OmiyaGames.Audio.AudioLayer.Background, OmiyaGames.Audio.AudioLayer.Background.OnCoroutineFinished)
+  nameWithType: PlaybackBehavior.StartCoroutine(MonoBehaviour, AudioLayer.Background, AudioLayer.Background.OnCoroutineFinished)
 - uid: OmiyaGames.Audio.PlaybackBehavior.StartCoroutine*
   name: StartCoroutine
   href: api/OmiyaGames.Audio.PlaybackBehavior.html#OmiyaGames_Audio_PlaybackBehavior_StartCoroutine_
